@@ -1,6 +1,5 @@
 import {
-  defaultSubHeaderLabelFormats,
-  defaultHeaderLabelFormats
+  defaultHeaderFormats,
 } from "react-calendar-timeline";
 import { LANG } from "../../hooks/hook";
 import moment from "moment";
@@ -12,14 +11,14 @@ const ASSIG_IMELINE_HEIGHT = 40;
 // 또는 HeaderCellRedner 파일 참조
 const krSubHeaderLabelFormats = Object.assign(
   {},
-  defaultSubHeaderLabelFormats,
+  defaultHeaderFormats,
   {
     monthLong: `AMM ${LANG("month")}`, // 년 LANG("month") 필요
     hourLong: `M${LANG("month")} D${LANG("date")} ddd` // LANG("month") 일
   }
 );
 
-const krHeaderLabelFormats = Object.assign({}, defaultHeaderLabelFormats, {
+const krHeaderLabelFormats = Object.assign({}, defaultHeaderFormats, {
   day: {
     Long: `A YYYY${LANG("year")} MM${LANG("month")} DD${LANG("date")}`
   }
@@ -73,8 +72,7 @@ const sharedProps = {
 };
 
 export {
-  defaultSubHeaderLabelFormats,
+  defaultHeaderFormats,
   ASSIG_IMELINE_HEIGHT,
-  defaultHeaderLabelFormats,
   sharedProps
 };

@@ -41,7 +41,7 @@ interface IProps {
   context: IContext;
   defaultData: {
     roomTypesData: IRoomType[];
-    defaultCreateRoomType: IRoomType[];
+    defaultAddTemp?: IRoomType[];
   };
   onSubmit: (data: RoomConfigSubmitData) => void;
   submitRef?: React.MutableRefObject<null>;
@@ -57,15 +57,24 @@ const RoomConfig: React.FC<IProps> = ({
   isStart,
   defaultData
 }) => {
-  const { defaultCreateRoomType, roomTypesData } = defaultData;
+  const { defaultAddTemp, roomTypesData } = defaultData;
   const roomTypeModalHook = useModal<IRoomTypeModalInfo>(false, {});
   const roomModalHook = useModal<IRoomModalInfo>(false, {});
+
   const defulatData = {
     original: roomTypesData,
     deleteIds: [],
-    updateCreateData: $.extend(true, [], roomTypesData)
+    updateCreateData: $.extend(
+      true,
+      [],
+      [...roomTypesData, ...(defaultAddTemp || [])]
+    )
   };
   const [data, setData] = useState<IRoomDataSet>(defulatData);
+  console.log("data");
+  console.log(data);
+  console.log("defaultAddTemp");
+  console.log(defaultAddTemp);
   const shouldSave = data !== defulatData;
   const indexOp = selectOpCreater({
     count: data.updateCreateData.length || 1,

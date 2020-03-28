@@ -1502,84 +1502,78 @@ export interface getRoomTypeDatePricesVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL query operation: getAllRoomTypeWithGuest
+// GraphQL query operation: getBlocks
 // ====================================================
 
-export interface getAllRoomTypeWithGuest_GetAllRoomType_roomTypes_img_tags {
-  __typename: "JdTag";
-  Key: string;
-  Value: string;
-}
-
-export interface getAllRoomTypeWithGuest_GetAllRoomType_roomTypes_img {
-  __typename: "JdFile";
-  url: any;
-  filename: string;
-  mimeType: string;
-  tags: getAllRoomTypeWithGuest_GetAllRoomType_roomTypes_img_tags[] | null;
-}
-
-export interface getAllRoomTypeWithGuest_GetAllRoomType_roomTypes_rooms {
+export interface getBlocks_GetBlocks_blocks_room {
   __typename: "Room";
   _id: string;
   name: string;
 }
 
-export interface getAllRoomTypeWithGuest_GetAllRoomType_roomTypes {
-  __typename: "RoomType";
+export interface getBlocks_GetBlocks_blocks {
+  __typename: "Block";
   _id: string;
-  name: string;
-  pricingType: PricingType;
-  peopleCount: number;
-  peopleCountMax: number;
-  index: number;
-  roomCount: number;
-  roomGender: RoomGender;
-  img: getAllRoomTypeWithGuest_GetAllRoomType_roomTypes_img | null;
-  description: string | null;
-  /**
-   * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
-   */
-  defaultPrice: number | null;
+  bedIndex: number;
+  checkIn: any;
+  checkOut: any;
   createdAt: any;
   updatedAt: any | null;
-  rooms: getAllRoomTypeWithGuest_GetAllRoomType_roomTypes_rooms[];
+  room: getBlocks_GetBlocks_blocks_room;
 }
 
-export interface getAllRoomTypeWithGuest_GetAllRoomType {
-  __typename: "GetAllRoomTypeResponse";
-  ok: boolean | null;
+export interface getBlocks_GetBlocks {
+  __typename: "GetBlocksResponse";
+  ok: boolean;
   error: string | null;
-  roomTypes: getAllRoomTypeWithGuest_GetAllRoomType_roomTypes[] | null;
+  blocks: getBlocks_GetBlocks_blocks[] | null;
 }
 
-export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_room {
+export interface getBlocks {
+  GetBlocks: getBlocks_GetBlocks;
+}
+
+export interface getBlocksVariables {
+  houseId: string;
+  checkIn: any;
+  checkOut: any;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: getGuests
+// ====================================================
+
+export interface getGuests_GetGuests_guests_GuestDomitory_room {
   __typename: "Room";
   _id: string;
   name: string;
 }
 
-export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_roomType {
+export interface getGuests_GetGuests_guests_GuestDomitory_roomType {
   __typename: "RoomType";
   pricingType: PricingType;
   _id: string;
 }
 
-export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_booking_roomTypes_img_tags {
+export interface getGuests_GetGuests_guests_GuestDomitory_booking_roomTypes_img_tags {
   __typename: "JdTag";
   Key: string;
   Value: string;
 }
 
-export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_booking_roomTypes_img {
+export interface getGuests_GetGuests_guests_GuestDomitory_booking_roomTypes_img {
   __typename: "JdFile";
   url: any;
   filename: string;
   mimeType: string;
-  tags: getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_booking_roomTypes_img_tags[] | null;
+  tags: getGuests_GetGuests_guests_GuestDomitory_booking_roomTypes_img_tags[] | null;
 }
 
-export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_booking_roomTypes {
+export interface getGuests_GetGuests_guests_GuestDomitory_booking_roomTypes {
   __typename: "RoomType";
   _id: string;
   name: string;
@@ -1589,7 +1583,7 @@ export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_booking_
   index: number;
   roomCount: number;
   roomGender: RoomGender;
-  img: getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_booking_roomTypes_img | null;
+  img: getGuests_GetGuests_guests_GuestDomitory_booking_roomTypes_img | null;
   description: string | null;
   /**
    * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
@@ -1599,13 +1593,13 @@ export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_booking_
   updatedAt: any | null;
 }
 
-export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_booking_checkInInfo {
+export interface getGuests_GetGuests_guests_GuestDomitory_booking_checkInInfo {
   __typename: "CheckInInfo";
   isIn: boolean;
   checkInDateTime: any | null;
 }
 
-export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_booking_payment_cardInfo {
+export interface getGuests_GetGuests_guests_GuestDomitory_booking_payment_cardInfo {
   __typename: "PaymentInfo";
   authDate: any;
   billKey: string;
@@ -1618,7 +1612,7 @@ export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_booking_
   isLive: boolean;
 }
 
-export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_booking_payment {
+export interface getGuests_GetGuests_guests_GuestDomitory_booking_payment {
   __typename: "Payment";
   /**
    * 단발성 결제인지, 정기결제인지 확인 => ONE_TIME, SUBSCRIPTION
@@ -1632,13 +1626,13 @@ export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_booking_
   paymentResultParam: any | null;
   refundedPrice: number | null;
   tid: string | null;
-  cardInfo: getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_booking_payment_cardInfo | null;
+  cardInfo: getGuests_GetGuests_guests_GuestDomitory_booking_payment_cardInfo | null;
 }
 
-export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_booking {
+export interface getGuests_GetGuests_guests_GuestDomitory_booking {
   __typename: "Booking";
   _id: string;
-  roomTypes: getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_booking_roomTypes[] | null;
+  roomTypes: getGuests_GetGuests_guests_GuestDomitory_booking_roomTypes[] | null;
   paidByNice: boolean | null;
   isNew: boolean;
   name: any;
@@ -1647,12 +1641,12 @@ export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_booking 
   breakfast: boolean | null;
   phoneNumber: any;
   email: any | null;
-  checkInInfo: getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_booking_checkInInfo;
+  checkInInfo: getGuests_GetGuests_guests_GuestDomitory_booking_checkInInfo;
   memo: string | null;
   agreePrivacyPolicy: boolean;
   checkIn: any;
   checkOut: any;
-  payment: getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_booking_payment;
+  payment: getGuests_GetGuests_guests_GuestDomitory_booking_payment;
   funnels: Funnels | null;
   status: BookingStatus;
   createdAt: any;
@@ -1660,12 +1654,12 @@ export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_booking 
   isConfirm: boolean;
 }
 
-export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_blockOption {
+export interface getGuests_GetGuests_guests_GuestDomitory_blockOption {
   __typename: "BlockOption";
   color: string | null;
 }
 
-export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory {
+export interface getGuests_GetGuests_guests_GuestDomitory {
   __typename: "GuestDomitory";
   _id: string;
   gender: Gender | null;
@@ -1676,44 +1670,44 @@ export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory {
   /**
    * 현재 묵는 방으로 변경될수 있음.
    */
-  room: getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_room | null;
+  room: getGuests_GetGuests_guests_GuestDomitory_room | null;
   /**
    * roomType 은 처음 예약하고나서 절대로 변경되지 않음.
    */
-  roomType: getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_roomType;
-  booking: getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_booking;
+  roomType: getGuests_GetGuests_guests_GuestDomitory_roomType;
+  booking: getGuests_GetGuests_guests_GuestDomitory_booking;
   /**
    * 도미토리, 룸, 블록 구분
    */
-  blockOption: getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory_blockOption | null;
+  blockOption: getGuests_GetGuests_guests_GuestDomitory_blockOption | null;
 }
 
-export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_roomType {
+export interface getGuests_GetGuests_guests_GuestRoom_roomType {
   __typename: "RoomType";
   _id: string;
 }
 
-export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_room {
+export interface getGuests_GetGuests_guests_GuestRoom_room {
   __typename: "Room";
   _id: string;
   name: string;
 }
 
-export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_booking_roomTypes_img_tags {
+export interface getGuests_GetGuests_guests_GuestRoom_booking_roomTypes_img_tags {
   __typename: "JdTag";
   Key: string;
   Value: string;
 }
 
-export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_booking_roomTypes_img {
+export interface getGuests_GetGuests_guests_GuestRoom_booking_roomTypes_img {
   __typename: "JdFile";
   url: any;
   filename: string;
   mimeType: string;
-  tags: getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_booking_roomTypes_img_tags[] | null;
+  tags: getGuests_GetGuests_guests_GuestRoom_booking_roomTypes_img_tags[] | null;
 }
 
-export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_booking_roomTypes {
+export interface getGuests_GetGuests_guests_GuestRoom_booking_roomTypes {
   __typename: "RoomType";
   _id: string;
   name: string;
@@ -1723,7 +1717,7 @@ export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_booking_room
   index: number;
   roomCount: number;
   roomGender: RoomGender;
-  img: getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_booking_roomTypes_img | null;
+  img: getGuests_GetGuests_guests_GuestRoom_booking_roomTypes_img | null;
   description: string | null;
   /**
    * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
@@ -1733,13 +1727,13 @@ export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_booking_room
   updatedAt: any | null;
 }
 
-export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_booking_checkInInfo {
+export interface getGuests_GetGuests_guests_GuestRoom_booking_checkInInfo {
   __typename: "CheckInInfo";
   isIn: boolean;
   checkInDateTime: any | null;
 }
 
-export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_booking_payment_cardInfo {
+export interface getGuests_GetGuests_guests_GuestRoom_booking_payment_cardInfo {
   __typename: "PaymentInfo";
   authDate: any;
   billKey: string;
@@ -1752,7 +1746,7 @@ export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_booking_paym
   isLive: boolean;
 }
 
-export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_booking_payment {
+export interface getGuests_GetGuests_guests_GuestRoom_booking_payment {
   __typename: "Payment";
   /**
    * 단발성 결제인지, 정기결제인지 확인 => ONE_TIME, SUBSCRIPTION
@@ -1766,13 +1760,13 @@ export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_booking_paym
   paymentResultParam: any | null;
   refundedPrice: number | null;
   tid: string | null;
-  cardInfo: getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_booking_payment_cardInfo | null;
+  cardInfo: getGuests_GetGuests_guests_GuestRoom_booking_payment_cardInfo | null;
 }
 
-export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_booking {
+export interface getGuests_GetGuests_guests_GuestRoom_booking {
   __typename: "Booking";
   _id: string;
-  roomTypes: getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_booking_roomTypes[] | null;
+  roomTypes: getGuests_GetGuests_guests_GuestRoom_booking_roomTypes[] | null;
   paidByNice: boolean | null;
   isNew: boolean;
   name: any;
@@ -1781,12 +1775,12 @@ export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_booking {
   breakfast: boolean | null;
   phoneNumber: any;
   email: any | null;
-  checkInInfo: getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_booking_checkInInfo;
+  checkInInfo: getGuests_GetGuests_guests_GuestRoom_booking_checkInInfo;
   memo: string | null;
   agreePrivacyPolicy: boolean;
   checkIn: any;
   checkOut: any;
-  payment: getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_booking_payment;
+  payment: getGuests_GetGuests_guests_GuestRoom_booking_payment;
   funnels: Funnels | null;
   status: BookingStatus;
   createdAt: any;
@@ -1794,12 +1788,12 @@ export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_booking {
   isConfirm: boolean;
 }
 
-export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_blockOption {
+export interface getGuests_GetGuests_guests_GuestRoom_blockOption {
   __typename: "BlockOption";
   color: string | null;
 }
 
-export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom {
+export interface getGuests_GetGuests_guests_GuestRoom {
   __typename: "GuestRoom";
   _id: string;
   pricingType: PricingType;
@@ -1808,34 +1802,34 @@ export interface getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom {
   /**
    * roomType 은 처음 예약하고나서 절대로 변경되지 않음.
    */
-  roomType: getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_roomType;
+  roomType: getGuests_GetGuests_guests_GuestRoom_roomType;
   /**
    * 현재 묵는 방으로 변경될수 있음.
    */
-  room: getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_room | null;
-  booking: getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_booking;
+  room: getGuests_GetGuests_guests_GuestRoom_room | null;
+  booking: getGuests_GetGuests_guests_GuestRoom_booking;
   /**
    * 도미토리, 룸, 블록 구분
    */
-  blockOption: getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_blockOption | null;
+  blockOption: getGuests_GetGuests_guests_GuestRoom_blockOption | null;
 }
 
-export type getAllRoomTypeWithGuest_GetGuests_guests = getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory | getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom;
+export type getGuests_GetGuests_guests = getGuests_GetGuests_guests_GuestDomitory | getGuests_GetGuests_guests_GuestRoom;
 
-export interface getAllRoomTypeWithGuest_GetGuests {
+export interface getGuests_GetGuests {
   __typename: "GetGuestsResponse";
   ok: boolean;
   error: string | null;
-  guests: getAllRoomTypeWithGuest_GetGuests_guests[] | null;
+  guests: getGuests_GetGuests_guests[] | null;
 }
 
-export interface getAllRoomTypeWithGuest_GetBlocks_blocks_room {
+export interface getGuests_GetBlocks_blocks_room {
   __typename: "Room";
   _id: string;
   name: string;
 }
 
-export interface getAllRoomTypeWithGuest_GetBlocks_blocks {
+export interface getGuests_GetBlocks_blocks {
   __typename: "Block";
   _id: string;
   bedIndex: number;
@@ -1843,26 +1837,22 @@ export interface getAllRoomTypeWithGuest_GetBlocks_blocks {
   checkOut: any;
   createdAt: any;
   updatedAt: any | null;
-  room: getAllRoomTypeWithGuest_GetBlocks_blocks_room;
+  room: getGuests_GetBlocks_blocks_room;
 }
 
-export interface getAllRoomTypeWithGuest_GetBlocks {
+export interface getGuests_GetBlocks {
   __typename: "GetBlocksResponse";
   ok: boolean;
   error: string | null;
-  blocks: getAllRoomTypeWithGuest_GetBlocks_blocks[] | null;
+  blocks: getGuests_GetBlocks_blocks[] | null;
 }
 
-export interface getAllRoomTypeWithGuest {
-  /**
-   * admin 에서 사용하는 함수임.
-   */
-  GetAllRoomType: getAllRoomTypeWithGuest_GetAllRoomType;
-  GetGuests: getAllRoomTypeWithGuest_GetGuests;
-  GetBlocks: getAllRoomTypeWithGuest_GetBlocks;
+export interface getGuests {
+  GetGuests: getGuests_GetGuests;
+  GetBlocks: getGuests_GetBlocks;
 }
 
-export interface getAllRoomTypeWithGuestVariables {
+export interface getGuestsVariables {
   houseId: string;
   checkIn: any;
   checkOut: any;
@@ -7484,6 +7474,7 @@ export interface GetBookingsFilterInput {
   bookingNum?: string | null;
   name?: string | null;
   phoneNumnber?: string | null;
+  roomTypeIds?: string[] | null;
   stayDate?: StayDateInput | null;
   createdAt?: StayDateInput | null;
 }
@@ -7557,6 +7548,7 @@ export interface GetSmsHistoryInput {
 
 export interface GetUserRequestsFilterInput {
   userId?: string | null;
+  type?: UserReqeustType | null;
 }
 
 export interface GetUserRequestsInput {
@@ -7733,7 +7725,7 @@ export interface SmsTemplateInput {
  */
 export interface StartBookingBookerInput {
   name: any;
-  phoneNumber: any;
+  phoneNumber?: any | null;
   password: string;
   memo: string;
   email?: string | null;
@@ -7751,7 +7743,7 @@ export interface StartBookingDomitoryGuestInput {
 
 export interface StartBookingPaymentInput {
   price: number;
-  payMethod: PayMethod;
+  payMethod?: PayMethod | null;
   status?: PaymentStatus | null;
   cardPayInfo?: CreateBillKeyInput | null;
 }

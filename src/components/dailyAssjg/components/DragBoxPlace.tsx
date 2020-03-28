@@ -1,14 +1,14 @@
 import React from "react";
-import {useDrop, DragObjectWithType} from "react-dnd";
+import { useDrop, DragObjectWithType } from "react-dnd";
 import {
-  getAllRoomTypeWithGuest_GetAllRoomType_roomTypes_rooms as IR,
-  getAllRoomTypeWithGuest_GetGuests_guests as IG,
-  getAllRoomTypeWithGuest_GetAllRoomType_roomTypes as IRT,
-  getAllRoomTypeWithGuest_GetBlocks_blocks as IB
+  getAllRoomType_GetAllRoomType_roomTypes_rooms as IR,
+  getGuests_GetGuests_guests as IG,
+  getAllRoomType_GetAllRoomType_roomTypes as IRT,
+  getGuests_GetBlocks_blocks as IB
 } from "../../../types/api";
-import DragItem, {IDragItemProp} from "./DragItem";
+import DragItem, { IDragItemProp } from "./DragItem";
 import classNames from "classnames";
-import {instanceOfA, s4} from "../../../utils/utils";
+import { instanceOfA, s4 } from "../../../utils/utils";
 
 interface IDragBoxPlace {
   room: IR;
@@ -27,7 +27,7 @@ export const DragBoxPlace: React.FC<IDragBoxPlace> = ({
   roomType,
   place
 }) => {
-  const [{isOver, canDrop}, drop] = useDrop({
+  const [{ isOver, canDrop }, drop] = useDrop({
     accept: roomType._id,
     drop: (item: any) => onDrop(item, room, place),
     collect: monitor => {
@@ -44,9 +44,9 @@ export const DragBoxPlace: React.FC<IDragBoxPlace> = ({
   ): (IG & IDragItemProp) | (IB & IDragItemProp) | null => {
     if (!item) return null;
     if (instanceOfA<IG>(item, "roomType")) {
-      return Object.assign({type: item.roomType._id}, item);
+      return Object.assign({ type: item.roomType._id }, item);
     } else {
-      return Object.assign({type: "block"}, item);
+      return Object.assign({ type: "block" }, item);
     }
   };
 

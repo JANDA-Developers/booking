@@ -10,7 +10,14 @@ import {
   startBooking_StartBooking,
   getBooking_GetBooking_booking_guests,
   Funnels,
-  UpsertRoomTypeInput
+  UpsertRoomTypeInput,
+  startBookingVariables,
+  updateBookingVariables,
+  deleteBookingVariables,
+  deleteBooking,
+  updateBooking,
+  startBooking,
+  refundBookingVariables
 } from "../../types/api";
 import {
   Gender,
@@ -26,6 +33,8 @@ import {
   IUseModal
 } from "../../hooks/hook";
 import { IContext } from "../../pages/bookingHost/BookingHostRouter";
+import { IModalSMSinfo } from "../smsModal/SendSmsModal";
+import { MutationFn } from "react-apollo";
 
 
 export interface RoomConfigSubmitData {
@@ -54,22 +63,39 @@ export interface IRoomSelectInfo {
 }
 
 export interface IBookingModalContext {
+  bookingModalHook: IUseModal<IBookingModalProp>;
   bookingStatusHook: IUseSelect<BookingStatus>;
   resvDateHook: IUseDayPicker;
+  refundAmt: number,
+  refundFn: (variables: refundBookingVariables) => void;
   paymentStatusHook: IUseSelect<PaymentStatus>;
   bookingNameHook: TUseInput<any>;
   roomSelectInfo: IRoomSelectInfo[];
   bookingPhoneHook: TUseInput<any>;
   priceHook: TUseInput<any>;
+  isDesktopUp: boolean;
+  confirmModalHook: IUseModal<any>
   payMethodHook: IUseSelect<PayMethod>;
+  startBookingMu: MutationFn<startBooking, startBookingVariables>;
+  updateBookingMu: MutationFn<updateBooking, updateBookingVariables>;
+  deleteBookingMu: MutationFn<deleteBooking, deleteBookingVariables>;
+  isCreateMode: boolean;
+  bookingData: GB_booking;
+  totalPrice: number;
   emailHook: TUseInput<any>;
+  checkInOutHook: IUseSelect<any>;
+  setAssigInfo: React.Dispatch<React.SetStateAction<IBookingModal_AssigInfo[]>>
+  breakfast: boolean | null;
+  setBreakfast: React.Dispatch<React.SetStateAction<boolean | null>>;
   guests: getBooking_GetBooking_booking_guests[] | null;
   updateGuests: getBooking_GetBooking_booking_guests[];
   assigInfo: IBookingModal_AssigInfo[];
   memoHook: TUseInput<string>;
+  placeHolederPrice: number;
   houseId: string;
   funnelStatusHook: IUseSelect<Funnels | null>;
   mode?: BookingModalMode;
+  sendSmsModalHook: IUseModal<IModalSMSinfo>
 }
 
 export interface IBookingModalProp {

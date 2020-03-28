@@ -8,7 +8,7 @@ import {
 import { ReactTooltip } from "../../../../atoms/tooltipList/TooltipList";
 import JDisNetworkRequestInFlight from "../../../../utils/netWorkStatusToast";
 import { IDailyAssigContext } from "../../../../components/dailyAssjg/DailyAssig";
-import { getAllRoomTypeWithGuest_GetGuests_guests as IG } from "../../../../types/api";
+import { getGuests_GetGuests_guests as IG } from "../../../../types/api";
 import { muResult } from "../../../../utils/utils";
 import { toast } from "react-toastify";
 import { LANG } from "../../../../hooks/hook";

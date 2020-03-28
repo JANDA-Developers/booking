@@ -45,7 +45,6 @@ interface IProps extends React.AllHTMLAttributes<HTMLInputElement> {
   onChange?(value?: any): void;
   onChangeValid?: any;
   onBlur?(e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>): any;
-  refContainer?: any;
   isValid?: any;
   value?: string | null | number;
   max?: number;
@@ -69,51 +68,52 @@ interface IProps extends React.AllHTMLAttributes<HTMLInputElement> {
   iconProps?: IconConifgProps;
 }
 
-const InputText: React.FC<IProps> = ({
-  readOnly,
-  label,
-  disabled,
-  type,
-  returnNumber,
-  validation,
-  onChange,
-  className,
-  bg,
-  onBlur,
-  max,
-  loading,
-  isValid,
-  onChangeValid,
-  refContainer,
-  textarea,
-  scroll,
-  value,
-  br,
-  defaultValue, // UNcontrolled
-  doubleHeight,
-  halfHeight,
-  autoHeight,
-  dataError,
-  dataSuccess,
-  overfloweEllipsis,
-  allWaysShowValidMessage,
-  icon,
-  unValidMessage,
-  iconOnClick,
-  textAlign,
-  iconHover,
-  hyphen,
-  card,
-  size,
-  wrapClassName,
-  comma,
-  mr,
-  mb,
-  falseMessage,
-  id,
-  iconProps,
-  ...props
-}) => {
+const InputText = React.forwardRef<HTMLInputElement, IProps>((prop, ref) => {
+  const {
+    readOnly,
+    label,
+    disabled,
+    type,
+    returnNumber,
+    validation,
+    onChange,
+    className,
+    bg,
+    onBlur,
+    max,
+    loading,
+    isValid,
+    onChangeValid,
+    textarea,
+    scroll,
+    value,
+    br,
+    defaultValue, // UNcontrolled
+    doubleHeight,
+    halfHeight,
+    autoHeight,
+    dataError,
+    dataSuccess,
+    overfloweEllipsis,
+    allWaysShowValidMessage,
+    icon,
+    unValidMessage,
+    iconOnClick,
+    textAlign,
+    iconHover,
+    hyphen,
+    card,
+    size,
+    wrapClassName,
+    comma,
+    mr,
+    mb,
+    falseMessage,
+    id,
+    iconProps,
+    ...props
+  } = prop;
+
   const [selfValid, setSelfValid] = useState<boolean | "">("");
 
   const valueFormat = (inValue: any) => {
@@ -186,16 +186,7 @@ const InputText: React.FC<IProps> = ({
   const inRefContainer = useRef(null);
 
   // 벨리데이션과 언컨트롤일때 defaultValue를 설정하는 역할을함
-  useEffect(() => {
-    let domInput;
-    if (refContainer) domInput = refContainer.current;
-    else domInput = inRefContainer.current;
-    if (typeof defaultValue === "undefined") return;
-    if (typeof defaultValue === "string" || "number") {
-      domInput.value = valueFormat(defaultValue);
-      onChangeValid && onChangeValid(validation(defaultValue));
-    }
-  }, []);
+  useEffect(() => {}, []);
 
   const autoChangeHeight = () => {
     if (autoHeight) {
@@ -233,7 +224,7 @@ const InputText: React.FC<IProps> = ({
           onBlur={handleBlur}
           type={type}
           value={formatedValue}
-          ref={refContainer || inRefContainer}
+          ref={ref || inRefContainer}
           data-color="1213"
           className={classes}
           maxLength={max}
@@ -282,7 +273,6 @@ const InputText: React.FC<IProps> = ({
         onBlur={onBlur}
         className={classes + ` JDtextarea${newId}`}
         readOnly={readOnly}
-        ref={refContainer || inRefContainer}
         id={id}
       />
       <label htmlFor="JDtextarea" className="JDtextarea_label">
@@ -290,7 +280,7 @@ const InputText: React.FC<IProps> = ({
       </label>
     </div>
   );
-};
+});
 
 InputText.defaultProps = {
   readOnly: false,
@@ -305,7 +295,6 @@ InputText.defaultProps = {
   isValid: "",
   validation: () => NEUTRAL,
   max: 10000,
-  refContainer: undefined,
   value: undefined
 };
 

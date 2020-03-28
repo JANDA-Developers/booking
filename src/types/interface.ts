@@ -2,19 +2,12 @@ import {
   getMyProfile_GetMyProfile_user,
   getHouse_GetHouse_house_product,
   getAllRoomType_GetAllRoomType_roomTypes as getAllRoomType_GetAllRoomType_roomType,
-  getBookingMemos_GetBookings_result_bookings,
-  getAllRoomTypeWithGuest_GetGuests_guests,
   getAllSeasonTable_GetAllRoomType_roomTypes,
   getBooking_GetBooking_booking,
-  getAllRoomTypeWithGuest_GetBlocks_blocks,
   getAllSeasonTable_GetAllSeason_seasons,
   getMyProfile_GetMyProfile_user_houses,
   getMyProfile_GetMyProfile_user_houses_houseConfig,
   ProductTypeKey,
-  getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory,
-  getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom,
-  getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_blockOption,
-  singleUpload_SingleUpload_jdFile,
   getPayHistory_GetPayHistory_result_payHistories,
   getSmsHistory_GetSmsHistory_result_smsHistories,
   getBookings_GetBookings_result_bookings,
@@ -24,13 +17,18 @@ import {
   registerBillKey_RegisterBillKey_billInfo,
   getMyProfile_GetMyProfile_user_paymentInfos,
   getAllProductTypes_GetAllProductTypes_productTypes,
-  getAllHomepageOptions_GetAllHomepageOptions_homepageOptions
+  getAllHomepageOptions_GetAllHomepageOptions_homepageOptions,
+  getGuests_GetGuests_guests_GuestDomitory,
+  getGuests_GetGuests_guests_GuestRoom,
+  singleUpload_SingleUpload_jdFile,
+  getGuests_GetGuests_guests_GuestRoom_blockOption,
+  getGuests_GetGuests_guests,
+  getGuests_GetBlocks_blocks
 } from "./api";
-import { IselectedOption } from "../atoms/forms/selectBox/SelectBox";
+import { IselectedOption as ISelectO } from "../atoms/forms/selectBox/SelectBox";
 import { PricingType, TMarginSize } from "./enum";
 import { MutationFunctionOptions } from "@apollo/react-common";
 import { ExecutionResult } from "graphql";
-import { IStartBookingCallBack } from "../pages/bookingHost/assig/components/assigIntrerface";
 import { IBookingModalProp } from "../components/bookingModal/declaration";
 export interface JdFile extends singleUpload_SingleUpload_jdFile { }
 export interface IProductType extends getAllProductTypes_GetAllProductTypes_productTypes { }
@@ -54,9 +52,9 @@ export interface IRoom extends getAllRoomType_GetAllRoomType_roomTypes_rooms { }
 export type TRef = React.MutableRefObject<any>;
 export type TPayinfoes = getMyProfile_GetMyProfile_user_paymentInfos;
 export type TBillInfo = registerBillKey_RegisterBillKey_billInfo;
-export type IGuest = getAllRoomTypeWithGuest_GetGuests_guests;
-export type IGuestD = getAllRoomTypeWithGuest_GetGuests_guests_GuestDomitory;
-export type IGuestR = getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom;
+export type IGuest = getGuests_GetGuests_guests;
+export type IGuestD = getGuests_GetGuests_guests_GuestDomitory;
+export type IGuestR = getGuests_GetGuests_guests_GuestRoom;
 export type TRoomCapacity = getRoomTypeInfo_GetRoomTypeById_roomType_capacity_CapacityRoomType;
 export type TDomitoryCapacity = getRoomTypeInfo_GetRoomTypeById_roomType_capacity_CapacityRoomTypeDomitory;
 export type ISmsH = getSmsHistory_GetSmsHistory_result_smsHistories;
@@ -66,9 +64,9 @@ export type TMuFn<m, mv> = (
   options?: MutationFunctionOptions<m, mv> | undefined
 ) => Promise<ExecutionResult<m>>;
 export interface ISeason extends getAllSeasonTable_GetAllSeason_seasons { }
-export interface IBlock extends getAllRoomTypeWithGuest_GetBlocks_blocks { }
+export interface IBlock extends getGuests_GetBlocks_blocks { }
 export interface IBlockOp
-  extends getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_blockOption { }
+  extends getGuests_GetGuests_guests_GuestRoom_blockOption { }
 export type HomapgeOp = getAllHomepageOptions_GetAllHomepageOptions_homepageOptions;
 export interface IPageInfo {
   currentPage: number;
@@ -109,8 +107,10 @@ export interface ISelectHouse {
   erorr: any;
 }
 export interface ISelectHouseVariables {
-  selectedHouse: IselectedOption | null;
+  selectedHouse: ISelectO | null;
 }
+
+
 export interface ILocationInput {
   address: string;
   addressDetail?: string | null;

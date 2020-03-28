@@ -57,6 +57,9 @@ const CreateHouseWrap: React.FC<IProps> = ({ context }) => {
           selectHouseMu({
             variables: { selectedHouse: variables }
           });
+          localStorage.removeItem("initHouseTemp");
+          localStorage.removeItem("initRoomTypesTemp");
+          localStorage.removeItem("initCardTemp");
         }
       }
     }

@@ -9,7 +9,6 @@ import JDTimer from "../../atoms/timer/Timer";
 import { TimePerMs } from "../../types/enum";
 import Timer from "react-compound-timer";
 import { toast } from "react-toastify";
-import PreloaderModal from "../../atoms/preloaderModal/PreloaderModal";
 import ModalEndSection from "../../atoms/modal/components/ModalEndSection";
 
 interface IProps {
@@ -18,6 +17,7 @@ interface IProps {
   handleCompleteBtnClick: (key: string) => void;
   phoneNumber: string | undefined;
   muLoading: boolean;
+  devPw?: string;
 }
 
 const PhoneVerification: React.FC<IProps> = ({
@@ -25,7 +25,8 @@ const PhoneVerification: React.FC<IProps> = ({
   phoneNumber,
   muLoading,
   handleCompleteBtnClick,
-  modalOpenCallBackFn
+  modalOpenCallBackFn,
+  devPw
 }) => {
   const keyHook = useInput("");
   const [isTimeOver, setTimeOver] = useState(false);
@@ -35,6 +36,9 @@ const PhoneVerification: React.FC<IProps> = ({
       modalOpenCallBackFn();
     }
   }, [phoneNumber]);
+  useEffect(() => {
+    keyHook.onChange(devPw);
+  }, [devPw]);
 
   return (
     <JDmodal

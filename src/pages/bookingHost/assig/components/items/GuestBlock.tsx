@@ -40,6 +40,7 @@ const guestBlock: React.FC<IProps> = ({
     bookingId,
     gender,
     id,
+    checkInInfo,
     breakfast,
     showNewBadge,
     memo,
@@ -48,6 +49,8 @@ const guestBlock: React.FC<IProps> = ({
 
   const isReady = status === BookingStatus.CANCELED;
 
+  const { dimensions, selected } = itemContext;
+
   return (
     <Fragment>
       <div
@@ -55,7 +58,7 @@ const guestBlock: React.FC<IProps> = ({
         data-for={isReady && "tooltipReadyBlock"}
         className="rct-item-content assigItem__content"
         style={{
-          maxHeight: `${itemContext.dimensions.height}`
+          maxHeight: `${dimensions.height}`
         }}
       >
         {bookingMarkEnable && (
@@ -69,7 +72,6 @@ const guestBlock: React.FC<IProps> = ({
           </span>
         )}
         <span className="assigItem__titleWrap">
-          <Gender gender={gender} />
           <span
             style={{
               color: blockOption.color ? "white" : undefined,
@@ -78,6 +80,8 @@ const guestBlock: React.FC<IProps> = ({
             className="assigItem__title assigItem__title--guest"
           >
             <StatusMarker
+              darkImg={selected || checkInInfo}
+              gender={gender}
               breakfast={breakfast}
               isUnpaid={isUnpaid}
               memo={memo}

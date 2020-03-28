@@ -78,7 +78,7 @@ const RoomConfigWrap: React.FC<IProps> = ({ context }) => {
         context={context}
         loading={loading}
         defaultData={{
-          defaultCreateRoomType: [],
+          defaultAddTemp: undefined,
           roomTypesData
         }}
         key={key}

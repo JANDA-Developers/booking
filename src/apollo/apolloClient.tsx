@@ -21,7 +21,6 @@ const request = async (operation: any) => {
       "HM-Key": sessionStorage.getItem("hmk") || ""
     }
   });
-  localStorage.setItem("UTH", "[]");
 };
 
 const requestLink = new ApolloLink(

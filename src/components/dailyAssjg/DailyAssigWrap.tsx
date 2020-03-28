@@ -1,14 +1,9 @@
-import React, { useMemo, Fragment } from "react";
+import React, { Fragment } from "react";
 import { onCompletedMessage } from "../../utils/utils";
-import { Query, Mutation, MutationFn } from "react-apollo";
+import { MutationFn } from "react-apollo";
 import {
-  getAllRoomTypeWithGuestVariables,
-  getAllRoomTypeWithGuest,
   allocateGuestToRoom,
   allocateGuestToRoomVariables,
-  getAllRoomTypeWithGuest_GetGuests_guests,
-  getAllRoomTypeWithGuest_GetBlocks_blocks,
-  getAllRoomTypeWithGuest_GetAllRoomType_roomTypes,
   createBlock,
   createBlockVariables,
   deleteBooking,
@@ -20,68 +15,53 @@ import {
   deleteBlockVariables,
   deleteBlock,
   updateBooking,
-  updateBookingVariables
+  updateBookingVariables,
+  getAllRoomType,
+  getAllRoomTypeVariables,
+  getGuests_GetBlocks_blocks,
+  getGuests_GetGuests_guests,
+  getAllRoomType_GetAllRoomType_roomTypes,
+  getGuests,
+  getGuestsVariables
 } from "../../types/api";
+import client from "../../apollo/apolloClient";
 import {
-  GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM,
   ALLOCATE_GUEST_TO_ROOM,
   UPDATE_BLOCK_OPTION,
   DELETE_GUEST,
   CREATE_BLOCK,
   DELETE_BLOCK,
   DELETE_BOOKING,
-  UPDATE_BOOKING
+  UPDATE_BOOKING,
+  GET_ALL_GUEST_AND_BLOCK,
+  GET_ALL_ROOMTYPES
 } from "../../apollo/queries";
-import { BookingStatus } from "../../types/enum";
 import { queryDataFormater } from "../../utils/utils";
 import { useDayPicker, IUseDayPicker, LANG } from "../../hooks/hook";
 import { IContext } from "../../pages/bookingHost/BookingHostRouter";
 import DailyAssig from "./DailyAssig";
-import { getOperationName } from "apollo-link";
 import { NetworkStatus } from "apollo-client";
 import {
-  IDailyAssigDataControl,
-  IAssigItem
+  IAssigItem,
+  IAssigGroup,
+  IDailyAssigDataControl
 } from "../../pages/bookingHost/assig/components/assigIntrerface";
 import moment from "moment";
+import { useMutation, useQuery } from "@apollo/react-hooks";
+import { roomDataManufacturer } from "../../pages/bookingHost/assig/helper/groupDataMenufacture";
 import { guestsDataManufacturer } from "../../pages/bookingHost/assig/helper/guestsDataManufacturer";
-import { blockDataManufacturer } from "../../pages/bookingHost/assig/helper/blockDataManufacturer";
-
-class GetAllRoomTypeWithGuestQuery extends Query<
-  getAllRoomTypeWithGuest,
-  getAllRoomTypeWithGuestVariables
-> {}
-class AllocateGuestToRoomMu extends Mutation<
-  allocateGuestToRoom,
-  allocateGuestToRoomVariables
-> {}
-class CreateBlockMu extends Mutation<createBlock, createBlockVariables> {}
-class DeleteBookingMu extends Mutation<deleteBooking, deleteBookingVariables> {}
-class UpdateBlockOpMu extends Mutation<
-  updateBlockOption,
-  updateBlockOptionVariables
-> {}
-interface IProps {
-  context: IContext;
-}
-class DeleteGuestMu extends Mutation<deleteGuests, deleteGuestsVariables> {}
-class DeleteBlockMu extends Mutation<deleteBlock, deleteBlockVariables> {}
-class UpdateCheckInMu extends Mutation<updateBooking, updateBookingVariables> {}
+import { BookingStatus } from "../../types/enum";
 
 export interface IDailyAssigProp {
   networkStatus: NetworkStatus;
   formatedItemData: IAssigItem[];
   calendarPosition?: "center" | "inside" | "topLeft";
-  allocateMu: MutationFn<allocateGuestToRoom, allocateGuestToRoomVariables>;
   loading: boolean;
-  blocksData: getAllRoomTypeWithGuest_GetBlocks_blocks[];
-  guestsData: getAllRoomTypeWithGuest_GetGuests_guests[];
+  blocksData: getGuests_GetBlocks_blocks[];
+  guestsData: getGuests_GetGuests_guests[];
   dayPickerHook: IUseDayPicker;
-  roomTypesData: getAllRoomTypeWithGuest_GetAllRoomType_roomTypes[];
-  itemDatas: (
-    | getAllRoomTypeWithGuest_GetGuests_guests
-    | getAllRoomTypeWithGuest_GetBlocks_blocks
-  )[];
+  roomTypesData: getAllRoomType_GetAllRoomType_roomTypes[];
+  itemDatas: (getGuests_GetGuests_guests | getGuests_GetBlocks_blocks)[];
 }
 
 export interface IChainProps {
@@ -93,10 +73,18 @@ interface IProps extends IChainProps {
   context: IContext;
   date: Date;
 }
+interface WrapProp {
+  roomTypesData: getAllRoomType_GetAllRoomType_roomTypes[];
+  roomTypeLoading: boolean;
+  formatedRoomData: IAssigGroup[];
+}
 
-const DailyAssigWrap: React.FC<IProps> = ({
+const DailyAssigWrap: React.FC<IProps & WrapProp> = ({
   date,
   context,
+  roomTypesData,
+  formatedRoomData,
+  roomTypeLoading,
   calendarPosition = "topLeft",
   ...props
 }) => {
@@ -104,219 +92,209 @@ const DailyAssigWrap: React.FC<IProps> = ({
   const { house } = context;
   const dayPickerHook = useDayPicker(date, date);
   const { houseConfig, _id: houseId } = house;
-  const updateVariables = {
+
+  const queryVariables = {
     houseId: houseId,
     checkIn: dayPickerHook.from || new Date(),
     checkOut: moment(dayPickerHook.from || new Date())
       .add(1, "day")
       .toDate()
   };
-  moment.lang(langHook.currentLang);
 
-  const Result = useMemo(() => {
-    return (
-      <GetAllRoomTypeWithGuestQuery
-        skip={!date}
-        pollInterval={houseConfig.pollingPeriod.period}
-        query={GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM}
-        variables={{
-          ...updateVariables,
-          houseId,
-          bookingStatuses: [BookingStatus.COMPLETED, BookingStatus.CANCELED]
-        }}
-      >
-        {({ data, loading, networkStatus }) => {
-          const roomTypesData =
-            queryDataFormater(data, "GetAllRoomType", "roomTypes", undefined) ||
-            []; // 원본데이터
-          const guestsData =
-            queryDataFormater(data, "GetGuests", "guests", undefined) || []; // 원본데이터
-          const blocks =
-            queryDataFormater(data, "GetBlocks", "blocks", undefined) || []; // 원본데이터
+  const { data, loading, networkStatus } = useQuery<
+    getGuests,
+    getGuestsVariables
+  >(GET_ALL_GUEST_AND_BLOCK, {
+    client,
+    skip: roomTypeLoading,
+    variables: {
+      ...queryVariables,
+      bookingStatuses: [BookingStatus.COMPLETED, BookingStatus.CANCELED]
+    },
+    notifyOnNetworkStatusChange: true,
+    fetchPolicy: "no-cache",
+    pollInterval: houseConfig.pollingPeriod?.period || 300000
+  });
 
-          const formatedGuestsData = guestsDataManufacturer(guestsData);
-          const formatedBlockData = blockDataManufacturer(blocks);
-          const formatedItemData = formatedGuestsData
-            .concat(formatedBlockData)
-            .map((block, index) => {
-              block.itemIndex = index;
-              return block;
-            });
+  const guestsData = queryDataFormater(data, "GetGuests", "guests", []) || [];
+  const blocksData = queryDataFormater(data, "GetBlocks", "blocks", []) || [];
 
-          return (
-            <UpdateCheckInMu
-              refetchQueries={[
-                getOperationName(GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM) || ""
-              ]}
-              mutation={UPDATE_BOOKING}
-            >
-              {(updateCheckInMu, { loading: checkInBookingLoading }) => (
-                <AllocateGuestToRoomMu
-                  onCompleted={({ AllocateGuestToRoom }) => {
-                    onCompletedMessage(
-                      AllocateGuestToRoom,
-                      LANG("assig_completed"),
-                      LANG("assig_failed")
-                    );
-                  }}
-                  refetchQueries={[
-                    getOperationName(GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM)!
-                  ]}
-                  mutation={ALLOCATE_GUEST_TO_ROOM}
-                >
-                  {allocateMu => {
-                    const dailyAssigContext: IDailyAssigProp = {
-                      allocateMu,
-                      loading,
-                      blocksData: blocks,
-                      guestsData,
-                      formatedItemData,
-                      dayPickerHook: dayPickerHook,
-                      roomTypesData: roomTypesData,
-                      itemDatas: [...guestsData, ...blocks],
-                      networkStatus,
-                      calendarPosition
-                    };
-                    return (
-                      <DeleteGuestMu
-                        onCompleted={({ DeleteGuests }) => {
-                          onCompletedMessage(
-                            DeleteGuests,
-                            LANG("delete_completed"),
-                            LANG("delete_failed")
-                          );
-                        }}
-                        mutation={DELETE_GUEST}
-                      >
-                        {(deleteGuestMu, { loading: deleteGuestLoading }) => (
-                          <CreateBlockMu
-                            onCompleted={({ CreateBlock }) => {
-                              onCompletedMessage(
-                                CreateBlock,
-                                LANG("block_room_completed"),
-                                LANG("block_room_failed")
-                              );
-                            }}
-                            refetchQueries={[
-                              getOperationName(
-                                GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM
-                              ) || ""
-                            ]}
-                            mutation={CREATE_BLOCK}
-                          >
-                            {(
-                              createBlockMu,
-                              { loading: createBlockLoading }
-                            ) => (
-                              <DeleteBlockMu
-                                refetchQueries={[
-                                  getOperationName(
-                                    GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM
-                                  )!
-                                ]}
-                                onCompleted={({ DeleteBlock }) => {
-                                  onCompletedMessage(
-                                    DeleteBlock,
-                                    LANG("room_block_release"),
-                                    LANG("room_block_release_fail")
-                                  );
-                                }}
-                                mutation={DELETE_BLOCK}
-                              >
-                                {(
-                                  deleteBlockMu,
-                                  { loading: deleteBlockLoading }
-                                ) => (
-                                  <DeleteBookingMu
-                                    refetchQueries={[
-                                      getOperationName(
-                                        GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM
-                                      )!
-                                    ]}
-                                    mutation={DELETE_BOOKING}
-                                    onCompleted={({ DeleteBooking }) => {
-                                      onCompletedMessage(
-                                        DeleteBooking,
-                                        LANG("reservation_delete_complete"),
-                                        LANG("reservation_delete_fail")
-                                      );
-                                    }}
-                                  >
-                                    {(
-                                      deleteBookingMu,
-                                      { loading: deleteBookingLoading }
-                                    ) => (
-                                      <UpdateBlockOpMu
-                                        mutation={UPDATE_BLOCK_OPTION}
-                                        onCompleted={({
-                                          UpdateBlockOption
-                                        }) => {
-                                          onCompletedMessage(
-                                            UpdateBlockOption,
-                                            LANG("update_complete"),
-                                            LANG("update_fail")
-                                          );
-                                        }}
-                                      >
-                                        {(
-                                          updateBlockOpMu,
-                                          { loading: updateBlockLoading }
-                                        ) => {
-                                          const totalMuLoading =
-                                            updateBlockLoading ||
-                                            createBlockLoading ||
-                                            deleteBlockLoading ||
-                                            deleteGuestLoading ||
-                                            checkInBookingLoading ||
-                                            deleteBookingLoading;
+  const [allocateMu, { loading: allocateMuLoading }] = useMutation<
+    allocateGuestToRoom,
+    allocateGuestToRoomVariables
+  >(ALLOCATE_GUEST_TO_ROOM, {
+    client,
+    ignoreResults: true,
+    onCompleted: ({ AllocateGuestToRoom }) => {
+      onCompletedMessage(
+        AllocateGuestToRoom,
+        LANG("assig_completed"),
+        LANG("assig_failed")
+      );
+    }
+  });
 
-                                          const dailyAssigDataControl: IDailyAssigDataControl = {
-                                            deleteBookingMu,
-                                            deleteGuestsMu: deleteGuestMu,
-                                            createBlockMu,
-                                            deleteBlockMu,
-                                            updateBlockOpMu,
-                                            updateCheckInMu,
-                                            allocateMu,
-                                            totalMuLoading
-                                          };
+  // 업데이트 예약 요청
+  const [updateBookingMu, { loading: updateBookingLoading }] = useMutation<
+    updateBooking,
+    updateBookingVariables
+  >(UPDATE_BOOKING, {
+    client,
+    ignoreResults: true
+  });
 
-                                          return (
-                                            <Fragment>
-                                              <DailyAssig
-                                                context={context}
-                                                outDailyAssigContext={
-                                                  dailyAssigContext
-                                                }
-                                                dailyAssigDataControl={
-                                                  dailyAssigDataControl
-                                                }
-                                                {...props}
-                                              />
-                                            </Fragment>
-                                          );
-                                        }}
-                                      </UpdateBlockOpMu>
-                                    )}
-                                  </DeleteBookingMu>
-                                )}
-                              </DeleteBlockMu>
-                            )}
-                          </CreateBlockMu>
-                        )}
-                      </DeleteGuestMu>
-                    );
-                  }}
-                </AllocateGuestToRoomMu>
-              )}
-            </UpdateCheckInMu>
-          );
-        }}
-      </GetAllRoomTypeWithGuestQuery>
-    );
-  }, [dayPickerHook.from]);
+  // 삭제 요청
+  const [deleteGuestsMu, { loading: deleteGuestLoading }] = useMutation<
+    deleteGuests,
+    deleteGuestsVariables
+  >(DELETE_GUEST, {
+    client,
+    ignoreResults: true,
+    onCompleted: ({ DeleteGuests }) => {
+      onCompletedMessage(
+        DeleteGuests,
+        LANG("delete_completed"),
+        LANG("delete_failed")
+      );
+    }
+  });
 
-  return Result;
+  // 생성 요청
+  const [createBlockMu, { loading: createBlockLoading }] = useMutation<
+    createBlock,
+    createBlockVariables
+  >(CREATE_BLOCK, {
+    client,
+    ignoreResults: true,
+    onCompleted: ({ CreateBlock }) => {
+      onCompletedMessage(
+        CreateBlock,
+        LANG("block_room_completed"),
+        LANG("block_room_failed")
+      );
+    }
+  });
+
+  // 방막기 삭제 요청
+  const [deleteBlockMu, { loading: deleteBlockLoading }] = useMutation<
+    deleteBlock,
+    deleteBlockVariables
+  >(DELETE_BLOCK, {
+    client,
+    ignoreResults: true,
+    onCompleted: ({ DeleteBlock }) => {
+      onCompletedMessage(
+        DeleteBlock,
+        LANG("room_block_release"),
+        LANG("room_block_release_fail")
+      );
+    }
+  });
+
+  // 예약 삭제 요청
+  const [deleteBookingMu, { loading: deleteBookingLoading }] = useMutation<
+    deleteBooking,
+    deleteBookingVariables
+  >(DELETE_BOOKING, {
+    client,
+    ignoreResults: true,
+    onCompleted: ({ DeleteBooking }) => {
+      onCompletedMessage(
+        DeleteBooking,
+        LANG("reservation_delete_complete"),
+        LANG("reservation_delete_fail")
+      );
+    }
+  });
+
+  // 방막기 업데이트 요청
+  const [updateBlockOpMu, { loading: updateBlockLoading }] = useMutation<
+    updateBlockOption,
+    updateBlockOptionVariables
+  >(UPDATE_BLOCK_OPTION, {
+    client,
+    ignoreResults: true,
+    onCompleted: ({ UpdateBlockOption }) => {
+      onCompletedMessage(
+        UpdateBlockOption,
+        LANG("change_complited"),
+        LANG("change_failed")
+      );
+    }
+  });
+
+  const totalMuLoading: boolean =
+    allocateMuLoading ||
+    createBlockLoading ||
+    deleteBlockLoading ||
+    deleteGuestLoading ||
+    updateBookingLoading ||
+    updateBlockLoading;
+
+  const itemDatas = [...guestsData, ...blocksData];
+  const formatedItemData = guestsDataManufacturer(guestsData);
+
+  const dailyAssigContext: IDailyAssigProp = {
+    blocksData,
+    dayPickerHook,
+    formatedItemData,
+    guestsData,
+    itemDatas,
+    loading,
+    networkStatus,
+    roomTypesData,
+    calendarPosition
+  };
+
+  const dailyAssigDataControl: IDailyAssigDataControl = {
+    allocateMu,
+    createBlockMu,
+    deleteBlockMu,
+    deleteBookingMu,
+    deleteGuestsMu,
+    updateCheckInMu: updateBookingMu,
+    totalMuLoading,
+    updateBlockOpMu
+  };
+  return (
+    <Fragment>
+      <DailyAssig
+        context={context}
+        outDailyAssigContext={dailyAssigContext}
+        dailyAssigDataControl={dailyAssigDataControl}
+        {...props}
+      />
+    </Fragment>
+  );
 };
 
-export default DailyAssigWrap;
+const DailyAssigHigher: React.FC<IProps> = ({ context, ...prop }) => {
+  const { langHook, house } = context;
+  const { data: roomData, loading: roomTypeLoading } = useQuery<
+    getAllRoomType,
+    getAllRoomTypeVariables
+  >(GET_ALL_ROOMTYPES, {
+    client,
+    variables: {
+      houseId: house._id
+    }
+  });
+
+  moment.lang(langHook.currentLang);
+
+  const roomTypesData =
+    queryDataFormater(roomData, "GetAllRoomType", "roomTypes", []) || []; // 원본데이터
+  const formatedRoomData = roomDataManufacturer(roomTypesData); // 타임라인을 위해 가공된 데이터
+
+  return (
+    <DailyAssigWrap
+      context={context}
+      roomTypesData={roomTypesData}
+      formatedRoomData={formatedRoomData}
+      roomTypeLoading={roomTypeLoading}
+      {...prop}
+    />
+  );
+};
+
+export default DailyAssigHigher;

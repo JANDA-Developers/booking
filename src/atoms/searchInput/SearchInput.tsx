@@ -8,6 +8,7 @@ import searchListFormat from "../../utils/searchListFormater";
 import JDLabel from "../label/JDLabel";
 import { IInput } from "../../types/interface";
 import InputText from "../forms/inputText/InputText";
+import { ANY } from "../../types/defaults";
 
 interface IProps extends IInput {
   dataList: Array<any>;
@@ -213,8 +214,8 @@ const JDsearchInput: React.FC<IProps> = ({
   useEffect(setList, [dataList]); // 유저 리스트가 변할때마다 새롭게 리스트를 찾습니다.
   // 매칭된 리스트가 있을경우에 클래스를 붙여줍니다.
   useEffect(() => {
-    if (isMatched)
-      $(inputRef.current).addClass("JDsearchInput__input--matched");
+    if (isMatched) {
+    }
   }, [isMatched]);
 
   return (
@@ -228,11 +229,11 @@ const JDsearchInput: React.FC<IProps> = ({
         <div className="JDsearchInput__innerWrap">
           <InputText
             {...props}
+            ref={inputRef}
             defaultValue={props.defaultValue}
             onFocus={handleOnFocus}
             onBlur={handleOnBlur}
             onKeyDown={handleOnKeyPress}
-            refContainer={inputRef}
             className="JDsearchInput__input"
             onChange={handleChange}
             placeholder={placeholder}
@@ -256,10 +257,10 @@ const JDsearchInput: React.FC<IProps> = ({
         )}
       </div>
       <List
+        refContainer={inputRef}
         currentValue={onTypeValue}
         onListKeyPress={handleOnListKeyPress}
         onListClick={handleOnListClick}
-        refContainer={ulRef}
         dataList={filteredDataList}
         setIsMatched={setIsMatched}
         alwaysListShow={alwaysListShow}

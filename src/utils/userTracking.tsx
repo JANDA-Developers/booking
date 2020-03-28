@@ -8,11 +8,11 @@ interface UTH {
 }
 
 const userTacking = (label: string = "", value: string = "") => {
-  const pathName = window.location.href;
+  const pathName = window.location.pathname;
   const trakHistory: UTH = {
     action: label || "",
-    path: pathName.replace(process.env.REACT_APP_API_CLIENT_URL || "", ""),
-    createAt: new Date().getTime(),
+    path: pathName,
+    createAt: new Date().valueOf(),
     value
   };
   let histories: UTH[] = [];
@@ -27,7 +27,8 @@ const userTacking = (label: string = "", value: string = "") => {
         const prevHostory = JSON.parse(hexDecode(UTH) || "[]") as UTH[];
         histories = [...prevHostory, trakHistory];
       } catch (e) {
-        console.error("e");
+        console.error("Can't Recode UserTraking Info");
+        console.error(e);
       }
     }
   }

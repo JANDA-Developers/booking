@@ -875,7 +875,7 @@ export const GET_ALL_ROOM_TYPE_FOR_BOOKER = gql`
   ${sharedGetAllRoomType}
 `;
 
-// 예약 ::모든예약 가져오기
+// 모든 방타입 가져오기
 export const GET_ALL_ROOMTYPES = gql`
   query getAllRoomType($houseId: ID!) {
     GetAllRoomType(houseId: $houseId) {
@@ -988,30 +988,65 @@ export const GET_ROOM_TYPES_DATE_PRICE = gql`
   ${F_ROOM_TYPE_DATE_PRICE_RESULT}
 `;
 
-// ⭐️방배정!!
-// 방배정 :: 모든 방막기 + 모든 방타입 + 모든 게스트 가져오기!!
-export const GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM = gql`
-  query getAllRoomTypeWithGuest(
+
+// export const GET_ALL_ROOM_TYPE = gql`
+//   query getAllRoomType(
+//     $houseId: ID!
+//   ) {
+//     GetAllRoomType(houseId: $houseId) {
+//       ok
+//       error
+//       roomTypes {
+//           ...FroomType
+//         rooms {
+//           ...Froom
+//         }
+//       }
+//     }
+//   }
+//   ${F_ROOMTYPE}
+//   ${F_ROOM}
+// `;
+
+
+export const GET_ALL_BLOCKS = gql`
+  query getBlocks(
     $houseId: ID!
     $checkIn: DateTime!
     $checkOut: DateTime!
-    $bookingStatuses: [BookingStatus]
   ) {
-    GetAllRoomType(houseId: $houseId) {
+    GetBlocks(checkIn: $checkIn, checkOut: $checkOut, houseId: $houseId) {
       ok
       error
-      roomTypes {
-        ...FroomType
-        rooms {
+      blocks {
+        ...Fblock
+        room {
           ...Froom
         }
       }
     }
+  }
+  ${F_BLOCK}
+  ${F_ROOMTYPE}
+  ${F_ROOM}
+`;
+
+
+
+export const GET_ALL_GUEST_AND_BLOCK = gql`
+  query getGuests(
+    $houseId: ID!
+    $checkIn: DateTime!
+    $checkOut: DateTime!
+    $bookingStatuses: [BookingStatus]
+    $roomTypeIds: [ID!]
+  ) {
     GetGuests(
+      houseId: $houseId
       checkIn: $checkIn
       checkOut: $checkOut
-      houseId: $houseId
       bookingStatuses: $bookingStatuses
+      roomTypeIds: $roomTypeIds
     ) {
       ok
       error
@@ -1049,8 +1084,7 @@ export const GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM = gql`
         }
       }
     }
-
-    GetBlocks(checkIn: $checkIn, checkOut: $checkOut, houseId: $houseId) {
+    GetBlocks(checkIn: $checkIn, checkOut: $checkOut, houseId: $houseId, roomTypeIds: $roomTypeIds) {
       ok
       error
       blocks {
@@ -1061,15 +1095,15 @@ export const GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM = gql`
       }
     }
   }
-  ${F_ROOMTYPE}
+  ${F_ROOM}
   ${F_BLOCK}
   ${F_GUEST}
   ${F_GUEST_DOMITORY}
   ${F_GUEST_ROOM}
-  ${F_ROOM}
   ${F_BLOCK_OP}
   ${F_BOOKING}
 `;
+
 
 // 방타입 :: 모든 방타입 가격 가져오기
 export const GET_ALL_ROOMTYPES_PRICE = gql`
@@ -1767,6 +1801,7 @@ export const CREATE_BLOCK = gql`
       }
     }
   }
+  ${F_BLOCK}
   ${F_ROOM}
   ${F_BLOCK}
 `;

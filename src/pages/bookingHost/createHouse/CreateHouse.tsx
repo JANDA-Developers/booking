@@ -201,12 +201,14 @@ const CreateHouse: React.FC<IProps> = ({
           map.panTo({ lat: lat || 35.1484595, lng: lng || 129.0632157 });
         }
         const address = await reverseGeoCode(lat, lng);
-        setLocation({
-          ...location,
-          lat,
-          lng,
-          address
-        });
+        if (address) {
+          setLocation({
+            ...location,
+            lat,
+            lng,
+            address
+          });
+        }
       },
       prop => {
         handleGeoError(prop);

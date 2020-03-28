@@ -125,12 +125,6 @@ $modal-header-padding: $modal-padding;
     font-weight: bold;
   }
 
-  &--paddingLarge {
-    @include response($full, $tablet) {
-      padding: $standard-huge-space;
-    }
-  }
-
   &--center {
     text-align: center;
   }
@@ -140,6 +134,11 @@ $modal-header-padding: $modal-padding;
     @include response($tablet) {
       overflow: auto;
     }
+  }
+
+  &__paddingBottom {
+    padding: $modal-padding;
+    padding-top: 0;
   }
 
   // 엔드섹션

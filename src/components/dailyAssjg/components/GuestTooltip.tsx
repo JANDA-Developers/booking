@@ -7,7 +7,7 @@ import {
   IDailyAssigUtils,
   IDailyAssigDataControl
 } from "../../../pages/bookingHost/assig/components/assigIntrerface";
-import { getAllRoomTypeWithGuest_GetGuests_guests as IG } from "../../../types/api";
+import { getGuests_GetGuests_guests as IG } from "../../../types/api";
 import { BookingStatus } from "../../../types/enum";
 import { LANG } from "../../../hooks/hook";
 

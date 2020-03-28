@@ -3,7 +3,9 @@ import React, {
   useEffect,
   useMemo,
   useCallback,
-  Fragment
+  Fragment,
+  useRef,
+  useLayoutEffect
 } from "react";
 import { Link } from "react-router-dom";
 import "moment/locale/ko";
@@ -17,7 +19,12 @@ import Timeline, {
   CustomMarker,
   CursorMarker
 } from "../../../atoms/timeline/Timeline";
-import ErrProtecter from "../../../utils/errProtect";
+import {
+  getCutCount,
+  getCuttedGroups,
+  getCuttedItmes
+} from "./helper/outHelper";
+import windowSize from "react-window-size";
 import Button from "../../../atoms/button/Button";
 import BookingModalWrap from "../../../components/bookingModal/BookingModalWrap";
 import { IUseDayPicker, useModal, LANG } from "../../../hooks/hook";
@@ -65,6 +72,7 @@ import PageHeader from "../../../components/pageHeader/PageHeader";
 import PageBody from "../../../components/pageBody/PageBody";
 import AssigTimelineConfigModal from "./components/AssigTimelineConfigModal/AssigTimelineConfigModal";
 import getConfigStorage from "./helper/getStorage";
+import Preloader from "../../../atoms/preloader/Preloader";
 
 interface IProps {
   context: IContext;
@@ -87,7 +95,7 @@ interface IProps {
       end: number;
     }>
   >;
-  reloadTimeline: () => void;
+  reloadTime: () => void;
 }
 
 const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
@@ -105,30 +113,71 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
   setDataTime,
   dataTime,
   assigDataControl,
-  reloadTimeline
+  reloadTime
 }) => {
+  const [viewRoomType, setViewRoomType] = useState(
+    roomTypesData.map(roomType => roomType._id)
+  );
+  const firstUpdate = useRef(true);
   const { networkStatus } = assigDataControl;
   const { house, houseConfig, sideNavIsOpen } = context;
   const isDesktopHDDown = windowWidth < EWindowSize.DESKTOPHD;
   const isTabletDown = windowWidth <= EWindowSize.TABLET;
   const isMobile = windowWidth < EWindowSize.PHABLET;
+  const [lock, setLock] = useState(isMobile);
   const timeline_size_var = (() => {
-    if (isMobile) return 7;
+    if (isMobile) return 3;
     if (isTabletDown) return 6;
     if (isDesktopHDDown) return 5;
     return 0;
   })();
-  const [guestValue, setGuestValue] = useState<IAssigItem[]>(deafultGuestsData);
+
+  useLayoutEffect(() => {
+    if (firstUpdate.current) {
+      firstUpdate.current = false;
+      return;
+    }
+  });
+
+  const [cutCount, setCutCount] = useState(getCutCount(windowHeight));
+
+  // 그룹 데이터에서 필터된것만 추출
+  let filteredGroup = useMemo(() => {
+    return getCuttedGroups(
+      groupData.filter(group => viewRoomType.includes(group.roomTypeId)),
+      cutCount.cutFrom,
+      cutCount.cutTo
+    );
+  }, [groupData.length, cutCount.cutTo, cutCount.cutFrom]);
+
+  // 그룹 데이터가 비어있다면 보정용으로 하나추가
+  if (isEmpty(filteredGroup)) filteredGroup = [DEFAULT_NONE_GOUP];
+
+  const filtedGroupIds = useMemo(() => filteredGroup.map(fg => fg.id), [
+    groupData.length,
+    cutCount.cutTo,
+    cutCount.cutFrom
+  ]);
+
+  const [guestValue, setGuestValue] = useState<IAssigItem[]>(
+    getCuttedItmes(filtedGroupIds, deafultGuestsData)
+  );
+
+  useEffect(() => {
+    const cuttedItems = getCuttedItmes(
+      filteredGroup.map(fg => fg.id),
+      deafultGuestsData
+    );
+    setGuestValue(cuttedItems);
+  }, [filtedGroupIds.join()]);
+
   const dayPickerModalHook = useModal(false);
   const [isMultiSelectingMode, setIsMultiSelectingMode] = useState(false);
   const configModal = useModal(false);
   const confirmModalHook = useModal(false);
   const reservationModal = useModal(false);
   const [inIsEmpty, setEmpty] = useState(false);
-  const [viewRoomType, setViewRoomType] = useState(
-    roomTypesData.map(roomType => roomType._id)
-  );
-  // const { datas: holidays } = getKoreaSpecificDayHook(["2019", "2018"]);
+
   const bookingModal = useModal(false);
   const blockOpModal = useModal<IAssigItem>(false, DEFAULT_ASSIG_ITEM);
   const [blockMenuProps, setBlockMenuProps] = useState<IDeleteMenuProps>({
@@ -145,7 +194,19 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
 
   // 스크롤시 툴팁제거
   const handleWindowScrollEvent = () => {
+    console.log("Cutttt-");
     allTooltipsHide();
+    const debounceCut = _.debounce(
+      () => {
+        console.count("Cutttt");
+        setCutCount(getCutCount(windowHeight));
+      },
+      300,
+      {
+        trailing: true
+      }
+    );
+    debounceCut();
   };
 
   const handleKeyDownCavnas = (e: KeyboardEvent) => {
@@ -188,6 +249,8 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
       windowWidth,
       windowHeight,
       groupData,
+      lock,
+      setLock,
       houseId: house._id
     }),
     [windowWidth, guestValue, networkStatus]
@@ -205,12 +268,7 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
 
   const { roomTypeTabEnable } = assigTimeline;
 
-  const {
-    allTooltipsHide,
-    removeMark,
-    getItemsByType,
-    hilightHeader
-  } = assigUtils;
+  const { allTooltipsHide, removeMark, getItemsByType } = assigUtils;
 
   const assigHandler = useMemo(
     () => getAssigHandlers(assigUtils, assigContext, assigHooks),
@@ -254,15 +312,6 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
     );
   }, []);
 
-  // 그룹 데이터에서 필터된것만 추출
-  let filteredGroup = useMemo(
-    () => groupData.filter(group => viewRoomType.includes(group.roomTypeId)),
-    [groupData.length]
-  );
-
-  // 그룹 데이터가 비어있다면 보정용으로 하나추가
-  if (isEmpty(filteredGroup)) filteredGroup = [DEFAULT_NONE_GOUP];
-
   // 메모를 사용해 멀티박스 업데이트 방지
   const roomTypesDatas = useMemo(
     () => ({
@@ -292,38 +341,38 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
     () =>
       classnames("assigTimeline", undefined, {
         "assiTimeline--mobile": windowWidth <= WindowSize.MOBILE,
-        "assigTimeline--loading": isEmpty(groupData) && loading,
+        "assigTimeline--loading": firstUpdate.current && loading,
         "assigTimeline--empty": inIsEmpty
       }),
-    [windowWidth, guestValue]
+    [windowWidth, loading, inIsEmpty]
   );
 
-  //  스크롤 할때
+  // 이벤트 리스너
   useEffect(() => {
     const handleClickWindow = () => {
       allTooltipsHide();
     };
 
-    // $(".rct-header-root").mousedown(e => {
-    //   // e.preventDefault();
-    //   // e.stopPropagation();
-    // });
+    const remove = () => {
+      window.removeEventListener("keyup", handleKeyUpCavnas);
+      window.removeEventListener("keydown", debounceKeyDownCanvas);
+      window.removeEventListener("scroll", handleWindowScrollEvent);
+      window.removeEventListener("click", handleClickWindow);
+      return "";
+    };
+
     window.addEventListener("keyup", handleKeyUpCavnas);
     window.addEventListener("keydown", debounceKeyDownCanvas);
     window.addEventListener("scroll", handleWindowScrollEvent);
     window.addEventListener("click", handleClickWindow);
     return () => {
-      window.removeEventListener("keyup", handleKeyUpCavnas);
-      window.removeEventListener("keydown", debounceKeyDownCanvas);
-      window.removeEventListener("scroll", handleWindowScrollEvent);
-      window.removeEventListener("scroll", handleClickWindow);
+      remove();
     };
-  });
+  }, []);
 
   // 풀링으로 새로받은 게스트데이터를 적용시켜준다.
   useEffect(() => {
     if (networkStatus >= 7) {
-      console.count("volatilityEffectCount");
       const newIndexStart = deafultGuestsData.length;
 
       // 업데이트전 휘발성 블럭들을 찾아서 합쳐줍니다.
@@ -338,13 +387,15 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
     }
   }, [deafultGuestsData]);
 
-  const endTime = (() => {
+  // 기본으로 사용될 끝시간을 계산합니다.
+  const endTime = useMemo(() => {
     let configZoom = zoomValue || 0;
     return moment(defaultTimeEnd.valueOf() - configZoom * TimePerMs.H * 3).add(
       -1 * timeline_size_var,
       "days"
     );
-  })();
+  }, [zoomValue]);
+
   const timelineKey = `timeline${endTime}${sideNavIsOpen ? "a" : "b"}`;
 
   return (
@@ -353,12 +404,7 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
         title={LANG("allocation_calendar")}
         desc={LANG("assigTimeline__decs")}
       />
-      <PortalPreloader
-        size="small"
-        floating
-        loading={loading}
-        className="assigTimeline__mainPreloder"
-      />
+
       <PageBody>
         <div
           id="AssigTimeline"
@@ -372,6 +418,7 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
           <div className="flex-grid flex-grid--end">
             <div>
               <Button
+                size="small"
                 onClick={() => {
                   reservationModal.openModal();
                 }}
@@ -380,6 +427,7 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
                 label={LANG("make_reservation")}
               />
               <Button
+                size="small"
                 onClick={() => {
                   dayPickerHook.setDate(
                     moment()
@@ -387,7 +435,7 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
                       .add(-1, "day")
                       .toDate()
                   );
-                  reloadTimeline();
+                  reloadTime();
                 }}
                 icon="calendar"
                 label={LANG("goto_today")}
@@ -396,8 +444,17 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
                 onClick={() => {
                   configModal.openModal();
                 }}
+                size="small"
                 label={LANG("timeline_config")}
                 icon="keyBoard"
+              />
+              <Button
+                label={LANG("assig_lock")}
+                size="small"
+                onClick={() => {
+                  setLock(!lock);
+                }}
+                icon={lock ? "lock" : "unLock"}
               />
             </div>
             {roomTypeTabEnable && (
@@ -445,6 +502,8 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
               items={guestValue}
               groups={filteredGroup}
               {...defaultProps}
+              canMove={!lock}
+              canChangeGroup={!lock}
               handleDraggingCell={handleDraggingCell}
               onItemDoubleClick={handleItemDoubleClick}
               onItemClick={handleItemClick}
@@ -527,8 +586,18 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
           className="JDwaves-effect JDoverflow-visible"
         />
       </PageBody>
+      <Preloader
+        floating
+        loading={loading}
+        className="assigTimeline__mainPreloder"
+      />
+      <Preloader
+        id="assigTimeline__verticalPreloader"
+        size="small"
+        loading={true}
+      />
     </Fragment>
   );
 };
 
-export default ErrProtecter(AssigTimeline);
+export default windowSize<IProps>(AssigTimeline);

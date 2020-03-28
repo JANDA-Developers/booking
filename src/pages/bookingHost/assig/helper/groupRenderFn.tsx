@@ -10,25 +10,23 @@ let LAST_ROOM = "unRendered";
 
 interface IRenderGroupProps {
   group?: IAssigGroup;
-  getGuestsInGroup: TGetGuestsInGroup;
 }
 
 // 아이템 위치가 바뀔때마다 groupRender 되더라
 // Place 단위로 렌더되는걸 유의
-const assigGroupRendererFn: React.FC<IRenderGroupProps> = ({
-  group,
-  ...props
-}) => {
+const assigGroupRendererFn: React.FC<IRenderGroupProps> = ({ group }) => {
   if (!group || !group.roomType) {
     return <div />;
   }
+
   const isDomitory = group.roomType.pricingType === PricingType.DOMITORY;
   const placeCount = isDomitory ? group.roomType.peopleCountMax : 1;
 
   // height는 UseEffect 안에 있음
   const roomTypeStyle = {
     minHeight: ASSIG_IMELINE_HEIGHT - 1,
-    zIndex: group.roomTypeIndex
+    zIndex: group.roomTypeIndex,
+    height: 0
   };
 
   const roomStyle = {
@@ -47,37 +45,18 @@ const assigGroupRendererFn: React.FC<IRenderGroupProps> = ({
   else LAST_ROOM = group.roomId;
 
   useEffect(() => {
+    // 방의 높이를 잡아줌
     LAST_ROOMTYPE = "unRendered";
     LAST_ROOM = "unRendered";
   });
 
-  useEffect(() => {
-    // 방의 높이를 잡아줌
-    if (renderRoom) {
-      const target = $(`.assigGroups__place${group.roomId}`);
-      const arrayHeights = target.map(function() {
-        return $(this).height();
-      });
-      $(`#assigGroups__room${group.roomId}`).height(
-        arraySum(arrayHeights.get()) + target.length + 1
-      );
-    }
-    // 방타입의 높이를 잡아줌
-    if (renderRoomType) {
-      const target = $(`.assigGroups__rooms${group.roomTypeId}`);
+  if (renderRoom) {
+    roomStyle.height = group.roomType.peopleCount * ASSIG_IMELINE_HEIGHT;
+  }
 
-      const arrayHeights = target.map(function() {
-        const height = $(this).height() || 0;
-        return height;
-      });
-
-      $(`#assigGroups__roomType${group.roomTypeId}`).height(
-        arraySum(arrayHeights.get()) + target.length / 2
-      );
-    }
-
-    // 여기뒤에 id를 넣음으로서 퍼포먼스를 개선할 여지가 있음 하지만
-  });
+  if (renderRoomType) {
+    roomTypeStyle.height = roomStyle.height * group.roomType.roomCount;
+  }
 
   return (
     <div>

@@ -1,6 +1,6 @@
-import React, {Fragment} from "react";
+import React, { Fragment } from "react";
 import JDIcon from "../../../icons/Icons";
-import {IUseDayPicker, LANG} from "../../../../hooks/hook";
+import { IUseDayPicker, LANG } from "../../../../hooks/hook";
 import moment from "moment";
 
 interface Iprops {
@@ -31,6 +31,10 @@ const ArrowDayByDay: React.FC<Iprops> = ({
           e.preventDefault();
           handleDayPickerArrow("prev");
         }}
+        style={{
+          transform: "scale(-1)"
+        }}
+        size="small"
         icon="arrowLeft"
       />
       <span {...props}>
@@ -38,6 +42,7 @@ const ArrowDayByDay: React.FC<Iprops> = ({
       </span>
       <JDIcon
         hover
+        size="small"
         className="DayPicker-box--inputComponent__arrow DayPicker-box--inputComponent__arrow--right"
         onClick={e => {
           e.stopPropagation();

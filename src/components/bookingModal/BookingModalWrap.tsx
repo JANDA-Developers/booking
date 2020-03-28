@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Fragment } from "react";
 import { Query, Mutation } from "react-apollo";
 import BookingModal from "./BookingModal";
 import _ from "lodash";
@@ -29,10 +29,10 @@ import {
   UPDATE_BOOKING,
   DELETE_BOOKING,
   GET_BOOKINGS,
-  GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM,
   START_BOOKING,
   GET_ROOM_TYPES_DATE_PRICE,
-  REFUND_BOOKING
+  REFUND_BOOKING,
+  GET_ALL_GUEST_AND_BLOCK
 } from "../../apollo/queries";
 import client from "../../apollo/apolloClient";
 import { getOperationName } from "apollo-utilities";
@@ -145,8 +145,7 @@ const BookingModalWrap: React.FC<IBookingModalWrapProps> = ({
                 <UpdateBookingMu
                   refetchQueries={[
                     getOperationName(GET_BOOKINGS) || "",
-                    getOperationName(GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM) ||
-                      ""
+                    getOperationName(GET_ALL_GUEST_AND_BLOCK) || ""
                   ]}
                   mutation={UPDATE_BOOKING}
                   onCompleted={({ UpdateBooking }) => {
@@ -171,19 +170,17 @@ const BookingModalWrap: React.FC<IBookingModalWrapProps> = ({
                           "StartBooking"
                         );
                         if (StartBooking.ok) {
-                          modalHook.closeModal();
                           startBookingCallBack &&
                             startBookingCallBack(StartBooking);
 
+                          console.log("reached To Modal");
+                          modalHook.closeModal();
                           if (modalHook.info.startBookingCallBack)
                             modalHook.info.startBookingCallBack(StartBooking);
                         }
                       }}
                       refetchQueries={[
-                        getOperationName(GET_BOOKINGS) || "",
-                        getOperationName(
-                          GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM
-                        ) || ""
+                        getOperationName(GET_ALL_GUEST_AND_BLOCK) || ""
                       ]}
                     >
                       {(startBookingMu, { loading: startBookingLoading }) => (
@@ -191,9 +188,7 @@ const BookingModalWrap: React.FC<IBookingModalWrapProps> = ({
                           mutation={DELETE_BOOKING}
                           refetchQueries={[
                             getOperationName(GET_BOOKINGS) || "",
-                            getOperationName(
-                              GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM
-                            ) || ""
+                            getOperationName(GET_ALL_GUEST_AND_BLOCK) || ""
                           ]}
                           awaitRefetchQueries
                           onCompleted={({ DeleteBooking }) => {
@@ -216,28 +211,34 @@ const BookingModalWrap: React.FC<IBookingModalWrapProps> = ({
                             const totalLoading =
                               getBooking_loading || getPrice_loading;
 
-                            return !totalLoading ? (
-                              <BookingModal
-                                bookingData={bookingData}
-                                mode={modalHook.info.mode}
-                                context={context}
-                                loading={totalLoading}
-                                modalHook={modalHook}
-                                refundFn={refundFn}
-                                startBookingMu={startBookingMu}
-                                updateBookingMu={updateBookingMu}
-                                deleteBookingMu={deleteBookingMu}
-                                startBookingLoading={startBookingLoading}
-                                placeHolederPrice={placeHolederPrice}
-                                {...props}
-                                key={
-                                  modalHook.info.createParam
-                                    ? s4()
-                                    : `bookingModal${modalHook.info.bookingId}`
-                                }
-                              />
-                            ) : (
-                              <PreloaderModal loading={true} />
+                            console.log("totalLoading");
+                            console.log(totalLoading);
+
+                            return (
+                              <Fragment>
+                                <PreloaderModal loading={totalLoading} />
+                                {!totalLoading && (
+                                  <BookingModal
+                                    bookingData={bookingData}
+                                    mode={modalHook.info.mode}
+                                    context={context}
+                                    loading={totalLoading}
+                                    modalHook={modalHook}
+                                    refundFn={refundFn}
+                                    startBookingMu={startBookingMu}
+                                    updateBookingMu={updateBookingMu}
+                                    deleteBookingMu={deleteBookingMu}
+                                    startBookingLoading={startBookingLoading}
+                                    placeHolederPrice={placeHolederPrice}
+                                    {...props}
+                                    key={
+                                      modalHook.info.createParam
+                                        ? s4()
+                                        : `bookingModal${modalHook.info.bookingId}`
+                                    }
+                                  />
+                                )}
+                              </Fragment>
                             );
                           }}
                         </DeleteBookingMu>

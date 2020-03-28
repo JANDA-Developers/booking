@@ -13,7 +13,7 @@ export const cardValidate = (cardInfo: TCardRegistInfo): {
     if (
         toNumber(expMonth) > 12 ||
         toNumber(expYear) < 1 ||
-        (expMonth.length + expYear.length) !== 5
+        (expMonth.length + expYear.length) !== 4
     ) {
         return {
             result: false,

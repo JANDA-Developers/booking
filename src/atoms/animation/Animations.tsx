@@ -1,4 +1,4 @@
-import React, {CSSTransitionGroupProps} from "react";
+import React from "react";
 import ReactCSSTransitionGroup from "react-addons-css-transition-group";
 import "./ComponentAnimations.scss";
 
@@ -16,7 +16,7 @@ interface IProps {
   animation: Array<Animation>;
 }
 
-const JDanimation: React.FC<IProps> = ({children, animation, ...props}) => {
+const JDanimation: React.FC<IProps> = ({ children, animation, ...props }) => {
   const animationProp = {
     transitionName: {
       enter: "",

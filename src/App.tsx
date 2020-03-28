@@ -1,5 +1,5 @@
 /* eslint-disable no-shadow */
-import React, { useEffect } from "react";
+import React, { useEffect, Fragment } from "react";
 import { ApolloProvider } from "react-apollo";
 import { HashRouter as Router, Route, Switch } from "react-router-dom";
 // @ts-ignore
@@ -19,6 +19,8 @@ import { toast } from "react-toastify";
 import { FAVI_URL } from "./types/const";
 import LoadBalancer from "./pages/loadBalancer/LoadBalancer";
 import { getFromUrl } from "./utils/utils";
+import userTacking from "./utils/userTracking";
+import Tracker from "./Tracker";
 
 function App() {
   const ln = getFromUrl("ln");
@@ -47,33 +49,39 @@ function App() {
     };
   });
 
-  <div onKeyDown={e => {}}></div>;
+  
   return (
     <div id="JDoutWrapper">
       <ApolloProvider client={client}>
         <Favicon url={FAVI_URL} />
         <Router>
-          <Switch>
-            {/* 상위 컴포넌트 영향에벋어날수 없다. */}
-            <Route path="/LMeD6p5J3kn4D4Gu" render={prop => <LoadBalancer />} />
-            <Route
-              path="/documents"
-              render={prop => <DocumentRouter {...prop} />}
-            />
-            <Route
-              path="/outpage/:token"
-              render={prop => <OutPageRouter {...prop} />}
-            />
-            {["/"].map(path => (
+          <Fragment>
+            <Route render={prop => <Tracker foo={prop} />} />
+            <Switch>
+              {/* 상위 컴포넌트 영향에벋어날수 없다. */}
               <Route
-                key={`router${path}`}
-                path={path}
-                // @ts-ignore
-                render={() => <BookingHostRouter langHook={langHook} />}
+                path="/LMeD6p5J3kn4D4Gu"
+                render={prop => <LoadBalancer />}
               />
-            ))}
-            <Route component={NoMatch} />
-          </Switch>
+              <Route
+                path="/documents"
+                render={prop => <DocumentRouter {...prop} />}
+              />
+              <Route
+                path="/outpage/:token"
+                render={prop => <OutPageRouter {...prop} />}
+              />
+              {["/"].map(path => (
+                <Route
+                  key={`router${path}`}
+                  path={path}
+                  // @ts-ignore
+                  render={() => <BookingHostRouter langHook={langHook} />}
+                />
+              ))}
+              <Route component={NoMatch} />
+            </Switch>
+          </Fragment>
         </Router>
         <JDtoast />
         <div

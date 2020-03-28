@@ -12,6 +12,9 @@
     }
   }
 
+
+
+  
   .roomSelectInfoTable {
     &__roomSelect {
       width: 100%;
@@ -26,13 +29,6 @@
         &:first-child {
           margin-right: $standard-tiny-space;
         }
-      }
-    }
-
-    .JDtable {
-      .rt-td,
-      .rt-tbody,
-      .rt-table {
       }
     }
   }

@@ -19,10 +19,12 @@ interface IProps {
   selectedTabClassName?: string;
   selectedTabPanelClassName?: string;
   mb?: TMarginSize;
+  breakTabs?: boolean;
 }
 
 const JDtabs: React.FC<IProps> = ({
   mb,
+  breakTabs,
   tabsAlign,
   styleMode,
   className,
@@ -36,6 +38,10 @@ const JDtabs: React.FC<IProps> = ({
     "JDtabs--tabsAlign-normal": tabsAlign === undefined,
     ...mbClass("JDtabs", mb)
   });
+
+  const Ch: any = props.children;
+
+  if (breakTabs) return Ch;
 
   return <Tabs {...props} className={classes} />;
 };

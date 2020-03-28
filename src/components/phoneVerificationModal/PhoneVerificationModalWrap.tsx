@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { onCompletedMessage } from "../../utils/utils";
 import { Mutation } from "react-apollo";
 import PhoneVerificationModal from "./PhoneVerificationModal";
@@ -38,68 +38,76 @@ const PhoneVerificationModalWrap: React.FC<IProps> = ({
   modalHook,
   callBackPhoneVerified = modalHook.info?.onPhoneVerified,
   phoneNumber = modalHook.info?.phoneNumber
-}) => (
-  <StartPhoneVerificationMu
-    variables={{ phoneNumber }}
-    mutation={START_PHONE_VERIFICATION_WITH_PHONE_NUMBER}
-    onCompleted={({ StartPhoneVerification }) => {
-      onCompletedMessage(
-        StartPhoneVerification,
-        LANG("certification_number_sent"),
-        LANG("certification_number_sent_fail")
-      );
-    }}
-  >
-    {(startPhoneVerificationMu, { loading: startVerifiLoading }) => {
-      return (
-        <CompletePhoneVerification
-          mutation={COMEPLETE_PHONE_VERIFICATION}
-          onCompleted={({ CompletePhoneVerification }) => {
-            onCompletedMessage(
-              CompletePhoneVerification,
-              LANG("mobile_phone_verification_completed"),
-              LANG("mobile_phone_verification_failed")
-            );
-            if (CompletePhoneVerification.ok) {
-              callBackPhoneVerified && callBackPhoneVerified();
-            }
-          }}
-        >
-          {(
-            completePhoneVerificationMu,
-            { loading: completePhoneVerificationLoding }
-          ) => {
-            const handleCompleteBtnClick = (key: string) => {
-              completePhoneVerificationMu({
-                variables: {
-                  key
-                }
-              });
-            };
-            const modalOpenCallBackFn = () => {
-              startPhoneVerificationMu({
-                variables: {
-                  phoneNumber
-                }
-              });
-            };
-            return (
-              <PhoneVerificationModal
-                key={`phoneVerification${modalHook.isOpen && "--open"}`}
-                modalOpenCallBackFn={modalOpenCallBackFn}
-                handleCompleteBtnClick={handleCompleteBtnClick}
-                muLoading={
-                  completePhoneVerificationLoding || startVerifiLoading
-                }
-                phoneNumber={phoneNumber}
-                modalHook={modalHook}
-              />
-            );
-          }}
-        </CompletePhoneVerification>
-      );
-    }}
-  </StartPhoneVerificationMu>
-);
+}) => {
+  const [devPw, setDevPw] = useState("");
+
+  return (
+    <StartPhoneVerificationMu
+      variables={{ phoneNumber }}
+      mutation={START_PHONE_VERIFICATION_WITH_PHONE_NUMBER}
+      onCompleted={({ StartPhoneVerification }) => {
+        onCompletedMessage(
+          StartPhoneVerification,
+          LANG("certification_number_sent"),
+          LANG("certification_number_sent_fail")
+        );
+        if (process.env.NODE_ENV === "development" || "test") {
+          setDevPw(StartPhoneVerification.error || "");
+        }
+      }}
+    >
+      {(startPhoneVerificationMu, { loading: startVerifiLoading }) => {
+        return (
+          <CompletePhoneVerification
+            mutation={COMEPLETE_PHONE_VERIFICATION}
+            onCompleted={({ CompletePhoneVerification }) => {
+              onCompletedMessage(
+                CompletePhoneVerification,
+                LANG("mobile_phone_verification_completed"),
+                LANG("mobile_phone_verification_failed")
+              );
+              if (CompletePhoneVerification.ok) {
+                callBackPhoneVerified && callBackPhoneVerified();
+              }
+            }}
+          >
+            {(
+              completePhoneVerificationMu,
+              { loading: completePhoneVerificationLoding }
+            ) => {
+              const handleCompleteBtnClick = (key: string) => {
+                completePhoneVerificationMu({
+                  variables: {
+                    key
+                  }
+                });
+              };
+              const modalOpenCallBackFn = () => {
+                startPhoneVerificationMu({
+                  variables: {
+                    phoneNumber
+                  }
+                });
+              };
+              return (
+                <PhoneVerificationModal
+                  key={`phoneVerification${modalHook.isOpen && "--open"}`}
+                  modalOpenCallBackFn={modalOpenCallBackFn}
+                  handleCompleteBtnClick={handleCompleteBtnClick}
+                  muLoading={
+                    completePhoneVerificationLoding || startVerifiLoading
+                  }
+                  devPw={devPw}
+                  phoneNumber={phoneNumber}
+                  modalHook={modalHook}
+                />
+              );
+            }}
+          </CompletePhoneVerification>
+        );
+      }}
+    </StartPhoneVerificationMu>
+  );
+};
 
 export default EerrorProtect(PhoneVerificationModalWrap);

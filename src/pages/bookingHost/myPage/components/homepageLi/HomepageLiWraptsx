@@ -30,10 +30,10 @@ const HomepageListWrap: React.FC<IProps> = () => {
     },
     notifyOnNetworkStatusChange: true,
     fetchPolicy: "no-cache",
-    pollInterval: houseConfig.pollingPeriod?.period || 100000
+    pollInterval: 100000
   });
 
-  return;
+  return <div></div>;
 };
 
 export default HomepageListWrap;

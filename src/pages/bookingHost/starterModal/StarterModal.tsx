@@ -1,4 +1,4 @@
-import React, { useState, useRef, useCallback } from "react";
+import React, { useState, useRef, useCallback, useEffect } from "react";
 import JDmultiStep from "../../../atoms/multiStep/MultiStep";
 import { IContext } from "../../bookingHost/BookingHostRouter";
 import {
@@ -15,7 +15,8 @@ import {
   initHouseVariables,
   CreateHouseInput,
   UpsertRoomTypeInput,
-  getAllProductTypes
+  getAllProductTypes,
+  PricingType
 } from "../../../types/api";
 import Button from "../../../atoms/button/Button";
 import { SELECT_PRODUCT_TYPE_OP } from "../../../types/const";
@@ -46,6 +47,13 @@ interface IProps {
   muLoading: boolean;
 }
 
+const InitHouseTemp: CreateHouseInput =
+  JSON.parse(localStorage.getItem("initHouseTemp") as any) || undefined;
+const InitRoomTypeTemp =
+  JSON.parse(localStorage.getItem("initRoomTypesTemp") as any) || null;
+const InitCardTemp =
+  JSON.parse(localStorage.getItem("initCardTemp") as any) || DEFAULT_CARD_INFO;
+
 const StarterModal: React.FC<IProps> = ({ context, onSubmit, muLoading }) => {
   const modalHook = useModal(true);
   const { data: productTypeData, loading } = useQuery<getAllProductTypes>(
@@ -58,9 +66,14 @@ const StarterModal: React.FC<IProps> = ({ context, onSubmit, muLoading }) => {
   const [step, setStep] = useState(defaultStep);
   const roomSubmitRef = useRef<any>(null);
   const houseSubmitRef = useRef<any>(null);
-  const [cardInfo, setCardInfo] = useState(DEFAULT_CARD_INFO);
-  const [InitHouseData, setInitHouseData] = useState<CreateHouseInput | null>();
-  const [roomTypesData, setRoomsTypeData] = useState<UpsertRoomTypeInput[]>([]);
+  const [cardInfo, setCardInfo] = useState(InitCardTemp);
+  const [InitHouseData, setInitHouseData] = useState<CreateHouseInput | null>(
+    InitHouseTemp
+  );
+  const [roomTypesData, setRoomsTypeData] = useState<UpsertRoomTypeInput[]>(
+    InitRoomTypeTemp || []
+  );
+
   const {
     user: { phoneNumber }
   } = context;
@@ -77,8 +90,6 @@ const StarterModal: React.FC<IProps> = ({ context, onSubmit, muLoading }) => {
   const selectedProductType = productTypes?.find(
     pt => pt.name === productTypeHook.selectedOption?.value
   );
-
-  const isMobile = currentWinSize() === "sm";
 
   const handleCreateHouseSubmit = (param: initHouseVariables) => {
     setInitHouseData(param.param.createHouseInput);
@@ -157,6 +168,17 @@ const StarterModal: React.FC<IProps> = ({ context, onSubmit, muLoading }) => {
     [step]
   );
 
+  useEffect(() => {
+    const initCardTemp = JSON.stringify(cardInfo);
+    localStorage.setItem("initCardTemp", initCardTemp);
+
+    const initRoomTypesTemp = JSON.stringify(roomTypesData);
+    localStorage.setItem("initRoomTypesTemp", initRoomTypesTemp);
+
+    const initHouseTemp = JSON.stringify(InitHouseData);
+    localStorage.setItem("initHouseTemp", initHouseTemp);
+  }, [step]);
+
   switch (step) {
     case "phoneVerification":
       return (
@@ -202,6 +224,7 @@ const StarterModal: React.FC<IProps> = ({ context, onSubmit, muLoading }) => {
               thema="primary"
               mode="flat"
               onClick={() => {
+                const initHouseTemp = JSON.stringify(InitHouseData);
                 houseSubmitRef.current?.click();
               }}
               mb="no"
@@ -221,10 +244,10 @@ const StarterModal: React.FC<IProps> = ({ context, onSubmit, muLoading }) => {
               context={context}
               defaultData={{
                 roomTypesData: [],
-                defaultCreateRoomType: roomTypesData.map(RT => ({
-                  ...RT,
+                // @ts-ignore
+                defaultAddTemp: roomTypesData.map(RT => ({
                   ...DEFAULT_ROOMTYPE,
-                  peopleCountMax: 0,
+                  ...RT,
                   _id: s4()
                 }))
               }}
@@ -311,7 +334,7 @@ const StarterModal: React.FC<IProps> = ({ context, onSubmit, muLoading }) => {
               />
               <span>
                 <span className="JDsmall-text">
-                  {LANG("product_type_desc")(selectedProductType?.price)}{" "}
+                  {LANG("product_type_desc")(selectedProductType?.price || 0)}{" "}
                 </span>
                 <Help tooltip={LANG("product_type_help_txt")} />
               </span>

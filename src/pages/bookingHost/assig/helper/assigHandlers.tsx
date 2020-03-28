@@ -33,9 +33,8 @@ import {
   ASSIG_DATA_END_LIMITE
 } from "../timelineConfig";
 import { ReactTooltip } from "../../../../atoms/tooltip/Tooltip";
-import Timer from "react-compound-timer/build";
-import { IDotPoint } from "../../../../atoms/timeline/declare";
 import { toast } from "react-toastify";
+import { LANG } from "../../../../hooks/hook";
 
 export function getAssigHandlers(
   {
@@ -54,7 +53,7 @@ export function getAssigHandlers(
     getItemsByType,
     getInfoesFromMarks
   }: IAssigTimelineUtils,
-  { groupData, isMobile, networkStatus }: IAssigTimelineContext,
+  { groupData, isMobile, networkStatus, lock }: IAssigTimelineContext,
   {
     setDataTime,
     dataTime,
@@ -219,6 +218,10 @@ export function getAssigHandlers(
     newGroupOrder: number
   ) => {
     const targetGuest = getItemById(itemId);
+    if (lock) {
+      toast(LANG("cannot_move_item_now"));
+      return;
+    }
     if (!targetGuest) return;
 
     allocateItem(targetGuest, newGroupOrder);
@@ -243,6 +246,7 @@ export function getAssigHandlers(
     e: React.MouseEvent<HTMLElement>,
     time: number
   ) => {
+    if (lock) return;
     console.info("handleItemClick");
     e.persist && e.persist();
     const target = getItemById(itemId);
@@ -277,13 +281,19 @@ export function getAssigHandlers(
     IS_MOVE && openCanvasMenuTooltip(e);
   };
 
+  const refetchDataByTime = _.debounce((start: number, end: number) => {
+    setDataTime({
+      start: setMidNight(start),
+      end: setMidNight(end)
+    });
+  }, 900);
+
   // 타임라인 이동시
   const handleTimeChange: THandleTimeChange = (
     visibleTimeStart: number,
     visibleTimeEnd: number,
     updateScrollCanvas: any
   ) => {
-    console.count("handleOccured");
     allTooltipsHide();
     const dataLimitEnd = dataTime.end - TimePerMs.DAY * ASSIG_DATA_END_LIMITE;
     const dataLimitStart =
@@ -295,11 +305,7 @@ export function getAssigHandlers(
       const queryEnd = visibleTimeEnd + TimePerMs.DAY * ASSIG_DATA_END;
 
       if (networkStatus >= 7) {
-        console.count("CallhandleTimeChange");
-        setDataTime({
-          start: setMidNight(queryStart),
-          end: setMidNight(queryEnd)
-        });
+        refetchDataByTime(queryStart, queryEnd);
       }
     }
 
@@ -308,11 +314,7 @@ export function getAssigHandlers(
       const queryStart = visibleTimeStart - TimePerMs.DAY * ASSIG_DATA_START;
       const queryEnd = visibleTimeEnd + TimePerMs.DAY * ASSIG_DATA_END;
       if (networkStatus >= 7) {
-        console.count("CallhandleTimeChange");
-        setDataTime({
-          start: setMidNight(queryStart),
-          end: setMidNight(queryEnd)
-        });
+        refetchDataByTime(queryStart, queryEnd);
       }
     }
 

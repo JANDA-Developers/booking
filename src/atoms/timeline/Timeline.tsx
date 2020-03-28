@@ -1,21 +1,13 @@
 import $ from "jquery";
 import _ from "lodash";
 import Timeline, {
-  // @ts-ignore
   SidebarHeader,
-  // @ts-ignore
   DateHeader,
-  // @ts-ignore
   TimelineHeaders,
-  // @ts-ignore
   CustomHeader,
-  // @ts-ignore
   TimelineMarkers,
-  // @ts-ignore
   CustomMarker,
-  // @ts-ignore
   TodayMarker,
-  // @ts-ignore
   CursorMarker
 } from "react-calendar-timeline";
 import React, { useState, useEffect } from "react";

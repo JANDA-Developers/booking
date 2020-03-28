@@ -1,10 +1,10 @@
 import { useDrag } from "react-dnd";
 import React, { useEffect } from "react";
 import {
-  getAllRoomTypeWithGuest_GetAllRoomType_roomTypes_rooms as IR,
-  getAllRoomTypeWithGuest_GetGuests_guests as IG,
-  getAllRoomTypeWithGuest_GetAllRoomType_roomTypes as IRT,
-  getAllRoomTypeWithGuest_GetBlocks_blocks as IB
+  getAllRoomType_GetAllRoomType_roomTypes_rooms as IR,
+  getGuests_GetGuests_guests as IG,
+  getAllRoomType_GetAllRoomType_roomTypes as IRT,
+  getGuests_GetBlocks_blocks as IB
 } from "../../../types/api";
 import { instanceOfA } from "../../../utils/utils";
 import JDIcon from "../../../atoms/icons/Icons";
@@ -86,11 +86,12 @@ const DragItem: React.FC<IProps> = ({ item, place, room, roomType }) => {
               className={`dailyAssigItem__itemBlock ${guestBlockClasses}`}
             >
               <span className="dailyAssigItem__itemName">
-                <span className="dailyAssigItem__gender">
-                  <Gender item={item} />
-                </span>
                 <span>
                   <StatusMarker
+                    gender={
+                      // @ts-ignore
+                      item.gender
+                    }
                     breakfast={breakfast}
                     isUnpaid={isUnpaid}
                     memo={memo || ""}

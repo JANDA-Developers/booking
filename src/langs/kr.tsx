@@ -1234,5 +1234,7 @@ export const kr = {
   connected_house: "연결된 하우스",
   request_date: "신청일자",
   request_design: "신청 디자인",
-  homepage_is_processing: "홈페이지 생성중 입니다."
+  homepage_is_processing: "홈페이지 생성중 입니다.",
+  cannot_move_item_now: "배정 잠금 상태입니다.",
+  assig_lock: "배정잠금"
 };

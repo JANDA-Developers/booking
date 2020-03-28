@@ -1,11 +1,9 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import moment from "moment-timezone";
 import _ from "lodash";
 import assigDefaultProps from "./timelineConfig";
 import {
-  getAllRoomTypeWithGuest,
-  getAllRoomTypeWithGuestVariables,
   allocateGuestToRoom,
   allocateGuestToRoomVariables,
   updateBooking,
@@ -19,7 +17,13 @@ import {
   createBlock,
   createBlockVariables,
   updateBlockOption,
-  updateBlockOptionVariables
+  updateBlockOptionVariables,
+  getAllRoomType,
+  getAllRoomTypeVariables,
+  getBlocks,
+  getBlocksVariables,
+  getGuestsVariables,
+  getGuests
 } from "../../../types/api";
 import { useDayPicker, LANG } from "../../../hooks/hook";
 import {
@@ -35,24 +39,26 @@ import {
   UPDATE_BOOKING,
   DELETE_GUEST,
   DELETE_BLOCK,
-  GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM,
   CREATE_BLOCK,
   DELETE_BOOKING,
-  UPDATE_BLOCK_OPTION
+  UPDATE_BLOCK_OPTION,
+  GET_ALL_GUEST_AND_BLOCK,
+  GET_ALL_ROOMTYPES
 } from "../../../apollo/queries";
 import AssigTimeline from "./AssigTimeline";
 import { to4YMMDD } from "../../../utils/setMidNight";
 import { roomDataManufacturer } from "./helper/groupDataMenufacture";
-import reactWindowSize, { WindowSizeProps } from "react-window-size";
 import {
   IAssigDataControl,
-  IAssigMutationLoading
+  IAssigMutationLoading,
+  IAssigGroup
 } from "./components/assigIntrerface";
 import { guestsDataManufacturer } from "./helper/guestsDataManufacturer";
 import { blockDataManufacturer } from "./helper/blockDataManufacturer";
 import { IContext } from "../BookingHostRouter";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import client from "../../../apollo/apolloClient";
+import { IRoomType } from "../../../types/interface";
 
 moment.tz.setDefault("UTC");
 
@@ -60,24 +66,33 @@ interface IProps {
   context: IContext;
 }
 
-const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
+interface IWrapProp {
+  roomTypesData: IRoomType[];
+  formatedRoomData: IAssigGroup[];
+  roomTypeLoading: boolean;
+}
+
+const AssigTimelineWrap: React.FC<IProps & IWrapProp> = ({
   context,
-  windowHeight,
-  windowWidth
+  roomTypesData,
+  formatedRoomData,
+  roomTypeLoading
 }) => {
-  const { houseConfig, house, langHook } = context;
+  const { houseConfig, house } = context;
+
   const dayPickerHook = useDayPicker(new Date(), new Date());
-  const [reloadKey, setReloadKey] = useState(s4());
   const defaultStartDate =
     dayPickerHook.from ||
     moment()
       .local()
       .toDate();
+
   const defaultEndDate = moment(dayPickerHook.from || new Date())
     .local()
     .add(14, "days")
     .toDate();
 
+  const [reloadKey, setReloadKey] = useState(s4());
   const [dataTime, setDataTime] = useState({
     start: setMidNight(
       moment()
@@ -90,48 +105,35 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
         .valueOf()
     )
   });
-
-  const reloadTimeline = () => {
+  const reloadTime = () => {
     setReloadKey(s4());
   };
 
-  const updateVariables = {
-    houseId: house._id,
-    checkIn: to4YMMDD(moment(dataTime.start)),
-    checkOut: to4YMMDD(moment(dataTime.end))
-  };
-
-  moment.lang(langHook.currentLang);
-
   const {
     data,
-    loading,
+    loading: guestLoading,
     refetch,
     stopPolling,
     startPolling,
     networkStatus
-  } = useQuery<getAllRoomTypeWithGuest, getAllRoomTypeWithGuestVariables>(
-    GET_ALL_ROOMTYPES_WITH_GUESTS_WITH_ITEM,
-    {
-      client,
-      variables: {
-        ...updateVariables,
-        bookingStatuses: [BookingStatus.COMPLETED, BookingStatus.CANCELED]
-      },
-      notifyOnNetworkStatusChange: true,
-      fetchPolicy: "no-cache",
-      pollInterval: houseConfig.pollingPeriod?.period || 100000
-    }
-  );
-  const roomTypesData =
-    queryDataFormater(data, "GetAllRoomType", "roomTypes", []) || []; // 원본데이터
+  } = useQuery<getGuests, getGuestsVariables>(GET_ALL_GUEST_AND_BLOCK, {
+    client,
+    skip: roomTypeLoading,
+    variables: {
+      houseId: house._id,
+      checkIn: to4YMMDD(moment(dataTime.start)),
+      checkOut: to4YMMDD(moment(dataTime.end)),
+      bookingStatuses: [BookingStatus.COMPLETED, BookingStatus.CANCELED]
+    },
+    notifyOnNetworkStatusChange: true,
+    fetchPolicy: "no-cache",
+    pollInterval: houseConfig.pollingPeriod?.period || 300000
+  });
 
   const guestsData = queryDataFormater(data, "GetGuests", "guests", []) || [];
-  const blocks = queryDataFormater(data, "GetBlocks", "blocks", []) || [];
-  const formatedRoomData = roomDataManufacturer(roomTypesData); // 타임라인을 위해 가공된 데이터
-
+  const blockData = queryDataFormater(data, "GetBlocks", "blocks", []) || [];
+  const formatedBlockData = blockDataManufacturer(blockData);
   const formatedGuestsData = guestsDataManufacturer(guestsData); // 타임라인을 위해 가공된 데이터
-  const formatedBlockData = blockDataManufacturer(blocks); // 타임라인을 위해 가공된 데이터
   const formatedItemData = formatedGuestsData
     .concat(formatedBlockData)
     .map((block, index) => {
@@ -282,12 +284,14 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
     networkStatus
   };
 
-  console.count("ero");
+  const timelineKeyDate = `timeline${moment(
+    dayPickerHook.from || new Date()
+  ).format("YYMMDD")}`;
 
   return (
     <AssigTimeline
       context={context}
-      loading={loading}
+      loading={guestLoading || roomTypeLoading}
       groupData={formatedRoomData}
       deafultGuestsData={formatedItemData || []}
       dayPickerHook={dayPickerHook}
@@ -297,15 +301,41 @@ const AssigTimelineWrap: React.FC<IProps & WindowSizeProps> = ({
       defaultTimeEnd={defaultEndDate}
       assigDataControl={assigDataControl}
       setDataTime={setDataTime}
-      windowHeight={windowHeight}
-      windowWidth={windowWidth}
-      reloadTimeline={reloadTimeline}
+      reloadTime={reloadTime}
       dataTime={dataTime}
-      key={`timeline${moment(dayPickerHook.from || new Date()).format(
-        "YYMMDD"
-      )}${formatedRoomData.length}${reloadKey}`}
+      key={`${timelineKeyDate}${formatedRoomData.length}${reloadKey}`}
     />
   );
 };
 
-export default reactWindowSize<IProps>(EerrorProtect(AssigTimelineWrap));
+//  퍼포먼스 이유로 존재하는 상위컴포넌트
+const HiderAssigTimelineWrap: React.FC<IProps> = ({ context, ...prop }) => {
+  const { house, langHook } = context;
+
+  const { data: roomData, loading: roomTypeLoading } = useQuery<
+    getAllRoomType,
+    getAllRoomTypeVariables
+  >(GET_ALL_ROOMTYPES, {
+    client,
+    variables: {
+      houseId: house._id
+    }
+  });
+
+  const roomTypesData =
+    queryDataFormater(roomData, "GetAllRoomType", "roomTypes", []) || []; // 원본데이터
+  const formatedRoomData = roomDataManufacturer(roomTypesData); // 타임라인을 위해 가공된 데이터
+
+  moment.lang(langHook.currentLang);
+
+  return (
+    <AssigTimelineWrap
+      roomTypesData={roomTypesData}
+      formatedRoomData={formatedRoomData}
+      roomTypeLoading={roomTypeLoading}
+      context={context}
+    />
+  );
+};
+
+export default HiderAssigTimelineWrap;

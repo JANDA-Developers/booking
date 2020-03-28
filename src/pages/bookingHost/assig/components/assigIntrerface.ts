@@ -8,9 +8,9 @@ import {
   IRoomType,
   IHouseConfig,
   IBlockOp,
-  TBookingModalOpenWithMark
+  TBookingModalOpenWithMark,
+  TMuFn
 } from "../../../../types/interface";
-import { MutationFn, FetchResult } from "react-apollo";
 import {
   allocateGuestToRoom,
   allocateGuestToRoomVariables,
@@ -26,17 +26,14 @@ import {
   deleteBookingVariables,
   updateBlockOption,
   updateBlockOptionVariables,
-  getAllRoomTypeWithGuest_GetGuests_guests_GuestRoom_blockOption,
-  startBooking,
-  getAllRoomTypeWithGuest_GetGuests_guests,
+  getGuests_GetGuests_guests,
   getBooking_GetBooking_booking_roomTypes,
   startBooking_StartBooking,
-  getAllRoomTypeWithGuestVariables,
-  getAllRoomTypeWithGuest,
+  getGuestsVariables,
+  getGuests,
   getBooking_GetBooking_booking_guests
 } from "../../../../types/api";
 import { IUseModal } from "../../../../hooks/hook";
-import { string } from "prop-types";
 import { MouseEvent } from "react";
 import { ApolloQueryResult } from "apollo-client";
 import { IMoveCount, IDotPoint } from "../../../../atoms/timeline/declare";
@@ -55,6 +52,8 @@ export interface IAssigTimelineContext {
   networkStatus: number;
   houseConfig: IHouseConfig;
   groupData: IAssigGroup[];
+  lock: boolean;
+  setLock: React.Dispatch<React.SetStateAction<boolean>>;
   houseId: string;
   shortKey?: TShortKey;
 }
@@ -206,6 +205,7 @@ export type TGetGuestsInside = (groupIds: string[], start: number, end: number, 
 export interface IAssigGroup {
   id: string;
   title: string;
+  isOut?: boolean;
   roomTypeId: string;
   stackItems: boolean;
   roomTypeIndex: number;
@@ -254,15 +254,15 @@ export interface IAssigItem {
   showEffect: boolean;
   end: number;
   gender: Gender | null;
-  canMove: boolean;
+  canMove?: boolean;
   blockOption: IBlockOp;
   type: GuestTypeAdd;
 }
 
 export interface IAssigDataControl {
   refetch: (
-    variables?: getAllRoomTypeWithGuestVariables | undefined
-  ) => Promise<ApolloQueryResult<getAllRoomTypeWithGuest>>;
+    variables?: getGuestsVariables | undefined
+  ) => Promise<ApolloQueryResult<getGuests>>;
   deleteBookingMu: (
     options?:
       | MutationFunctionOptions<deleteBooking, deleteBookingVariables>
@@ -344,7 +344,7 @@ export interface IDailyAssigUtils {
   deleteBookingById: TDeleteBookingById;
   getBookingIdByGuestId: TGetBookingIdByGuestId;
   toogleCheckInOut: (
-    targetGuest: getAllRoomTypeWithGuest_GetGuests_guests
+    targetGuest: getGuests_GetGuests_guests
   ) => Promise<void>;
 }
 
@@ -353,13 +353,13 @@ export interface IDeleteMenuProps {
 }
 
 export interface IDailyAssigDataControl {
-  deleteBookingMu: MutationFn<deleteBooking, deleteBookingVariables>;
-  deleteGuestsMu: MutationFn<deleteGuests, deleteGuestsVariables>;
-  updateCheckInMu: MutationFn<updateBooking, updateBookingVariables>;
-  createBlockMu: MutationFn<createBlock, createBlockVariables>;
-  deleteBlockMu: MutationFn<deleteBlock, deleteBlockVariables>;
-  updateBlockOpMu: MutationFn<updateBlockOption, updateBlockOptionVariables>;
-  allocateMu: MutationFn<allocateGuestToRoom, allocateGuestToRoomVariables>;
+  deleteBookingMu: TMuFn<deleteBooking, deleteBookingVariables>;
+  deleteGuestsMu: TMuFn<deleteGuests, deleteGuestsVariables>;
+  updateCheckInMu: TMuFn<updateBooking, updateBookingVariables>;
+  createBlockMu: TMuFn<createBlock, createBlockVariables>;
+  deleteBlockMu: TMuFn<deleteBlock, deleteBlockVariables>;
+  updateBlockOpMu: TMuFn<updateBlockOption, updateBlockOptionVariables>;
+  allocateMu: TMuFn<allocateGuestToRoom, allocateGuestToRoomVariables>;
   totalMuLoading: boolean;
 }
 

@@ -8,7 +8,7 @@
     "jsx": "preserve",
     "lib": ["dom", "es6", "es2016"],
     "allowJs": true,
-    "skipLibCheck": false,
+    "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
@@ -30,7 +30,9 @@
     "src/pages/outPages/print/CreditCardReceipt.js",
     "src/setup.js",
     "src/components/cardModal",
-    "src/components/bookingModal/stories/bookingModal.storiestsx"
+    "src/components/bookingModal/stories/bookingModal.storiestsx",
+    "src/pages/bookingHost/myPage/components/homepageLi/HomepageLiWraptsx",
+    "src/pages/bookingHost/myPage/components/homepageLi/HomepageLiWraptsx"
   ],
   "exclude": ["node_modules", "src/atoms/**/*", "src/**/*.stories.tsx"]
 }

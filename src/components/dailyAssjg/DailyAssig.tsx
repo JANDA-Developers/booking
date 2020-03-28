@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import "./DailyAssig.scss";
 import {
-  getAllRoomTypeWithGuest_GetBlocks_blocks as IB,
-  getAllRoomTypeWithGuest_GetGuests_guests as IG,
-  getAllRoomTypeWithGuest_GetAllRoomType_roomTypes_rooms as IR
+  getGuests_GetBlocks_blocks as IB,
+  getGuests_GetGuests_guests as IG,
+  getAllRoomType_GetAllRoomType_roomTypes_rooms as IR
 } from "../../types/api";
 import { useModal, IUseModal, LANG } from "../../hooks/hook";
 import JDdayPicker from "../../atoms/dayPicker/DayPicker";
@@ -57,7 +57,6 @@ const DailyAssig: React.FC<IProps> = ({
 }) => {
   const { house } = context;
   const {
-    allocateMu,
     loading,
     dayPickerHook,
     roomTypesData,
@@ -69,6 +68,7 @@ const DailyAssig: React.FC<IProps> = ({
   const confirmModalHook = useModal(false);
   const dayPickerModalHook = useModal(false);
   const {
+    allocateMu,
     createBlockMu,
     totalMuLoading,
     deleteBlockMu

@@ -1,20 +1,7 @@
-
-
 .statusMarker {
   display: flex;
-  
-  &__dot {
-      box-sizing:border-box;
-      margin-bottom:  0.25rem;
-      display:inline-block;
-      border-radius: 100%;
-      height: 0.4rem;
-      width: 0.4rem;
-      border: 1px solid $html-color;
-      margin-right: 4px;
-
-      &:hover {
-          filter: brightness(1.5);
-      }
+  img {
+    height: 14px;
+    padding-right: 4px;
   }
 }

@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useMemo } from "react";
+import React, { Fragment, useState, useMemo, useEffect } from "react";
 import moment from "moment";
 import Modal, { JDtoastModal } from "../../atoms/modal/Modal";
 import {
@@ -7,28 +7,14 @@ import {
   IUseModal,
   useDayPicker,
   useModal,
-  useDrawer,
   LANG
 } from "../../hooks/hook";
-import SelectBox from "../../atoms/forms/selectBox/SelectBox";
-import InputText from "../../atoms/forms/inputText/InputText";
+import windowSize, { WindowSizeProps } from "react-window-size";
 import Button from "../../atoms/button/Button";
-import RoomSelectInfoTable from "./components/RoomSelectInfoTable";
-import JDdayPicker from "../../atoms/dayPicker/DayPicker";
-import {
-  PaymentStatus,
-  AutoSendWhen,
-  DateFormat,
-  WindowSize
-} from "../../types/enum";
-import {
-  FUNNELS_OP,
-  BOOKING_STATUS_OP,
-  PAYMETHOD_FOR_HOST_OP,
-  PAYMENT_STATUS_OP,
-  CHECK_IN_OUT_OP
-} from "../../types/const";
+import { PaymentStatus, WindowSize } from "../../types/enum";
+import { BOOKING_STATUS_OP, CHECK_IN_OUT_OP } from "../../types/const";
 import "./BookingModal.scss";
+import { IBookingModalInfo } from "./declare";
 import { GB_booking, BookingModalMode } from "../../types/interface";
 import { MutationFn } from "react-apollo";
 import {
@@ -42,32 +28,26 @@ import {
   refundBookingVariables
 } from "../../types/api";
 import SendSMSmodalWrap from "../smsModal/SendSmsModalWrap";
-import Preloader from "../../atoms/preloader/Preloader";
-import { toast } from "react-toastify";
-import { isPhone } from "../../utils/inputValidations";
-import { autoComma, muResult, toNumber, isEmpty } from "../../utils/utils";
 import { IContext } from "../../pages/bookingHost/BookingHostRouter";
 import _ from "lodash";
-import C from "../../utils/C";
-import RoomAssigedInfoTable from "./components/RoomAssigedInfoTable";
-import {
-  makeAssigInfo,
-  makeSmsInfoParam,
-  bookingModalValidate,
-  bookingModalGetStartBookingVariables
-} from "./helper";
+import { makeAssigInfo, makeSmsInfoParam } from "./helper";
 import {
   getRoomSelectInfo,
   getGenderChangedGuest
 } from "../../utils/typeChanger";
 import { IBookingModalContext, IBookingModalProp } from "./declaration";
-import JDLabel from "../../atoms/label/JDLabel";
-import JDselect from "../../atoms/forms/selectBox/SelectBox";
 import optionFineder from "../../utils/optionFinder";
 import ModalEndSection from "../../atoms/modal/components/ModalEndSection";
 import RefundModal from "../refundModal/RefundModal";
-import CheckBox from "../../atoms/forms/checkBox/CheckBox";
 import { IModalSMSinfo } from "../smsModal/SendSmsModal";
+import Align from "../../atoms/align/Align";
+import { JDtabs, TabList, Tab, TabPanel } from "../../atoms/tabs/Tabs_";
+import ElseInfo from "./components/ElseInfo";
+import AssigInfo from "./components/AssigInfo";
+import PaymentInfo from "./components/PayInfo";
+import BookerInfo from "./components/BookerInfo";
+import ResvInfo from "./components/ResvInfo";
+import { getHandler } from "./getHandler";
 
 interface IProps {
   modalHook: IUseModal<IBookingModalProp>;
@@ -83,7 +63,14 @@ interface IProps {
   mode?: BookingModalMode;
 }
 
-const BookingModal: React.FC<IProps> = ({
+const bookingModalTemp: string | null = localStorage.getItem(
+  "bookingModalInfo"
+);
+const bookingModalInfo: IBookingModalInfo | null = bookingModalTemp
+  ? JSON.parse(bookingModalTemp)
+  : null;
+
+const BookingModal: React.FC<IProps & WindowSizeProps> = ({
   modalHook,
   bookingData,
   updateBookingMu,
@@ -94,6 +81,7 @@ const BookingModal: React.FC<IProps> = ({
   loading,
   context,
   refundFn,
+  windowWidth,
   mode
 }) => {
   const isCreateMode = mode === "CREATE" || mode === "CREATE_ASSIG";
@@ -101,14 +89,12 @@ const BookingModal: React.FC<IProps> = ({
     _id: bookingId,
     email,
     memo,
-    createdAt,
     payment,
     phoneNumber,
     status: bookingStatus,
     checkIn,
     checkOut,
     checkInInfo,
-    bookingNum,
     name,
     funnels,
     guests,
@@ -130,16 +116,30 @@ const BookingModal: React.FC<IProps> = ({
   const priceHook = useInput(totalPrice || placeHolederPrice);
   const memoHook = useInput(memo || "");
   const emailHook = useInput(email);
-  const isPhabletDown = window.innerWidth < WindowSize.TABLET;
+  const isDesktopUp = windowWidth > WindowSize.DESKTOP;
   const [assigInfo, setAssigInfo] = useState(makeAssigInfo(guests));
   const modalStyle = {
     content: {
       maxWidth: "30rem"
     }
   };
+
   const payMethodHook = useSelect(
-    isCreateMode ? null : { value: payMethod, label: LANG(payMethod) }
+    isCreateMode
+      ? bookingModalInfo?.payMethodLastOp || null
+      : { value: payMethod, label: LANG(payMethod) }
   );
+
+  useEffect(() => {
+    localStorage.setItem(
+      "bookingModalInfo",
+      JSON.stringify({
+        payMethodLastOp: payMethodHook.selectedOption,
+        funnelLastOp: funnelStatusHook.selectedOption
+      })
+    );
+  });
+
   const deafultPayStatusOp = {
     value: paymentStatus,
     label: LANG("PaymentStatus", paymentStatus)
@@ -152,7 +152,9 @@ const BookingModal: React.FC<IProps> = ({
     isCreateMode ? createDefaultPayStatusOp : deafultPayStatusOp
   );
   const funnelStatusHook = useSelect<Funnels | null>(
-    funnels ? { value: funnels, label: LANG("Funnels", funnels) } : null
+    funnels
+      ? { value: funnels, label: LANG("Funnels", funnels) }
+      : bookingModalInfo?.funnelLastOp || null
   );
   const bookingStatusHook = useSelect(
     isCreateMode
@@ -173,24 +175,38 @@ const BookingModal: React.FC<IProps> = ({
     [bookingData.roomTypes?.length, assigInfo]
   );
 
-  console.log(bookingData.roomTypes);
-  console.log(roomSelectInfo);
-
   const bookingModalContext: IBookingModalContext = {
     bookingStatusHook,
     resvDateHook,
     paymentStatusHook,
+    deleteBookingMu,
+    bookingData,
+    refundAmt,
+    confirmModalHook,
+    startBookingMu,
+    updateBookingMu,
     bookingNameHook,
     bookingPhoneHook,
+    isCreateMode,
+    setAssigInfo,
     updateGuests,
     funnelStatusHook,
     priceHook,
     roomSelectInfo,
+    refundFn,
+    bookingModalHook: modalHook,
+    placeHolederPrice,
+    checkInOutHook,
+    breakfast,
+    setBreakfast,
     payMethodHook,
     emailHook,
+    totalPrice,
     guests,
+    isDesktopUp,
     memoHook,
     assigInfo,
+    sendSmsModalHook,
     houseId,
     mode
   };
@@ -202,345 +218,136 @@ const BookingModal: React.FC<IProps> = ({
     context
   );
 
-  // 예약삭제 여부를 물어보는 버튼 컬백함수
-  const deleteModalCallBackFn = (confirm: boolean) => {
-    if (confirm) {
-      deleteBookingMu({
-        variables: {
-          bookingId: modalHook.info.bookingId || ""
-        }
-      });
-    }
+  const responseStyle: any = isDesktopUp
+    ? { mr: "normal", col: true as boolean, className: "modal__section" }
+    : {};
+
+  const sharedProp = {
+    responseStyle,
+    bookingModalContext
   };
 
-  // smsIcon 핸들
-  const handleSmsIconClick = () => {
-    if (!bookingPhoneHook.isValid) {
-      toast.warn(LANG("not_a_valid_mobile_number"));
-      return;
-    }
-    sendSmsModalHook.openModal({
-      ...smsModalInfoTemp,
-      mode: isCreateMode ? "CreateBooking" : undefined
-    });
-  };
-
-  // 예약삭제 버튼 클릭
-  const handleDeletBtnClick = () => {
-    confirmModalHook.openModal({
-      txt: LANG("are_you_sure_you_want_to_delete_the_reservation")
-    });
-  };
-
-  // 부킹모달 예약 명령
-  const startBooking = async (callBackStartBooking?: any) => {
-    if (!bookingModalValidate(bookingModalContext)) return;
-
-    try {
-      const result = await startBookingMu({
-        variables: bookingModalGetStartBookingVariables(bookingModalContext)
-      });
-      if (muResult(result, "StartBooking")) callBackStartBooking();
-    } catch (error) {
-      modalHook.closeModal();
-    }
-  };
-
-  // 예약생성 버튼 핸들
-  const handleCreateBtnClick = () => {
-    if (modalHook.info.onStartBookingStart)
-      modalHook.info.onStartBookingStart();
-    if (!bookingData.roomTypes) return;
-
-    const smsCallBackFn = async (sendFlag: boolean, sendSmsMu: any) => {
-      if (sendFlag) startBooking(sendSmsMu);
-      else startBooking();
-    };
-
-    sendSmsModalHook.openModal({
-      ...smsModalInfoTemp,
-      findSendCase: AutoSendWhen.WHEN_BOOKING_CREATED,
-      callBackFn: smsCallBackFn,
-      mode: "CreateBooking"
-    });
-  };
-
-  // 예약수정 버튼 핸들
-  const handleUpdateBtnClick = () => {
-    if (!bookingModalValidate(bookingModalContext)) return;
-    // SMS 인포를 꺼내서 발송할 SMS 문자가 있는지 확인해야할것 같다.
-    updateBookingMu({
-      variables: {
-        bookingId: modalHook.info.bookingId!,
-        params: {
-          email: "demo@naver.com",
-          memo: memoHook.value,
-          checkInInfo: {
-            isIn: checkInOutHook.selectedOption?.value || false
-          },
-          breakfast,
-          name: bookingNameHook.value,
-          payMethod: payMethodHook.selectedOption!.value,
-          paymentStatus: paymentStatusHook.selectedOption!.value,
-          bookingStatus: bookingStatusHook.selectedOption!.value,
-          phoneNumber: bookingPhoneHook.value,
-          price: toNumber(priceHook.value),
-          funnels: funnelStatusHook.selectedOption?.value || null
-        }
-      }
-    });
-    modalHook.closeModal();
-  };
-
-  const handleRefundBtn = () => {
-    if (!tid) return;
-    refundFn({
-      param: {
-        bookingNum,
-        refundInfo: {
-          cancelAmt: refundAmt,
-          cancelMsg: "HOST-CANCEL",
-          isPartialCancel: refundAmt === totalPrice,
-          tid
-        }
-      }
-    });
-  };
+  const {
+    deleteModalCallBackFn,
+    handleCreateBtnClick,
+    handleDeletBtnClick,
+    handleRefundBtn,
+    handleUpdateBtnClick
+  } = getHandler(bookingModalContext, smsModalInfoTemp);
 
   return (
     <Modal
-      style={modalStyle}
-      paddingSize="large"
-      {...modalHook}
-      onAfterClose={() => {
-        modalHook.info.onCloseModal && modalHook.info.onCloseModal();
+      foot={
+        <div className="JDmodal__paddingBottom">
+          <Button
+            id="BookingModalCreateBtn"
+            size="small"
+            label={LANG("do_create")}
+            disabled={!isCreateMode}
+            thema="primary"
+            mode="flat"
+            onClick={handleCreateBtnClick}
+            tabIndex={0}
+          />
+          <Button
+            id="BookingModalUpdateBtn"
+            mode="flat"
+            size="small"
+            disabled={isCreateMode}
+            label={LANG("do_modify")}
+            thema="primary"
+            onClick={handleUpdateBtnClick}
+          />
+          <Button
+            id="BookingModalDeleteBtn"
+            mode="flat"
+            size="small"
+            label={LANG("delete_booking")}
+            disabled={isCreateMode}
+            thema="error"
+            onClick={handleDeletBtnClick}
+          />
+        </div>
+      }
+      head={{
+        title: "예약정보"
       }}
+      onAfterClose={() => {
+        modalHook.info.onCloseModal?.();
+      }}
+      style={modalStyle}
       className={`Modal bookingModal`}
       overlayClassName="Overlay"
       loading={loading || startBookingLoading}
+      {...modalHook}
     >
-      <Preloader size={"large"} loading={loading || startBookingLoading} />
-      {loading || startBookingLoading || (
-        <Fragment>
-          <div className={`JDz-index-1 ${isPhabletDown || "flex-grid-grow"}`}>
-            <div className="modal__section flex-grid__col ">
-              <h5>{LANG("booker_info")}</h5>
-              <div
-                className={`JDflex JDflex--oneone ${isPhabletDown ||
-                  "JDflex--column"}`}
-              >
-                <InputText
-                  id="BookerNameInput"
-                  mr={isPhabletDown ? undefined : "no"}
-                  {...bookingNameHook}
-                  label={LANG("booker")}
-                  placeholder={LANG("booker")}
-                />
-                <InputText
-                  id="BookerPhoneInput"
-                  mr={isPhabletDown ? undefined : "no"}
-                  {...bookingPhoneHook}
-                  validation={isPhone}
-                  hyphen
-                  label={LANG("phoneNumber")}
-                  placeholder={LANG("phoneNumber")}
-                  icon={isCreateMode ? undefined : "sms"}
-                  iconHover={!isCreateMode}
-                  iconOnClick={handleSmsIconClick}
-                />
-                <SelectBox
-                  id="FunnelSelect"
-                  mr={isPhabletDown ? undefined : "no"}
-                  {...funnelStatusHook}
-                  options={FUNNELS_OP}
-                  label={LANG("funnels")}
-                />
-              </div>
-            </div>
-            <div className="modal__section flex-grid__col  ">
-              <h5>{LANG("payment_info")}</h5>
-              <div
-                className={`JDflex JDflex--oneone ${isPhabletDown ||
-                  "JDflex--column"}`}
-              >
-                <InputText
-                  id="PriceHook"
-                  mr={isPhabletDown ? undefined : "no"}
-                  placeholder={`${LANG("normal_price")}:${autoComma(
-                    placeHolederPrice
-                  )}`}
-                  comma
-                  label={LANG("total_price")}
-                  {...priceHook}
-                  value={toNumber(priceHook.value)}
-                />
-                <SelectBox
-                  id="PayMethodSelect"
-                  mr={isPhabletDown ? undefined : "no"}
-                  {...payMethodHook}
-                  options={PAYMETHOD_FOR_HOST_OP}
-                  label={LANG("method_of_payment")}
-                />
-                <SelectBox
-                  mr={isPhabletDown ? undefined : "no"}
-                  {...paymentStatusHook}
-                  options={PAYMENT_STATUS_OP}
-                  label={LANG("payment_status")}
-                />
-              </div>
-            </div>
-            <div className="flex-grid__col modal__section">
-              <h5>
-                {LANG("reservation_information")}{" "}
-                {/* <Drawer size={"small"} {...assigInfoDrawHook} /> */}
-              </h5>
-              <div
-                className={`JDflex JDflex--oneone ${isPhabletDown ||
-                  "JDflex--column"}`}
-              >
-                <SelectBox
-                  mr={isPhabletDown ? undefined : "no"}
-                  {...bookingStatusHook}
-                  options={BOOKING_STATUS_OP}
-                  label={LANG("booking_status")}
-                />
-                <JDdayPicker
-                  mr={isPhabletDown ? undefined : "no"}
-                  displayIcon={false}
-                  canSelectBeforeDay={false}
-                  {...resvDateHook}
-                  mode="input"
-                  className="JDstandard-space"
-                  readOnly
-                  label={LANG("date_of_stay")}
-                />
-                <InputText
-                  mr={isPhabletDown ? undefined : "no"}
-                  readOnly
-                  value={moment(createdAt || undefined)
-                    .local()
-                    .format(DateFormat.WITH_TIME)}
-                  label={LANG("reservation_date")}
-                  placeholder={LANG("reservation_date")}
-                />
-              </div>
-            </div>
-            <div className="flex-grid__col modal__section">
-              <h5>{LANG("room_assig_info")}</h5>
-              <JDLabel txt={LANG("people_and_room_info")} />
-              <RoomSelectInfoTable roomSelectInfo={roomSelectInfo} />
-              {mode !== "CREATE" && (
-                <Fragment>
-                  <JDLabel txt={LANG("assig_info")} />
-                  <RoomAssigedInfoTable
-                    setAssigInfo={setAssigInfo}
-                    assigInfo={assigInfo}
-                    guestsData={guests || []}
-                  />
-                </Fragment>
-              )}
-            </div>
-            <div className="JDz-index-1 modal__section flex-grid__col  ">
-              <h5>{LANG("else")}</h5>
-              <div>
-                <InputText
-                  {...memoHook}
-                  halfHeight
-                  textarea
-                  label={LANG("memo")}
-                />
-              </div>
-              <div>
-                <JDselect
-                  options={CHECK_IN_OUT_OP}
-                  label={LANG("check_in_slash_check_out")}
-                  {...checkInOutHook}
-                />
-              </div>
-              <div>
-                <InputText
-                  value={bookingNum}
-                  label={LANG("booking_number")}
-                  readOnly
-                />
-              </div>
-              <div>
-                <CheckBox
-                  label={LANG("breakfast")}
-                  checked={breakfast}
-                  onChange={v => {
-                    setBreakfast(v);
-                  }}
-                />
-              </div>
-            </div>
-          </div>
-          <ModalEndSection>
-            <Button
-              id="BookingModalCreateBtn"
-              size="small"
-              label={LANG("do_create")}
-              disabled={!isCreateMode}
-              thema="primary"
-              mode="flat"
-              onClick={handleCreateBtnClick}
-              tabIndex={0}
-            />
-            <Button
-              id="BookingModalUpdateBtn"
-              mode="flat"
-              size="small"
-              disabled={isCreateMode}
-              label={LANG("do_modify")}
-              thema="primary"
-              onClick={handleUpdateBtnClick}
-            />
-            <Button
-              id="BookingModalDeleteBtn"
-              mode="flat"
-              size="small"
-              label={LANG("delete_booking")}
-              disabled={isCreateMode}
-              thema="error"
-              onClick={handleDeletBtnClick}
-            />
-            {/* {paymentStatus === PaymentStatus.COMPLETED &&
-              payMethod === PayMethod.CARD && (
-                <Button
-                  id="BookingModalRefundBtn"
-                  mode="flat"
-                  size="small"
-                  label={LANG("refund")}
-                  thema="error"
-                  onClick={() => {
-                    refundModalHook.openModal();
-                  }}
-                />
-              )} */}
-          </ModalEndSection>
-          <RefundModal
-            onRefundClick={handleRefundBtn}
-            setRefundAmt={setRefundAmt}
-            refundAmt={refundAmt}
-            modalHook={refundModalHook}
-          />
-          <SendSMSmodalWrap
-            isInBookingModal
-            context={context}
-            modalHook={sendSmsModalHook}
-          />
-          <JDtoastModal
-            confirm
-            confirmCallBackFn={deleteModalCallBackFn}
-            {...confirmModalHook}
-          />
-        </Fragment>
+      {isDesktopUp ? (
+        <Align
+          className={`JDz-index-1`}
+          flex={{
+            wrap: true,
+            oneone: true
+          }}
+        >
+          <Fragment>
+            <BookerInfo {...sharedProp} smsModalInfoTemp={smsModalInfoTemp} />
+            <PaymentInfo {...sharedProp} />
+            <ResvInfo {...sharedProp} />
+            <AssigInfo {...sharedProp} />
+            <ElseInfo {...sharedProp} />
+          </Fragment>
+        </Align>
+      ) : (
+        <JDtabs breakTabs={isDesktopUp} tabsAlign="spaceBetween">
+          <TabList
+            style={{
+              marginTop: "-1.2rem"
+            }}
+          >
+            <Tab>예약자</Tab>
+            <Tab>결제</Tab>
+            <Tab>예약</Tab>
+            <Tab>배정</Tab>
+            <Tab>기타</Tab>
+          </TabList>
+          <TabPanel>
+            <BookerInfo {...sharedProp} smsModalInfoTemp={smsModalInfoTemp} />
+          </TabPanel>
+          <TabPanel>
+            <PaymentInfo {...sharedProp} />
+          </TabPanel>
+          <TabPanel>
+            <ResvInfo {...sharedProp} />
+          </TabPanel>
+          <TabPanel>
+            <AssigInfo {...sharedProp} />
+          </TabPanel>
+          <TabPanel>
+            <ElseInfo {...sharedProp} />
+          </TabPanel>
+        </JDtabs>
       )}
+      <RefundModal
+        onRefundClick={handleRefundBtn}
+        setRefundAmt={setRefundAmt}
+        refundAmt={refundAmt}
+        modalHook={refundModalHook}
+      />
+      <SendSMSmodalWrap
+        isInBookingModal
+        context={context}
+        modalHook={sendSmsModalHook}
+      />
+      <JDtoastModal
+        confirm
+        confirmCallBackFn={deleteModalCallBackFn}
+        {...confirmModalHook}
+      />
     </Modal>
   );
 };
 
-export default BookingModal;
+export default windowSize(BookingModal);
 
 // ℹ️ 배정달력 예약생성 플로우
 // 배정 달력 선택정보 -> 예약정보로 변환(Booking) -> 배정정보로 변환(Guest 하나당 배정정보) -> (예약정보 및 방배정) 정보로 변환

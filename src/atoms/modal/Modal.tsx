@@ -24,7 +24,6 @@ export interface JDmodalConfigProps {
   minWidth?: string;
   minContentsWidth?: string;
   noAnimation?: boolean;
-  paddingSize?: "large";
   visibleOverflow?: boolean;
   falseMessage?: string | any[];
   trueMessage?: string | any[];
@@ -51,8 +50,8 @@ const JDmodal: React.SFC<IProps> = ({
   isAlert,
   children,
   confirm,
+  style,
   foot,
-  paddingSize,
   confirmCallBackFn = info?.confirmCallBackFn,
   visibleOverflow,
   trueMessage,
@@ -93,7 +92,6 @@ const JDmodal: React.SFC<IProps> = ({
     "JDmodal--alert": isAlert || confirm,
     "JDmodal--alertWaring": info && info.thema === "warn",
     "JDmodal--noAnimation": !shouldAnimation,
-    "JDmodal--paddingLarge": paddingSize === "large",
     "JDmodal--loading": loading
   });
 
@@ -133,7 +131,8 @@ const JDmodal: React.SFC<IProps> = ({
   };
 
   const modalStyle = {
-    minWidth: loading || minWidth
+    minWidth: loading || minWidth,
+    ...style
   };
 
   const modalContentsStyle = {
@@ -155,6 +154,7 @@ const JDmodal: React.SFC<IProps> = ({
       <ReactModal
         {...defualtJDmodalProps}
         {...props}
+        shouldCloseOnOverlayClick
         overlayClassName={overlayClassNames}
         isOpen={true}
       >
@@ -167,18 +167,15 @@ const JDmodal: React.SFC<IProps> = ({
     <ReactModal
       isOpen={isOpen}
       onRequestClose={misClickPreventCloseModal}
-      appElement={appElement}
       {...props}
       {...defualtJDmodalProps}
+      appElement={appElement}
       // @ts-ignore
       style={{ content: { ...modalStyle } }}
       overlayClassName={overlayClassNames}
+      shouldCloseOnOverlayClick
     >
-      <div
-        onClick={e => {
-          e.stopPropagation();
-        }}
-      >
+      <div>
         {head && <ModalHeadSection closeFn={closeModal} {...head} />}
         {getChildren()}
         {foot && <div className="JDmodal__endSection">{foot}</div>}
