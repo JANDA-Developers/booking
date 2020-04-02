@@ -62,7 +62,8 @@ const DailyAssig: React.FC<IProps> = ({
     roomTypesData,
     itemDatas,
     networkStatus,
-    calendarPosition
+    calendarPosition,
+    roomTypeLoading
   } = outDailyAssigContext;
   const bookingModalHook = useModal(false);
   const confirmModalHook = useModal(false);
@@ -173,7 +174,7 @@ const DailyAssig: React.FC<IProps> = ({
   }, [loading]);
 
   return (
-    <div className={`dailyAssigWrap ${loading && "dailyAssigWrap--loading"}`}>
+    <div className={`dailyAssigWrap ${(networkStatus === 1 || roomTypeLoading) && "dailyAssigWrap--loading"}`}>
       <div className="dailyAssig__dayPicker--center">
         {calendarPosition === "center" && <DailyAssigDayPicker />}
       </div>
@@ -183,13 +184,10 @@ const DailyAssig: React.FC<IProps> = ({
         size={FLOATING_PRELOADER_SIZE}
         loading={networkStatus < 7 || totalMuLoading}
       />
-      <Preloader
-        noAnimation
-        size={MODAL_PRELOADER_SIZE}
-        loading={networkStatus === 1}
-      />
       <DndProvider backend={isMobile() ? TouchBackend : HTML5Backend}>
-        <div className="dailyAssig">
+        <div  style={{
+          display: networkStatus === 1 ? "none" : undefined
+        }} className="dailyAssig">
           {roomTypesData.map((roomType, index) =>
             !isEmpty(roomType.rooms) ? (
               <div key={`roomType${roomType._id}`} className="dailyAssig__row">

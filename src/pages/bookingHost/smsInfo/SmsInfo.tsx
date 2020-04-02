@@ -14,7 +14,7 @@ interface Iprops {
 }
 
 const SmsInfo: React.FC<Iprops> = ({ context }) => {
-  const [redirect, setRedirect] = useState();
+  const [redirect, setRedirect] = useState<string>();
 
   if (redirect) return <Redirect to={redirect} />;
 

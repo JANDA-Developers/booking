@@ -20,8 +20,6 @@ import {
   updateBlockOptionVariables,
   getAllRoomType,
   getAllRoomTypeVariables,
-  getBlocks,
-  getBlocksVariables,
   getGuestsVariables,
   getGuests
 } from "../../../types/api";
@@ -32,7 +30,6 @@ import {
   onCompletedMessage,
   s4
 } from "../../../utils/utils";
-import EerrorProtect from "../../../utils/errProtect";
 import { BookingStatus } from "../../../types/enum";
 import {
   ALLOCATE_GUEST_TO_ROOM,

@@ -1,10 +1,13 @@
 @import "~Styles";
 @import "./components/dragItem";
 
+
 .dailyAssigWrap {
   &--loading {
     display: flex;
     align-items: center;
+    height: 0.25rem * 90 !important;
+    @extend %shining-loading-bg;
   }
 }
 

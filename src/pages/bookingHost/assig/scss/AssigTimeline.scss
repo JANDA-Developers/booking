@@ -121,16 +121,16 @@
     background-position: 200% 0;
   }
 }
+#assigTimeline__verticalPreloader {
+  display: none!important;
+  position: fixed;
+  bottom: 5%;
+  left: 50%;
+}
 
 #root {
   // 로딩 (첫로딩)
   .assigTimeline {
-    #assigTimeline__verticalPreloader {
-      display: none;
-      position: fixed;
-      bottom: 5%;
-      left: 50%;
-    }
 
     &__timelineWrap {
       border: 2px solid $outborder-color;

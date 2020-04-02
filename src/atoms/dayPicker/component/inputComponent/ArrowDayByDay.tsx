@@ -2,6 +2,8 @@ import React, { Fragment } from "react";
 import JDIcon from "../../../icons/Icons";
 import { IUseDayPicker, LANG } from "../../../../hooks/hook";
 import moment from "moment";
+import "./ArrowDayByDay.scss";
+
 
 interface Iprops {
   dayPickerHook: IUseDayPicker;
@@ -23,16 +25,13 @@ const ArrowDayByDay: React.FC<Iprops> = ({
   };
 
   return (
-    <Fragment>
+    <div className="arrowDayByDay">
       <JDIcon
         hover
         className="DayPicker-box--inputComponent__arrow DayPicker-box--inputComponent__arrow--left"
         onClick={e => {
           e.preventDefault();
           handleDayPickerArrow("prev");
-        }}
-        style={{
-          transform: "scale(-1)"
         }}
         size="small"
         icon="arrowLeft"
@@ -50,7 +49,7 @@ const ArrowDayByDay: React.FC<Iprops> = ({
         }}
         icon="arrowRight"
       />
-    </Fragment>
+    </div>
   );
 };
 

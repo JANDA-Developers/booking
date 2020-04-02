@@ -1,6 +1,5 @@
 import React, { Fragment } from "react";
 import { onCompletedMessage } from "../../utils/utils";
-import { MutationFn } from "react-apollo";
 import {
   allocateGuestToRoom,
   allocateGuestToRoomVariables,
@@ -51,12 +50,14 @@ import { useMutation, useQuery } from "@apollo/react-hooks";
 import { roomDataManufacturer } from "../../pages/bookingHost/assig/helper/groupDataMenufacture";
 import { guestsDataManufacturer } from "../../pages/bookingHost/assig/helper/guestsDataManufacturer";
 import { BookingStatus } from "../../types/enum";
+import { getOperationName } from "apollo-link";
 
 export interface IDailyAssigProp {
   networkStatus: NetworkStatus;
   formatedItemData: IAssigItem[];
   calendarPosition?: "center" | "inside" | "topLeft";
   loading: boolean;
+  roomTypeLoading: boolean;
   blocksData: getGuests_GetBlocks_blocks[];
   guestsData: getGuests_GetGuests_guests[];
   dayPickerHook: IUseDayPicker;
@@ -88,7 +89,6 @@ const DailyAssigWrap: React.FC<IProps & WrapProp> = ({
   calendarPosition = "topLeft",
   ...props
 }) => {
-  const { langHook } = context;
   const { house } = context;
   const dayPickerHook = useDayPicker(date, date);
   const { houseConfig, _id: houseId } = house;
@@ -106,12 +106,12 @@ const DailyAssigWrap: React.FC<IProps & WrapProp> = ({
     getGuestsVariables
   >(GET_ALL_GUEST_AND_BLOCK, {
     client,
+    notifyOnNetworkStatusChange:true,
     skip: roomTypeLoading,
     variables: {
       ...queryVariables,
       bookingStatuses: [BookingStatus.COMPLETED, BookingStatus.CANCELED]
     },
-    notifyOnNetworkStatusChange: true,
     fetchPolicy: "no-cache",
     pollInterval: houseConfig.pollingPeriod?.period || 300000
   });
@@ -125,6 +125,7 @@ const DailyAssigWrap: React.FC<IProps & WrapProp> = ({
   >(ALLOCATE_GUEST_TO_ROOM, {
     client,
     ignoreResults: true,
+    refetchQueries: [getOperationName(GET_ALL_GUEST_AND_BLOCK) || ""],
     onCompleted: ({ AllocateGuestToRoom }) => {
       onCompletedMessage(
         AllocateGuestToRoom,
@@ -140,6 +141,7 @@ const DailyAssigWrap: React.FC<IProps & WrapProp> = ({
     updateBookingVariables
   >(UPDATE_BOOKING, {
     client,
+    refetchQueries: [getOperationName(GET_ALL_GUEST_AND_BLOCK) || ""],
     ignoreResults: true
   });
 
@@ -149,6 +151,7 @@ const DailyAssigWrap: React.FC<IProps & WrapProp> = ({
     deleteGuestsVariables
   >(DELETE_GUEST, {
     client,
+    refetchQueries: [getOperationName(GET_ALL_GUEST_AND_BLOCK) || ""],
     ignoreResults: true,
     onCompleted: ({ DeleteGuests }) => {
       onCompletedMessage(
@@ -166,6 +169,7 @@ const DailyAssigWrap: React.FC<IProps & WrapProp> = ({
   >(CREATE_BLOCK, {
     client,
     ignoreResults: true,
+    refetchQueries: [getOperationName(GET_ALL_GUEST_AND_BLOCK) || ""],
     onCompleted: ({ CreateBlock }) => {
       onCompletedMessage(
         CreateBlock,
@@ -182,6 +186,8 @@ const DailyAssigWrap: React.FC<IProps & WrapProp> = ({
   >(DELETE_BLOCK, {
     client,
     ignoreResults: true,
+    refetchQueries: [getOperationName(GET_ALL_GUEST_AND_BLOCK) || ""],
+
     onCompleted: ({ DeleteBlock }) => {
       onCompletedMessage(
         DeleteBlock,
@@ -197,6 +203,8 @@ const DailyAssigWrap: React.FC<IProps & WrapProp> = ({
     deleteBookingVariables
   >(DELETE_BOOKING, {
     client,
+    refetchQueries: [getOperationName(GET_ALL_GUEST_AND_BLOCK) || ""],
+
     ignoreResults: true,
     onCompleted: ({ DeleteBooking }) => {
       onCompletedMessage(
@@ -214,6 +222,8 @@ const DailyAssigWrap: React.FC<IProps & WrapProp> = ({
   >(UPDATE_BLOCK_OPTION, {
     client,
     ignoreResults: true,
+    refetchQueries: [getOperationName(GET_ALL_GUEST_AND_BLOCK) || ""],
+
     onCompleted: ({ UpdateBlockOption }) => {
       onCompletedMessage(
         UpdateBlockOption,
@@ -241,6 +251,7 @@ const DailyAssigWrap: React.FC<IProps & WrapProp> = ({
     guestsData,
     itemDatas,
     loading,
+    roomTypeLoading,
     networkStatus,
     roomTypesData,
     calendarPosition

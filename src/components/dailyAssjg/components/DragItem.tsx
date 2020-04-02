@@ -86,7 +86,6 @@ const DragItem: React.FC<IProps> = ({ item, place, room, roomType }) => {
               className={`dailyAssigItem__itemBlock ${guestBlockClasses}`}
             >
               <span className="dailyAssigItem__itemName">
-                <span>
                   <StatusMarker
                     gender={
                       // @ts-ignore
@@ -97,7 +96,6 @@ const DragItem: React.FC<IProps> = ({ item, place, room, roomType }) => {
                     memo={memo || ""}
                   />
                   {name}
-                </span>
               </span>
               <span
                 data-tip={_id}

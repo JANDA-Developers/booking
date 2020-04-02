@@ -74,6 +74,9 @@ import AssigTimelineConfigModal from "./components/AssigTimelineConfigModal/Assi
 import getConfigStorage from "./helper/getStorage";
 import Preloader from "../../../atoms/preloader/Preloader";
 
+
+let isScrolling:any;
+
 interface IProps {
   context: IContext;
   defaultProps: any;
@@ -192,20 +195,22 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
   ]);
   const { useTodayMark, useCursorMark, zoomValue } = basicConfig;
 
-  // 스크롤시 툴팁제거
+
+  const debounceCut = _.debounce(
+    () => {
+      console.log("debounce Occur0");
+      setCutCount(getCutCount(windowHeight));
+    },
+    1000,
+    {
+      leading:false,
+      trailing:true
+    }
+  );
+
+  // 스크롤시 데이터로딩
   const handleWindowScrollEvent = () => {
-    console.log("Cutttt-");
     allTooltipsHide();
-    const debounceCut = _.debounce(
-      () => {
-        console.count("Cutttt");
-        setCutCount(getCutCount(windowHeight));
-      },
-      300,
-      {
-        trailing: true
-      }
-    );
     debounceCut();
   };
 
@@ -356,7 +361,7 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
     const remove = () => {
       window.removeEventListener("keyup", handleKeyUpCavnas);
       window.removeEventListener("keydown", debounceKeyDownCanvas);
-      window.removeEventListener("scroll", handleWindowScrollEvent);
+      window.removeEventListener("scroll", (e)=> handleWindowScrollEvent);
       window.removeEventListener("click", handleClickWindow);
       return "";
     };

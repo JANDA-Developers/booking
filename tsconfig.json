@@ -5,15 +5,15 @@
     "target": "es6",
     "module": "esnext",
     "moduleResolution": "node",
-    "jsx": "preserve",
+    "jsx": "react",
     "lib": ["dom", "es6", "es2016"],
     "allowJs": true,
-    "skipLibCheck": true,
+    "skipLibCheck": false,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "isolatedModules": true
+    "isolatedModules": true,
   },
   "include": [
     "src/**/*.ts",
@@ -24,15 +24,14 @@
     "src/.queries.ts",
     "src/atoms/toggleNoti",
     "src/components/cardResistModal",
+    "src/lib/wave/wave.js",
     "src/utils/jsdrag.js",
     "src/pages/bookingHost/resvList/Excel.jsx",
     "src/pages/outPages/print/CreditCardReceipt.tsx",
     "src/pages/outPages/print/CreditCardReceipt.js",
     "src/setup.js",
     "src/components/cardModal",
-    "src/components/bookingModal/stories/bookingModal.storiestsx",
-    "src/pages/bookingHost/myPage/components/homepageLi/HomepageLiWraptsx",
-    "src/pages/bookingHost/myPage/components/homepageLi/HomepageLiWraptsx"
+    "src/components/bookingModal/stories/bookingModal.storiestsx"
   ],
   "exclude": ["node_modules", "src/atoms/**/*", "src/**/*.stories.tsx"]
 }
