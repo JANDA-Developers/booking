@@ -1,19 +1,23 @@
 import {
   getBooking_GetBooking_booking_guests,
-  startBookingVariables
+  startBookingVariables,
 } from "../../types/api";
 import { inOr } from "../../utils/C";
 import { Gender, PaymentStatus, AutoSendWhen } from "../../types/enum";
 import { IBookingModal_AssigInfo, IBookingModalContext } from "./declaration";
 import { toast } from "react-toastify";
 import { LANG } from "../../hooks/hook";
-import guestsToInput, { getRoomSelectString, getGenderChangedGuest } from "../../utils/typeChanger";
+import guestsToInput, {
+  getRoomSelectString,
+  getGenderChangedGuest,
+} from "../../utils/typeChanger";
 import { to4YMMDD } from "../../utils/setMidNight";
 import { isDomitoryGuest } from "../../utils/interfaceMatch";
 import { IContext } from "../../pages/bookingHost/BookingHostRouter";
 import moment from "moment";
 import { IModalSMSinfo } from "../smsModal/SendSmsModal";
 import { autoComma } from "../../utils/utils";
+import $ from "jquery";
 
 export const bookingModalValidate = (
   bookingModalContext: IBookingModalContext,
@@ -24,38 +28,46 @@ export const bookingModalValidate = (
     bookingStatusHook,
     bookingPhoneHook,
     bookingNameHook,
-    payMethodHook
+    payMethodHook,
   } = bookingModalContext;
 
   if (!payMethodHook.selectedOption) {
     toast.warn(LANG("please_select_a_payment_method"));
+    $("#PayMethodSelect").focus();
     return false;
   }
 
   if (!paymentStatusHook.selectedOption) {
     toast.warn(LANG("please_select_a_payment_status"));
+    $("#PaymentStatusSelecter").focus();
     return false;
   }
 
   if (!paymentStatusHook.selectedOption) {
     toast.warn(LANG("please_select_a_payment_status"));
+    $("#PaymentStatusSelecter").focus();
     return false;
   }
 
   if (!bookingStatusHook.selectedOption) {
     toast.warn(LANG("please_select_reservation_status"));
+    $("#BookingStatusSelect").focus();
     return false;
   }
 
   if (!bookingNameHook.value) {
     toast.warn(LANG("please_enter_booker_name"));
+    console.log("focuseOccur");
+    $("#BookerNameInput").focus();
     return false;
   }
 
-  if (!bookingPhoneHook.value) {
-    toast.warn(LANG("please_enter_phone_number"));
-    return false;
-  }
+  // if (!bookingPhoneHook.value) {
+  //   toast.warn(LANG("please_enter_phone_number"));
+  //   $("#BookerPhoneInput").focus();
+  //   return false;
+  // }
+  
   return true;
 };
 
@@ -66,7 +78,20 @@ export const makeSmsInfoParam = (
   context: IContext
 ): IModalSMSinfo => {
   const { publicKey } = context.house;
-  const { bookingPhoneHook, paymentStatusHook, roomSelectInfo, bookingNameHook, resvDateHook, updateGuests, priceHook, assigInfo, bookingStatusHook, emailHook, payMethodHook, guests } = bookingModalContext;
+  const {
+    bookingPhoneHook,
+    paymentStatusHook,
+    roomSelectInfo,
+    bookingNameHook,
+    resvDateHook,
+    updateGuests,
+    priceHook,
+    assigInfo,
+    bookingStatusHook,
+    emailHook,
+    payMethodHook,
+    guests,
+  } = bookingModalContext;
   const roomSelectString = getRoomSelectString(roomSelectInfo);
 
   return {
@@ -86,13 +111,20 @@ export const makeSmsInfoParam = (
     smsParser: {
       BOOKERNAME: bookingNameHook.value,
       HM: `/outpage/HM/${publicKey}`,
-      PAYMENTSTATUS: LANG("PaymentStatus", paymentStatusHook.selectedOption?.value),
+      PAYMENTSTATUS: LANG(
+        "PaymentStatus",
+        paymentStatusHook.selectedOption?.value
+      ),
       PAYMETHOD: LANG("PaymentStatus", payMethodHook.selectedOption?.value),
       ROOMTYPE_N_COUNT: roomSelectString,
-      STAYDATE: `${moment(resvDateHook.from || undefined).format("MM/DD")} ~ ${moment(resvDateHook.to || undefined).format("MM/DD")}`,
-      STAYDATE_YMD: `${to4YMMDD(resvDateHook.from || undefined)} ~ ${to4YMMDD(resvDateHook.to || undefined)}`,
-      TOTALPRICE: autoComma(priceHook.value) + LANG("money_unit")
-    }
+      STAYDATE: `${moment(resvDateHook.from || undefined).format(
+        "MM/DD"
+      )} ~ ${moment(resvDateHook.to || undefined).format("MM/DD")}`,
+      STAYDATE_YMD: `${to4YMMDD(resvDateHook.from || undefined)} ~ ${to4YMMDD(
+        resvDateHook.to || undefined
+      )}`,
+      TOTALPRICE: autoComma(priceHook.value) + LANG("money_unit"),
+    },
   };
 };
 
@@ -101,25 +133,25 @@ export const makeAssigInfo = (
   guests: getBooking_GetBooking_booking_guests[] | null
 ): IBookingModal_AssigInfo[] =>
   guests
-    ? guests.map(guest => {
-      if (isDomitoryGuest(guest)) {
-        return {
-          _id: guest._id,
-          roomId: inOr(guest.room, "_id", ""),
-          gender: guest.gender || Gender.MALE,
-          bedIndex: guest.bedIndex,
-          pricingType: guest.pricingType
-        };
-      } else {
-        return {
-          _id: guest._id,
-          roomId: inOr(guest.room, "_id", ""),
-          gender: null,
-          bedIndex: 0,
-          pricingType: guest.pricingType
-        };
-      }
-    })
+    ? guests.map((guest) => {
+        if (isDomitoryGuest(guest)) {
+          return {
+            _id: guest._id,
+            roomId: inOr(guest.room, "_id", ""),
+            gender: guest.gender || Gender.MALE,
+            bedIndex: guest.bedIndex,
+            pricingType: guest.pricingType,
+          };
+        } else {
+          return {
+            _id: guest._id,
+            roomId: inOr(guest.room, "_id", ""),
+            gender: null,
+            bedIndex: 0,
+            pricingType: guest.pricingType,
+          };
+        }
+      })
     : [];
 
 // 게스트들을 룸타입별로 정렬
@@ -141,15 +173,15 @@ export const bookingModalGetStartBookingVariables = (
     assigInfo,
     houseId,
     memoHook,
-    funnelStatusHook
+    funnelStatusHook,
   } = bookingModalContext;
 
   const guestsToInputs = guestsToInput(updateGuests);
 
-  const allocationParams = assigInfo.map(info => ({
+  const allocationParams = assigInfo.map((info) => ({
     bedIndex: info.bedIndex,
     gender: info.gender,
-    roomId: info.roomId
+    roomId: info.roomId,
   }));
 
   return {
@@ -160,21 +192,21 @@ export const bookingModalGetStartBookingVariables = (
       name: bookingNameHook.value,
       password: "admin",
       phoneNumber: bookingPhoneHook.value,
-      funnels: funnelStatusHook.selectedOption?.value || null
+      funnels: funnelStatusHook.selectedOption?.value || null,
     },
     checkInOut: {
       checkIn: to4YMMDD(resvDateHook.from),
-      checkOut: to4YMMDD(resvDateHook.to)
+      checkOut: to4YMMDD(resvDateHook.to),
     },
     guestDomitoryParams: guestsToInputs.countInDomitorys,
     guestRoomParams: guestsToInputs.countInRooms,
     paymentParams: {
       payMethod: payMethodHook.selectedOption!.value,
       price: parseInt(priceHook.value),
-      status: paymentStatusHook.selectedOption!.value
+      status: paymentStatusHook.selectedOption!.value,
     },
     houseId,
     allocationParams: mode === "CREATE_ASSIG" ? allocationParams : undefined,
-    forceToAllocate: mode === "CREATE_ASSIG"
+    forceToAllocate: mode === "CREATE_ASSIG",
   };
 };

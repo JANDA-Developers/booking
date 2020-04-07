@@ -3,9 +3,10 @@ import Button from "../../../../../atoms/button/Button";
 import {
   IAssigTimelineHooks,
   IAssigTimelineUtils,
-  IAssigTimelineContext
+  IAssigTimelineContext,
 } from "../assigIntrerface";
-import {LANG} from "../../../../../hooks/hook";
+import { LANG } from "../../../../../hooks/hook";
+import { TooltipButtons } from "../../../../../atoms/tooltipList/TooltipList";
 
 interface IProps {
   assigHooks: IAssigTimelineHooks;
@@ -14,28 +15,26 @@ interface IProps {
 }
 
 const BlockItemTooltip: React.FC<IProps> = ({
-  assigUtils: {deleteItemById, allTooltipsHide},
-  assigHooks: {blockMenuProps}
+  assigUtils: { deleteItemById, allTooltipsHide },
+  assigHooks: { blockMenuProps },
 }) => (
   <div className="assig__tooltips blockMenu tooltipList" id="blockMenu">
-    <ul>
-      <li>
-        <Button
-          onClick={() => {
+    <TooltipButtons
+      Buttons={[
+        {
+          onClick: () => {
             deleteItemById(blockMenuProps.item.id);
-          }}
-          label={LANG("delete")}
-        />
-      </li>
-      <li>
-        <Button
-          onClick={() => {
+          },
+          label: LANG("delete"),
+        },
+        {
+          onClick: () => {
             allTooltipsHide();
-          }}
-          label={LANG("cancel")}
-        />
-      </li>
-    </ul>
+          },
+          label: LANG("cancel"),
+        },
+      ]}
+    />
   </div>
 );
 

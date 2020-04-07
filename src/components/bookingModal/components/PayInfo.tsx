@@ -4,9 +4,7 @@ import Align from "../../../atoms/align/Align";
 import JDtypho from "../../../atoms/typho/Typho";
 import InputText from "../../../atoms/forms/inputText/InputText";
 import { LANG } from "../../../hooks/hook";
-import JDselect, {
-  SelectBoxSize
-} from "../../../atoms/forms/selectBox/SelectBox";
+import JDselect from "../../../atoms/forms/selectBox/SelectBox";
 import { PAYMETHOD_FOR_HOST_OP, PAYMENT_STATUS_OP } from "../../../types/const";
 import { autoComma, toNumber } from "../../../utils/utils";
 
@@ -17,14 +15,14 @@ interface IProps {
 
 const PaymentInfo: React.FC<IProps> = ({
   bookingModalContext,
-  responseStyle
+  responseStyle,
 }) => {
   const {
     priceHook,
     payMethodHook,
     paymentStatusHook,
     placeHolederPrice,
-    isDesktopUp
+    isDesktopUp,
   } = bookingModalContext;
   return (
     <Align {...responseStyle}>
@@ -56,6 +54,7 @@ const PaymentInfo: React.FC<IProps> = ({
         <JDselect
           mr={"no"}
           mb="no"
+          id="PaymentStatusSelecter"
           {...paymentStatusHook}
           menuPlacement="top"
           options={PAYMENT_STATUS_OP}

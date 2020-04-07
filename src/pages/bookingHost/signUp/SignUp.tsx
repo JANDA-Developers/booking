@@ -15,6 +15,7 @@ import { IContext } from "../../bookingHost/BookingHostRouter";
 import PasswordChecker from "../../../components/passwordChecker/PasswordCheck";
 import { emailSignUp, emailSignUpVariables } from "../../../types/api";
 import { useMutation } from "@apollo/react-hooks";
+import SecurityLevelViewer from "./SecurityLevelViewer";
 
 interface Iprops {
   context: IContext;
@@ -36,7 +37,7 @@ const SignUp: React.FC<Iprops> = ({ context }) => {
     refetchQueries: [{ query: GET_USER_INFO }],
     onCompleted: () => {
       history.replace(`/dashboard`);
-    }
+    },
   });
 
   // 생성 요청
@@ -51,8 +52,8 @@ const SignUp: React.FC<Iprops> = ({ context }) => {
         name: nameHook.value,
         email: emailHook.value,
         phoneNumber: phoneNumberHook.value,
-        password: passwordHook.value
-      }
+        password: passwordHook.value,
+      },
     },
     onCompleted: ({ EmailSignUp: { ok, error, token } }: any) => {
       // 자동로그인
@@ -60,15 +61,15 @@ const SignUp: React.FC<Iprops> = ({ context }) => {
         toast.success(LANG("signup_complted"));
         eamilSingInMu({
           variables: {
-            token: token
-          }
+            token: token,
+          },
         });
       }
       if (error) {
         toast.warn(error);
         console.error(error);
       }
-    }
+    },
   });
 
   const validate = () => {
@@ -124,20 +125,21 @@ const SignUp: React.FC<Iprops> = ({ context }) => {
               />
             </div>
             <div className="flex-grid__col col--full-12 col--md-12">
-              <InputText
-                id="signupPassword"
-                {...passwordHook}
-                onChange={v => {
-                  passwordHook.onChange(v);
-                }}
-                validation={utils.isPassword}
-                type="password"
-                label={LANG("password")}
-              />
+              <div>
+                <InputText
+                  mb="superTiny"
+                  id="signupPassword"
+                  {...passwordHook}
+                  onChange={(v) => {
+                    passwordHook.onChange(v);
+                  }}
+                  validation={utils.isPassword}
+                  type="password"
+                  label={LANG("password")}
+                />
+              </div>
+              <SecurityLevelViewer password={passwordHook.value} />
             </div>
-            <p className="JDsmall-text">
-              <PasswordChecker txt={passwordHook.value} />
-            </p>
             <div className="flex-grid__col col--full-12 col--md-12">
               <InputText
                 id="signupPasswordCheck"

@@ -1,21 +1,21 @@
-import React, {Fragment, ReactNode} from "react";
+import React, { Fragment, ReactNode } from "react";
 
-import {MutationFn} from "react-apollo";
+import { MutationFn } from "react-apollo";
 import TooltipList from "../../atoms/tooltipList/TooltipList";
 import "./Noti.scss";
 import {
   getNotis_GetNotis_notis,
   confirmNoti,
-  confirmNotiVariables
+  confirmNotiVariables,
 } from "../../types/api";
 import NotiLi from "./component/NotiLi";
-import {IContext} from "../../pages/bookingHost/BookingHostRouter";
-import {WindowSize} from "../../types/enum";
-import reactWindowSize, {WindowSizeProps} from "react-window-size";
-import {ReactTooltip} from "../../atoms/tooltip/Tooltip";
+import { IContext } from "../../pages/bookingHost/BookingHostRouter";
+import { WindowSize } from "../../types/enum";
+import reactWindowSize, { WindowSizeProps } from "react-window-size";
+import { ReactTooltip } from "../../atoms/tooltip/Tooltip";
 import Preloader from "../../atoms/preloader/Preloader";
 import JDmodal from "../../atoms/modal/Modal";
-import {useModal, LANG} from "../../hooks/hook";
+import { useModal, LANG } from "../../hooks/hook";
 
 interface IProps {
   context: IContext;
@@ -31,7 +31,7 @@ export const Noti: React.FC<IProps & WindowSizeProps> = ({
   loading,
   context,
   icon,
-  windowWidth
+  windowWidth,
 }) => {
   const isPhabletDown = windowWidth < WindowSize.PHABLET;
   const NotiModalHook = useModal(false);
@@ -40,8 +40,10 @@ export const Noti: React.FC<IProps & WindowSizeProps> = ({
     confirmMutationMu({
       variables: {
         houseId: context.house._id,
-        notiIds: notis.filter(noti => !noti.isConfirm).map(noti => noti._id)
-      }
+        notiIds: notis
+          .filter((noti) => !noti.isConfirm)
+          .map((noti) => noti._id),
+      },
     });
   };
 
@@ -50,10 +52,6 @@ export const Noti: React.FC<IProps & WindowSizeProps> = ({
   return (
     <div className="noti">
       <div
-        data-tip
-        data-delay-hide={0}
-        data-for={isPhabletDown || "tooltip_Notify"}
-        data-event={isPhabletDown || "click"}
         data-place="bottom"
         className="noti__iconWrap"
         onClick={() => {
@@ -62,31 +60,6 @@ export const Noti: React.FC<IProps & WindowSizeProps> = ({
       >
         {icon}
       </div>
-      <TooltipList
-        mode="custom"
-        type="light"
-        className="noti__tooltip"
-        id="tooltip_Notify"
-        afterHide={() => {
-          doConfirm();
-        }}
-      >
-        <ul className="noti__tooltip_ul">
-          {loading && (
-            <li className="notiLi">
-              <Preloader size="small" loading={loading} />
-            </li>
-          )}
-          {notis.length === 0 && !loading && (
-            <li className="notiLi JDtextColor--placeHolder">
-              {LANG("no_notifications")}
-            </li>
-          )}
-          {notis.map(noti => (
-            <NotiLi key={noti._id} noti={noti} />
-          ))}
-        </ul>
-      </TooltipList>
       <JDmodal
         className="noti__notiModal"
         {...NotiModalHook}
@@ -106,7 +79,7 @@ export const Noti: React.FC<IProps & WindowSizeProps> = ({
               {LANG("no_notifications")}
             </li>
           )}
-          {notis.map(noti => (
+          {notis.map((noti) => (
             <NotiLi key={noti._id} noti={noti} />
           ))}
         </ul>

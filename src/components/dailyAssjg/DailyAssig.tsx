@@ -174,7 +174,16 @@ const DailyAssig: React.FC<IProps> = ({
   }, [loading]);
 
   return (
-    <div className={`dailyAssigWrap ${(networkStatus === 1 || roomTypeLoading) && "dailyAssigWrap--loading"}`}>
+    <div
+      onClick={() => {
+        console.log("eee");
+      }}
+      onClickCapture={() => {
+        console.log("----");
+      }}
+      className={`dailyAssigWrap ${(networkStatus === 1 || roomTypeLoading) &&
+        "dailyAssigWrap--loading"}`}
+    >
       <div className="dailyAssig__dayPicker--center">
         {calendarPosition === "center" && <DailyAssigDayPicker />}
       </div>
@@ -185,9 +194,12 @@ const DailyAssig: React.FC<IProps> = ({
         loading={networkStatus < 7 || totalMuLoading}
       />
       <DndProvider backend={isMobile() ? TouchBackend : HTML5Backend}>
-        <div  style={{
-          display: networkStatus === 1 ? "none" : undefined
-        }} className="dailyAssig">
+        <div
+          style={{
+            display: networkStatus === 1 ? "none" : undefined
+          }}
+          className="dailyAssig"
+        >
           {roomTypesData.map((roomType, index) =>
             !isEmpty(roomType.rooms) ? (
               <div key={`roomType${roomType._id}`} className="dailyAssig__row">

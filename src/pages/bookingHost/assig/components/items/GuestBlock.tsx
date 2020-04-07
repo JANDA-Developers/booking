@@ -10,7 +10,6 @@ import {
 } from "../assigIntrerface";
 import { DEFAULT_HOUSE_CONFIG } from "../../../../../types/defaults";
 import { BookingStatus } from "../../../../../types/enum";
-import Gender from "./Gender";
 import StatusMarker from "./StatusMarker";
 
 interface IProps {

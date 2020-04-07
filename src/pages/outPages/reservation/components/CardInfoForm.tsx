@@ -27,7 +27,7 @@ const CardInfoForm: React.FC<IProps> = ({
   cardInfo,
   column,
   setCardInfo,
-  forHost
+  forHost,
 }) => {
   function set<T extends keyof TCardRegistInfo>(
     key: T,
@@ -56,7 +56,7 @@ const CardInfoForm: React.FC<IProps> = ({
             id="CardModal__CardNumber"
             card
             value={cardInfo["cardNo"]}
-            onChange={v => {
+            onChange={(v) => {
               set("cardNo", v);
             }}
             placeholder={"**** **** **** ****"}
@@ -83,7 +83,7 @@ const CardInfoForm: React.FC<IProps> = ({
             placeholder="**XX"
             maxLength={2}
             value={cardInfo.cardPw}
-            onChange={v => {
+            onChange={(v) => {
               set("cardPw", v);
             }}
             type="password"
@@ -98,7 +98,7 @@ const CardInfoForm: React.FC<IProps> = ({
             id="CardModal__IdNum"
             type="password"
             value={cardInfo.idNo}
-            onChange={v => {
+            onChange={(v) => {
               set("idNo", v);
             }}
           />

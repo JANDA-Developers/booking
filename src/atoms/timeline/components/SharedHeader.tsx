@@ -34,7 +34,7 @@ export const SharedSideBarHeader: React.FC<IProps> = ({
         >
           <JDIcon
             className="dailyPrice__topLeftIcon"
-            size={"small"}
+            size={"tiny"}
             icon="calendar"
           />
         </div>

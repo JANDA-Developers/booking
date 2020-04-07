@@ -64,7 +64,6 @@ import DailyAssigWrap from "../../../components/dailyAssjg/DailyAssigWrap";
 import ReservationModal from "../../../components/reservationModala/ReservationModal";
 import ReadyItemTooltip from "./components/tooltips/ReadyItemTooltip";
 import HeaderCellRender from "./helper/HeaderCellRender";
-import { PortalPreloader } from "../../../utils/portalElement";
 import DayPickerModal from "../../../components/dayPickerModal/DayPickerModal";
 import { IContext } from "../BookingHostRouter";
 import { SharedSideBarHeader } from "../../../atoms/timeline/components/SharedHeader";
@@ -73,9 +72,6 @@ import PageBody from "../../../components/pageBody/PageBody";
 import AssigTimelineConfigModal from "./components/AssigTimelineConfigModal/AssigTimelineConfigModal";
 import getConfigStorage from "./helper/getStorage";
 import Preloader from "../../../atoms/preloader/Preloader";
-
-
-let isScrolling:any;
 
 interface IProps {
   context: IContext;
@@ -180,6 +176,7 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
   const confirmModalHook = useModal(false);
   const reservationModal = useModal(false);
   const [inIsEmpty, setEmpty] = useState(false);
+  const [sideBarFold, setSideBarFold] = useState(isMobile);
 
   const bookingModal = useModal(false);
   const blockOpModal = useModal<IAssigItem>(false, DEFAULT_ASSIG_ITEM);
@@ -195,16 +192,14 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
   ]);
   const { useTodayMark, useCursorMark, zoomValue } = basicConfig;
 
-
   const debounceCut = _.debounce(
     () => {
-      console.log("debounce Occur0");
       setCutCount(getCutCount(windowHeight));
     },
     1000,
     {
-      leading:false,
-      trailing:true
+      leading: false,
+      trailing: true
     }
   );
 
@@ -347,7 +342,8 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
       classnames("assigTimeline", undefined, {
         "assiTimeline--mobile": windowWidth <= WindowSize.MOBILE,
         "assigTimeline--loading": firstUpdate.current && loading,
-        "assigTimeline--empty": inIsEmpty
+        "assigTimeline--empty": inIsEmpty,
+        "assigTimeline--foldSidebar": sideBarFold
       }),
     [windowWidth, loading, inIsEmpty]
   );
@@ -361,7 +357,7 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
     const remove = () => {
       window.removeEventListener("keyup", handleKeyUpCavnas);
       window.removeEventListener("keydown", debounceKeyDownCanvas);
-      window.removeEventListener("scroll", (e)=> handleWindowScrollEvent);
+      window.removeEventListener("scroll", e => handleWindowScrollEvent);
       window.removeEventListener("click", handleClickWindow);
       return "";
     };
@@ -427,12 +423,14 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
                 onClick={() => {
                   reservationModal.openModal();
                 }}
+                label={LANG("make_reservation")}
+                mode={isMobile ? "iconButton" : undefined}
                 disabled={networkStatus === 1}
                 icon="edit"
-                label={LANG("make_reservation")}
               />
               <Button
                 size="small"
+                mode={isMobile ? "iconButton" : undefined}
                 onClick={() => {
                   dayPickerHook.setDate(
                     moment()
@@ -449,11 +447,13 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
                 onClick={() => {
                   configModal.openModal();
                 }}
+                mode={isMobile ? "iconButton" : undefined}
                 size="small"
-                label={LANG("timeline_config")}
+                label={LANG("config")}
                 icon="keyBoard"
               />
               <Button
+                mode={isMobile ? "iconButton" : undefined}
                 label={LANG("assig_lock")}
                 size="small"
                 onClick={() => {
@@ -522,7 +522,11 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
               moveResizeValidator={handleMoveResizeValidator}
               onItemSelect={handleItemSelect}
               onCanvasContextMenu={handleCanvasContextMenu}
-              sidebarWidth={isMobile ? 100 : 230}
+              // TODO
+              // 접이식으로 변경 방번호만으로도 충분할수 있다.
+              // 사이드바는 햔재크기의 3분의 1로 하고
+              // 옆으로 펼치는 식으로 진행하는것임
+              sidebarWidth={isMobile ? (sideBarFold ? 30 : 100) : 230}
             >
               <TimelineHeaders>
                 {/* 왼쪽 위 달력 부분 */}

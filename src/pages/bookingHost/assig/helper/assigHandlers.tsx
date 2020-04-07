@@ -218,6 +218,7 @@ export function getAssigHandlers(
     newGroupOrder: number
   ) => {
     const targetGuest = getItemById(itemId);
+
     if (lock) {
       toast(LANG("cannot_move_item_now"));
       return;

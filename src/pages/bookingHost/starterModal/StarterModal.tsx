@@ -5,7 +5,7 @@ import {
   stepFinder,
   s4,
   cardValidate,
-  queryDataFormater
+  queryDataFormater,
 } from "../../../utils/utils";
 import JDmodal from "../../../atoms/modal/Modal";
 import { IMG_REPO, DO_TUTO_KEY } from "../../../types/const";
@@ -16,7 +16,7 @@ import {
   CreateHouseInput,
   UpsertRoomTypeInput,
   getAllProductTypes,
-  PricingType
+  PricingType,
 } from "../../../types/api";
 import Button from "../../../atoms/button/Button";
 import { SELECT_PRODUCT_TYPE_OP } from "../../../types/const";
@@ -47,19 +47,27 @@ interface IProps {
   muLoading: boolean;
 }
 
-const InitHouseTemp: CreateHouseInput =
-  JSON.parse(localStorage.getItem("initHouseTemp") as any) || undefined;
-const InitRoomTypeTemp =
-  JSON.parse(localStorage.getItem("initRoomTypesTemp") as any) || null;
-const InitCardTemp =
-  JSON.parse(localStorage.getItem("initCardTemp") as any) || DEFAULT_CARD_INFO;
+let InitHouseTemp: CreateHouseInput;
+let InitRoomTypeTemp: any;
+let InitCardTemp: any = DEFAULT_CARD_INFO;
 
+try {
+  InitHouseTemp =
+    JSON.parse(localStorage.getItem("initHouseTemp") as any) || undefined;
+  InitRoomTypeTemp =
+    JSON.parse(localStorage.getItem("initRoomTypesTemp") as any) || null;
+  InitCardTemp =
+    JSON.parse(localStorage.getItem("initCardTemp") as any) ||
+    DEFAULT_CARD_INFO;
+} catch (e) {
+  console.error(e);
+}
 const StarterModal: React.FC<IProps> = ({ context, onSubmit, muLoading }) => {
   const modalHook = useModal(true);
   const { data: productTypeData, loading } = useQuery<getAllProductTypes>(
     GET_PRODUCTS_TYPES,
     {
-      client
+      client,
     }
   );
   const defaultStep = stepFinder(context);
@@ -75,7 +83,7 @@ const StarterModal: React.FC<IProps> = ({ context, onSubmit, muLoading }) => {
   );
 
   const {
-    user: { phoneNumber }
+    user: { phoneNumber },
   } = context;
   const phoneVerificationModalHook = useModal();
   const productTypeHook = useSelect(SELECT_PRODUCT_TYPE_OP[0]);
@@ -88,7 +96,7 @@ const StarterModal: React.FC<IProps> = ({ context, onSubmit, muLoading }) => {
   );
 
   const selectedProductType = productTypes?.find(
-    pt => pt.name === productTypeHook.selectedOption?.value
+    (pt) => pt.name === productTypeHook.selectedOption?.value
   );
 
   const handleCreateHouseSubmit = (param: initHouseVariables) => {
@@ -98,7 +106,7 @@ const StarterModal: React.FC<IProps> = ({ context, onSubmit, muLoading }) => {
 
   const handleSubmitCreateRoomTypes = (param: RoomConfigSubmitData) => {
     const roomCount = arraySum(
-      param.updateCreateDatas.map(rt => rt.rooms?.length || 0)
+      param.updateCreateDatas.map((rt) => rt.rooms?.length || 0)
     );
     if (roomCount > 20) {
       productTypeHook.onChange(SELECT_PRODUCT_TYPE_OP[1]);
@@ -110,50 +118,50 @@ const StarterModal: React.FC<IProps> = ({ context, onSubmit, muLoading }) => {
   };
 
   let roomCount = 0;
-  roomTypesData.forEach(rt => {
+  roomTypesData.forEach((rt) => {
     roomCount += rt.rooms?.length || 0;
   });
 
   const initInfoDataTable = [
     {
       label: LANG("houseName"),
-      Component: () => <span>{InitHouseData?.name}</span>
+      Component: () => <span>{InitHouseData?.name}</span>,
     },
     {
       label: LANG("house_type"),
-      Component: () => <span>{InitHouseData?.houseType}</span>
+      Component: () => <span>{InitHouseData?.houseType}</span>,
     },
     {
       label: LANG("roomType_count"),
-      Component: () => <span>{roomTypesData.length}</span>
+      Component: () => <span>{roomTypesData.length}</span>,
     },
     {
       label: LANG("room_count"),
-      Component: () => <span>{roomCount}</span>
-    }
+      Component: () => <span>{roomCount}</span>,
+    },
   ];
 
   const staterSteps = [
     {
       current: step === "phoneVerification",
-      name: <span>{LANG("auth")}</span>
+      name: <span>{LANG("auth")}</span>,
     },
     {
       current: step === "houseCreate",
-      name: <span>{LANG("house_create")}</span>
+      name: <span>{LANG("house_create")}</span>,
     },
     {
       current: step === "createRoom",
-      name: <span>{LANG("create_room")}</span>
+      name: <span>{LANG("create_room")}</span>,
     },
     {
       current: step === "card",
-      name: <span>{LANG("payment_info")}</span>
+      name: <span>{LANG("payment_info")}</span>,
     },
     {
       current: step === "check",
-      name: <span>{LANG("check_init")}</span>
-    }
+      name: <span>{LANG("check_init")}</span>,
+    },
   ];
 
   const Wrap: React.FC = useCallback(
@@ -245,11 +253,11 @@ const StarterModal: React.FC<IProps> = ({ context, onSubmit, muLoading }) => {
               defaultData={{
                 roomTypesData: [],
                 // @ts-ignore
-                defaultAddTemp: roomTypesData.map(RT => ({
+                defaultAddTemp: roomTypesData.map((RT) => ({
                   ...DEFAULT_ROOMTYPE,
                   ...RT,
-                  _id: s4()
-                }))
+                  _id: s4(),
+                })),
               }}
             />
             <Button
@@ -289,7 +297,7 @@ const StarterModal: React.FC<IProps> = ({ context, onSubmit, muLoading }) => {
             linePoint="- "
             contents={[
               LANG("pay_regist_pay_notice1"),
-              LANG("pay_regist_pay_notice2")
+              LANG("pay_regist_pay_notice2"),
             ]}
           />
           <CardInfoForm
@@ -339,7 +347,7 @@ const StarterModal: React.FC<IProps> = ({ context, onSubmit, muLoading }) => {
                 <Help tooltip={LANG("product_type_help_txt")} />
               </span>
             </div>
-            <Vtable>
+            <Vtable mr="no">
               <ColumnCells datas={initInfoDataTable} />
             </Vtable>
             <JDlist
@@ -347,7 +355,7 @@ const StarterModal: React.FC<IProps> = ({ context, onSubmit, muLoading }) => {
               linePoint="*"
               contents={[
                 LANG("pay_check_1dollor"),
-                LANG("dollor1_will_be_refund_immediatly")
+                LANG("dollor1_will_be_refund_immediatly"),
               ]}
             />
             <Button
@@ -379,11 +387,11 @@ const StarterModal: React.FC<IProps> = ({ context, onSubmit, muLoading }) => {
                       cardPw: cardInfo.cardPw,
                       expMonth: expObj.month,
                       expYear: expObj.year,
-                      idNo: cardInfo.idNo
+                      idNo: cardInfo.idNo,
                     },
                     createHouseInput: InitHouseData,
-                    createRoomTypesInput: roomTypesData as any
-                  }
+                    createRoomTypesInput: roomTypesData as any,
+                  },
                 });
               }}
               mode="flat"

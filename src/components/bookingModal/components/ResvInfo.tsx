@@ -5,7 +5,7 @@ import JDtypho from "../../../atoms/typho/Typho";
 import InputText from "../../../atoms/forms/inputText/InputText";
 import { LANG } from "../../../hooks/hook";
 import JDselect, {
-  SelectBoxSize
+  SelectBoxSize,
 } from "../../../atoms/forms/selectBox/SelectBox";
 import { FUNNELS_OP, BOOKING_STATUS_OP } from "../../../types/const";
 import { IModalSMSinfo } from "../../smsModal/SendSmsModal";
@@ -29,7 +29,7 @@ const ResvInfo: React.FC<IProps> = ({
     resvDateHook,
     isDesktopUp,
     bookingStatusHook,
-    bookingData
+    bookingData,
   } = bookingModalContext;
   // smsIcon 핸들
   const { createdAt } = bookingData;
@@ -44,6 +44,7 @@ const ResvInfo: React.FC<IProps> = ({
           mr={"no"}
           {...bookingStatusHook}
           options={BOOKING_STATUS_OP}
+          id="BookingStatusSelect"
           label={LANG("booking_status")}
         />
       </div>
@@ -64,6 +65,7 @@ const ResvInfo: React.FC<IProps> = ({
           mb="no"
           mr={"no"}
           readOnly
+          id="ResvDateInput"
           value={moment(createdAt || undefined)
             .local()
             .format(DateFormat.WITH_TIME)}

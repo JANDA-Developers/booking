@@ -47,7 +47,7 @@ export const kr = {
     TOTALPRICE: `[가격]`,
     PAYMETHOD: `[결제방법]`,
     PAYMENTSTATUS: `[결제상태]`,
-    HM: `[AI 무인 솔루션URL]`
+    HM: `[AI 무인 솔루션URL]`,
   },
   Use_room_specific_tabs: "방타입별 탭을 사용합니다.",
   VBANK: "무통장입금",
@@ -753,7 +753,7 @@ export const kr = {
     FEMALE: "여성전용",
     MALE: "남성전용",
     ANY: "성별 제한 없음",
-    SEPARATELY: "혼숙방지"
+    SEPARATELY: "혼숙방지",
   },
   december: "12월",
   november: "11월",
@@ -776,12 +776,12 @@ export const kr = {
   PaymentStatus: {
     CANCELED: "결제취소",
     NOT_YET: "미결제",
-    COMPLETED: "결제완료"
+    COMPLETED: "결제완료",
   },
   SendTarget: {
     BOTH: "게스트&호스트",
     GUEST: "게스트",
-    HOST: "호스트"
+    HOST: "호스트",
   },
   please_select_pay_status: "결제 상태를 선택해 주세요.",
   exit_house_settings: "숙소설정 끝내기",
@@ -811,7 +811,7 @@ export const kr = {
     PHONE_CALL: "전화예약",
     WALK_IN: "현장예약",
     YANOLJA: "야놀자",
-    YEOGIEOTTAE: "여기어때"
+    YEOGIEOTTAE: "여기어때",
   },
   goto_today: "오늘 날짜로",
   // 1.1.0 패치
@@ -931,7 +931,7 @@ export const kr = {
   ExcelExpress: {
     SELECT_OP: "현재 선택한 내용으로 출력",
     COUNT_OP: "최근 생성 갯수로 출력",
-    DATE_OP: "날짜로 출력"
+    DATE_OP: "날짜로 출력",
   },
   unit: "개",
   pay_date: "납부일자",
@@ -973,7 +973,7 @@ export const kr = {
           4. 발신대상을 <b>게스트/호스트/게스트+호스트</b> 별로 지정을 해주시고
           우측에 <b>자동발신 활설화</b> 여부를 on / oFF 설정해주시면 언제든지
           고객에게 알림 문자가 발송되게 설정됩니다
-        </div>
+        </div>,
       ]}
     />
   ),
@@ -994,7 +994,7 @@ export const kr = {
           둔 SMS양식이 있어야 합니다. 개성있고 재밌는 SMS양식을 만들어주세요.
           예시 : 조식알림문자, 저녁 파티이벤트 안내 문자, 공사안내, 분실물안내,
           긴급대피안내문자
-        </div>
+        </div>,
       ]}
     />
   ),
@@ -1051,7 +1051,7 @@ export const kr = {
     MOTEL: "모텔",
     PENSION: "펜션",
     HOSTEL: "호스텔",
-    YOUTH_HOSTEL: "유스호스텔"
+    YOUTH_HOSTEL: "유스호스텔",
   },
   please_select_room_gender: "방성별을 선택 해주세요.",
   please_select_room_type: "방타입을 선택 해주세요.",
@@ -1067,7 +1067,7 @@ export const kr = {
   HouseStatus: {
     DISALBE: "중지",
     WAIT: "대기",
-    ENABLE: "사용가능"
+    ENABLE: "사용가능",
   },
   update_user_info_complete: "슈퍼 관리자 업데이트 완료",
   update_user_info_fail: "슈퍼 관리자 업데이트 실패",
@@ -1115,7 +1115,7 @@ export const kr = {
   auto_pay_continue: "정기결재 재사용 하기",
   BookingStatus: {
     COMPLETED: "예약완료",
-    CANCELED: "예약취소"
+    CANCELED: "예약취소",
   },
   booking_number: "예약번호",
   bill_print: "영수증 출력",
@@ -1159,7 +1159,7 @@ export const kr = {
     CASH: "현금결제",
     CARD: "카드결제",
     CHANNEL_PAY: "채널결제",
-    BANK_TRANSFER: "무통장 입금"
+    BANK_TRANSFER: "무통장 입금",
   },
   pay_check_1dollor: "카드정보 확인을 위해 1달러 결제를 진행합니다.",
   dollor1_will_be_refund_immediatly: "1달러는 결제후 곧바로 환불 처리 됩니다.",
@@ -1217,7 +1217,7 @@ export const kr = {
     PRICE_PAGE: "가격 페이지",
     RESV_API: "예약 API",
     RESV_PAGE: "예약 페이지",
-    ROOM_INFO_PAGE: "방 정보 페이지"
+    ROOM_INFO_PAGE: "방 정보 페이지",
   },
   add: "추가",
   request_domain: "신청 도메인",
@@ -1236,5 +1236,19 @@ export const kr = {
   request_design: "신청 디자인",
   homepage_is_processing: "홈페이지 생성중 입니다.",
   cannot_move_item_now: "배정 잠금 상태입니다.",
-  assig_lock: "배정잠금"
+  assig_lock: "배정잠금",
+  Validation: (fillCount: number) => {
+    if (fillCount === 0) {
+      return "아주약함";
+    }
+    if (fillCount === 1) {
+      return "약함";
+    }
+    if (fillCount === 2) {
+      return "사용가능";
+    }
+    if (fillCount === 3) {
+      return "안전";
+    }
+  },
 };

@@ -103,6 +103,15 @@
       border-bottom: 1px solid $grey-level4;
     }
   }
+
+  @include response($phablet) {
+    .assigTimeline__timelineWrap {
+      margin-left: -$container-padding--md;
+      margin-right: -$container-padding--md;
+      border-left: none !important;
+      border-right: none !important;
+    }
+  }
 }
 
 @-webkit-keyframes grdAnime {
@@ -122,7 +131,7 @@
   }
 }
 #assigTimeline__verticalPreloader {
-  display: none!important;
+  display: none !important;
   position: fixed;
   bottom: 5%;
   left: 50%;
@@ -131,7 +140,6 @@
 #root {
   // 로딩 (첫로딩)
   .assigTimeline {
-
     &__timelineWrap {
       border: 2px solid $outborder-color;
     }
@@ -143,6 +151,17 @@
     &--empty {
       .react-calendar-timeline {
         display: none !important;
+      }
+    }
+
+    &--foldSidebar {
+      .assigGroups__place,
+      .assigGroups__roomType {
+        display: none;
+      }
+      .assigGroups__room {
+        left: 0px;
+        width: 30px;
       }
     }
 

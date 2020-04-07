@@ -2,10 +2,10 @@ import gql from "graphql-tag";
 
 export const F_LOCATION = gql`
   fragment Flocation on Location {
-      address
-      addressDetail
-      lat
-      lng
+    address
+    addressDetail
+    lat
+    lng
   }
 `;
 
@@ -24,7 +24,7 @@ export const F_HOEMPAGE = gql`
 `;
 
 const F_HOMEPAGE_REQUEST = gql`
-  fragment FhomepageRequest on RequestHomepageType  {
+  fragment FhomepageRequest on RequestHomepageType {
     siteName
     url
     managerName
@@ -36,8 +36,8 @@ const F_HOMEPAGE_REQUEST = gql`
       key
     }
     houseId
-}
-`
+  }
+`;
 
 export const F_USER_REQUEST = gql`
   fragment FuserRequest on UserRequest {
@@ -52,13 +52,13 @@ export const F_USER_REQUEST = gql`
     userId
   }
   ${F_HOMEPAGE_REQUEST}
-`
+`;
 
 export const F_BANK_ACOUNT_INFO = gql`
   fragment FbankAccountInfo on BankAccountInfo {
-      bankName
-      accountNum
-      accountHolder
+    bankName
+    accountNum
+    accountHolder
   }
 `;
 
@@ -131,7 +131,6 @@ export const F_HM = gql`
   ${F_IMG}
 `;
 
-
 // 하우스메뉴얼 메뉴
 export const F_HMM = gql`
   fragment FHMmenu on HMmenu {
@@ -195,7 +194,6 @@ export const F_PRODUCT_TYPE = gql`
     updatedAt
   }
 `;
-
 
 // 상품 관련 프레임
 export const F_PRODUCT = gql`
@@ -266,8 +264,6 @@ export const F_PAYMENT = gql`
   }
 `;
 
-
-
 // 페이지 정보에 관한 프레임
 export const F_PAGE_INFO = gql`
   fragment FpageInfo on PageInfoOffsetBase {
@@ -324,7 +320,6 @@ export const F_ROOMTYPE = gql`
   ${F_IMG}
 `;
 
-
 //  방에대한 정보 프레임
 export const F_ROOM = gql`
   fragment Froom on Room {
@@ -374,8 +369,6 @@ export const F_CAPACITY_DOMITORY = gql`
   }
   ${F_ROOM}
 `;
-
-
 
 // 게스트에 관한 정보 프레임(방정보 포함)
 export const F_BLOCK = gql`
@@ -497,7 +490,6 @@ const sharedGetAllRoomType = gql`
   ${F_IMG}
 `;
 
-
 // 예약에 관한 정보프레임
 export const F_BOOKING = gql`
   fragment Fbooking on Booking {
@@ -539,7 +531,6 @@ export const F_BOOKING = gql`
   ${F_PAYMENT}
   ${F_CARD_INFO}
 `;
-
 
 // 기본정보를 모두 출력
 // 호스트에서 유저를 조회하거나
@@ -760,7 +751,7 @@ export const GET_HOUSES_FOR_SU = gql`
 
 // 유저 :: 이메일 로그인
 export const EMAIL_SIGN_IN = gql`
-  query emailSignIn($email: EmailAddress!, $password: Password!) {
+  query emailSignIn($email: EmailAddress!, $password: String!) {
     EmailSignIn(email: $email, password: $password) {
       ok
       error
@@ -820,9 +811,7 @@ export const PRICE_TIMELINE_GET_PRICE = gql`
     $checkOut: DateTime!
     $param: GetRoomTypeDatePricesInput!
   ) {
-    GetRoomTypeDatePrices(
-      param: $param
-    ) {
+    GetRoomTypeDatePrices(param: $param) {
       ok
       error
       roomTypeDatePrices {
@@ -865,7 +854,7 @@ export const PRICE_TIMELINE_GET_PRICE = gql`
   ${F_ROOMTYPE}
 `;
 
-// 예약 :: 예약자를 위한 예약인원 
+// 예약 :: 예약자를 위한 예약인원
 export const GET_ALL_ROOM_TYPE_FOR_BOOKER = gql`
   query getAllRoomTypeForBooker {
     GetAllRoomTypeForBooker {
@@ -976,18 +965,14 @@ export const F_ROOM_TYPE_DATE_PRICE_RESULT = gql`
   ${F_ROOMTYPE}
 `;
 
-
 export const GET_ROOM_TYPES_DATE_PRICE = gql`
-  query getRoomTypeDatePrices(
-    $param: GetRoomTypeDatePricesInput!
-  ) {
-    GetRoomTypeDatePrices(param:$param) {
+  query getRoomTypeDatePrices($param: GetRoomTypeDatePricesInput!) {
+    GetRoomTypeDatePrices(param: $param) {
       ...FroomTypePriceResult
     }
   }
   ${F_ROOM_TYPE_DATE_PRICE_RESULT}
 `;
-
 
 // export const GET_ALL_ROOM_TYPE = gql`
 //   query getAllRoomType(
@@ -1008,13 +993,8 @@ export const GET_ROOM_TYPES_DATE_PRICE = gql`
 //   ${F_ROOM}
 // `;
 
-
 export const GET_ALL_BLOCKS = gql`
-  query getBlocks(
-    $houseId: ID!
-    $checkIn: DateTime!
-    $checkOut: DateTime!
-  ) {
+  query getBlocks($houseId: ID!, $checkIn: DateTime!, $checkOut: DateTime!) {
     GetBlocks(checkIn: $checkIn, checkOut: $checkOut, houseId: $houseId) {
       ok
       error
@@ -1030,8 +1010,6 @@ export const GET_ALL_BLOCKS = gql`
   ${F_ROOMTYPE}
   ${F_ROOM}
 `;
-
-
 
 export const GET_ALL_GUEST_AND_BLOCK = gql`
   query getGuests(
@@ -1084,7 +1062,12 @@ export const GET_ALL_GUEST_AND_BLOCK = gql`
         }
       }
     }
-    GetBlocks(checkIn: $checkIn, checkOut: $checkOut, houseId: $houseId, roomTypeIds: $roomTypeIds) {
+    GetBlocks(
+      checkIn: $checkIn
+      checkOut: $checkOut
+      houseId: $houseId
+      roomTypeIds: $roomTypeIds
+    ) {
       ok
       error
       blocks {
@@ -1103,7 +1086,6 @@ export const GET_ALL_GUEST_AND_BLOCK = gql`
   ${F_BLOCK_OP}
   ${F_BOOKING}
 `;
-
 
 // 방타입 :: 모든 방타입 가격 가져오기
 export const GET_ALL_ROOMTYPES_PRICE = gql`
@@ -1156,21 +1138,19 @@ export const GET_USER_FOR_SU = gql`
 `;
 
 export const INIT_HOUSE = gql`
-  mutation initHouse(
-    $param: InitHouseInput!
-  ) {
-    InitHouse(param:$param) {
+  mutation initHouse($param: InitHouseInput!) {
+    InitHouse(param: $param) {
       ok
       error
       result {
-        house { 
+        house {
           _id
           name
         }
       }
     }
   }
-`
+`;
 
 // 슈퍼유저 ::모든 유저 가져오기
 export const GET_USERS_FOR_SU = gql`
@@ -1243,9 +1223,7 @@ export const GET_BOOKING_FOR_PUBLIC = gql`
     $param: GetBookingForPublicInput!
     $skip: Boolean!
   ) {
-    GetBookingForPublic(
-      param:$param
-    ) @skip(if: $skip) {
+    GetBookingForPublic(param: $param) @skip(if: $skip) {
       ok
       error
       booking {
@@ -1582,8 +1560,8 @@ export const START_BOOKING = gql`
       ok
       error
       booking {
-          _id
-          bookingNum
+        _id
+        bookingNum
       }
     }
   }
@@ -1638,73 +1616,66 @@ export const CREATE_ROOMTYPE = gql`
 `;
 
 export const CREATE_USER_REQUEST = gql`
-mutation createUserRequest($param:CreateUserRequestInput!) {
-    CreateUserRequest(
-      param:$param 
-    ) {
+  mutation createUserRequest($param: CreateUserRequestInput!) {
+    CreateUserRequest(param: $param) {
       ok
       error
-    }
-}`;
-
-export const GET_ALL_HOMEPAGE_OPTIONS = gql`
-query getAllHomepageOptions {
-  GetAllHomepageOptions {
-    ok
-    error
-    homepageOptions {
-      price
-      key 
     }
   }
-}
-`
+`;
+
+export const GET_ALL_HOMEPAGE_OPTIONS = gql`
+  query getAllHomepageOptions {
+    GetAllHomepageOptions {
+      ok
+      error
+      homepageOptions {
+        price
+        key
+      }
+    }
+  }
+`;
 
 export const UPDATE_USER_REQUEST = gql`
-  mutation updateUserRequest($param:UpdateUserRequestInput!) {
-    UpdateUserRequest(
-      param:$param 
-    ) {
+  mutation updateUserRequest($param: UpdateUserRequestInput!) {
+    UpdateUserRequest(param: $param) {
       ok
       error
     }
-}`;
+  }
+`;
 
 export const CREATE_HOMEPAGE = gql`
-  mutation createHomepage($param:CreateHomepageInput!) {
-    CreateHomepage(
-      param:$param 
-    ) {
+  mutation createHomepage($param: CreateHomepageInput!) {
+    CreateHomepage(param: $param) {
       ok
       error
     }
-}`;
-
+  }
+`;
 
 export const UPDATE_HOMEPAGE = gql`
-  mutation updateHomepage($param:UpdateHomepageInput!) {
-    UpdateHomepage(
-      param:$param 
-    ) {
+  mutation updateHomepage($param: UpdateHomepageInput!) {
+    UpdateHomepage(param: $param) {
       ok
       error
     }
-}`;
+  }
+`;
 
 export const DELETE_HOMEPAGE = gql`
   mutation deleteHomepage($homepageId: ID!) {
-    DeleteHomepage(
-      homepageId:$homepageId
-    ) {
+    DeleteHomepage(homepageId: $homepageId) {
       ok
       error
     }
-}`;
-
+  }
+`;
 
 export const GET_HOMEPAGES = gql`
-query getHomepages($param: GetHomepagesInput!) {
-    GetHomepages(param:$param) {
+  query getHomepages($param: GetHomepagesInput!) {
+    GetHomepages(param: $param) {
       ok
       error
       result {
@@ -1727,7 +1698,7 @@ query getHomepages($param: GetHomepagesInput!) {
   }
   ${F_PAGE_INFO}
   ${F_HOEMPAGE}
-`
+`;
 
 export const GET_USER_REQUESTS = gql`
 query getUserRequests($param:GetUserRequestsInput!) {
@@ -1754,7 +1725,6 @@ query getUserRequests($param:GetUserRequestsInput!) {
   ${F_USER_REQUEST}
   ${F_HOMEPAGE_REQUEST}
 }`;
-
 
 // 방 :: 방생성
 // export const CREATE_ROOM = gql`
@@ -1860,8 +1830,6 @@ export const DELETE_DAILY_PRICE = gql`
 //     }
 //   }
 // `;
-
-
 
 // 방 :: 업데이트 방
 export const UPDATE_ROOM = gql`
@@ -1991,7 +1959,7 @@ export const UPDATE_MYPROFILE = gql`
     $name: Name!
     $phoneNumber: PhoneNumber!
     $email: EmailAddress!
-    $password: Password!
+    $password: String!
     $profileImg: JdFileInput
     $bankAccountInfo: BankAccountInfoInput
   ) {
@@ -2106,8 +2074,8 @@ export const GET_HOUSE_FOR_PUBLIC = gql`
       ok
       error
       house {
-        phoneNumber,
-        name,
+        phoneNumber
+        name
         location {
           address
           addressDetail
@@ -2139,10 +2107,8 @@ export const UPDATE_HOUSE_CONFIG = gql`
 
 // 하우스 :: 하우스생성
 export const CREATE_HOUSE = gql`
-  mutation createHouse(
-    $param: CreateHouseInput!
-  ) {
-    CreateHouse(param:$param) {
+  mutation createHouse($param: CreateHouseInput!) {
+    CreateHouse(param: $param) {
       ok
       error
       house {
@@ -2164,10 +2130,8 @@ export const DELETE_HOUSE = gql`
 // 상품관련 ────────────────────────────────────────────────────────────────────────────────
 // 상품 :: 상품구매
 export const BUY_PRODUCTS = gql`
-  mutation selectProduct(
-    $param: SelectProductInput!
-  ) {
-    SelectProduct(param:$param) {
+  mutation selectProduct($param: SelectProductInput!) {
+    SelectProduct(param: $param) {
       ok
       error
     }
@@ -2208,7 +2172,11 @@ export const DELETE_SMS_TEMPLATE = gql`
 `;
 
 export const GET_ROOM_TYPE_INFO = gql`
-  query getRoomTypeInfo($roomTypeId: ID!,$RoomTypeCapacityInput:RoomTypeCapacityInput!, $GetRoomTypeDatePricesInput:GetRoomTypeDatePricesInput!) {
+  query getRoomTypeInfo(
+    $roomTypeId: ID!
+    $RoomTypeCapacityInput: RoomTypeCapacityInput!
+    $GetRoomTypeDatePricesInput: GetRoomTypeDatePricesInput!
+  ) {
     GetRoomTypeById(roomTypeId: $roomTypeId) {
       ok
       error
@@ -2216,7 +2184,7 @@ export const GET_ROOM_TYPE_INFO = gql`
         _id
         capacity(param: $RoomTypeCapacityInput) {
           ... on CapacityRoomType {
-            ...FcapacityRoom 
+            ...FcapacityRoom
           }
           ... on CapacityRoomTypeDomitory {
             ...FcapacityDomitory
@@ -2224,16 +2192,14 @@ export const GET_ROOM_TYPE_INFO = gql`
         }
       }
     }
-    GetRoomTypeDatePrices(
-      param: $GetRoomTypeDatePricesInput
-    ) {
+    GetRoomTypeDatePrices(param: $GetRoomTypeDatePricesInput) {
       ...FroomTypePriceResult
     }
   }
   ${F_CAPACITY_DOMITORY}
   ${F_ROOM_TYPE_DATE_PRICE_RESULT}
   ${F_CAPACITY_ROOM}
-`
+`;
 
 // SMS :: SMS 정보 가져오기
 export const GET_SMS_INFO = gql`
@@ -2473,9 +2439,9 @@ export const UPLOAD_FILE = gql`
 
 export const CHANGE_PASSWORD = gql`
   mutation changePassword(
-    $currentPassword: Password!
-    $newPassword: Password!
-    $newPasswordRepeat: Password!
+    $currentPassword: String!
+    $newPassword: String!
+    $newPasswordRepeat: String!
   ) {
     ChangePassword(
       currentPassword: $currentPassword
@@ -2614,7 +2580,7 @@ export const REFUND_BOOKING = gql`
       error
     }
   }
-`
+`;
 
 export const DO_BILL_PAY_CANCEL_PRODUCT = gql`
   mutation doBillPayCancelProduct($param: PayCancelProductInput!) {
@@ -2646,15 +2612,10 @@ export const GET_REPLACE_MESSAGES = gql`
 `;
 
 export const SAVE_ROOMTYPES = gql`
-  mutation saveRoomTypes(
-      $param: SaveRoomTypesInput!
-    ) {
-    SaveRoomTypes(
-      param: $param
-    ) {
+  mutation saveRoomTypes($param: SaveRoomTypesInput!) {
+    SaveRoomTypes(param: $param) {
       ok
       error
     }
   }
-`
-
+`;

@@ -196,6 +196,15 @@
     margin-left: -$button-padding-side;
     margin-right: -$button-padding-side;
   }
+
+  &--iconButton {
+    height: auto;
+    padding: $standard-tiny-space $standard-small-space;
+
+    &__label {
+      padding-top: 2px;
+    }
+  }
 }
 
 // border

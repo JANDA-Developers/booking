@@ -17,6 +17,7 @@ main {
   width: 100%;
   box-sizing: border-box;
   min-height: 90%;
+  height: 100%;
 
   @include response($phablet) {
     padding: 0 $container-padding--md;

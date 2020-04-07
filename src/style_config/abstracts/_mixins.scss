@@ -1,826 +1,812 @@
+@import "./variables";
+
 // -----------------------------------------------------------------------------
 // This file contains all application-wide Sass mixins.
 // -----------------------------------------------------------------------------
 
-
 //마우스가 위에 올라왔을때 효과
 
 @mixin mb--prefixer($Before: "&", $After: "") {
-    #{$Before}--largest-mb #{$After}{
-        margin-bottom: $standard-largest-space;
-    }   
-    #{$Before}--huge-mb #{$After}{
-        margin-bottom: $standard-huge-space;
-    }
-    #{$Before}--large-mb #{$After}{
-        margin-bottom: $standard-large-space;
-    }
-    #{$Before}--space-mb #{$After}{
-        margin-bottom: $standard-space;
-    }
-    #{$Before}--small-mb #{$After}{
-        margin-bottom: $standard-small-space;
-    }
-    #{$Before}--tiny-mb #{$After}{
-        margin-bottom: $standard-tiny-space;
-
-    }
-    #{$Before}--superTiny-mb #{$After}{
-        margin-bottom: $standard-superTiny-space;
-    }
+  #{$Before}--largest-mb #{$After} {
+    margin-bottom: $standard-largest-space;
+  }
+  #{$Before}--huge-mb #{$After} {
+    margin-bottom: $standard-huge-space;
+  }
+  #{$Before}--large-mb #{$After} {
+    margin-bottom: $standard-large-space;
+  }
+  #{$Before}--space-mb #{$After} {
+    margin-bottom: $standard-space;
+  }
+  #{$Before}--small-mb #{$After} {
+    margin-bottom: $standard-small-space;
+  }
+  #{$Before}--tiny-mb #{$After} {
+    margin-bottom: $standard-tiny-space;
+  }
+  #{$Before}--superTiny-mb #{$After} {
+    margin-bottom: $standard-superTiny-space;
+  }
 }
 
 @mixin sizeText--prefixer() {
-    &--h1 {
-        @extend %h1;
-    }
-    &--h2 {
-        @extend %h2;
-    }
-    &--h3 {
-        @extend %h3;
-    }
-    &--h4 {
-        @extend %h4;
-    }
-    &--h5 {
-        @extend %h5;
-    }
-    &--h6 {
-        @extend %h6;
-    }
-    &--normal {
-        font-size: $typho-normal;
-    }
-    &--small {
-        font-size: $typho-small;
-    }
-    &--tiny {
-        font-size: $typho-tiny;
-    }
-    &--superTiny {
-        font-size: $typho-superTiny;
-    }
+  &--h1 {
+    @extend %h1;
+  }
+  &--h2 {
+    @extend %h2;
+  }
+  &--h3 {
+    @extend %h3;
+  }
+  &--h4 {
+    @extend %h4;
+  }
+  &--h5 {
+    @extend %h5;
+  }
+  &--h6 {
+    @extend %h6;
+  }
+  &--normal {
+    font-size: $typho-normal;
+  }
+  &--small {
+    font-size: $typho-small;
+  }
+  &--tiny {
+    font-size: $typho-tiny;
+  }
+  &--superTiny {
+    font-size: $typho-superTiny;
+  }
 }
 
 @mixin textAlign--prefixer() {
-    &--left {
-        text-align: left
-    }
-    &--center {
-        text-align: center
-    }
-    &--right {
-        text-align: right
-    }
+  &--left {
+    text-align: left;
+  }
+  &--center {
+    text-align: center;
+  }
+  &--right {
+    text-align: right;
+  }
 }
 
 @mixin colorText--prefixer($After: "") {
-    &--primary#{$After} {
-        color: $primary-color;
-        &:hover {
-            color: $primary-color-dark;
-        } 
+  &--primary#{$After} {
+    color: $primary-color;
+    &:hover {
+      color: $primary-color-dark;
     }
+  }
 
-    &--point#{$After} {
-        color: $point-color;
-        &:hover {
-            color: $point-color-dark;
-        } 
+  &--point#{$After} {
+    color: $point-color;
+    &:hover {
+      color: $point-color-dark;
     }
+  }
 
-    &--black#{$After} {
-        color: $html-color;
+  &--black#{$After} {
+    color: $html-color;
 
-        &:hover {
-            color: $grey-level5;
-        } 
+    &:hover {
+      color: $grey-level5;
     }
+  }
 
-    &--white#{$After} {
-        color: white;
+  &--white#{$After} {
+    color: white;
 
-        &:hover {
-            color: $grey-level1;
-        }
+    &:hover {
+      color: $grey-level1;
     }
-       
-    &--new#{$After} {
-        color: $new-color;
-        &:hover {
-            color: $new-color-dark;
-        } 
-    }
-       
-    &--error#{$After} {
-        color: $error-color;
-        &:hover {
-            color: $error-color-dark;
-        } 
-    }
-       
-    &--positive#{$After} {
-        color: $positive-color;
-        &:hover {
-            color: $positive-color-dark;
-        } 
-    }
-       
-    &--warn#{$After} {
-        color: $orange-color;
-        &:hover {
-            color: $orange-color-dark;
-        } 
-    }
+  }
 
-    &--blue#{$After} {
-        color: $blue-color;
-        &:hover {
-            color: $blue-color-dark;
-        } 
+  &--new#{$After} {
+    color: $new-color;
+    &:hover {
+      color: $new-color-dark;
     }
+  }
+
+  &--error#{$After} {
+    color: $error-color;
+    &:hover {
+      color: $error-color-dark;
+    }
+  }
+
+  &--positive#{$After} {
+    color: $positive-color;
+    &:hover {
+      color: $positive-color-dark;
+    }
+  }
+
+  &--warn#{$After} {
+    color: $orange-color;
+    &:hover {
+      color: $orange-color-dark;
+    }
+  }
+
+  &--blue#{$After} {
+    color: $blue-color;
+    &:hover {
+      color: $blue-color-dark;
+    }
+  }
 }
-
 
 @mixin iconSize--prefixer($n: 1, $After: "") {
+  &--tiny#{$After} {
+    width: $icon-size-tiny * $n;
+    height: $icon-size-tiny * $n;
+  }
 
-    &--tiny#{$After} {
-        width: $icon-size-tiny * $n;
-        height: $icon-size-tiny * $n;
-    }
+  &--small#{$After} {
+    width: $icon-size-small * $n;
+    height: $icon-size-small * $n;
+  }
 
-    &--small#{$After} {
-        width: $icon-size-small * $n;
-        height: $icon-size-small * $n;
-    }
-       
-    &--normal#{$After} {
-        width: $icon-size-normal * $n;
-        height: $icon-size-normal * $n;
-    }
-       
-    &--large#{$After} {
-        width: $icon-size-large * $n;
-        height: $icon-size-large * $n;
-    }
-       
-    &--huge#{$After} {
-        width: $icon-size-huge * $n;
-        height: $icon-size-huge * $n;
-    }
+  &--normal#{$After} {
+    width: $icon-size-normal * $n;
+    height: $icon-size-normal * $n;
+  }
 
-    &--largest#{$After} {
-        width: $icon-size-largest * $n;
-        height: $icon-size-largest * $n;
-    }
-    &--largest2#{$After} {
-        width: $icon-size-largest2 * $n;
-        height: $icon-size-largest2 * $n;
-    }
+  &--large#{$After} {
+    width: $icon-size-large * $n;
+    height: $icon-size-large * $n;
+  }
+
+  &--huge#{$After} {
+    width: $icon-size-huge * $n;
+    height: $icon-size-huge * $n;
+  }
+
+  &--largest#{$After} {
+    width: $icon-size-largest * $n;
+    height: $icon-size-largest * $n;
+  }
+  &--largest2#{$After} {
+    width: $icon-size-largest2 * $n;
+    height: $icon-size-largest2 * $n;
+  }
 }
 
+@mixin colorBorder--prefixer($After: "") {
+  &--primary#{$After} {
+    border-color: $primary-color;
 
-
-@mixin colorBorder--prefixer($After:"") { 
-    &--primary#{$After} {
-        border-color: $primary-color;
-
-        &:hover {
-            border-color: $primary-color-light
-        } 
+    &:hover {
+      border-color: $primary-color-light;
     }
+  }
 
-    &--point#{$After} {
-        border-color: $point-color;
-        &:hover {
-            border-color: $point-color-light;
-        } 
+  &--point#{$After} {
+    border-color: $point-color;
+    &:hover {
+      border-color: $point-color-light;
     }
+  }
 
-    &--grey#{$After} {
-        border-color: $grey-level1;
-        &:hover {
-            border-color: $grey-level2;
-        } 
+  &--grey#{$After} {
+    border-color: $grey-level1;
+    &:hover {
+      border-color: $grey-level2;
     }
+  }
 
-    &--black#{$After} {
-        border-color: $html-color;
-        &:hover {
-            border-color: $grey-level5;
-        } 
+  &--black#{$After} {
+    border-color: $html-color;
+    &:hover {
+      border-color: $grey-level5;
     }
+  }
 
-    &--white#{$After} {
-        border-color: white;
-    }
+  &--white#{$After} {
+    border-color: white;
+  }
 
-    &--error#{$After} {
-        border-color: $error-color;
+  &--error#{$After} {
+    border-color: $error-color;
 
-        &:hover {
-            border-color: $error-color-dark;
-        } 
+    &:hover {
+      border-color: $error-color-dark;
     }
-    
-    &--warn#{$After} {
-        border-color: $orange-color;
-        &:hover {
-            border-color: $orange-color-dark;
-        } 
-    }
-       
-    &--new#{$After} {
-        border-color: $new-color;
-        &:hover {
-            border-color: $new-color-light;
-        } 
-    }
+  }
 
-    &--positive#{$After} {
-        border-color: $positive-color;
-        &:hover {
-            border-color: $positive-color-dark;
-        } 
+  &--warn#{$After} {
+    border-color: $orange-color;
+    &:hover {
+      border-color: $orange-color-dark;
     }
+  }
+
+  &--new#{$After} {
+    border-color: $new-color;
+    &:hover {
+      border-color: $new-color-light;
+    }
+  }
+
+  &--positive#{$After} {
+    border-color: $positive-color;
+    &:hover {
+      border-color: $positive-color-dark;
+    }
+  }
 }
-@mixin colorBg--prefixer($After:"") {
-
-    &--positive#{$After} {
-        background-color: $positive-color;
-        color: $positive-color-on;
-        &:hover {
-            background-color: $positive-color-dark;
-        } 
+@mixin colorBg--prefixer($After: "") {
+  &--positive#{$After} {
+    background-color: $positive-color;
+    color: $positive-color-on;
+    &:hover {
+      background-color: $positive-color-dark;
     }
+  }
 
-    &--primary#{$After} {
-        background-color: $primary-color;
-        color: $primary-color-on;
+  &--primary#{$After} {
+    background-color: $primary-color;
+    color: $primary-color-on;
 
-        &:hover {
-            background-color: $primary-color-light
-        } 
+    &:hover {
+      background-color: $primary-color-light;
     }
+  }
 
-    &--point#{$After} {
-        background-color: $point-color;
-        color: $point-color-on;
-        &:hover {
-            background-color: $point-color-light;
-        } 
+  &--point#{$After} {
+    background-color: $point-color;
+    color: $point-color-on;
+    &:hover {
+      background-color: $point-color-light;
     }
+  }
 
-    &--grey#{$After} {
-        color: $html-color;
-        background-color: $grey-level1;
-        &:hover {
-            background-color: $grey-level2;
-        } 
+  &--grey#{$After} {
+    color: $html-color;
+    background-color: $grey-level1;
+    &:hover {
+      background-color: $grey-level2;
     }
+  }
 
-    &--black#{$After} {
-        background-color: $html-color;
-        color:white;
+  &--black#{$After} {
+    background-color: $html-color;
+    color: white;
 
-        
-        &:hover {
-            background-color: $grey-level5;
-        } 
+    &:hover {
+      background-color: $grey-level5;
     }
+  }
 
-    &--white#{$After} {
-        background-color: white;
-        color: $html-color;
+  &--white#{$After} {
+    background-color: white;
+    color: $html-color;
 
-        &:hover {
-            background-color: $grey-level1;
-        } 
+    &:hover {
+      background-color: $grey-level1;
     }
+  }
 
-    &--error#{$After} {
-        background-color: $error-color;
-        color: white;
+  &--error#{$After} {
+    background-color: $error-color;
+    color: white;
 
-        &:hover {
-            background-color: $error-color-dark;
-        } 
+    &:hover {
+      background-color: $error-color-dark;
     }
+  }
 
-    &--warn#{$After} {
-        background-color: $orange-color;
-        color: white;
+  &--warn#{$After} {
+    background-color: $orange-color;
+    color: white;
 
-        &:hover {
-            background-color: $orange-color-dark;
-        } 
+    &:hover {
+      background-color: $orange-color-dark;
     }
-       
-    &--new#{$After} {
-        background-color: $new-color;
-        color: $new-color-on;
+  }
 
-        &:hover {
-            background-color: $new-color-light;
-        } 
+  &--new#{$After} {
+    background-color: $new-color;
+    color: $new-color-on;
+
+    &:hover {
+      background-color: $new-color-light;
     }
+  }
 }
 
 @mixin on-event($self: false) {
-    @if $self {
-
-        &,
-        &:hover,
-        &:active,
-        &:focus {
-            @content;
-        }
+  @if $self {
+    &,
+    &:hover,
+    &:active,
+    &:focus {
+      @content;
     }
-
-    @else {
-
-        &:hover,
-        &:active,
-        &:focus {
-            @content;
-        }
+  } @else {
+    &:hover,
+    &:active,
+    &:focus {
+      @content;
     }
+  }
 }
 
 @mixin baseMargin($condition: "") {
-    
-    // 마진 bottom
-    #{$condition}.JDcheck_box_wrap,
-    #{$condition}.JDswitch-wrap,
-    #{$condition}.JDradio,
-    #{$condition}.JDselect,
-    #{$condition}.JDbtn,
-    #{$condition}.vtable,
-    #{$condition}.JDlist,
-    #{$condition}.circleIcon-wrap,
-    #{$condition}.imageUploader,
-    #{$condition}.JDslider,
-    #{$condition}.JDpagination,
-    #{$condition}.profileCircle,
-    #{$condition}.JDcard,
-    #{$condition}.JDbox,
-    #{$condition}.JDtable,
-    #{$condition}.JDcolorPicker,
-    #{$condition}.JDinput-wrap,
-    #{$condition}.JDsearchInput,
-    #{$condition}.input-range,
-    #{$condition}.JDbox--border {
-        @content;
-    }
+  // 마진 bottom
+  #{$condition}.JDcheck_box_wrap,
+  #{$condition}.JDswitch-wrap,
+  #{$condition}.JDradio,
+  #{$condition}.JDselect,
+  #{$condition}.JDbtn,
+  #{$condition}.vtable,
+  #{$condition}.JDlist,
+  #{$condition}.circleIcon-wrap,
+  #{$condition}.imageUploader,
+  #{$condition}.JDslider,
+  #{$condition}.JDpagination,
+  #{$condition}.profileCircle,
+  #{$condition}.JDcard,
+  #{$condition}.JDbox,
+  #{$condition}.JDtable,
+  #{$condition}.JDcolorPicker,
+  #{$condition}.JDinput-wrap,
+  #{$condition}.JDsearchInput,
+  #{$condition}.input-range,
+  #{$condition}.JDbox--border {
+    @content;
+  }
 }
 
 @mixin shadow($depth) {
-    @extend %z-depth-#{$depth}; 
+  @extend %z-depth-#{$depth};
 }
 
 /* stylelint-disable declaration-block-no-duplicate-properties  */
 
 // Components Flex-Grid
 @mixin component-layout($margin, $width) {
-    .flex-grid {
-        display: -ms-flexbox;
-        display: -webkit-flex;
-        display: flex;
+  .flex-grid {
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+  }
+
+  .flex-grid > * {
+    flex: 1;
+
+    &.flex-grid__col {
+      flex-grow: 4;
+      margin-left: $margin;
     }
 
-    .flex-grid>* {
-        flex: 1;
-
-        &.flex-grid__col {
-            flex-grow: 4;
-            margin-left: $margin;
-        }
-        
-        &.flex-grid__col--fixed-width {
-            flex: 0 0 $width;
-        }
-
-        &.flex-grid__col--sm {
-            flex-grow: 2;
-        }
-
-        &.flex-grid__col--lg {
-            flex-grow: 8;
-        }
-
-        &:first-child {
-            margin-left: 0rem;
-        }
-
-        &:last-child {
-            margin-right: 0rem;
-        }
-        
-            
+    &.flex-grid__col--fixed-width {
+      flex: 0 0 $width;
     }
 
-    @media (max-width: $phablet) {
-        .flex-grid--md {
-            display: block;
-        }
-
-        .flex-grid--md>* {
-            padding-left: 0;
-            padding-right: 0;
-
-            &.flex-grid__col {
-                margin-left: 0;
-            }
-
-        }
+    &.flex-grid__col--sm {
+      flex-grow: 2;
     }
 
-    @media (max-width: $desktop) {
-        .flex-grid--lg {
-            display: block;
-        }
-
-        .flex-grid--lg>* {
-            padding-left: 0;
-            padding-right: 0;
-
-            &.flex-grid__col {
-                margin-left: 0;
-            }
-        }
+    &.flex-grid__col--lg {
+      flex-grow: 8;
     }
+
+    &:first-child {
+      margin-left: 0rem;
+    }
+
+    &:last-child {
+      margin-right: 0rem;
+    }
+  }
+
+  @media (max-width: $phablet) {
+    .flex-grid--md {
+      display: block;
+    }
+
+    .flex-grid--md > * {
+      padding-left: 0;
+      padding-right: 0;
+
+      &.flex-grid__col {
+        margin-left: 0;
+      }
+    }
+  }
+
+  @media (max-width: $desktop) {
+    .flex-grid--lg {
+      display: block;
+    }
+
+    .flex-grid--lg > * {
+      padding-left: 0;
+      padding-right: 0;
+
+      &.flex-grid__col {
+        margin-left: 0;
+      }
+    }
+  }
 }
 
 // 반응형 생성기
-@mixin response($max:9999px,$min:0px) {
-    @media only screen and (max-width: $max) and (min-width: $min) {
-      @content; 
+@mixin response($max: 9999px, $min: 0px) {
+  @media only screen and (max-width: $max) and (min-width: $min) {
+    @content;
   }
 }
 
 // 클래스 생산
 // ~ 이상일때
 @mixin responseClass() {
-    @include response($mobile) {
-        &--sm {
-            @content; 
-        }
+  @include response($mobile) {
+    &--sm {
+      @content;
     }
-    @include response($phablet) {
-        &--md {
-            @content; 
-        }
+  }
+  @include response($phablet) {
+    &--md {
+      @content;
     }
-    @include response($tablet) {
-        &--wmd {   
-            @content; 
-        }
+  }
+  @include response($tablet) {
+    &--wmd {
+      @content;
     }
-    @include response($desktop) {
-        &--lg { 
-            @content; 
-        }
-    }  
-    @include response($desktophd) {
-        &--wlg { 
-            @content; 
-        }
-    }  
+  }
+  @include response($desktop) {
+    &--lg {
+      @content;
+    }
+  }
+  @include response($desktophd) {
+    &--wlg {
+      @content;
+    }
+  }
 }
 
-
 // 클래스 생산
-// ~이하일 때 @content 하겠다. 
+// ~이하일 때 @content 하겠다.
 @mixin responseUpClass() {
-    @include response($full,$mobile) {
-        &--smUp {
-            @content; 
-        }
+  @include response($full, $mobile) {
+    &--smUp {
+      @content;
     }
-    @include response($full,$phablet) {
-        &--mdUp {
-            @content; 
-        }
+  }
+  @include response($full, $phablet) {
+    &--mdUp {
+      @content;
     }
-    @include response($full,$tablet) {
-        &--wmdUp {   
-            @content; 
-        }
+  }
+  @include response($full, $tablet) {
+    &--wmdUp {
+      @content;
     }
-    @include response($full,$desktop) {
-        &--lgUp { 
-            @content; 
-        }
-    }  
-    @include response($full,$desktophd) {
-        &--wlgUp { 
-            @content; 
-        }
-    }  
+  }
+  @include response($full, $desktop) {
+    &--lgUp {
+      @content;
+    }
+  }
+  @include response($full, $desktophd) {
+    &--wlgUp {
+      @content;
+    }
+  }
 }
 
 // 그리드 생성기
 @mixin grid-system-vertical($mode) {
+  $max: 9999px !default;
 
-    $max:9999px !default;
-    
-    @if $mode == sm {
-        $max: $mobile;
-    } @else if $mode == md {
-        $max: $phablet;
-    } @else if $mode == wmd {
-        $max: $tablet;
-    } @else if $mode == lg {
-        $max: $desktop;
-    } @else if $mode == wlg {
-        $max: $desktophd;
-    } @else if $mode == full {
-        $max: $full;
+  @if $mode == sm {
+    $max: $mobile;
+  } @else if $mode == md {
+    $max: $phablet;
+  } @else if $mode == wmd {
+    $max: $tablet;
+  } @else if $mode == lg {
+    $max: $desktop;
+  } @else if $mode == wlg {
+    $max: $desktophd;
+  } @else if $mode == full {
+    $max: $full;
+  }
+
+  .flex-grid--vertical {
+    &-#{$mode} {
+      flex-direction: column;
+      height: 100%;
+      @include response($full, $max) {
+        .flex-grid__col {
+          margin: 0;
+        }
+      }
     }
-    
+  }
+  @include response($max) {
     .flex-grid--vertical {
-        &-#{$mode} {
-            flex-direction: column;
-            height: 100%;
-            @include response($full, $max){
-                .flex-grid__col {
-                    margin: 0;
-                }
-            }
-        }
+      &-#{$mode} {
+        flex-direction: row;
+      }
     }
-    @include response($max){
-        .flex-grid--vertical {
-            &-#{$mode} {
-                flex-direction: row;
-            }
-        }
-    }
+  }
 }
 
 @mixin accent() {
-    #root,.ReactModalPortal {
-        @content; 
-    }
+  #root,
+  .ReactModalPortal {
+    @content;
+  }
 }
 
-
-@mixin grid-system-all($flagFullWidth:false) {
-    @include grid-system(full,$flagFullWidth);
-    @include grid-system(wlg,$flagFullWidth);
-    @include grid-system(lg,$flagFullWidth);
-    @include grid-system(wmd,$flagFullWidth);
-    @include grid-system(wmd,$flagFullWidth);
-    @include grid-system(md,$flagFullWidth);
-    @include grid-system(sm,$flagFullWidth);
+@mixin grid-system-all($flagFullWidth: false) {
+  @include grid-system(full, $flagFullWidth);
+  @include grid-system(wlg, $flagFullWidth);
+  @include grid-system(lg, $flagFullWidth);
+  @include grid-system(wmd, $flagFullWidth);
+  @include grid-system(wmd, $flagFullWidth);
+  @include grid-system(md, $flagFullWidth);
+  @include grid-system(sm, $flagFullWidth);
 }
 
+@mixin grid-system($mode, $flagFullWidth: false) {
+  $max: 9999px !default;
 
-@mixin grid-system($mode, $flagFullWidth:false) {
+  @if $mode == sm {
+    $max: $mobile;
+  } @else if $mode == md {
+    $max: $phablet;
+  } @else if $mode == wmd {
+    $max: $tablet;
+  } @else if $mode == lg {
+    $max: $desktop;
+  } @else if $mode == wlg {
+    $max: $desktophd;
+  } @else if $mode == full {
+    $max: $full;
+  }
 
-    $max:9999px !default;
-    
-    @if $mode == sm {
-        $max: $mobile;
-    } @else if $mode == md {
-        $max: $phablet;
-    } @else if $mode == wmd {
-        $max: $tablet;
-    } @else if $mode == lg {
-        $max: $desktop;
-    } @else if $mode == wlg {
-        $max: $desktophd;
-    } @else if $mode == full {
-        $max: $full;
-    }
-    
-    @include response($max){
-        
-        @content; 
-        
-        //Todo: for 문으로 간추리자
-        .flex-grid__col,.col {
-            &.col--#{$mode}-0 {
-                display: none;
-            }
+  @include response($max) {
+    @content;
 
-            &.col--#{$mode}-1 {
-                display:block;
-                @if($flagFullWidth) {
-                    width: flex-grid-column-width-noMargin(1);
-                } @else {
-                    width: flex-grid-column-width(1);
-                }
-            }
-            
-            &.col--#{$mode}-2 {
-                display:block;
-                @if($flagFullWidth) {
-                    width: flex-grid-column-width-noMargin(2);
-                } @else {
-                    width: flex-grid-column-width(2);
-                }
-            }
-            
-            &.col--#{$mode}-3 {
-                display:block;
-                width: flex-grid-column-width(3);
-                @if($flagFullWidth) {
-                    width: flex-grid-column-width-noMargin(3);
-                } @else {
-                    width: flex-grid-column-width(3);
-                }
-                &.col--float {
-                    &:not(.aaaa) {margin-left: 2%;}
-                    &:nth-child(4n + 1) {
-                        margin-left: 0;
-                    }
-                }
-            }
-            
-            &.col--#{$mode}-4 {
-                display:block;
-                @if($flagFullWidth) {
-                    width: flex-grid-column-width-noMargin(4);
-                } @else {
-                    width: flex-grid-column-width(4);
-                }
-                &.col--float {
-                    &:not(.aaaa) {margin-left: 2%;}
-                    &:nth-child(3n + 1) {
-                        margin-left: 0;
-                    }
-                }
-            }
-            
-            &.col--#{$mode}-5 {
-                display:block;
-                @if($flagFullWidth) {
-                    width: flex-grid-column-width-noMargin(5);
-                } @else {
-                    width: flex-grid-column-width(5);
-                }
-            }
-            
-            &.col--#{$mode}-6 {
-                display:block;
-                @if($flagFullWidth) {
-                    width: flex-grid-column-width-noMargin(6);
-                } @else {
-                    width: flex-grid-column-width(6);
-                }
-                &.col--float {
-                    &:not(.aaaa) {margin-left: 2%;}
-                    &:nth-child(2n + 1) {
-                        margin-left: 0;
-                    }
-                }
-            }
-            
-            &.col--#{$mode}-7 {
-                display:block;
-                @if($flagFullWidth) {
-                    width: flex-grid-column-width-noMargin(7);
-                } @else {
-                    width: flex-grid-column-width(7);
-                }
-            }
-            
-            &.col--#{$mode}-8 {
-                display:block;
-                @if($flagFullWidth) {
-                    width: flex-grid-column-width-noMargin(8);
-                } @else {
-                    width: flex-grid-column-width(8);
-                }
-            }
-            
-            &.col--#{$mode}-9 {
-                display:block;
-                @if($flagFullWidth) {
-                    width: flex-grid-column-width-noMargin(9);
-                } @else {
-                    width: flex-grid-column-width(9);
-                }
-            }
-            
-            &.col--#{$mode}-10 {
-                display:block;
-                @if($flagFullWidth) {
-                    width: flex-grid-column-width-noMargin(10);
-                } @else {
-                    width: flex-grid-column-width(10);
-                }
-            }
-            
-            &.col--#{$mode}-11 {
-                display:block;
-                @if($flagFullWidth) {
-                    width: flex-grid-column-width-noMargin(11);
-                } @else {
-                    width: flex-grid-column-width(11);
-                }
-            }
-            
-            &.col--#{$mode}-12 {
-                display:block;
-                @if($flagFullWidth) {
-                    width: flex-grid-column-width-noMargin(12);
-                } @else {
-                    width: flex-grid-column-width(12);
-                }
-            }
+    //Todo: for 문으로 간추리자
+    .flex-grid__col,
+    .col {
+      &.col--#{$mode}-0 {
+        display: none;
+      }
 
-            // TODO display 를 통합해서 어딘가로 옮기고 flex명령도 같이 수정자로서 자리를 잡아야하는데.. 여기위치는 너무 애매해
-            &.flex-grid__col--vertical {
-                display:flex;
-                flex-direction: column;
-            }
+      &.col--#{$mode}-1 {
+        display: block;
+        @if ($flagFullWidth) {
+          width: flex-grid-column-width-noMargin(1);
+        } @else {
+          width: flex-grid-column-width(1);
         }
-    }
-}
+      }
 
-@mixin grid-system-grow() {
-    .flex-grid-grow {
-        display: -ms-flexbox;
-        display: -webkit-flex;
-        display: flex;
-      
-        // 수정자 마진0
-        &--margin0 {
-          & > .flex-grid__col {
-            margin: 0;
-          }
+      &.col--#{$mode}-2 {
+        display: block;
+        @if ($flagFullWidth) {
+          width: flex-grid-column-width-noMargin(2);
+        } @else {
+          width: flex-grid-column-width(2);
         }
-      
-        & > * {
-        
-          flex: 1;
-          margin-left: $flex-grid--column-margin;
-          max-width: 100%; //for slider....
-      
-          &.col--grow-1 {
-            flex-grow: 1;
+      }
+
+      &.col--#{$mode}-3 {
+        display: block;
+        width: flex-grid-column-width(3);
+        @if ($flagFullWidth) {
+          width: flex-grid-column-width-noMargin(3);
+        } @else {
+          width: flex-grid-column-width(3);
+        }
+        &.col--float {
+          &:not(.aaaa) {
+            margin-left: 2%;
           }
-          
-          &.col--grow-2 {
-            flex-grow: 2;
-          }
-        
-          &.col--grow-3 {
-            flex-grow: 3;
-          }
-        
-          &.col--grow-4 {
-            flex-grow: 4;
-          }
-        
-          &.col--grow-5 {
-            flex-grow: 5;
-          }
-        
-          &.col--grow-6 {
-            flex-grow: 6;
-          }
-        
-          &.col--grow-7 {
-            flex-grow: 7;
-          }
-        
-          &.col--grow-8 {
-            flex-grow: 8;
-          }
-        
-          &.col--grow-9 {
-            flex-grow: 9;
-          }
-        
-          &.col--grow-10 {
-            flex-grow: 10;
-          }
-        
-          &.col--grow-11 {
-            flex-grow: 11;
-          }
-        
-          &.col--grow-12 {
-            flex-grow: 12;
-          }
-          
-          // fixed-width column (default = 200px)
-          &.flex-grid__col--fixed-width {
-            flex: 0 0 $flex-grid__column--fixed-width;
-          }
-          
-          
-          &:first-child {
-            margin-left: 0rem;
-          }
-        
-          &:last-child {
-            margin-right: 0rem;
+          &:nth-child(4n + 1) {
+            margin-left: 0;
           }
         }
       }
+
+      &.col--#{$mode}-4 {
+        display: block;
+        @if ($flagFullWidth) {
+          width: flex-grid-column-width-noMargin(4);
+        } @else {
+          width: flex-grid-column-width(4);
+        }
+        &.col--float {
+          &:not(.aaaa) {
+            margin-left: 2%;
+          }
+          &:nth-child(3n + 1) {
+            margin-left: 0;
+          }
+        }
+      }
+
+      &.col--#{$mode}-5 {
+        display: block;
+        @if ($flagFullWidth) {
+          width: flex-grid-column-width-noMargin(5);
+        } @else {
+          width: flex-grid-column-width(5);
+        }
+      }
+
+      &.col--#{$mode}-6 {
+        display: block;
+        @if ($flagFullWidth) {
+          width: flex-grid-column-width-noMargin(6);
+        } @else {
+          width: flex-grid-column-width(6);
+        }
+        &.col--float {
+          &:not(.aaaa) {
+            margin-left: 2%;
+          }
+          &:nth-child(2n + 1) {
+            margin-left: 0;
+          }
+        }
+      }
+
+      &.col--#{$mode}-7 {
+        display: block;
+        @if ($flagFullWidth) {
+          width: flex-grid-column-width-noMargin(7);
+        } @else {
+          width: flex-grid-column-width(7);
+        }
+      }
+
+      &.col--#{$mode}-8 {
+        display: block;
+        @if ($flagFullWidth) {
+          width: flex-grid-column-width-noMargin(8);
+        } @else {
+          width: flex-grid-column-width(8);
+        }
+      }
+
+      &.col--#{$mode}-9 {
+        display: block;
+        @if ($flagFullWidth) {
+          width: flex-grid-column-width-noMargin(9);
+        } @else {
+          width: flex-grid-column-width(9);
+        }
+      }
+
+      &.col--#{$mode}-10 {
+        display: block;
+        @if ($flagFullWidth) {
+          width: flex-grid-column-width-noMargin(10);
+        } @else {
+          width: flex-grid-column-width(10);
+        }
+      }
+
+      &.col--#{$mode}-11 {
+        display: block;
+        @if ($flagFullWidth) {
+          width: flex-grid-column-width-noMargin(11);
+        } @else {
+          width: flex-grid-column-width(11);
+        }
+      }
+
+      &.col--#{$mode}-12 {
+        display: block;
+        @if ($flagFullWidth) {
+          width: flex-grid-column-width-noMargin(12);
+        } @else {
+          width: flex-grid-column-width(12);
+        }
+      }
+
+      // TODO display 를 통합해서 어딘가로 옮기고 flex명령도 같이 수정자로서 자리를 잡아야하는데.. 여기위치는 너무 애매해
+      &.flex-grid__col--vertical {
+        display: flex;
+        flex-direction: column;
+      }
+    }
+  }
+}
+
+@mixin grid-system-grow() {
+  .flex-grid-grow {
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+
+    // 수정자 마진0
+    &--margin0 {
+      & > .flex-grid__col {
+        margin: 0;
+      }
+    }
+
+    & > * {
+      flex: 1;
+      margin-left: $flex-grid--column-margin;
+      max-width: 100%; //for slider....
+
+      &.col--grow-1 {
+        flex-grow: 1;
+      }
+
+      &.col--grow-2 {
+        flex-grow: 2;
+      }
+
+      &.col--grow-3 {
+        flex-grow: 3;
+      }
+
+      &.col--grow-4 {
+        flex-grow: 4;
+      }
+
+      &.col--grow-5 {
+        flex-grow: 5;
+      }
+
+      &.col--grow-6 {
+        flex-grow: 6;
+      }
+
+      &.col--grow-7 {
+        flex-grow: 7;
+      }
+
+      &.col--grow-8 {
+        flex-grow: 8;
+      }
+
+      &.col--grow-9 {
+        flex-grow: 9;
+      }
+
+      &.col--grow-10 {
+        flex-grow: 10;
+      }
+
+      &.col--grow-11 {
+        flex-grow: 11;
+      }
+
+      &.col--grow-12 {
+        flex-grow: 12;
+      }
+
+      // fixed-width column (default = 200px)
+      &.flex-grid__col--fixed-width {
+        flex: 0 0 $flex-grid__column--fixed-width;
+      }
+
+      &:first-child {
+        margin-left: 0rem;
+      }
+
+      &:last-child {
+        margin-right: 0rem;
+      }
+    }
+  }
 }

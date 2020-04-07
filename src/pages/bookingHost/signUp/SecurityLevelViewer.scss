@@ -1,0 +1,31 @@
+@import "~Styles";
+
+.securityBar {
+  display: flex;
+  justify-content: space-between;
+  &__block {
+    border: 1px solid $grey-opacity1;
+    border-radius: $standard-border-radius;
+    width: 32%;
+    display: block;
+    background-color: $grey-level1;
+    height: $standard-tiny-space;
+    margin-bottom: $standard-superTiny-space;
+  }
+
+  &--red {
+    .securityBar__block--fill {
+      background-color: $error-color;
+    }
+  }
+  &--oragne {
+    .securityBar__block--fill {
+      background-color: $orange-color;
+    }
+  }
+  &--green {
+    .securityBar__block--fill {
+      background-color: $positive-color;
+    }
+  }
+}

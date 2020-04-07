@@ -2,15 +2,16 @@
 import React, { Fragment } from "react";
 import "./Button.scss";
 import classNames from "classnames";
-import Icon from "../icons/Icons";
+import Icon, { IConProps } from "../icons/Icons";
 import Preloader from "../preloader/Preloader";
 import { s4, colorClass } from "../../utils/utils";
 import Tooltip from "../tooltip/Tooltip";
 import { JDColor } from "../../types/enum";
 import { JDmbClass, JDmrClass } from "../../utils/autoClasses";
 import { JDatomExtentionSet } from "../../types/interface";
-import { IIcons } from "../icons/declation";
+import { IIcons, IconConifgProps } from "../icons/declation";
 import userTacking from "../../utils/userTracking";
+import JDtypho from "../typho/Typho";
 
 export interface IButtonProps
   extends React.HTMLAttributes<HTMLButtonElement>,
@@ -18,6 +19,7 @@ export interface IButtonProps
   disabled?: boolean;
   label?: string;
   icon?: IIcons;
+  iconProps?: IConProps & IconConifgProps;
   refContainer?: any;
   cunsumPadding?: boolean;
   onClick?(event: React.MouseEvent<HTMLButtonElement, MouseEvent>): void;
@@ -25,7 +27,7 @@ export interface IButtonProps
   dataTip?: any;
   dataFor?: any;
   br?: "round" | "normal";
-  mode?: "flat" | "normal" | "border";
+  mode?: "flat" | "normal" | "border" | "iconButton";
   size?: "tiny" | "small" | "large" | "long" | "longLarge";
   flat?: boolean;
   float?: string;
@@ -49,6 +51,7 @@ const Button: React.FC<IButtonProps> = ({
   icon,
   tooltip,
   onClick,
+  iconProps,
   iconClasses,
   br,
   dataTip,
@@ -89,6 +92,7 @@ const Button: React.FC<IButtonProps> = ({
     ...colorClass("JDbtn", thema),
     "JDwaves-effect-dark": mode === "flat" && thema === "normal",
     "JDbtn--pulse": pulse,
+    "JDbtn--iconButton": mode === "iconButton",
     "JDbtn--round": br === "round",
     "JDbtn--toogleOn": toggle === true,
     "JDbtn--toogle111Off": toggle === false,
@@ -115,6 +119,31 @@ const Button: React.FC<IButtonProps> = ({
 
   const newId = s4();
 
+  if (mode === "iconButton") {
+    return (
+      <button
+        {...props}
+        ref={refContainer}
+        type={type}
+        disabled={disabled}
+        className={`JDbtn JDwaves-effect ${classes}`}
+        onClick={handleClickButton}
+        onKeyPress={handleKeyPress}
+        data-tip={tooltip ? true : dataTip}
+        data-for={tooltip ? `btnTooltip${newId}` : dataFor}
+      >
+        <div>
+          <Icon {...iconProps} icon={icon!} />
+        </div>
+        {label && (
+          <JDtypho className="JDbtn--iconButton__label" size="tiny">
+            {label}
+          </JDtypho>
+        )}
+      </button>
+    );
+  }
+
   return (
     <Fragment>
       <button
@@ -134,7 +163,7 @@ const Button: React.FC<IButtonProps> = ({
             <i
               className={`JDbtn__icon ${iconClasses && iconClasses.join(" ")}`}
             >
-              {icon && <Icon icon={icon} />}
+              {icon && <Icon {...iconProps} icon={icon} />}
             </i>
           )}
         </span>

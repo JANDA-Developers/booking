@@ -1,11 +1,13 @@
 import React, { Fragment } from "react";
-import TooltipList from "../../../atoms/tooltipList/TooltipList";
+import TooltipList, {
+  TooltipButtons,
+} from "../../../atoms/tooltipList/TooltipList";
 import Button from "../../../atoms/button/Button";
 import { IContext } from "../../../pages/bookingHost/BookingHostRouter";
 import { IDailyAssigContext } from "../DailyAssig";
 import {
   IDailyAssigUtils,
-  IDailyAssigDataControl
+  IDailyAssigDataControl,
 } from "../../../pages/bookingHost/assig/components/assigIntrerface";
 import { getGuests_GetGuests_guests as IG } from "../../../types/api";
 import { BookingStatus } from "../../../types/enum";
@@ -25,7 +27,7 @@ const GuestTooltip: React.FC<Iprops> = ({
   infoBtnCallBack,
   deleteBtnCallBack,
   dailayAssigContext,
-  checkInBtnCallBack
+  checkInBtnCallBack,
 }) => {
   const { guestsData } = dailayAssigContext;
 
@@ -33,21 +35,20 @@ const GuestTooltip: React.FC<Iprops> = ({
     <TooltipList
       unPadding
       getContent={(guestId: string) => {
-        const targetGuest = guestsData.find(guest => guest._id === guestId);
+        const targetGuest = guestsData.find((guest) => guest._id === guestId);
         if (!targetGuest) return;
 
         return (
-          <ul className="tooltipList__ul">
-            {/* TODO  색상표시 여기 */}
-            <li>
-              <Button
-                onClick={() => {
+          <TooltipButtons
+            Buttons={[
+              {
+                onClick: () => {
                   infoBtnCallBack(targetGuest);
-                }}
-                label={LANG("view_info")}
-              />
-            </li>
-          </ul>
+                },
+                label: LANG("view_info"),
+              },
+            ]}
+          />
         );
       }}
       id="guestTooltip"

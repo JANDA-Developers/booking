@@ -6,7 +6,7 @@ import JDicon from "../../icons/Icons";
 import autoHyphen, {
   numberStr,
   toNumber,
-  card_space
+  card_space,
 } from "../../../utils/autoFormat";
 import { TMarginSize } from "../../../types/enum";
 import { NEUTRAL } from "../../../types/const";
@@ -160,7 +160,7 @@ const InputText = React.forwardRef<HTMLInputElement, IProps>((prop, ref) => {
     "JDinput-wrap--fullHeight": size === "fullHeight",
     "JDinput-wrap--round": br === "round",
     ...JDmrClass(mr),
-    ...JDmbClass(mb)
+    ...JDmbClass(mb),
   });
 
   const classes = classNames(textarea ? "JDtextarea" : "JDinput", className, {
@@ -180,7 +180,7 @@ const InputText = React.forwardRef<HTMLInputElement, IProps>((prop, ref) => {
     "JDtextarea--doubleHeight": doubleHeight && textarea,
     "JDtextarea--halfHeight": halfHeight && textarea,
     "JDtextarea--valid": isValid === true,
-    "JDtextarea--invalid": isValid === false
+    "JDtextarea--invalid": isValid === false,
   });
 
   const inRefContainer = useRef(null);
@@ -206,7 +206,7 @@ const InputText = React.forwardRef<HTMLInputElement, IProps>((prop, ref) => {
   const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
     event.persist();
     const {
-      currentTarget: { value }
+      currentTarget: { value },
     } = event;
     userTacking(label, value);
     onBlur && onBlur(event);
@@ -233,18 +233,14 @@ const InputText = React.forwardRef<HTMLInputElement, IProps>((prop, ref) => {
         />
         {
           <span className="JDinput-iconWrap">
-            {loading ? (
-              <Preloader noAnimation loading={loading} />
-            ) : (
-              icon && (
-                <JDicon
-                  size={"normal"}
-                  onClick={iconOnClick}
-                  hover={iconHover}
-                  icon={icon}
-                  {...iconProps}
-                />
-              )
+            {icon && (
+              <JDicon
+                size={"normal"}
+                onClick={iconOnClick}
+                hover={iconHover}
+                icon={icon}
+                {...iconProps}
+              />
             )}
           </span>
         }
@@ -261,11 +257,11 @@ const InputText = React.forwardRef<HTMLInputElement, IProps>((prop, ref) => {
       <textarea
         disabled={disabled}
         value={formatedValue || undefined}
-        onKeyDown={e => {
+        onKeyDown={(e) => {
           e.nativeEvent.stopImmediatePropagation();
           e.stopPropagation();
         }}
-        onKeyPress={e => {
+        onKeyPress={(e) => {
           e.nativeEvent.stopImmediatePropagation();
           e.stopPropagation();
         }}
@@ -295,7 +291,7 @@ InputText.defaultProps = {
   isValid: "",
   validation: () => NEUTRAL,
   max: 10000,
-  value: undefined
+  value: undefined,
 };
 
 export default React.memo(InputText);

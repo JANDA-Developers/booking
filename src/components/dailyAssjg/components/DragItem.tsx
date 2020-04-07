@@ -15,6 +15,7 @@ import Gender from "../../../pages/bookingHost/assig/components/items/Gender";
 import { BookingStatus, PaymentStatus } from "../../../types/enum";
 import { LANG } from "../../../hooks/hook";
 import StatusMarker from "../../../pages/bookingHost/assig/components/items/StatusMarker";
+import { ALLOCATE_GUEST_TO_ROOM } from "../../../apollo/queries";
 
 export interface IDragItemProp {
   type: string;
@@ -38,7 +39,7 @@ const DragItem: React.FC<IProps> = ({ item, place, room, roomType }) => {
     ReactTooltip.rebuild();
   });
 
-  // 빈자리 리턴
+  // 빈자리 일경우에
   if (!item) {
     return (
       <div className="dailyAssigItem__itemBlockWrap">
@@ -75,10 +76,11 @@ const DragItem: React.FC<IProps> = ({ item, place, room, roomType }) => {
             // {
             //   "dailyAssigItem__guest--progressing":
             //     status === BookingStatus.NOT_YET
-            // }
+            // }s
           );
           return (
             <div
+              data-place="top"
               data-tip={`${moment(checkIn).format(`MM/DD`)} ~ ${moment(
                 checkOut
               ).format(`MM/DD`)}`}
@@ -86,20 +88,20 @@ const DragItem: React.FC<IProps> = ({ item, place, room, roomType }) => {
               className={`dailyAssigItem__itemBlock ${guestBlockClasses}`}
             >
               <span className="dailyAssigItem__itemName">
-                  <StatusMarker
-                    gender={
-                      // @ts-ignore
-                      item.gender
-                    }
-                    breakfast={breakfast}
-                    isUnpaid={isUnpaid}
-                    memo={memo || ""}
-                  />
-                  {name}
+                <StatusMarker
+                  gender={
+                    // @ts-ignore
+                    item.gender
+                  }
+                  breakfast={breakfast}
+                  isUnpaid={isUnpaid}
+                  memo={memo || ""}
+                />
+                {name}
               </span>
               <span
                 data-tip={_id}
-                data-place="top"
+                data-place="right"
                 data-for="guestTooltip"
                 data-event="click"
                 id={`dailyAssigItem__configIconWrapId${_id}`}

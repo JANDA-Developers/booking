@@ -2,13 +2,12 @@ import React, { Fragment, useMemo } from "react";
 import NotiWrap from "../../noti/NotiWrap";
 import { IContext } from "../../../pages/bookingHost/BookingHostRouter";
 import TooltipList, {
-  ReactTooltip
+  ReactTooltip,
+  TooltipButtons,
+  TButtonProp,
 } from "../../../atoms/tooltipList/TooltipList";
-import { NavLink } from "react-router-dom";
-import Button from "../../../atoms/button/Button";
 import { useModal, LANG } from "../../../hooks/hook";
 import { insideRedirect, isEmpty } from "../../../utils/utils";
-import { UserRole } from "../../../types/enum";
 import CircleIcon from "../../../atoms/circleIcon/CircleIcon";
 import MemoIcon from "../../Memo/component/MemoIcon";
 import NotiIcon from "../../noti/component/NotiIcon";
@@ -21,94 +20,74 @@ interface IProps {
 
 const SharedHeaderComponent: React.FC<IProps> = ({
   context,
-  logOutMutation
+  logOutMutation,
 }) => {
   const { user, applyedProduct } = context;
   const { isPhoneVerified } = user;
   const langSelectModal = useModal();
 
   // 로그 여부와 상관없이 공유된
-  const sharedOverLogin = (
-    <li>
-      <Button
-        icon="langugae"
-        onClick={() => {
-          langSelectModal.openModal();
-          ReactTooltip.hide();
-        }}
-        label={LANG("language_setting")}
-        mode="flat"
-      />
-    </li>
-  );
+  const sharedOverLogin: TButtonProp = {
+    label: LANG("language_setting"),
+    icon: "langugae",
+    onClick: () => {
+      langSelectModal.openModal();
+      ReactTooltip.hide();
+    },
+  };
 
   // 툴팁내용
   // 모바일
   // 로그인후 헤더우측 상단 메뉴
   const LoginIconMenu = () => (
-    <Fragment>
-      <li>
-        <Button
-          onClick={() => {
+    <TooltipButtons
+      Buttons={[
+        {
+          onClick: () => {
             logOutMutation();
-            ReactTooltip.hide();
-          }}
-          icon="logout"
-          label={LANG("logOut")}
-          mode="flat"
-        />
-      </li>
-      {user.userRole === UserRole.ADMIN && (
-        <li>
-          <Button
-            className="hader__btn"
-            label={LANG("admin_screen")}
-            icon="admin"
-            redirect={insideRedirect(`superAdmin`)}
-            mode="flat"
-            thema="point"
-          />
-        </li>
-      )}
-      <li>
-        <NavLink to="/myPage">
-          <Button icon="person" label="MYpage" mode="flat" />
-        </NavLink>
-      </li>
-      {sharedOverLogin}
-    </Fragment>
+          },
+          icon: "logout",
+          label: LANG("logOut"),
+        },
+        {
+          redirect: insideRedirect(`superAdmin`),
+          label: LANG("admin_screen"),
+          icon: "admin",
+        },
+        {
+          redirect: insideRedirect(`myPage`),
+          icon: "person",
+          label: "MYpage",
+        },
+        sharedOverLogin,
+      ]}
+    />
   );
 
   // 툴팁내용
   // 모바일
   // 로그인 안된 헤더우측 상단 메뉴
   const UnLoginIconMenu = () => (
-    <Fragment>
-      <li>
-        <NavLink to="/login">
-          <Button
-            onClick={() => {
-              ReactTooltip.hide();
-            }}
-            label={LANG("login")}
-            mode="flat"
-          />
-        </NavLink>
-      </li>
-      <li>
-        <NavLink to="/signUp">
-          <Button
-            className="header__signUpBtn"
-            onClick={() => {
-              ReactTooltip.hide();
-            }}
-            label={LANG("signUp")}
-            mode="flat"
-          />
-        </NavLink>
-      </li>
-      {sharedOverLogin}
-    </Fragment>
+    <TooltipButtons
+      Buttons={[
+        {
+          redirect: insideRedirect(`login`),
+          onClick: () => {
+            ReactTooltip.hide();
+          },
+          label: LANG("login"),
+        },
+        {
+          redirect: insideRedirect(`signUp`),
+          label: LANG("login"),
+        },
+        {
+          redirect: insideRedirect(`signUp`),
+          label: LANG("signUp"),
+        },
+        sharedOverLogin,
+      ]}
+    />
   );
 
   const { isLogIn } = context;
@@ -140,7 +119,7 @@ const SharedHeaderComponent: React.FC<IProps> = ({
       </span>
       {/* 툴팁만 존재 버튼은 각 PC와 모바일 파일에 있음 */}
       <TooltipList id="tooltip_user">
-        <ul>{isLogIn ? <LoginIconMenu /> : <UnLoginIconMenu />}</ul>
+        {isLogIn ? <LoginIconMenu /> : <UnLoginIconMenu />}
       </TooltipList>
       <LangSelectModal modalHook={langSelectModal} context={context} />
     </Fragment>

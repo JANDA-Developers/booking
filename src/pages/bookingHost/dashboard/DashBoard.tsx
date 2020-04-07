@@ -11,7 +11,9 @@ import DaySalesWrap from "../../../components/shortStatisces/DaySalesWrap";
 import DayCheckInWrap from "../../../components/shortStatisces/DayCheckInWrap";
 import ReservationModal from "../../../components/reservationModala/ReservationModal";
 import JDIcon from "../../../atoms/icons/Icons";
-import TooltipList from "../../../atoms/tooltipList/TooltipList";
+import TooltipList, {
+  TooltipButtons
+} from "../../../atoms/tooltipList/TooltipList";
 import DayPickerModal from "../../../components/dayPickerModal/DayPickerModal";
 import SendSMSmodalWrap from "../../../components/smsModal/SendSmsModalWrap";
 import moment from "moment";
@@ -152,36 +154,28 @@ const DashBoard: React.SFC<Iprops> = ({ context }) => {
       </PageBody>
       {/* 데일리 어시그 컨트롤 툴팁 */}
       <TooltipList id="DailyAssigTooltip">
-        <ul className="tooltipList__ul">
-          <li>
-            <Button
-              label={LANG("make_reservation")}
-              size="small"
-              float="right"
-              mode="border"
-              onClick={() => {
+        <TooltipButtons
+          Buttons={[
+            {
+              label: LANG("make_reservation"),
+              onClick: () => {
                 reservationModal.openModal();
-              }}
-            />
-          </li>
-          <li>
-            <Button
-              label={LANG("change_date")}
-              size="small"
-              float="right"
-              mode="border"
-              onClick={() => {
+              }
+            },
+            {
+              label: LANG("change_date"),
+              onClick: () => {
                 dayPickerModalHook.openModal();
-              }}
-            />
-          </li>
-        </ul>
-        <DayPickerModal
-          modalHook={dayPickerModalHook}
-          isRange={false}
-          {...dailyAssigDateHook}
+              }
+            }
+          ]}
         />
       </TooltipList>
+      <DayPickerModal
+        modalHook={dayPickerModalHook}
+        isRange={false}
+        {...dailyAssigDateHook}
+      />
       <SendSMSmodalWrap modalHook={smsModalHook} context={context} />
     </div>
   );

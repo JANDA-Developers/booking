@@ -49,7 +49,6 @@ function App() {
     };
   });
 
-  
   return (
     <div id="JDoutWrapper">
       <ApolloProvider client={client}>

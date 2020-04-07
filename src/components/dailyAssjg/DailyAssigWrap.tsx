@@ -106,7 +106,7 @@ const DailyAssigWrap: React.FC<IProps & WrapProp> = ({
     getGuestsVariables
   >(GET_ALL_GUEST_AND_BLOCK, {
     client,
-    notifyOnNetworkStatusChange:true,
+    notifyOnNetworkStatusChange: true,
     skip: roomTypeLoading,
     variables: {
       ...queryVariables,
@@ -298,13 +298,15 @@ const DailyAssigHigher: React.FC<IProps> = ({ context, ...prop }) => {
   const formatedRoomData = roomDataManufacturer(roomTypesData); // 타임라인을 위해 가공된 데이터
 
   return (
-    <DailyAssigWrap
-      context={context}
-      roomTypesData={roomTypesData}
-      formatedRoomData={formatedRoomData}
-      roomTypeLoading={roomTypeLoading}
-      {...prop}
-    />
+    <div>
+      <DailyAssigWrap
+        context={context}
+        roomTypesData={roomTypesData}
+        formatedRoomData={formatedRoomData}
+        roomTypeLoading={roomTypeLoading}
+        {...prop}
+      />
+    </div>
   );
 };
 

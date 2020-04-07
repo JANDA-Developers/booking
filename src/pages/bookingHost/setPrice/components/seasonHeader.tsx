@@ -4,16 +4,18 @@ import {
   useDayPicker,
   useSelect,
   useModal,
-  LANG
+  LANG,
 } from "../../../../hooks/hook";
 import JDIcon from "../../../../atoms/icons/Icons";
 import JDselect, {
   IselectedOption,
-  SelectBoxSize
+  SelectBoxSize,
 } from "../../../../atoms/forms/selectBox/SelectBox";
 import InputText from "../../../../atoms/forms/inputText/InputText";
 import moment from "moment";
-import TooltipList from "../../../../atoms/tooltipList/TooltipList";
+import TooltipList, {
+  TooltipButtons,
+} from "../../../../atoms/tooltipList/TooltipList";
 import Button from "../../../../atoms/button/Button";
 import JDmodal from "../../../../atoms/modal/Modal";
 import {
@@ -22,7 +24,7 @@ import {
   deleteSeasonVariables,
   changePriorityVariables,
   updateSeason,
-  updateSeasonVariables
+  updateSeasonVariables,
 } from "../../../../types/api";
 import { MutationFn } from "react-apollo";
 import { targetBlinkFuture } from "../../../../utils/targetBlink";
@@ -54,25 +56,21 @@ const SeasonHeader: React.FC<IProps> = ({
 }) => {
   const dayPickerHook = useDayPicker(
     season.start,
-    season.end
-      ? moment(season.end)
-          .add(-1, "day")
-          .toDate()
-      : null
+    season.end ? moment(season.end).add(-1, "day").toDate() : null
   );
   const updateSeasonModal = useModal(false);
   const periorityModalHook = useModal(false);
   const periorityHook = useSelect({
     value: season.priority,
-    label: `${season.priority}${LANG("nth")}`
+    label: `${season.priority}${LANG("nth")}`,
   });
 
   const handleDeleteSeason = () => {
     deleteSeasonMu({
       variables: {
         houseId,
-        seasonId: season._id
-      }
+        seasonId: season._id,
+      },
     });
     targetBlinkFuture(`#seasonHeader${season._id}`, true);
   };
@@ -83,8 +81,8 @@ const SeasonHeader: React.FC<IProps> = ({
       variables: {
         houseId,
         priority: periorityHook.selectedOption.value,
-        seasonId: season._id
-      }
+        seasonId: season._id,
+      },
     });
     periorityModalHook.closeModal();
   };
@@ -92,32 +90,28 @@ const SeasonHeader: React.FC<IProps> = ({
   const Menue = () => (
     <Fragment>
       <TooltipList id={`seasonMenu${season._id}`}>
-        <ul className="tooltipList__ul">
-          <li>
-            <Button
-              onClick={() => {
+        <TooltipButtons
+          Buttons={[
+            {
+              onClick: () => {
                 updateSeasonModal.openModal();
-              }}
-              label={LANG("do_modify")}
-            />
-          </li>
-          <li>
-            <Button
-              onClick={() => {
+              },
+              label: LANG("do_modify"),
+            },
+            {
+              onClick: () => {
                 handleDeleteSeason();
-              }}
-              label={LANG("do_delete")}
-            />
-          </li>
-          <li>
-            <Button
-              onClick={() => {
+              },
+              label: LANG("do_delete"),
+            },
+            {
+              onClick: () => {
                 periorityModalHook.openModal();
-              }}
-              label={LANG("chnage_priority")}
-            />
-          </li>
-        </ul>
+              },
+              label: LANG("chnage_priority"),
+            },
+          ]}
+        />
       </TooltipList>
     </Fragment>
   );
@@ -165,7 +159,7 @@ const SeasonHeader: React.FC<IProps> = ({
       <div>
         <InputText
           style={{
-            width: "100%"
+            width: "100%",
           }}
           readOnly
           mb="no"

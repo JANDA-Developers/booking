@@ -1,9 +1,11 @@
 import React from "react";
-import TooltipList from "../../../atoms/tooltipList/TooltipList";
+import TooltipList, {
+  TooltipButtons,
+} from "../../../atoms/tooltipList/TooltipList";
 import { IContext } from "../../../pages/bookingHost/BookingHostRouter";
 import {
   IDailyAssigUtils,
-  IDailyAssigDataControl
+  IDailyAssigDataControl,
 } from "../../../pages/bookingHost/assig/components/assigIntrerface";
 import { IDailyAssigContext } from "../DailyAssig";
 import { getGuests_GetBlocks_blocks as IB } from "../../../types/api";
@@ -20,7 +22,7 @@ interface Iprops {
 
 const BlockTooltip: React.FC<Iprops> = ({
   deleteBtnCallBack,
-  dailayAssigContext
+  dailayAssigContext,
 }) => {
   const { blocksData } = dailayAssigContext;
 
@@ -29,19 +31,19 @@ const BlockTooltip: React.FC<Iprops> = ({
       id="blockTooltip"
       className="blockTooltip"
       getContent={(guestId: string) => {
-        const targetBlock = blocksData.find(guest => guest._id === guestId);
+        const targetBlock = blocksData.find((guest) => guest._id === guestId);
         if (!targetBlock) return <div />;
         return (
-          <ul className="tooltipList__ul">
-            <li>
-              <Button
-                onClick={() => {
+          <TooltipButtons
+            Buttons={[
+              {
+                onClick: () => {
                   deleteBtnCallBack(targetBlock);
-                }}
-                label={LANG("delete")}
-              />
-            </li>
-          </ul>
+                },
+                label: LANG("delete"),
+              },
+            ]}
+          />
         );
       }}
     />

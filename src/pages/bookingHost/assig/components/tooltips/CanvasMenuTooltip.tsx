@@ -3,11 +3,12 @@ import Button from "../../../../../atoms/button/Button";
 import {
   IAssigTimelineUtils,
   IAssigTimelineContext,
-  IAssigTimelineHooks
+  IAssigTimelineHooks,
 } from "../assigIntrerface";
 import { startBooking_StartBooking } from "../../../../../types/api";
 import { LANG } from "../../../../../hooks/hook";
 import { ToastContainer, toast } from "react-toastify";
+import { TooltipButtons } from "../../../../../atoms/tooltipList/TooltipList";
 
 interface IProps {
   assigHooks: IAssigTimelineHooks;
@@ -24,8 +25,8 @@ const CanvasMenuTooltip: React.FC<IProps> = ({
     getInfoesFromMarks,
     startBookingModalWithMark,
     allTooltipsHide,
-    markValidation
-  }
+    markValidation,
+  },
 }) => {
   const { groupIds, end, start } = getInfoesFromMarks();
 
@@ -54,35 +55,33 @@ const CanvasMenuTooltip: React.FC<IProps> = ({
     if (validater())
       startBookingModalWithMark({
         startBookingCallBack: bookingCallBack,
-        onStartBookingStart
+        onStartBookingStart,
       });
   };
 
   return (
     <div className="assig__tooltips canvasMenu tooltipList" id="canvasMenu">
-      <ul>
-        <li>
-          <Button
-            label={LANG("create_booking")}
-            onClick={e => {
+      <TooltipButtons
+        Buttons={[
+          {
+            label: LANG("create_booking"),
+            onClick: (e: any) => {
               allTooltipsHide();
               e.stopPropagation();
               createBtnHandler();
-            }}
-          />
-        </li>
-        <li>
-          <Button
-            onClick={() => {
+            },
+          },
+          {
+            onClick: () => {
               allTooltipsHide();
               if (validater()) {
                 addBlock(start, end, groupIds);
               }
-            }}
-            label={LANG("block_room")}
-          />
-        </li>
-      </ul>
+            },
+            label: LANG("block_room"),
+          },
+        ]}
+      />
     </div>
   );
 };

@@ -20,10 +20,10 @@ const StatusMarker: React.FC<IProps> = ({
   memo,
   gender,
   isUnpaid,
-  breakfast
+  breakfast,
 }) => {
   return (
-    <div className="statusMarker">
+    <div className={`statusMarker ${darkImg && "statusMarker--dark"}`}>
       {gender && (
         <img title={gender} src={gender === Gender.MALE ? imgMan : imgWoman} />
       )}
