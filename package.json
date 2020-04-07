@@ -4,6 +4,7 @@
   "description": "Janda Reservation Module for Development(client)",
   "main": "index.jsx",
   "author": "KMJ",
+  "homepage": ".",
   "license": "MIT",
   "private": true,
   "scripts": {
