@@ -1,0 +1,12 @@
+@import "../../../node_modules/@janda-com/front/build/scss/components/SearchInput.scss";
+
+#JDBookingSearcher {
+  display: flex;
+  align-items: center;
+}
+#JDBookingSearcher .JDinput {
+  background-color: white;
+  display: flex;
+  align-items: center;
+  border: none;
+}

@@ -430,6 +430,24 @@
                   }
                 },
                 "defaultValue": null
+              },
+              {
+                "name": "roomTypeIds",
+                "description": "",
+                "type": {
+                  "kind": "LIST",
+                  "name": null,
+                  "ofType": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "SCALAR",
+                      "name": "ID",
+                      "ofType": null
+                    }
+                  }
+                },
+                "defaultValue": null
               }
             ],
             "type": {
@@ -1893,7 +1911,7 @@
                   "name": null,
                   "ofType": {
                     "kind": "SCALAR",
-                    "name": "Password",
+                    "name": "String",
                     "ofType": null
                   }
                 },
@@ -21416,6 +21434,34 @@
                   }
                 },
                 "defaultValue": null
+              },
+              {
+                "name": "newPassword",
+                "description": "",
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null
+              },
+              {
+                "name": "newPasswordRe",
+                "description": "",
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null
               }
             ],
             "type": {
@@ -31330,7 +31376,7 @@
               "name": null,
               "ofType": {
                 "kind": "SCALAR",
-                "name": "Password",
+                "name": "String",
                 "ofType": null
               }
             },
@@ -34174,13 +34220,9 @@
             "description": "",
             "args": [],
             "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "PhoneNumber",
-                "ofType": null
-              }
+              "kind": "SCALAR",
+              "name": "PhoneNumber",
+              "ofType": null
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -34194,7 +34236,7 @@
               "name": null,
               "ofType": {
                 "kind": "SCALAR",
-                "name": "Password",
+                "name": "String",
                 "ofType": null
               }
             },

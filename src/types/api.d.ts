@@ -1,5 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -179,6 +180,7 @@ export interface getSpecificationVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -237,6 +239,7 @@ export interface getSmsHistoryVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -293,6 +296,7 @@ export interface getRoomTypeByIdVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -316,6 +320,7 @@ export interface updateSeasonPricesVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -375,6 +380,7 @@ export interface getAllProductTypes {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -663,6 +669,7 @@ export interface getMyProfile {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -768,6 +775,7 @@ export interface getHousesForSUVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -787,11 +795,12 @@ export interface emailSignIn {
 
 export interface emailSignInVariables {
   email: any;
-  password: any;
+  password: string;
 }
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -905,6 +914,7 @@ export interface getHouseVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -1017,6 +1027,7 @@ export interface dailyPriceGetPriceVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -1080,6 +1091,7 @@ export interface getAllRoomTypeForBooker {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -1147,6 +1159,7 @@ export interface getAllRoomTypeVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -1289,6 +1302,7 @@ export interface findBookingVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -1430,6 +1444,7 @@ export interface findBookingForBookerVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -1499,6 +1514,7 @@ export interface getRoomTypeDatePricesVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -1541,6 +1557,7 @@ export interface getBlocksVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -1857,10 +1874,12 @@ export interface getGuestsVariables {
   checkIn: any;
   checkOut: any;
   bookingStatuses?: (BookingStatus | null)[] | null;
+  roomTypeIds?: string[] | null;
 }
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -1918,6 +1937,7 @@ export interface getAllRoomTypePriceVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -2209,6 +2229,7 @@ export interface getUserForSUVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -2246,6 +2267,7 @@ export interface initHouseVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -2305,6 +2327,7 @@ export interface getUsersVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -2329,6 +2352,7 @@ export interface updateBlockOptionVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -2348,6 +2372,7 @@ export interface getAllReadMe {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -2371,6 +2396,7 @@ export interface getFileTxtVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -2508,6 +2534,7 @@ export interface getBookingForPublicVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -2542,6 +2569,7 @@ export interface getPhoneNumbersVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -2577,6 +2605,7 @@ export interface getBookingMemosVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -2616,6 +2645,7 @@ export interface getCheckInsVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -2796,6 +2826,7 @@ export interface getBookingsVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -2975,6 +3006,7 @@ export interface getBookingVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -3027,6 +3059,7 @@ export interface getSalesStatisticVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -3051,6 +3084,7 @@ export interface changeIndexForRoomTypeVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -3153,6 +3187,7 @@ export interface getAllSeasonTableVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -3177,6 +3212,7 @@ export interface updateBookingVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -3199,81 +3235,84 @@ export interface deleteGuestsVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL mutation operation: startBookingForPublic
+// GraphQL mutation operation: makeBookingForPublic
 // ====================================================
 
-export interface startBookingForPublic_StartBookingForPublic_booking {
+export interface makeBookingForPublic_MakeBookingForPublic_booking {
   __typename: "Booking";
   _id: string;
   bookingNum: string;
 }
 
-export interface startBookingForPublic_StartBookingForPublic {
-  __typename: "StartBookingResponse";
+export interface makeBookingForPublic_MakeBookingForPublic {
+  __typename: "MakeBookingResponse";
   ok: boolean;
   error: string | null;
   /**
    * Booking 말고... 트랜잭션 ID를 넘겨주자
    */
-  booking: startBookingForPublic_StartBookingForPublic_booking | null;
+  booking: makeBookingForPublic_MakeBookingForPublic_booking | null;
 }
 
-export interface startBookingForPublic {
-  StartBookingForPublic: startBookingForPublic_StartBookingForPublic;
+export interface makeBookingForPublic {
+  MakeBookingForPublic: makeBookingForPublic_MakeBookingForPublic;
 }
 
-export interface startBookingForPublicVariables {
-  bookerParams: StartBookingBookerInput;
+export interface makeBookingForPublicVariables {
+  bookerParams: MakeBookingBookerInput;
   checkInOut: CheckInOutInput;
-  guestDomitoryParams?: StartBookingDomitoryGuestInput[] | null;
-  guestRoomParams?: StartBookingRoomGuestInput[] | null;
-  paymentParams: StartBookingPaymentInput;
+  guestDomitoryParams?: MakeBookingDomitoryGuestInput[] | null;
+  guestRoomParams?: MakeBookingRoomGuestInput[] | null;
+  paymentParams: MakeBookingPaymentInput;
 }
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
-// GraphQL mutation operation: startBooking
+// GraphQL mutation operation: makeBooking
 // ====================================================
 
-export interface startBooking_StartBooking_booking {
+export interface makeBooking_MakeBooking_booking {
   __typename: "Booking";
   _id: string;
   bookingNum: string;
 }
 
-export interface startBooking_StartBooking {
-  __typename: "StartBookingResponse";
+export interface makeBooking_MakeBooking {
+  __typename: "MakeBookingResponse";
   ok: boolean;
   error: string | null;
   /**
    * Booking 말고... 트랜잭션 ID를 넘겨주자
    */
-  booking: startBooking_StartBooking_booking | null;
+  booking: makeBooking_MakeBooking_booking | null;
 }
 
-export interface startBooking {
-  StartBooking: startBooking_StartBooking;
+export interface makeBooking {
+  MakeBooking: makeBooking_MakeBooking;
 }
 
-export interface startBookingVariables {
+export interface makeBookingVariables {
   houseId: string;
-  bookerParams: StartBookingBookerInput;
+  bookerParams: MakeBookingBookerInput;
   checkInOut: CheckInOutInput;
-  guestDomitoryParams?: StartBookingDomitoryGuestInput[] | null;
-  guestRoomParams?: StartBookingRoomGuestInput[] | null;
-  paymentParams: StartBookingPaymentInput;
+  guestDomitoryParams?: MakeBookingDomitoryGuestInput[] | null;
+  guestRoomParams?: MakeBookingRoomGuestInput[] | null;
+  paymentParams: MakeBookingPaymentInput;
   allocationParams?: AllocationInput[] | null;
   forceToAllocate?: boolean | null;
 }
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -3307,6 +3346,7 @@ export interface allocateGuestToRoomVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -3332,6 +3372,7 @@ export interface createRoomTypeVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -3354,6 +3395,7 @@ export interface createUserRequestVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -3379,6 +3421,7 @@ export interface getAllHomepageOptions {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -3401,6 +3444,7 @@ export interface updateUserRequestVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -3423,6 +3467,7 @@ export interface createHomepageVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -3445,6 +3490,7 @@ export interface updateHomepageVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -3467,6 +3513,7 @@ export interface deleteHomepageVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -3539,6 +3586,7 @@ export interface getHomepagesVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -3626,6 +3674,7 @@ export interface getUserRequestsVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -3648,6 +3697,7 @@ export interface deleteBlockVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -3692,6 +3742,7 @@ export interface createBlockVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -3720,6 +3771,7 @@ export interface createDailyPriceVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -3742,6 +3794,7 @@ export interface deleteBookingVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -3765,6 +3818,7 @@ export interface deleteDailyPriceVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -3788,6 +3842,7 @@ export interface updateRoomVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -3813,6 +3868,7 @@ export interface createSeasonPriceVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -3847,6 +3903,7 @@ export interface createSeasonVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -3877,6 +3934,7 @@ export interface changePriorityVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -3900,6 +3958,7 @@ export interface deleteSeasonVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -3928,6 +3987,7 @@ export interface updateSeasonVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -3955,6 +4015,7 @@ export interface updateMyProfileVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -3973,6 +4034,7 @@ export interface startPhoneVerification {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -3991,6 +4053,7 @@ export interface startPhoneVerificationWithPhoneNumber {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -4017,6 +4080,7 @@ export interface startPasswordResetVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -4038,10 +4102,13 @@ export interface completePasswordResetVariables {
   email: any;
   phoneNumber: any;
   key: string;
+  newPassword: string;
+  newPasswordRe: string;
 }
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -4067,6 +4134,7 @@ export interface deleteBillKeyVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -4092,6 +4160,7 @@ export interface unregisterBillKeyVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -4114,6 +4183,7 @@ export interface completePhoneVerificationVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -4137,6 +4207,7 @@ export interface emailSignUpVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -4159,6 +4230,7 @@ export interface updateHouseVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -4205,6 +4277,7 @@ export interface getHouseForPublic {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -4228,6 +4301,7 @@ export interface updateHouseConfigVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -4257,6 +4331,7 @@ export interface createHouseVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -4279,6 +4354,7 @@ export interface deleteHouseVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -4301,6 +4377,7 @@ export interface selectProductVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -4324,6 +4401,7 @@ export interface refundProductVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -4372,6 +4450,7 @@ export interface createSmsTemplateVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -4395,6 +4474,7 @@ export interface deleteSmsTemplateVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -4534,6 +4614,7 @@ export interface getRoomTypeInfoVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -4596,6 +4677,7 @@ export interface getSmsInfoVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -4645,6 +4727,7 @@ export interface updateSmsTemplateVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -4693,6 +4776,7 @@ export interface sendSmsVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -4723,6 +4807,7 @@ export interface updateUserForSUVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -4745,6 +4830,7 @@ export interface confirmBookingVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -4777,6 +4863,7 @@ export interface updateSenderVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -4888,6 +4975,7 @@ export interface getHMVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -4995,6 +5083,7 @@ export interface getHMforPublic {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -5018,6 +5107,7 @@ export interface updateHMVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -5053,6 +5143,7 @@ export interface getMemosVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -5076,6 +5167,7 @@ export interface updateMemoVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -5102,6 +5194,7 @@ export interface createMemoVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -5124,6 +5217,7 @@ export interface deleteMemoVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -5161,6 +5255,7 @@ export interface getNotisVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -5198,6 +5293,7 @@ export interface singleUploadVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -5222,6 +5318,7 @@ export interface changePasswordVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -5244,6 +5341,7 @@ export interface findMyEmailVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -5267,6 +5365,7 @@ export interface confirmNotiVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -5293,6 +5392,7 @@ export interface createNotiVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -5328,6 +5428,7 @@ export interface registerBillKeyVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -5350,6 +5451,7 @@ export interface updateProductBillInfoVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -5393,6 +5495,7 @@ export interface updateProductBillPayStatusVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -5478,6 +5581,7 @@ export interface getPayHistoryVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -5500,6 +5604,7 @@ export interface doBillPayProductVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -5522,6 +5627,7 @@ export interface refundBookingVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -5544,6 +5650,7 @@ export interface doBillPayCancelProductVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -5567,6 +5674,7 @@ export interface getReplacedMessageVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -5590,6 +5698,7 @@ export interface getReplacedMessagesVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -5612,6 +5721,7 @@ export interface saveRoomTypesVariables {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -5628,6 +5738,7 @@ export interface Flocation {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -5649,6 +5760,7 @@ export interface Fhomepage {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -5675,6 +5787,7 @@ export interface FhomepageRequest {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -5702,6 +5815,7 @@ export interface FuserRequest {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -5717,6 +5831,7 @@ export interface FbankAccountInfo {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -5739,6 +5854,7 @@ export interface Fimg {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -5758,6 +5874,7 @@ export interface Fmemo {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -5779,6 +5896,7 @@ export interface FNoti {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -5798,6 +5916,7 @@ export interface Fhouse {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -5850,6 +5969,7 @@ export interface FHM {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -5889,6 +6009,7 @@ export interface FHMmenu {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -5946,6 +6067,7 @@ export interface FhouseConfig {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -5994,6 +6116,7 @@ export interface FproductType {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -6073,6 +6196,7 @@ export interface Fproduct {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -6105,6 +6229,7 @@ export interface FsmsTemplate {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -6126,6 +6251,7 @@ export interface FallSeason {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -6150,6 +6276,7 @@ export interface Fpayment {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -6174,6 +6301,7 @@ export interface FpageInfo {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -6189,6 +6317,7 @@ export interface FsmsSender {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -6210,6 +6339,7 @@ export interface FsmsHistory {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -6252,6 +6382,7 @@ export interface FroomType {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -6266,6 +6397,7 @@ export interface Froom {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -6279,6 +6411,7 @@ export interface FblockOp {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -6307,6 +6440,7 @@ export interface FcapacityRoom {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -6344,6 +6478,7 @@ export interface FcapacityDomitory {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -6362,6 +6497,7 @@ export interface Fblock {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -6378,6 +6514,7 @@ export interface Fguest {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -6396,6 +6533,7 @@ export interface FguestDomitory {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -6412,6 +6550,7 @@ export interface FguestRoom {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -6460,6 +6599,7 @@ export interface Fuser {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -6480,6 +6620,7 @@ export interface FbillInfoResult {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -6501,6 +6642,7 @@ export interface FcardInfo {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -6557,6 +6699,7 @@ export interface FsharedGetAllRoomType {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -6660,6 +6803,7 @@ export interface Fbooking {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -6936,6 +7080,7 @@ export interface Fcontext {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 // ====================================================
@@ -6997,6 +7142,7 @@ export interface FroomTypePriceResult {
 
 /* tslint:disable */
 /* eslint-disable */
+// @generated
 // This file was automatically generated and should not be edited.
 
 //==============================================================
@@ -7451,7 +7597,7 @@ export interface DoBillPayProductInput {
 export interface EmailSignUpInput {
   name: any;
   email: any;
-  password: any;
+  password: string;
   phoneNumber: any;
   bankAccountInfo?: BankAccountInfoInput | null;
   timezone?: string | null;
@@ -7615,6 +7761,39 @@ export interface LocationInput {
   lng: number;
 }
 
+/**
+ * hosueId는 token에 의해서 불러와지는걸로
+ */
+export interface MakeBookingBookerInput {
+  name: any;
+  phoneNumber?: any | null;
+  password: string;
+  memo: string;
+  email?: string | null;
+  agreePrivacyPolicy: boolean;
+  funnels?: Funnels | null;
+  nationality?: string | null;
+  breakfast?: boolean | null;
+}
+
+export interface MakeBookingDomitoryGuestInput {
+  roomTypeId: string;
+  countFemale: number;
+  countMale: number;
+}
+
+export interface MakeBookingPaymentInput {
+  price: number;
+  payMethod: PayMethod;
+  status?: PaymentStatus | null;
+  cardPayInfo?: CreateBillKeyInput | null;
+}
+
+export interface MakeBookingRoomGuestInput {
+  roomTypeId: string;
+  countRoom: number;
+}
+
 export interface NewBookingMarkInput {
   enable?: boolean | null;
   newGuestTime: number;
@@ -7733,24 +7912,6 @@ export interface StartBookingBookerInput {
   funnels?: Funnels | null;
   nationality?: string | null;
   breakfast?: boolean | null;
-}
-
-export interface StartBookingDomitoryGuestInput {
-  roomTypeId: string;
-  countFemale: number;
-  countMale: number;
-}
-
-export interface StartBookingPaymentInput {
-  price: number;
-  payMethod?: PayMethod | null;
-  status?: PaymentStatus | null;
-  cardPayInfo?: CreateBillKeyInput | null;
-}
-
-export interface StartBookingRoomGuestInput {
-  roomTypeId: string;
-  countRoom: number;
 }
 
 export interface StayDateInput {

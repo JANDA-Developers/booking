@@ -1511,15 +1511,15 @@ export const DELETE_GUEST = gql`
 `;
 
 // 예약 ::예약생성 (게스트용)
-export const START_BOOKING_FOR_PUBLIC = gql`
-  mutation startBookingForPublic(
-    $bookerParams: StartBookingBookerInput!
+export const MAKE_BOOKING_FOR_PUBLIC = gql`
+  mutation makeBookingForPublic(
+    $bookerParams: MakeBookingBookerInput!
     $checkInOut: CheckInOutInput!
-    $guestDomitoryParams: [StartBookingDomitoryGuestInput!]
-    $guestRoomParams: [StartBookingRoomGuestInput!]
-    $paymentParams: StartBookingPaymentInput!
+    $guestDomitoryParams: [MakeBookingDomitoryGuestInput!]
+    $guestRoomParams: [MakeBookingRoomGuestInput!]
+    $paymentParams: MakeBookingPaymentInput!
   ) {
-    StartBookingForPublic(
+    MakeBookingForPublic(
       bookerParams: $bookerParams
       checkInOut: $checkInOut
       guestDomitoryParams: $guestDomitoryParams
@@ -1536,18 +1536,18 @@ export const START_BOOKING_FOR_PUBLIC = gql`
   }
 `;
 
-export const START_BOOKING = gql`
-  mutation startBooking(
+export const MAKE_BOOKING = gql`
+  mutation makeBooking(
     $houseId: ID!
-    $bookerParams: StartBookingBookerInput!
+    $bookerParams: MakeBookingBookerInput!
     $checkInOut: CheckInOutInput!
-    $guestDomitoryParams: [StartBookingDomitoryGuestInput!]
-    $guestRoomParams: [StartBookingRoomGuestInput!]
-    $paymentParams: StartBookingPaymentInput!
+    $guestDomitoryParams: [MakeBookingDomitoryGuestInput!]
+    $guestRoomParams: [MakeBookingRoomGuestInput!]
+    $paymentParams: MakeBookingPaymentInput!
     $allocationParams: [AllocationInput!]
     $forceToAllocate: Boolean
   ) {
-    StartBooking(
+    MakeBooking(
       houseId: $houseId
       bookerParams: $bookerParams
       checkInOut: $checkInOut
@@ -1959,7 +1959,7 @@ export const UPDATE_MYPROFILE = gql`
     $name: Name!
     $phoneNumber: PhoneNumber!
     $email: EmailAddress!
-    $password: String!
+    $password: Password!
     $profileImg: JdFileInput
     $bankAccountInfo: BankAccountInfoInput
   ) {
@@ -2011,8 +2011,16 @@ export const COMPLETE_PASSWORD_RESETE = gql`
     $email: EmailAddress!
     $phoneNumber: PhoneNumber!
     $key: String!
+    $newPassword: String!
+    $newPasswordRe: String!
   ) {
-    CompletePasswordReset(email: $email, phoneNumber: $phoneNumber, key: $key) {
+    CompletePasswordReset(
+      email: $email
+      phoneNumber: $phoneNumber
+      key: $key
+      newPassword: $newPassword
+      newPasswordRe: $newPasswordRe
+    ) {
       ok
       error
       newPassword
@@ -2439,9 +2447,9 @@ export const UPLOAD_FILE = gql`
 
 export const CHANGE_PASSWORD = gql`
   mutation changePassword(
-    $currentPassword: String!
-    $newPassword: String!
-    $newPasswordRepeat: String!
+    $currentPassword: Password!
+    $newPassword: Password!
+    $newPasswordRepeat: Password!
   ) {
     ChangePassword(
       currentPassword: $currentPassword

@@ -1,66 +1,66 @@
 {
-    "__schema": {
-        "types": [
-            {
-                "kind": "INTERFACE",
-                "name": "GuestGQLInterface",
-                "possibleTypes": [
-                    {
-                        "name": "GuestDomitory"
-                    },
-                    {
-                        "name": "GuestRoom"
-                    }
-                ]
-            },
-            {
-                "kind": "UNION",
-                "name": "Guest",
-                "possibleTypes": [
-                    {
-                        "name": "GuestDomitory"
-                    },
-                    {
-                        "name": "GuestRoom"
-                    }
-                ]
-            },
-            {
-                "kind": "UNION",
-                "name": "CapacityRoomUnion",
-                "possibleTypes": [
-                    {
-                        "name": "CapacityRoom"
-                    },
-                    {
-                        "name": "CapacityRoomDomitory"
-                    }
-                ]
-            },
-            {
-                "kind": "UNION",
-                "name": "CapacityRoomTypeUnion",
-                "possibleTypes": [
-                    {
-                        "name": "CapacityRoomType"
-                    },
-                    {
-                        "name": "CapacityRoomTypeDomitory"
-                    }
-                ]
-            },
-            {
-                "kind": "UNION",
-                "name": "StartBookingGuestParams",
-                "possibleTypes": [
-                    {
-                        "name": "StartBookingDomitoryGuestParams"
-                    },
-                    {
-                        "name": "StartBookingRoomGuestParams"
-                    }
-                ]
-            }
+  "__schema": {
+    "types": [
+      {
+        "kind": "INTERFACE",
+        "name": "GuestGQLInterface",
+        "possibleTypes": [
+          {
+            "name": "GuestDomitory"
+          },
+          {
+            "name": "GuestRoom"
+          }
         ]
-    }
+      },
+      {
+        "kind": "UNION",
+        "name": "Guest",
+        "possibleTypes": [
+          {
+            "name": "GuestDomitory"
+          },
+          {
+            "name": "GuestRoom"
+          }
+        ]
+      },
+      {
+        "kind": "UNION",
+        "name": "CapacityRoomUnion",
+        "possibleTypes": [
+          {
+            "name": "CapacityRoom"
+          },
+          {
+            "name": "CapacityRoomDomitory"
+          }
+        ]
+      },
+      {
+        "kind": "UNION",
+        "name": "CapacityRoomTypeUnion",
+        "possibleTypes": [
+          {
+            "name": "CapacityRoomType"
+          },
+          {
+            "name": "CapacityRoomTypeDomitory"
+          }
+        ]
+      },
+      {
+        "kind": "UNION",
+        "name": "MakeBookingGuestParams",
+        "possibleTypes": [
+          {
+            "name": "MakeBookingDomitoryGuestParams"
+          },
+          {
+            "name": "MakeBookingRoomGuestParams"
+          }
+        ]
+      }
+    ]
+  }
 }

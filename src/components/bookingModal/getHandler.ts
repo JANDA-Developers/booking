@@ -1,11 +1,12 @@
 import { IBookingModalContext } from "./declaration";
 import {
-  bookingModalGetStartBookingVariables,
-  bookingModalValidate,
+  bookingModalGetMakeBookingVariables,
+  bookingModalValidate
 } from "./helper";
 import { LANG } from "../../hooks/hook";
 import { muResult, toNumber } from "../../utils/utils";
 import { AutoSendWhen } from "../../types/enum";
+import { isPhone } from "../../utils/inputValidations";
 
 export const getHandler = (
   bookingModalContext: IBookingModalContext,
@@ -23,7 +24,7 @@ export const getHandler = (
     payMethodHook,
     breakfast,
     refundFn,
-    startBookingMu,
+    makeBookingMu,
     bookingModalHook,
     refundAmt,
     sendSmsModalHook,
@@ -31,7 +32,7 @@ export const getHandler = (
     totalPrice,
     updateBookingMu,
     confirmModalHook,
-    funnelStatusHook,
+    funnelStatusHook
   } = bookingModalContext;
 
   const { payment, bookingNum } = bookingData;
@@ -42,8 +43,8 @@ export const getHandler = (
     if (confirm) {
       deleteBookingMu({
         variables: {
-          bookingId: bookingModalHook.info.bookingId || "",
-        },
+          bookingId: bookingModalHook.info.bookingId || ""
+        }
       });
     }
   };
@@ -51,19 +52,19 @@ export const getHandler = (
   // 예약삭제 버튼 클릭
   const handleDeletBtnClick = () => {
     confirmModalHook.openModal({
-      txt: LANG("are_you_sure_you_want_to_delete_the_reservation"),
+      txt: LANG("are_you_sure_you_want_to_delete_the_reservation")
     });
   };
 
   // 부킹모달 예약 명령
-  const startBooking = async (callBackStartBooking?: any) => {
+  const makeBooking = async (callBackMakeBooking?: any) => {
     if (!bookingModalValidate(bookingModalContext)) return;
 
     try {
-      const result = await startBookingMu({
-        variables: bookingModalGetStartBookingVariables(bookingModalContext),
+      const result = await makeBookingMu({
+        variables: bookingModalGetMakeBookingVariables(bookingModalContext)
       });
-      if (muResult(result, "StartBooking")) callBackStartBooking();
+      if (muResult(result, "MakeBooking")) callBackMakeBooking();
     } catch (error) {
       bookingModalHook.closeModal();
     }
@@ -71,24 +72,24 @@ export const getHandler = (
 
   // 예약생성 버튼 핸들
   const handleCreateBtnClick = () => {
-    if (bookingModalHook.info.onStartBookingStart)
-      bookingModalHook.info.onStartBookingStart();
+    if (bookingModalHook.info.onMakeBookingStart)
+      bookingModalHook.info.onMakeBookingStart();
     if (!bookingData.roomTypes) return;
 
     const smsCallBackFn = async (sendFlag: boolean, sendSmsMu: any) => {
-      if (sendFlag) startBooking(sendSmsMu);
-      else startBooking();
+      if (sendFlag) makeBooking(sendSmsMu);
+      else makeBooking();
     };
 
-    const cantSendSms = !bookingPhoneHook.isValid || !bookingPhoneHook.value;
+    const cantSendSms = !isPhone(bookingPhoneHook.value);
     if (cantSendSms) {
-      startBooking();
+      makeBooking();
     } else {
       sendSmsModalHook.openModal({
         ...smsModalInfoTemp,
         findSendCase: AutoSendWhen.WHEN_BOOKING_CREATED,
         callBackFn: smsCallBackFn,
-        mode: "CreateBooking",
+        mode: "CreateBooking"
       });
     }
   };
@@ -104,7 +105,7 @@ export const getHandler = (
           email: "demo@naver.com",
           memo: memoHook.value,
           checkInInfo: {
-            isIn: checkInOutHook.selectedOption?.value || false,
+            isIn: checkInOutHook.selectedOption?.value || false
           },
           breakfast,
           name: bookingNameHook.value,
@@ -113,9 +114,9 @@ export const getHandler = (
           bookingStatus: bookingStatusHook.selectedOption!.value,
           phoneNumber: bookingPhoneHook.value,
           price: toNumber(priceHook.value),
-          funnels: funnelStatusHook.selectedOption?.value || null,
-        },
-      },
+          funnels: funnelStatusHook.selectedOption?.value || null
+        }
+      }
     });
     bookingModalHook.closeModal();
   };
@@ -129,18 +130,18 @@ export const getHandler = (
           cancelAmt: refundAmt,
           cancelMsg: "HOST-CANCEL",
           isPartialCancel: refundAmt === totalPrice,
-          tid,
-        },
-      },
+          tid
+        }
+      }
     });
   };
 
   return {
     handleRefundBtn,
     deleteModalCallBackFn,
-    startBooking,
+    makeBooking,
     handleUpdateBtnClick,
     handleCreateBtnClick,
-    handleDeletBtnClick,
+    handleDeletBtnClick
   };
 };

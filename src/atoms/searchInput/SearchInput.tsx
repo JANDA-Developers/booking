@@ -70,7 +70,8 @@ const JDsearchInput: React.FC<IProps> = ({
   const ulRef: any = useRef(null);
 
   //  value와 메치되는 리스트를 찾습니다.
-  const setList = (value = inputRef.current.value) => {
+  const setList = (value = inputRef?.current?.value) => {
+    if (!value) return;
     // CASE: 필터할경우
     if (filter) {
       let filteredItems = []; // if value == '' filter all

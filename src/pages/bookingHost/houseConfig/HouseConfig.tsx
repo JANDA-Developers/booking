@@ -95,6 +95,8 @@ const HouseConfig: React.FC<IProps & ProvidedProps> = ({
 
   const handleOnFind = (value: string | null) => {
     changeMapBySearch(value);
+    location.address = value || "";
+    setLocation({ ...location });
   };
 
   const handleUpdateBtn = (updateFlag: "bankAccountInfo" | "basicInfo") => {

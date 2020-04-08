@@ -10,10 +10,10 @@ import {
   updateBookingVariables,
   deleteBooking,
   deleteBookingVariables,
-  startBooking,
+  makeBooking,
   refundBooking,
   refundBookingVariables,
-  startBookingVariables,
+  makeBookingVariables,
   getRoomTypeDatePrices,
   getRoomTypeDatePricesVariables
 } from "../../types/api";
@@ -29,7 +29,7 @@ import {
   UPDATE_BOOKING,
   DELETE_BOOKING,
   GET_BOOKINGS,
-  START_BOOKING,
+  MAKE_BOOKING,
   GET_ROOM_TYPES_DATE_PRICE,
   REFUND_BOOKING,
   GET_ALL_GUEST_AND_BLOCK
@@ -44,7 +44,7 @@ import PreloaderModal from "../../atoms/preloaderModal/PreloaderModal";
 import { useMutation } from "@apollo/react-hooks";
 
 class UpdateBookingMu extends Mutation<updateBooking, updateBookingVariables> {}
-class CreatBookingMu extends Mutation<startBooking, startBookingVariables> {}
+class CreatBookingMu extends Mutation<makeBooking, makeBookingVariables> {}
 class DeleteBookingMu extends Mutation<deleteBooking, deleteBookingVariables> {}
 class GetBookingQuery extends Query<getBooking, getBookingVariables> {}
 class GetPriceWithDate extends Query<
@@ -54,7 +54,7 @@ class GetPriceWithDate extends Query<
 
 const BookingModalWrap: React.FC<IBookingModalWrapProps> = ({
   deleteBookingCallBack,
-  startBookingCallBack,
+  makeBookingCallBack,
   updateBookingCallBack,
   modalHook,
   context,
@@ -160,30 +160,30 @@ const BookingModalWrap: React.FC<IBookingModalWrapProps> = ({
                 >
                   {updateBookingMu => (
                     <CreatBookingMu
-                      mutation={START_BOOKING}
+                      mutation={MAKE_BOOKING}
                       awaitRefetchQueries
-                      onCompleted={({ StartBooking }) => {
+                      onCompleted={({ MakeBooking }) => {
                         onCompletedMessage(
-                          StartBooking,
+                          MakeBooking,
                           LANG("reservation_creation_complete"),
                           LANG("reservation_creation_fail"),
-                          "StartBooking"
+                          "MakeBooking"
                         );
-                        if (StartBooking.ok) {
-                          startBookingCallBack &&
-                            startBookingCallBack(StartBooking);
+                        if (MakeBooking.ok) {
+                          makeBookingCallBack &&
+                            makeBookingCallBack(MakeBooking);
 
                           console.log("reached To Modal");
                           modalHook.closeModal();
-                          if (modalHook.info.startBookingCallBack)
-                            modalHook.info.startBookingCallBack(StartBooking);
+                          if (modalHook.info.makeBookingCallBack)
+                            modalHook.info.makeBookingCallBack(MakeBooking);
                         }
                       }}
                       refetchQueries={[
                         getOperationName(GET_ALL_GUEST_AND_BLOCK) || ""
                       ]}
                     >
-                      {(startBookingMu, { loading: startBookingLoading }) => (
+                      {(makeBookingMu, { loading: makeBookingLoading }) => (
                         <DeleteBookingMu
                           mutation={DELETE_BOOKING}
                           refetchQueries={[
@@ -225,10 +225,10 @@ const BookingModalWrap: React.FC<IBookingModalWrapProps> = ({
                                     loading={totalLoading}
                                     modalHook={modalHook}
                                     refundFn={refundFn}
-                                    startBookingMu={startBookingMu}
+                                    makeBookingMu={makeBookingMu}
                                     updateBookingMu={updateBookingMu}
                                     deleteBookingMu={deleteBookingMu}
-                                    startBookingLoading={startBookingLoading}
+                                    makeBookingLoading={makeBookingLoading}
                                     placeHolederPrice={placeHolederPrice}
                                     {...props}
                                     key={

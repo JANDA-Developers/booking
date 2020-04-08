@@ -7,16 +7,16 @@ import {
 import {
   deleteBooking_DeleteBooking,
   updateBooking_UpdateBooking,
-  startBooking_StartBooking,
+  makeBooking_MakeBooking,
   getBooking_GetBooking_booking_guests,
   Funnels,
   UpsertRoomTypeInput,
-  startBookingVariables,
+  makeBookingVariables,
   updateBookingVariables,
   deleteBookingVariables,
   deleteBooking,
   updateBooking,
-  startBooking,
+  makeBooking,
   refundBookingVariables
 } from "../../types/api";
 import {
@@ -35,7 +35,6 @@ import {
 import { IContext } from "../../pages/bookingHost/BookingHostRouter";
 import { IModalSMSinfo } from "../smsModal/SendSmsModal";
 import { MutationFn } from "react-apollo";
-
 
 export interface RoomConfigSubmitData {
   updateCreateDatas: UpsertRoomTypeInput[];
@@ -66,7 +65,7 @@ export interface IBookingModalContext {
   bookingModalHook: IUseModal<IBookingModalProp>;
   bookingStatusHook: IUseSelect<BookingStatus>;
   resvDateHook: IUseDayPicker;
-  refundAmt: number,
+  refundAmt: number;
   refundFn: (variables: refundBookingVariables) => void;
   paymentStatusHook: IUseSelect<PaymentStatus>;
   bookingNameHook: TUseInput<any>;
@@ -74,9 +73,9 @@ export interface IBookingModalContext {
   bookingPhoneHook: TUseInput<any>;
   priceHook: TUseInput<any>;
   isDesktopUp: boolean;
-  confirmModalHook: IUseModal<any>
+  confirmModalHook: IUseModal<any>;
   payMethodHook: IUseSelect<PayMethod>;
-  startBookingMu: MutationFn<startBooking, startBookingVariables>;
+  makeBookingMu: MutationFn<makeBooking, makeBookingVariables>;
   updateBookingMu: MutationFn<updateBooking, updateBookingVariables>;
   deleteBookingMu: MutationFn<deleteBooking, deleteBookingVariables>;
   isCreateMode: boolean;
@@ -84,7 +83,7 @@ export interface IBookingModalContext {
   totalPrice: number;
   emailHook: TUseInput<any>;
   checkInOutHook: IUseSelect<any>;
-  setAssigInfo: React.Dispatch<React.SetStateAction<IBookingModal_AssigInfo[]>>
+  setAssigInfo: React.Dispatch<React.SetStateAction<IBookingModal_AssigInfo[]>>;
   breakfast: boolean | null;
   setBreakfast: React.Dispatch<React.SetStateAction<boolean | null>>;
   guests: getBooking_GetBooking_booking_guests[] | null;
@@ -95,13 +94,13 @@ export interface IBookingModalContext {
   houseId: string;
   funnelStatusHook: IUseSelect<Funnels | null>;
   mode?: BookingModalMode;
-  sendSmsModalHook: IUseModal<IModalSMSinfo>
+  sendSmsModalHook: IUseModal<IModalSMSinfo>;
 }
 
 export interface IBookingModalProp {
   onCloseModal?: () => any;
-  onStartBookingStart?: () => any;
-  startBookingCallBack?: (result: "error" | startBooking_StartBooking) => any;
+  onMakeBookingStart?: () => any;
+  makeBookingCallBack?: (result: "error" | makeBooking_MakeBooking) => any;
   updateBookingCallBack?: (
     result: "error" | updateBooking_UpdateBooking
   ) => any;
@@ -114,7 +113,7 @@ export interface IBookingModalProp {
 }
 
 export interface IBookingModalWrapProps {
-  startBookingCallBack?: (result: "error" | startBooking_StartBooking) => any;
+  makeBookingCallBack?: (result: "error" | makeBooking_MakeBooking) => any;
   updateBookingCallBack?: (
     result: "error" | updateBooking_UpdateBooking
   ) => any;

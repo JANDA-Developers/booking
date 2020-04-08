@@ -118,7 +118,7 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
     roomTypesData.map(roomType => roomType._id)
   );
   const firstUpdate = useRef(true);
-  const { networkStatus } = assigDataControl;
+  const { networkStatus, totalMuLoading } = assigDataControl;
   const { house, houseConfig, sideNavIsOpen } = context;
   const isDesktopHDDown = windowWidth < EWindowSize.DESKTOPHD;
   const isTabletDown = windowWidth <= EWindowSize.TABLET;
@@ -258,7 +258,7 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
 
   const assigUtils = useMemo(
     () => getAssigUtils(assigHooks, assigDataControl, assigContext),
-    [guestValue, isMultiSelectingMode]
+    [guestValue, isMultiSelectingMode, lock, networkStatus]
   );
 
   const { assigTimeline } = houseConfig;
@@ -272,7 +272,7 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
 
   const assigHandler = useMemo(
     () => getAssigHandlers(assigUtils, assigContext, assigHooks),
-    [guestValue, isMultiSelectingMode]
+    [guestValue, isMultiSelectingMode, lock, networkStatus]
   );
 
   const {
@@ -373,18 +373,21 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
 
   // 풀링으로 새로받은 게스트데이터를 적용시켜준다.
   useEffect(() => {
-    if (networkStatus >= 7) {
-      const newIndexStart = deafultGuestsData.length;
+    if (!totalMuLoading) {
+      if (networkStatus >= 7) {
+        const cuttedData = getCuttedItmes(filtedGroupIds, deafultGuestsData);
+        const newIndexStart = cuttedData.length;
 
-      // 업데이트전 휘발성 블럭들을 찾아서 합쳐줍니다.
-      const volatilityBlocks = getItemsByType(GuestTypeAdd.MARK);
+        // 업데이트전 휘발성 블럭들을 찾아서 합쳐줍니다.
+        const volatilityBlocks = getItemsByType(GuestTypeAdd.MARK);
 
-      // 휘발성 블록들의 인덱스를 다시 정의해줍니다.
-      volatilityBlocks.forEach(
-        (block, index) => (block.itemIndex = newIndexStart + index)
-      );
+        // 휘발성 블록들의 인덱스를 다시 정의해줍니다.
+        volatilityBlocks.forEach(
+          (block, index) => (block.itemIndex = newIndexStart + index)
+        );
 
-      setGuestValue([...deafultGuestsData, ...volatilityBlocks]);
+        setGuestValue([...deafultGuestsData, ...volatilityBlocks]);
+      }
     }
   }, [deafultGuestsData]);
 

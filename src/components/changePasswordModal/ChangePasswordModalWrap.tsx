@@ -11,6 +11,7 @@ interface Iprops {
   modalHook: IUseModal;
 }
 
+// 로그인 되어있을떄
 const ChangePasswordModalWrap: React.FC<Iprops> = ({ modalHook }) => {
   const [changePasswordMu, { loading: changePasswordLoading }] = useMutation<
     changePassword,

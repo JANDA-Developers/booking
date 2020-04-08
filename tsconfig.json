@@ -6,14 +6,19 @@
     "module": "esnext",
     "moduleResolution": "node",
     "jsx": "react",
-    "lib": ["dom", "es6", "es2016"],
+    "lib": [
+      "dom",
+      "es6",
+      "es2016"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+    "noEmit": true
   },
   "include": [
     "src/**/*.ts",
@@ -33,5 +38,9 @@
     "src/components/cardModal",
     "src/components/bookingModal/stories/bookingModal.storiestsx"
   ],
-  "exclude": ["node_modules", "src/atoms/**/*", "src/**/*.stories.tsx"]
+  "exclude": [
+    "node_modules",
+    "src/atoms/**/*",
+    "src/**/*.stories.tsx"
+  ]
 }

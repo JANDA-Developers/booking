@@ -30,6 +30,12 @@ const isUrl = string => {
   return regExp.test(string);
 };
 
+const isPhoneWeek = string => {
+  if (string === "") return NEUTRAL;
+  const result = string.replace(/[\s-]+/g, "");
+  const validation = /^[0-9+]+\w$/g.test(result);
+  return validation;
+};
 const isPhone = string => {
   if (string === "") return NEUTRAL;
   const result = string.replace(/[\s-]+/g, "");
@@ -108,6 +114,7 @@ export {
   isNumber,
   isYYYYMMDD,
   isPhone,
+  isPhoneWeek,
   isName,
   isUrl,
   isMaxOver,

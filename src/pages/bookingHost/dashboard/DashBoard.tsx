@@ -69,13 +69,13 @@ const DashBoard: React.SFC<Iprops> = ({ context }) => {
     <div id="dashboard" className="dashboard">
       <PageHeader title={LANG("JANDA_home")} desc={LANG("JANDA_home_desc")} />
       <PageBody>
-        {localStorage.getItem(DO_TUTO_KEY) && (
+        {/* {localStorage.getItem(DO_TUTO_KEY) && (
           <div>
             <JDcard onToogleCardClick={onToogleCardClick} toogleCard>
               <TutoHelper context={context} />
             </JDcard>
           </div>
-        )}
+        )} */}
         <div className="dashboard__section1">
           <div className="flex-grid">
             <div

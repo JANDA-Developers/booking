@@ -3,9 +3,9 @@ import Button from "../../../../../atoms/button/Button";
 import {
   IAssigTimelineUtils,
   IAssigTimelineContext,
-  IAssigTimelineHooks,
+  IAssigTimelineHooks
 } from "../assigIntrerface";
-import { startBooking_StartBooking } from "../../../../../types/api";
+import { makeBooking_MakeBooking } from "../../../../../types/api";
 import { LANG } from "../../../../../hooks/hook";
 import { ToastContainer, toast } from "react-toastify";
 import { TooltipButtons } from "../../../../../atoms/tooltipList/TooltipList";
@@ -23,20 +23,18 @@ const CanvasMenuTooltip: React.FC<IProps> = ({
     changeMarkToGhost,
     addBlock,
     getInfoesFromMarks,
-    startBookingModalWithMark,
+    makeBookingModalWithMark,
     allTooltipsHide,
-    markValidation,
-  },
+    markValidation
+  }
 }) => {
   const { groupIds, end, start } = getInfoesFromMarks();
 
-  const onStartBookingStart = () => {
+  const onMakeBookingStart = () => {
     changeMarkToGhost();
   };
 
-  const bookingCallBack = async (
-    result: "error" | startBooking_StartBooking
-  ) => {
+  const bookingCallBack = async (result: "error" | makeBooking_MakeBooking) => {
     if (result === "error") return;
 
     hilightGuestBlock({ bookingId: result.booking?._id });
@@ -53,9 +51,9 @@ const CanvasMenuTooltip: React.FC<IProps> = ({
 
   const createBtnHandler = () => {
     if (validater())
-      startBookingModalWithMark({
-        startBookingCallBack: bookingCallBack,
-        onStartBookingStart,
+      makeBookingModalWithMark({
+        makeBookingCallBack: bookingCallBack,
+        onMakeBookingStart
       });
   };
 
@@ -69,7 +67,7 @@ const CanvasMenuTooltip: React.FC<IProps> = ({
               allTooltipsHide();
               e.stopPropagation();
               createBtnHandler();
-            },
+            }
           },
           {
             onClick: () => {
@@ -78,8 +76,8 @@ const CanvasMenuTooltip: React.FC<IProps> = ({
                 addBlock(start, end, groupIds);
               }
             },
-            label: LANG("block_room"),
-          },
+            label: LANG("block_room")
+          }
         ]}
       />
     </div>

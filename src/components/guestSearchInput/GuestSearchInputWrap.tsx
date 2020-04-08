@@ -6,7 +6,8 @@ import { Query } from "react-apollo";
 import { getBookings, getBookingsVariables } from "../../types/api";
 import _ from "lodash";
 import { IContext } from "../../pages/bookingHost/BookingHostRouter";
-import { debouncedFilterCreater } from "./helper";
+import { useQuery } from "@apollo/react-hooks";
+import client from "../../apollo/apolloClient";
 
 class GetBookingsQuery extends Query<getBookings, getBookingsVariables> {}
 
@@ -19,65 +20,40 @@ const GuestSearchInputWrap: React.FC<IProps> = ({ context }) => {
   let houseId = "";
   houseId = house?._id || "";
 
-  const [onTypeValue, setType] = useState<string>("");
+  const { data, loading, refetch } = useQuery<
+    getBookings,
+    getBookingsVariables
+  >(GET_BOOKINGS, {
+    client,
+    variables: {
+      param: {
+        paging: {
+          count: 10,
+          selectedPage: 1
+        },
+        filter: {
+          houseId
+        }
+      }
+    }
+  });
 
-  const filter = debouncedFilterCreater(onTypeValue) || {};
+  const bookingData =
+    queryDataFormater(data, "GetBookings", "result", undefined) || undefined;
 
-  // for GetBookingsQuery
-  const skipValidate = useMemo(() => {
-    if (!houseId) return true;
-    if (!filter.name && !filter.phoneNumnber && !filter.stayDate) return true;
-    return false;
-  }, [
-    (filter.name || "") +
-      filter.bookingNum +
-      filter.name +
-      filter.phoneNumnber +
-      filter.stayDate
-  ]);
+  const { data: bookings, pageInfo } = getFromResult(
+    bookingData,
+    "bookings",
+    undefined
+  );
 
   return (
-    <GetBookingsQuery
-      skip={skipValidate}
-      query={GET_BOOKINGS}
-      variables={{
-        param: {
-          paging: {
-            count: 10,
-            selectedPage: 1
-          },
-          filter: {
-            ...filter,
-            houseId
-          }
-        }
-      }}
-    >
-      {({ data: bookingsData, loading, error }) => {
-        const result = queryDataFormater(
-          bookingsData,
-          "GetBookings",
-          "result",
-          undefined
-        );
-
-        const { data: bookings, pageInfo } = getFromResult(
-          result,
-          "bookings",
-          undefined
-        );
-
-        return (
-          <GuestSearchInput
-            context={context}
-            bookings={bookings || []}
-            onTypeValue={onTypeValue}
-            setType={setType}
-            loading={loading}
-          />
-        );
-      }}
-    </GetBookingsQuery>
+    <GuestSearchInput
+      context={context}
+      bookings={bookings || []}
+      refetch={refetch}
+      loading={loading}
+    />
   );
 };
 

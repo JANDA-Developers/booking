@@ -21,6 +21,7 @@ import LoadBalancer from "./pages/loadBalancer/LoadBalancer";
 import { getFromUrl } from "./utils/utils";
 import userTacking from "./utils/userTracking";
 import Tracker from "./Tracker";
+import JDtypho from "./atoms/typho/Typho";
 
 function App() {
   const ln = getFromUrl("ln");
@@ -85,15 +86,22 @@ function App() {
         <JDtoast />
         <div
           style={{
-            display: "none",
+            display: "block",
             position: "fixed",
-            right: "2%",
-            bottom: "1%"
+            left: "0%",
+            bottom: "0%",
+            zIndex: 999999
           }}
           id="JDversion"
           className="JDtextColor--placeHolder"
         >
-          1.1.2 Last Update 2019.11.22.
+          <JDtypho
+            style={{
+              fontSize: "4px"
+            }}
+          >
+            1.2.0
+          </JDtypho>
         </div>
         <div
           style={{

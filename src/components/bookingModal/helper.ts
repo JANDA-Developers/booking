@@ -1,6 +1,6 @@
 import {
   getBooking_GetBooking_booking_guests,
-  startBookingVariables,
+  makeBookingVariables
 } from "../../types/api";
 import { inOr } from "../../utils/C";
 import { Gender, PaymentStatus, AutoSendWhen } from "../../types/enum";
@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 import { LANG } from "../../hooks/hook";
 import guestsToInput, {
   getRoomSelectString,
-  getGenderChangedGuest,
+  getGenderChangedGuest
 } from "../../utils/typeChanger";
 import { to4YMMDD } from "../../utils/setMidNight";
 import { isDomitoryGuest } from "../../utils/interfaceMatch";
@@ -28,7 +28,7 @@ export const bookingModalValidate = (
     bookingStatusHook,
     bookingPhoneHook,
     bookingNameHook,
-    payMethodHook,
+    payMethodHook
   } = bookingModalContext;
 
   if (!payMethodHook.selectedOption) {
@@ -62,12 +62,12 @@ export const bookingModalValidate = (
     return false;
   }
 
-  // if (!bookingPhoneHook.value) {
-  //   toast.warn(LANG("please_enter_phone_number"));
-  //   $("#BookerPhoneInput").focus();
-  //   return false;
-  // }
-  
+  if (!bookingPhoneHook.isValid) {
+    toast.warn(LANG("it_is_wrong_number"));
+    $("#BookerPhoneInput").focus();
+    return false;
+  }
+
   return true;
 };
 
@@ -90,7 +90,7 @@ export const makeSmsInfoParam = (
     bookingStatusHook,
     emailHook,
     payMethodHook,
-    guests,
+    guests
   } = bookingModalContext;
   const roomSelectString = getRoomSelectString(roomSelectInfo);
 
@@ -123,8 +123,8 @@ export const makeSmsInfoParam = (
       STAYDATE_YMD: `${to4YMMDD(resvDateHook.from || undefined)} ~ ${to4YMMDD(
         resvDateHook.to || undefined
       )}`,
-      TOTALPRICE: autoComma(priceHook.value) + LANG("money_unit"),
-    },
+      TOTALPRICE: autoComma(priceHook.value) + LANG("money_unit")
+    }
   };
 };
 
@@ -133,14 +133,14 @@ export const makeAssigInfo = (
   guests: getBooking_GetBooking_booking_guests[] | null
 ): IBookingModal_AssigInfo[] =>
   guests
-    ? guests.map((guest) => {
+    ? guests.map(guest => {
         if (isDomitoryGuest(guest)) {
           return {
             _id: guest._id,
             roomId: inOr(guest.room, "_id", ""),
             gender: guest.gender || Gender.MALE,
             bedIndex: guest.bedIndex,
-            pricingType: guest.pricingType,
+            pricingType: guest.pricingType
           };
         } else {
           return {
@@ -148,7 +148,7 @@ export const makeAssigInfo = (
             roomId: inOr(guest.room, "_id", ""),
             gender: null,
             bedIndex: 0,
-            pricingType: guest.pricingType,
+            pricingType: guest.pricingType
           };
         }
       })
@@ -157,9 +157,9 @@ export const makeAssigInfo = (
 // 게스트들을 룸타입별로 정렬
 
 // 현재 부킹모달 정보들을 토대로 예약생성에 필요한 파라미터를 반환합니다.
-export const bookingModalGetStartBookingVariables = (
+export const bookingModalGetMakeBookingVariables = (
   bookingModalContext: IBookingModalContext
-): startBookingVariables => {
+): makeBookingVariables => {
   const {
     bookingNameHook,
     mode,
@@ -173,15 +173,15 @@ export const bookingModalGetStartBookingVariables = (
     assigInfo,
     houseId,
     memoHook,
-    funnelStatusHook,
+    funnelStatusHook
   } = bookingModalContext;
 
   const guestsToInputs = guestsToInput(updateGuests);
 
-  const allocationParams = assigInfo.map((info) => ({
+  const allocationParams = assigInfo.map(info => ({
     bedIndex: info.bedIndex,
     gender: info.gender,
-    roomId: info.roomId,
+    roomId: info.roomId
   }));
 
   return {
@@ -191,22 +191,22 @@ export const bookingModalGetStartBookingVariables = (
       memo: memoHook.value,
       name: bookingNameHook.value,
       password: "admin",
-      phoneNumber: bookingPhoneHook.value,
-      funnels: funnelStatusHook.selectedOption?.value || null,
+      phoneNumber: bookingPhoneHook.value || null,
+      funnels: funnelStatusHook.selectedOption?.value || null
     },
     checkInOut: {
       checkIn: to4YMMDD(resvDateHook.from),
-      checkOut: to4YMMDD(resvDateHook.to),
+      checkOut: to4YMMDD(resvDateHook.to)
     },
     guestDomitoryParams: guestsToInputs.countInDomitorys,
     guestRoomParams: guestsToInputs.countInRooms,
     paymentParams: {
       payMethod: payMethodHook.selectedOption!.value,
       price: parseInt(priceHook.value),
-      status: paymentStatusHook.selectedOption!.value,
+      status: paymentStatusHook.selectedOption!.value
     },
     houseId,
     allocationParams: mode === "CREATE_ASSIG" ? allocationParams : undefined,
-    forceToAllocate: mode === "CREATE_ASSIG",
+    forceToAllocate: mode === "CREATE_ASSIG"
   };
 };

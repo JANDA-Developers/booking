@@ -28,7 +28,7 @@ import {
   updateBlockOptionVariables,
   getGuests_GetGuests_guests,
   getBooking_GetBooking_booking_roomTypes,
-  startBooking_StartBooking,
+  makeBooking_MakeBooking,
   getGuestsVariables,
   getGuests,
   getBooking_GetBooking_booking_guests
@@ -193,6 +193,7 @@ export type IAssigMutationLoading = {
   deleteGuestLoading: boolean;
   deleteBookingLoading: boolean;
   updateBookingLoading: boolean;
+  allocateMuLoading: boolean;
 };
 
 export type TToogleCheckIn = (
@@ -200,7 +201,13 @@ export type TToogleCheckIn = (
   itemIndex?: number | undefined
 ) => void;
 
-export type TGetGuestsInside = (groupIds: string[], start: number, end: number, types: GuestTypeAdd[], find?: boolean) => IAssigItem[] | IAssigItem | undefined;
+export type TGetGuestsInside = (
+  groupIds: string[],
+  start: number,
+  end: number,
+  types: GuestTypeAdd[],
+  find?: boolean
+) => IAssigItem[] | IAssigItem | undefined;
 
 export interface IAssigGroup {
   id: string;
@@ -271,9 +278,9 @@ export interface IAssigDataControl {
   allocateMu: (
     options?:
       | MutationFunctionOptions<
-        allocateGuestToRoom,
-        allocateGuestToRoomVariables
-      >
+          allocateGuestToRoom,
+          allocateGuestToRoomVariables
+        >
       | undefined
   ) => Promise<ExecutionResult<allocateGuestToRoom>>;
   deleteBlockMu: (
@@ -343,9 +350,7 @@ export interface IDailyAssigUtils {
   allTooltipsHide: (except: string) => void;
   deleteBookingById: TDeleteBookingById;
   getBookingIdByGuestId: TGetBookingIdByGuestId;
-  toogleCheckInOut: (
-    targetGuest: getGuests_GetGuests_guests
-  ) => Promise<void>;
+  toogleCheckInOut: (targetGuest: getGuests_GetGuests_guests) => Promise<void>;
 }
 
 export interface IDeleteMenuProps {
@@ -507,7 +512,7 @@ export interface IAssigTimelineUtils {
   bookingCheckedNew: TBookingCheckedNew;
   hilightGuestBlock: THilightGuestBlock;
   popUpItemMenuTooltip: TPopUpItemMenuTooltip;
-  startBookingModalWithMark: TBookingModalOpenWithMark;
+  makeBookingModalWithMark: TBookingModalOpenWithMark;
   getItemById: TGetItemById;
   getGroupById: TGetGroupById;
   getItems: TGetItmes;
@@ -545,8 +550,8 @@ export interface IAssigTimelineUtils {
   ) => getBooking_GetBooking_booking_roomTypes[];
 }
 
-export type IStartBookingCallBack = (
-  result: "error" | startBooking_StartBooking
+export type IMakeBookingCallBack = (
+  result: "error" | makeBooking_MakeBooking
 ) => any;
 
 export interface IAssigInfo {

@@ -14,8 +14,8 @@ import { IContext } from "../../bookingHost/BookingHostRouter";
 import client from "../../../apollo/apolloClient";
 import PreloaderModal from "../../../atoms/preloaderModal/PreloaderModal";
 import TextButton from "../../../atoms/textButton/TextButton";
-import RessetPasswordWrap from "../../../components/phoneVerificationModal/RessetPasswordModalWrap";
 import FindEmailModalWrap from "../../../components/findEmailModal/FindEmailModalWrap";
+import PasswordChangeModalWrap from "./PasswordChangeModalWrap";
 
 interface Iprops {
   context: IContext;
@@ -149,10 +149,7 @@ const Login: React.FC<Iprops> = ({ context }) => {
         </div>
       </div>
       <FindEmailModalWrap context={context} modalHook={findPasswordModalHook} />
-      <RessetPasswordWrap
-        context={context}
-        modalHook={ressetPasswordModalHook}
-      />
+      <PasswordChangeModalWrap modalHook={ressetPasswordModalHook} />
     </div>
   );
 };

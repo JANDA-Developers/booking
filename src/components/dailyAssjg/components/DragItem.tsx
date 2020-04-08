@@ -93,6 +93,7 @@ const DragItem: React.FC<IProps> = ({ item, place, room, roomType }) => {
                     // @ts-ignore
                     item.gender
                   }
+                  darkImg={item.checkIn}
                   breakfast={breakfast}
                   isUnpaid={isUnpaid}
                   memo={memo || ""}

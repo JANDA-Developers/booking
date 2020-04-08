@@ -21,14 +21,14 @@ import {
   getAllRoomType,
   getAllRoomTypeVariables,
   getGuestsVariables,
-  getGuests,
+  getGuests
 } from "../../../types/api";
 import { useDayPicker, LANG } from "../../../hooks/hook";
 import {
   setMidNight,
   queryDataFormater,
   onCompletedMessage,
-  s4,
+  s4
 } from "../../../utils/utils";
 import { BookingStatus } from "../../../types/enum";
 import {
@@ -40,7 +40,7 @@ import {
   DELETE_BOOKING,
   UPDATE_BLOCK_OPTION,
   GET_ALL_GUEST_AND_BLOCK,
-  GET_ALL_ROOMTYPES,
+  GET_ALL_ROOMTYPES
 } from "../../../apollo/queries";
 import AssigTimeline from "./AssigTimeline";
 import { to4YMMDD } from "../../../utils/setMidNight";
@@ -48,7 +48,7 @@ import { roomDataManufacturer } from "./helper/groupDataMenufacture";
 import {
   IAssigDataControl,
   IAssigMutationLoading,
-  IAssigGroup,
+  IAssigGroup
 } from "./components/assigIntrerface";
 import { guestsDataManufacturer } from "./helper/guestsDataManufacturer";
 import { blockDataManufacturer } from "./helper/blockDataManufacturer";
@@ -73,12 +73,16 @@ const AssigTimelineWrap: React.FC<IProps & IWrapProp> = ({
   context,
   roomTypesData,
   formatedRoomData,
-  roomTypeLoading,
+  roomTypeLoading
 }) => {
   const { houseConfig, house } = context;
 
   const dayPickerHook = useDayPicker(new Date(), new Date());
-  const defaultStartDate = dayPickerHook.from || moment().local().toDate();
+  const defaultStartDate =
+    dayPickerHook.from ||
+    moment()
+      .local()
+      .toDate();
 
   const defaultEndDate = moment(dayPickerHook.from || new Date())
     .local()
@@ -87,8 +91,16 @@ const AssigTimelineWrap: React.FC<IProps & IWrapProp> = ({
 
   const [reloadKey, setReloadKey] = useState(s4());
   const [dataTime, setDataTime] = useState({
-    start: setMidNight(moment().subtract(5, "days").valueOf()),
-    end: setMidNight(moment().add(14, "days").valueOf()),
+    start: setMidNight(
+      moment()
+        .subtract(5, "days")
+        .valueOf()
+    ),
+    end: setMidNight(
+      moment()
+        .add(14, "days")
+        .valueOf()
+    )
   });
   const reloadTime = () => {
     setReloadKey(s4());
@@ -100,7 +112,7 @@ const AssigTimelineWrap: React.FC<IProps & IWrapProp> = ({
     refetch,
     stopPolling,
     startPolling,
-    networkStatus,
+    networkStatus
   } = useQuery<getGuests, getGuestsVariables>(GET_ALL_GUEST_AND_BLOCK, {
     client,
     skip: roomTypeLoading,
@@ -108,11 +120,11 @@ const AssigTimelineWrap: React.FC<IProps & IWrapProp> = ({
       houseId: house._id,
       checkIn: to4YMMDD(moment(dataTime.start)),
       checkOut: to4YMMDD(moment(dataTime.end)),
-      bookingStatuses: [BookingStatus.COMPLETED, BookingStatus.CANCELED],
+      bookingStatuses: [BookingStatus.COMPLETED, BookingStatus.CANCELED]
     },
     notifyOnNetworkStatusChange: true,
     fetchPolicy: "no-cache",
-    pollInterval: houseConfig.pollingPeriod?.period || 300000,
+    pollInterval: houseConfig.pollingPeriod?.period || 30000
   });
 
   const guestsData = queryDataFormater(data, "GetGuests", "guests", []) || [];
@@ -139,7 +151,7 @@ const AssigTimelineWrap: React.FC<IProps & IWrapProp> = ({
         LANG("assig_completed"),
         LANG("assig_failed")
       );
-    },
+    }
   });
 
   // 업데이트 예약 요청
@@ -148,7 +160,7 @@ const AssigTimelineWrap: React.FC<IProps & IWrapProp> = ({
     updateBookingVariables
   >(UPDATE_BOOKING, {
     client,
-    ignoreResults: true,
+    ignoreResults: true
   });
 
   // 삭제 요청
@@ -164,7 +176,7 @@ const AssigTimelineWrap: React.FC<IProps & IWrapProp> = ({
         LANG("delete_completed"),
         LANG("delete_failed")
       );
-    },
+    }
   });
 
   // 생성 요청
@@ -180,7 +192,7 @@ const AssigTimelineWrap: React.FC<IProps & IWrapProp> = ({
         LANG("block_room_completed"),
         LANG("block_room_failed")
       );
-    },
+    }
   });
 
   // 방막기 삭제 요청
@@ -196,7 +208,7 @@ const AssigTimelineWrap: React.FC<IProps & IWrapProp> = ({
         LANG("room_block_release"),
         LANG("room_block_release_fail")
       );
-    },
+    }
   });
 
   // 예약 삭제 요청
@@ -205,6 +217,7 @@ const AssigTimelineWrap: React.FC<IProps & IWrapProp> = ({
     deleteBookingVariables
   >(DELETE_BOOKING, {
     client,
+
     ignoreResults: true,
     onCompleted: ({ DeleteBooking }) => {
       onCompletedMessage(
@@ -212,7 +225,7 @@ const AssigTimelineWrap: React.FC<IProps & IWrapProp> = ({
         LANG("reservation_delete_complete"),
         LANG("reservation_delete_fail")
       );
-    },
+    }
   });
 
   // 방막기 업데이트 요청
@@ -228,7 +241,7 @@ const AssigTimelineWrap: React.FC<IProps & IWrapProp> = ({
         LANG("change_complited"),
         LANG("change_failed")
       );
-    },
+    }
   });
 
   // 이로딩은 ignoreResults와 함께 사실상 의미가 없어진것이룻도 있다
@@ -248,6 +261,7 @@ const AssigTimelineWrap: React.FC<IProps & IWrapProp> = ({
     deleteGuestLoading,
     deleteBookingLoading,
     updateBookingLoading,
+    allocateMuLoading
   };
 
   const assigDataControl: IAssigDataControl = {
@@ -262,11 +276,11 @@ const AssigTimelineWrap: React.FC<IProps & IWrapProp> = ({
     stopPolling,
     startPolling: startPolling.bind(
       startPolling,
-      houseConfig.pollingPeriod.period
+      houseConfig.pollingPeriod.period || 30000
     ),
     totalMuLoading,
     mutationLoadings,
-    networkStatus,
+    networkStatus
   };
 
   const timelineKeyDate = `timeline${moment(
@@ -303,8 +317,8 @@ const HiderAssigTimelineWrap: React.FC<IProps> = ({ context, ...prop }) => {
   >(GET_ALL_ROOMTYPES, {
     client,
     variables: {
-      houseId: house._id,
-    },
+      houseId: house._id
+    }
   });
 
   const roomTypesData =

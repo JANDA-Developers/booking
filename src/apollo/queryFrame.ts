@@ -350,7 +350,7 @@ export const F_BOOKING_TRANSACTION = gql`
 `;
 export const F_BOOKING_TRANSACTION_PROGRESS = gql`
   fragment FbookingTransactionProgress on BookingTransactionProgress {
-    startBooking {
+    makeBooking {
       status
       updatedAt
     }
@@ -443,5 +443,3 @@ export const F_BILL_PAY_RESULT = gql`
     cardName
   }
 `;
-
-

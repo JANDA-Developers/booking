@@ -1,41 +1,47 @@
-import React, { Fragment } from "react";
-import JDsearchInput from "../../atoms/searchInput/SearchInput";
-import { getBookings_GetBookings_result_bookings } from "../../types/api";
+import React, { Fragment, useState } from "react";
+import _ from "lodash";
+import {
+  getBookings_GetBookings_result_bookings,
+  getBookings,
+  getBookingsVariables
+} from "../../types/api";
 import BookingModalWrap from "../bookingModal/BookingModalWrap";
 import { useModal } from "../../hooks/hook";
 import $ from "jquery";
-import { autoHypen } from "../../utils/utils";
 import { IContext } from "../../pages/bookingHost/BookingHostRouter";
-
+import { JDsearchInput } from "@janda-com/front";
+import { ISearchViewData } from "@janda-com/front/build/components/searchInput/DataModal";
+import moment from "moment";
+import "./GuestSearchInput.scss";
+import { ApolloQueryResult } from "apollo-client";
+import { searchFilterCreater } from "./helper";
 interface IProps {
   loading: boolean;
   context: IContext;
-  onTypeValue: string;
-  setType: any;
+  refetch: (
+    variables?: getBookingsVariables | undefined
+  ) => Promise<ApolloQueryResult<getBookings>>;
   bookings: getBookings_GetBookings_result_bookings[];
 }
 
 const GuestSearchInput: React.FC<IProps> = ({
-  onTypeValue,
-  setType,
   bookings,
+  refetch,
   context,
   loading
 }) => {
+  const { house } = context;
+  let houseId = "";
+  houseId = house?._id || "";
+
+  const [onTypeValue, setType] = useState<string>("");
+
   const bookingModalHook = useModal(false);
 
   const openBookingModal = (id: string) => {
     bookingModalHook.openModal({
       bookingId: id
     });
-  };
-
-  const handleClickList = (
-    value: string | undefined,
-    id: string | undefined
-  ): void => {
-    if (!id) return;
-    openBookingModal(id);
   };
 
   const unHilightTarget = () => {
@@ -53,53 +59,72 @@ const GuestSearchInput: React.FC<IProps> = ({
     scrollTarget.scrollTo({ left: targetDom.offsetLeft - targetWidth / 2 });
   };
 
-  const handleFindOne = (label?: string | null, id?: string) => {
-    if (!id) return;
-    setType(label);
-    const target = $(`.assigItem--booking${id}`);
+  const handleSelectData = (data: ISearchViewData) => {
+    if (!data) return;
+    setType(data.title);
+    const target = $(`.assigItem--booking${data.id}`);
     const targetDom = $(target).get(0);
     if (targetDom) {
       hilightTarget(target);
     } else {
-      openBookingModal(id);
+      openBookingModal(data.id);
     }
   };
 
   const BookingsDataManufacter = (
     bookings: getBookings_GetBookings_result_bookings[]
-  ) => {
-    const bookingData = bookings.map(booking => {
-      booking.phoneNumber = autoHypen(booking.phoneNumber);
-      return booking;
-    });
-    return bookingData;
+  ): ISearchViewData[] => {
+    return bookings.map(booking => ({
+      id: booking._id,
+      title: booking.name,
+      describe: booking.phoneNumber,
+      tag: moment(booking.checkIn).format("YYYY-MM-DD")
+    }));
   };
 
-  const handleTypeChange = (value?: string) => {
+  const dataRefetcher = _.throttle(
+    (value: string) => {
+      const searchFilter = searchFilterCreater(value);
+      refetch({
+        param: {
+          paging: {
+            count: 10,
+            selectedPage: 1
+          },
+          filter: {
+            houseId,
+            ...searchFilter
+          }
+        }
+      });
+    },
+    500,
+    {
+      trailing: true
+    }
+  );
+
+  const handleTypeChange = (value: string = "") => {
     if (!value) unHilightTarget();
     setType(value);
+    dataRefetcher(value);
   };
 
   return (
-    <Fragment>
+    <div id="JDBookingSearcher">
       <JDsearchInput
-        mode="fill"
+        inputProp={{
+          mb: "no",
+          mr: "no"
+        }}
+        onSelectData={handleSelectData}
         id="JDBookingSearcher"
-        isLoading={loading}
-        onTypeValue={onTypeValue}
-        onTypeChange={handleTypeChange}
-        onFindOne={handleFindOne}
-        onListClick={handleClickList}
-        setTypeWhenFindOne={true}
-        staticList
-        filter={false}
-        asDetail="phoneNumber"
-        asId="_id"
-        asName="name"
+        onSearchChange={handleTypeChange}
+        searchValue={onTypeValue}
         dataList={BookingsDataManufacter(bookings)}
       />
       <BookingModalWrap context={context} modalHook={bookingModalHook} />
-    </Fragment>
+    </div>
   );
 };
 

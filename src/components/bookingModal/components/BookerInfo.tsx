@@ -10,7 +10,7 @@ import JDselect, {
 import { FUNNELS_OP } from "../../../types/const";
 import { IModalSMSinfo } from "../../smsModal/SendSmsModal";
 import { toast } from "react-toastify";
-import { isPhone } from "../../../utils/inputValidations";
+import { isPhoneWeek } from "../../../utils/inputValidations";
 
 interface IProps {
   responseStyle: any;
@@ -61,7 +61,7 @@ const BookerInfo: React.FC<IProps> = ({
           id="BookerPhoneInput"
           mr={"no"}
           {...bookingPhoneHook}
-          validation={isPhone}
+          validation={isPhoneWeek}
           label={LANG("phoneNumber")}
           placeholder={LANG("phoneNumber")}
           icon={isCreateMode ? undefined : "sms"}

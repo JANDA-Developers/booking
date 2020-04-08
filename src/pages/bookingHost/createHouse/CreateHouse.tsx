@@ -15,12 +15,11 @@ import {
   useDebounce,
   LANG
 } from "../../../hooks/hook";
-import utils from "../../../utils/utils";
+import utils, { s4 } from "../../../utils/utils";
 import GoogleMap from "./components/googleMap";
 import InputText from "../../../atoms/forms/inputText/InputText";
 import SelectBox from "../../../atoms/forms/selectBox/SelectBox";
 import Button from "../../../atoms/button/Button";
-import SearchInput from "../../../atoms/searchInput/SearchInput";
 import "./CreateHouse.scss";
 import Preloader from "../../../atoms/preloader/Preloader";
 import { FLOATING_PRELOADER_SIZE, HOUSE_TYPE_OP } from "../../../types/const";
@@ -31,6 +30,7 @@ import { TRef } from "../../../types/interface";
 import EerrorProtect from "../../../utils/errProtect";
 import optionFineder from "../../../utils/optionFinder";
 import PageBody from "../../../components/pageBody/PageBody";
+import { JDsearchInput, ISearchViewData } from "@janda-com/front";
 
 let map: google.maps.Map | null = null;
 
@@ -88,6 +88,23 @@ const CreateHouse: React.FC<IProps> = ({
   const mapRef = useRef(null);
 
   if (getAddressError) console.error(getAddressError);
+
+  const dataMapper = (data?: any[]): ISearchViewData[] => {
+    if (!data) return [];
+    if (typeof data !== "object") return [];
+    if (!data.map) return [];
+
+    const sliced = data.splice(0, 20);
+    return sliced.map((d, i) => {
+      const { zipNo, rnMgtSn, emdNo, roadAddr, jibunAddr, roadFullAddr } = d;
+      return {
+        id: s4(),
+        title: roadAddr,
+        describe: jibunAddr,
+        tag: zipNo
+      };
+    });
+  };
 
   // 제출전 입력값이 정확한지 검사
   const submitValidation = () => {
@@ -167,15 +184,17 @@ const CreateHouse: React.FC<IProps> = ({
   };
 
   // 서치인풋에 값이 제출될때마다.
-  const handleOnFind = (value: string | null) => {
-    changeMapBySearch(value);
+  const handleOnFind = (data: ISearchViewData) => {
+    const { title } = data;
+    onTypeChange(title || "");
   };
 
   // 서치인풋에 값을 입력할때마다.
-  const onTypeChange = (value?: string) => {
+  const onTypeChange = (value: string = "") => {
+    changeMapBySearch(value);
     setLocation({
       ...location,
-      address: value || ""
+      address: value
     });
   };
 
@@ -257,8 +276,18 @@ const CreateHouse: React.FC<IProps> = ({
             label={LANG("select_house_type")}
           />
         </div>
-        <div className="flex-grid__col col--full-8 col--md-12">
-          <SearchInput
+        <div className="JDz-index-2 flex-grid__col col--full-8 col--md-12">
+          <JDsearchInput
+            inputProp={{
+              label: LANG("house_address"),
+              mr: "no"
+            }}
+            onSelectData={handleOnFind}
+            onSearchChange={onTypeChange}
+            searchValue={location.address}
+            dataList={dataMapper(addressData.results?.juso)}
+          />
+          {/* <SearchInput
             id="Address"
             maxCount={10}
             filter={false}
@@ -272,7 +301,7 @@ const CreateHouse: React.FC<IProps> = ({
             onFindOne={handleOnFind}
             onTypeChange={onTypeChange}
             onTypeValue={location.address}
-          />
+          /> */}
         </div>
         <div className="flex-grid__col col--full-4 col--md-12">
           <InputText

@@ -4,13 +4,13 @@ import React from "react";
 import { RouteComponentProps } from "react-router-dom";
 import $ from "jquery";
 import {
-  startBooking_StartBooking,
-  startBookingForPublic,
-  startBookingForPublicVariables,
+  makeBooking_MakeBooking,
+  makeBookingForPublic,
+  makeBookingForPublicVariables,
   getHouseForPublic
 } from "../../../types/api";
 import {
-  START_BOOKING_FOR_PUBLIC,
+  MAKE_BOOKING_FOR_PUBLIC,
   GET_HOUSE_FOR_PUBLIC
 } from "../../../apollo/queries";
 import { IUseModal, LANG } from "../../../hooks/hook";
@@ -25,7 +25,7 @@ export interface IReservationWrapProps {
   publicKey?: string;
   context?: IContext;
   modalHook?: IUseModal;
-  callBackCreateBookingMu?: (CreateBooking: startBooking_StartBooking) => void;
+  callBackCreateBookingMu?: (CreateBooking: makeBooking_MakeBooking) => void;
 }
 
 // 하우스 아이디를 우선 Props를 통해서 받아야함
@@ -51,25 +51,18 @@ const ReservationWrap: React.FC<IReservationWrapProps &
     undefined;
 
   // 스타트부킹(게스트)
-  const [
-    startBookingForPublicMu,
-    { loading: startBookingLoading }
-  ] = useMutation<startBookingForPublic, startBookingForPublicVariables>(
-    START_BOOKING_FOR_PUBLIC,
-    {
-      client,
-      onCompleted: ({ StartBookingForPublic }) => {
-        onCompletedMessage(
-          StartBookingForPublic,
-          LANG("COMPLETE"),
-          LANG("FAIL")
-        );
-        startBookingCallBackFn(StartBookingForPublic);
-      }
+  const [makeBookingForPublicMu, { loading: makeBookingLoading }] = useMutation<
+    makeBookingForPublic,
+    makeBookingForPublicVariables
+  >(MAKE_BOOKING_FOR_PUBLIC, {
+    client,
+    onCompleted: ({ MakeBookingForPublic }) => {
+      onCompletedMessage(MakeBookingForPublic, LANG("COMPLETE"), LANG("FAIL"));
+      makeBookingCallBackFn(MakeBookingForPublic);
     }
-  );
+  });
 
-  const startBookingCallBackFn = (result: any) => {
+  const makeBookingCallBackFn = (result: any) => {
     modalHook && modalHook.closeModal();
     callBackCreateBookingMu && callBackCreateBookingMu(result);
   };
@@ -83,8 +76,8 @@ const ReservationWrap: React.FC<IReservationWrapProps &
       <Reservation
         context={context}
         publicHouseInfo={publicHouseInfo}
-        startBookingForPublicMu={startBookingForPublicMu}
-        createLoading={startBookingLoading}
+        makeBookingForPublicMu={makeBookingForPublicMu}
+        createLoading={makeBookingLoading}
         reservationModalHook={modalHook}
       />
     </div>

@@ -17,8 +17,8 @@ import "./Reservation.scss";
 import Button from "../../../atoms/button/Button";
 import Card from "../../../atoms/cards/Card";
 import {
-  startBookingForPublic,
-  startBookingForPublicVariables,
+  makeBookingForPublic,
+  makeBookingForPublicVariables,
   getAllRoomTypeForBooker,
   getHouseForPublic_GetHouseForPublic_house
 } from "../../../types/api";
@@ -68,9 +68,9 @@ export interface ISetBookingInfo
   extends React.Dispatch<React.SetStateAction<IBookerInfo>> {}
 
 interface IProps {
-  startBookingForPublicMu?: IMu<
-    startBookingForPublic,
-    startBookingForPublicVariables
+  makeBookingForPublicMu?: IMu<
+    makeBookingForPublic,
+    makeBookingForPublicVariables
   >;
   publicHouseInfo?: getHouseForPublic_GetHouseForPublic_house;
   createLoading: boolean;
@@ -80,7 +80,7 @@ interface IProps {
 
 const Reservation: React.SFC<IProps & WindowSizeProps> = ({
   windowWidth,
-  startBookingForPublicMu,
+  makeBookingForPublicMu,
   context,
   createLoading,
   publicHouseInfo,
@@ -196,14 +196,13 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
       phoneNumber
     } = bookerInfo;
 
-    if (!startBookingForPublicMu)
-      throw Error("startBookingForPublicMu 가 없음");
+    if (!makeBookingForPublicMu) throw Error("makeBookingForPublicMu 가 없음");
 
     const { cardNo, cardPw, expMonth, expYear, idNo } = cardInfoHook[0];
 
     const isCardPay = payMethodHook.selectedOption?.value === PayMethod.CARD;
 
-    const startBookingVariables: startBookingForPublicVariables = {
+    const makeBookingVariables: makeBookingForPublicVariables = {
       bookerParams: {
         agreePrivacyPolicy,
         email,
@@ -245,17 +244,13 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
       }
     };
 
-    const tempResult = await startBookingForPublicMu({
-      variables: startBookingVariables
+    const tempResult = await makeBookingForPublicMu({
+      variables: makeBookingVariables
     });
 
     if (tempResult) rsevModalHook.closeModal();
 
-    const validResult = muResult(
-      tempResult,
-      "StartBookingForPublic",
-      "booking"
-    );
+    const validResult = muResult(tempResult, "MakeBookingForPublic", "booking");
 
     if (!validResult) return;
 
@@ -452,7 +447,7 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
       {/* 호스트예약일떄 */}
       {context && (
         <BookingModalWrap
-          startBookingCallBack={result => {
+          makeBookingCallBack={result => {
             if (result !== "error") {
               reservationModalHook && reservationModalHook.closeModal();
             }

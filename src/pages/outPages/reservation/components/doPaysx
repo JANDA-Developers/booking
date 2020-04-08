@@ -1,7 +1,7 @@
 import ip from "ip";
 import {
-  startBookingVariables,
-  startBookingForPublicVariables,
+  makeBookingVariables,
+  makeBookingForPublicVariables,
   getPaymentAuth_GetPaymentAuth
 } from "../../../../types/api";
 import moment from "moment";
@@ -24,7 +24,7 @@ type inputParams = {
 }[];
 
 interface IProp {
-  resvInfo: startBookingVariables | startBookingForPublicVariables;
+  resvInfo: makeBookingVariables | makeBookingForPublicVariables;
   transactionId: string;
   authInfo: getPaymentAuth_GetPaymentAuth;
   houseName: string;

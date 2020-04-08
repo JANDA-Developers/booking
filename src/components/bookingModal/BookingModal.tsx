@@ -7,7 +7,7 @@ import {
   IUseModal,
   useDayPicker,
   useModal,
-  LANG,
+  LANG
 } from "../../hooks/hook";
 import windowSize, { WindowSizeProps } from "react-window-size";
 import Button from "../../atoms/button/Button";
@@ -22,10 +22,10 @@ import {
   updateBookingVariables,
   deleteBooking,
   deleteBookingVariables,
-  startBooking,
-  startBookingVariables,
+  makeBooking,
+  makeBookingVariables,
   Funnels,
-  refundBookingVariables,
+  refundBookingVariables
 } from "../../types/api";
 import SendSMSmodalWrap from "../smsModal/SendSmsModalWrap";
 import { IContext } from "../../pages/bookingHost/BookingHostRouter";
@@ -33,7 +33,7 @@ import _ from "lodash";
 import { makeAssigInfo, makeSmsInfoParam } from "./helper";
 import {
   getRoomSelectInfo,
-  getGenderChangedGuest,
+  getGenderChangedGuest
 } from "../../utils/typeChanger";
 import { IBookingModalContext, IBookingModalProp } from "./declaration";
 import optionFineder from "../../utils/optionFinder";
@@ -53,10 +53,10 @@ interface IProps {
   modalHook: IUseModal<IBookingModalProp>;
   bookingData: GB_booking;
   placeHolederPrice: number;
-  startBookingMu: MutationFn<startBooking, startBookingVariables>;
+  makeBookingMu: MutationFn<makeBooking, makeBookingVariables>;
   updateBookingMu: MutationFn<updateBooking, updateBookingVariables>;
   deleteBookingMu: MutationFn<deleteBooking, deleteBookingVariables>;
-  startBookingLoading: boolean;
+  makeBookingLoading: boolean;
   refundFn: (variables: refundBookingVariables) => void;
   context: IContext;
   loading: boolean;
@@ -74,15 +74,15 @@ const BookingModal: React.FC<IProps & WindowSizeProps> = ({
   modalHook,
   bookingData,
   updateBookingMu,
-  startBookingMu,
+  makeBookingMu,
   deleteBookingMu,
-  startBookingLoading,
+  makeBookingLoading,
   placeHolederPrice,
   loading,
   context,
   refundFn,
   windowWidth,
-  mode,
+  mode
 }) => {
   const isCreateMode = mode === "CREATE" || mode === "CREATE_ASSIG";
   const {
@@ -98,7 +98,7 @@ const BookingModal: React.FC<IProps & WindowSizeProps> = ({
     name,
     funnels,
     guests,
-    breakfast: breakfastDefault,
+    breakfast: breakfastDefault
   } = bookingData;
   const refundModalHook = useModal(false);
   const { payMethod, status: paymentStatus, totalPrice, tid } = payment;
@@ -120,8 +120,8 @@ const BookingModal: React.FC<IProps & WindowSizeProps> = ({
   const [assigInfo, setAssigInfo] = useState(makeAssigInfo(guests));
   const modalStyle = {
     content: {
-      maxWidth: "30rem",
-    },
+      maxWidth: "30rem"
+    }
   };
 
   const payMethodHook = useSelect(
@@ -136,7 +136,7 @@ const BookingModal: React.FC<IProps & WindowSizeProps> = ({
         "bookingModalInfo",
         JSON.stringify({
           payMethodLastOp: payMethodHook.selectedOption,
-          funnelLastOp: funnelStatusHook.selectedOption,
+          funnelLastOp: funnelStatusHook.selectedOption
         })
       );
     };
@@ -144,11 +144,11 @@ const BookingModal: React.FC<IProps & WindowSizeProps> = ({
 
   const deafultPayStatusOp = {
     value: paymentStatus,
-    label: LANG("PaymentStatus", paymentStatus),
+    label: LANG("PaymentStatus", paymentStatus)
   };
   const createDefaultPayStatusOp = {
     value: PaymentStatus.COMPLETED,
-    label: LANG("PaymentStatus", PaymentStatus.COMPLETED),
+    label: LANG("PaymentStatus", PaymentStatus.COMPLETED)
   };
   const paymentStatusHook = useSelect<PaymentStatus>(
     isCreateMode ? createDefaultPayStatusOp : deafultPayStatusOp
@@ -185,7 +185,7 @@ const BookingModal: React.FC<IProps & WindowSizeProps> = ({
     bookingData,
     refundAmt,
     confirmModalHook,
-    startBookingMu,
+    makeBookingMu,
     updateBookingMu,
     bookingNameHook,
     bookingPhoneHook,
@@ -210,7 +210,7 @@ const BookingModal: React.FC<IProps & WindowSizeProps> = ({
     assigInfo,
     sendSmsModalHook,
     houseId,
-    mode,
+    mode
   };
 
   // SMS 발송 모달에 전달할 정보를 생성
@@ -226,7 +226,7 @@ const BookingModal: React.FC<IProps & WindowSizeProps> = ({
 
   const sharedProp = {
     responseStyle,
-    bookingModalContext,
+    bookingModalContext
   };
 
   const {
@@ -234,7 +234,7 @@ const BookingModal: React.FC<IProps & WindowSizeProps> = ({
     handleCreateBtnClick,
     handleDeletBtnClick,
     handleRefundBtn,
-    handleUpdateBtnClick,
+    handleUpdateBtnClick
   } = getHandler(bookingModalContext, smsModalInfoTemp);
 
   return (
@@ -272,7 +272,7 @@ const BookingModal: React.FC<IProps & WindowSizeProps> = ({
         </div>
       }
       head={{
-        title: "예약정보",
+        title: "예약정보"
       }}
       onAfterClose={() => {
         modalHook.info.onCloseModal?.();
@@ -280,7 +280,7 @@ const BookingModal: React.FC<IProps & WindowSizeProps> = ({
       style={modalStyle}
       className={`Modal bookingModal`}
       overlayClassName="Overlay"
-      loading={loading || startBookingLoading}
+      loading={loading || makeBookingLoading}
       {...modalHook}
     >
       {isDesktopUp ? (
@@ -288,7 +288,7 @@ const BookingModal: React.FC<IProps & WindowSizeProps> = ({
           className={`JDz-index-1`}
           flex={{
             wrap: true,
-            oneone: true,
+            oneone: true
           }}
         >
           <Fragment>
@@ -303,7 +303,7 @@ const BookingModal: React.FC<IProps & WindowSizeProps> = ({
         <JDtabs breakTabs={isDesktopUp} tabsAlign="spaceBetween">
           <TabList
             style={{
-              marginTop: "-1.2rem",
+              marginTop: "-1.2rem"
             }}
           >
             <Tab>예약자</Tab>

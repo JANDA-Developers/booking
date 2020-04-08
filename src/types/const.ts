@@ -24,7 +24,6 @@ import { LANG } from "../hooks/hook";
 import { IselectedOption } from "../atoms/forms/selectBox/SelectBox";
 import { THOMEPAGE } from "./interface";
 
-
 export const DO_TUTO_KEY = "DO_TUTO";
 
 export const LANGUAGE_LIST: Language[] = [
@@ -34,12 +33,11 @@ export const LANGUAGE_LIST: Language[] = [
   Language.KOREAN
 ];
 
-
-export const FAVI_URL = "https://res.cloudinary.com/stayjanda-com/image/upload/v1554092565/favicon.ico";
+export const FAVI_URL =
+  "https://res.cloudinary.com/stayjanda-com/image/upload/v1554092565/favicon.ico";
 
 export const IMG_REPO =
   "https://s3.ap-northeast-2.amazonaws.com/booking.stayjanda.files/";
-
 
 export const WeekArrKr = ["일", "월", "화", "수", "목", "금", "토"];
 export const WeekArrEn = [
@@ -162,10 +160,13 @@ export let PRODUCT_STATUS_OP = [
   { value: HouseStatus.DISALBE, label: "" }
 ];
 
-export let PAYMETHOD_FOR_BOOKER_OP = [{ value: PayMethod.CARD, label: "" },
-{
-  value: PayMethod.BANK_TRANSFER, label: ""
-}];
+export let PAYMETHOD_FOR_BOOKER_OP = [
+  { value: PayMethod.CARD, label: "" },
+  {
+    value: PayMethod.BANK_TRANSFER,
+    label: ""
+  }
+];
 
 export let PAYMETHOD_FOR_HOST_OP = [
   { value: PayMethod.VBANK, label: "" },
@@ -175,9 +176,7 @@ export let PAYMETHOD_FOR_HOST_OP = [
   // {value: PayMethod.ELSE, label: "기타"}
 ];
 
-export let PAYMETHOD_FOR_JD_OP = [
-  { value: PayMethod.CARD, label: "" }
-];
+export let PAYMETHOD_FOR_JD_OP = [{ value: PayMethod.CARD, label: "" }];
 
 export let ROOM_GENDER_OP = [
   { value: RoomGender.SEPARATELY, label: "" },
@@ -207,12 +206,10 @@ export let GET_SMS_TARGET_OP = [
   // {value: "TOMORROW_CHECKIN", label: ""}
 ];
 
-
 export let OPTIONAL_APPLY_PAYMETHOD = [
   { value: PayMethod.CARD, label: "" },
   { value: PayMethod.BANK_TRANSFER, label: "" }
-]
-
+];
 
 export let HOUSE_STATUS_OP = [
   { value: HouseStatus.DISALBE, label: "" },
@@ -238,12 +235,12 @@ export let EXCEL_EXPRESS_OP = [
 
 // 선택가능한 숙소타입 목록
 export let HOUSE_TYPE_OP = [
-  { value: HouseType.GUEST_HOUSE, label: LANG("guestHouse") },
-  { value: HouseType.HOTEL, label: LANG("hotel") },
-  { value: HouseType.MOTEL, label: LANG("motel") },
-  { value: HouseType.PENSION, label: LANG("pension") },
-  { value: HouseType.HOSTEL, label: LANG("hostel") },
-  { value: HouseType.YOUTH_HOSTEL, label: LANG("youth_hostel") }
+  { value: HouseType.GUEST_HOUSE, label: "" },
+  { value: HouseType.HOTEL, label: "" },
+  { value: HouseType.MOTEL, label: "" },
+  { value: HouseType.PENSION, label: "" },
+  { value: HouseType.HOSTEL, label: "" },
+  { value: HouseType.YOUTH_HOSTEL, label: "" }
 ];
 
 export let FUNNELS_OP = [
@@ -279,7 +276,7 @@ export let AUTO_SEND_OP = [
   }
 ];
 
-//  DEPRECATE => selectOpCreater 
+//  DEPRECATE => selectOpCreater
 // 99명의 선택가능한 셀렉트 옵션 생성
 export const MAX_PEOPLE_COUNT_OP_FN = (max = 100) => {
   const maxPeopleCountOption = [];
@@ -328,12 +325,17 @@ export const FLOATING_PRELOADER_SIZE = "small";
 export const MODAL_PRELOADER_SIZE = "large";
 export const TEST_PRODUCT_NAME = "JANDA-T";
 
-export const DEFAULT_SELECTDS_HOMPAGE_OP = [HomepageOptionKey.RESV_PAGE, HomepageOptionKey.CS_PAGE, HomepageOptionKey.RESV_API];
+export const DEFAULT_SELECTDS_HOMPAGE_OP = [
+  HomepageOptionKey.RESV_PAGE,
+  HomepageOptionKey.CS_PAGE,
+  HomepageOptionKey.RESV_API
+];
 
-export const HOMPAGES: THOMEPAGE[] = [{
-  preview: `${IMG_REPO}homepage/sian_hotel_01.png`,
-  sumnail: `${IMG_REPO}homepage/sian_hotel_sumnail_01.png`,
-  url: "",
-  price: 0
-}]
-
+export const HOMPAGES: THOMEPAGE[] = [
+  {
+    preview: `${IMG_REPO}homepage/sian_hotel_01.png`,
+    sumnail: `${IMG_REPO}homepage/sian_hotel_sumnail_01.png`,
+    url: "",
+    price: 0
+  }
+];

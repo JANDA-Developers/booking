@@ -1,19 +1,19 @@
 import {
-  StartBookingRoomGuestInput,
-  StartBookingDomitoryGuestInput,
+  MakeBookingRoomGuestInput,
+  MakeBookingDomitoryGuestInput,
   getBooking_GetBooking_booking_guests_GuestDomitory,
   getBooking_GetBooking_booking_guests_GuestRoom,
   getBooking_GetBooking_booking_guests,
   getBooking_GetBooking_booking_roomTypes
 } from "../types/api";
 import { PricingType } from "../types/enum";
-import {
-  DEFAULT_ROOMTYPE,
-  DEFAULT_GUEST
-} from "../types/defaults";
+import { DEFAULT_ROOMTYPE, DEFAULT_GUEST } from "../types/defaults";
 import { Gender } from "../types/enum";
 import _ from "lodash";
-import { IRoomSelectInfo, IBookingModal_AssigInfo } from "../components/bookingModal/declaration";
+import {
+  IRoomSelectInfo,
+  IBookingModal_AssigInfo
+} from "../components/bookingModal/declaration";
 import { isDomitoryGuest } from "./interfaceMatch";
 import { LANG } from "../hooks/hook";
 import $ from "jquery";
@@ -49,15 +49,15 @@ export const divisionRoomSelectInfo = (
   ):
     | getBooking_GetBooking_booking_guests_GuestDomitory
     | getBooking_GetBooking_booking_guests_GuestRoom => ({
-      ...DEFAULT_GUEST,
-      pricingType: gender ? PricingType.DOMITORY : PricingType.ROOM,
-      gender,
-      roomType: {
-        __typename: "RoomType",
-        _id: roomSelectInfo.roomTypeId,
-        name: roomSelectInfo.roomTypeName || ""
-      }
-    });
+    ...DEFAULT_GUEST,
+    pricingType: gender ? PricingType.DOMITORY : PricingType.ROOM,
+    gender,
+    roomType: {
+      __typename: "RoomType",
+      _id: roomSelectInfo.roomTypeId,
+      name: roomSelectInfo.roomTypeName || ""
+    }
+  });
 
   // 템프
   const guests: getBooking_GetBooking_booking_guests[] = [];
@@ -105,7 +105,10 @@ export const divisionRoomSelectInfo = (
 };
 
 // 예약자가 변경한 성별사항을 적용한 임시 게스트정보 생성
-export const getGenderChangedGuest = (guests: getBooking_GetBooking_booking_guests[], assigInfo: IBookingModal_AssigInfo[]): getBooking_GetBooking_booking_guests[] => {
+export const getGenderChangedGuest = (
+  guests: getBooking_GetBooking_booking_guests[],
+  assigInfo: IBookingModal_AssigInfo[]
+): getBooking_GetBooking_booking_guests[] => {
   return guests.map(guest => {
     const copyGuest = $.extend({}, guest);
     assigInfo.forEach(info => {
@@ -116,7 +119,7 @@ export const getGenderChangedGuest = (guests: getBooking_GetBooking_booking_gues
     console.log(copyGuest);
     return copyGuest;
   });
-}
+};
 
 // 방 선택 정보를 바탕으로 => {방선택 | 인원} String 으로 출력합니다
 export const getRoomSelectString = (selectInfoes: IRoomSelectInfo[]): string =>
@@ -211,11 +214,11 @@ export const getRoomSelectInfo = (
 const guestsToInput = (
   guests: propGuest[] | null
 ): {
-  countInRooms: StartBookingRoomGuestInput[];
-  countInDomitorys: StartBookingDomitoryGuestInput[];
+  countInRooms: MakeBookingRoomGuestInput[];
+  countInDomitorys: MakeBookingDomitoryGuestInput[];
 } => {
-  let countInRooms: StartBookingRoomGuestInput[] = [];
-  let countInDomitorys: StartBookingDomitoryGuestInput[] = [];
+  let countInRooms: MakeBookingRoomGuestInput[] = [];
+  let countInDomitorys: MakeBookingDomitoryGuestInput[] = [];
   if (!guests)
     return {
       countInRooms,
@@ -256,7 +259,6 @@ const guestsToInput = (
     countInDomitorys
   };
 };
-
 
 // FUNC LIST
 //  --

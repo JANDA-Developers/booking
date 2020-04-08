@@ -101,7 +101,9 @@ export function getAssigUtils(
     deleteBookingMu,
     updateBookingMu,
     networkStatus,
-    refetch
+    refetch,
+    stopPolling,
+    startPolling
   }: IAssigDataControl,
   { houseId, groupData }: IAssigTimelineContext
 ): IAssigTimelineUtils {
@@ -291,6 +293,7 @@ export function getAssigUtils(
     itemIndex?: number
   ) => {
     if (JDisNetworkRequestInFlight(networkStatus)) return;
+    stopPolling();
     let target: IAssigItem = DEFAULT_ASSIG_ITEM;
 
     if (itemIndex !== undefined) {
@@ -310,6 +313,7 @@ export function getAssigUtils(
         }
       }
     });
+    startPolling();
 
     // 아폴로 통신 성공
     if (result && result.data) {
@@ -478,6 +482,7 @@ export function getAssigUtils(
     targetGuest: IAssigItem,
     time: number
   ) => {
+    stopPolling();
     const guestValueOriginCopy = $.extend(true, [], guestValue);
 
     targetGuest.end = time;
@@ -501,6 +506,7 @@ export function getAssigUtils(
       // 복구 처리
       setGuestValue([...guestValueOriginCopy]);
     }
+    startPolling();
   };
 
   const allocateItem: TAllocateItem = async (
@@ -529,6 +535,7 @@ export function getAssigUtils(
     guestValueOriginCopy?: IAssigItem[]
   ) => {
     if (JDisNetworkRequestInFlight(networkStatus)) return;
+    stopPolling();
 
     const group = groupData[newGroupOrder];
     const newGroupId = group.roomId;
@@ -550,12 +557,14 @@ export function getAssigUtils(
         location.reload();
       }
     }
+    startPolling();
   };
 
   // 방막기
   const addBlock: TAddBlock = async (start, end, groupIds) => {
     console.info("addBlock");
     if (JDisNetworkRequestInFlight(networkStatus)) return;
+    stopPolling();
     allTooltipsHide();
     const guestValueOriginCopy = $.extend(true, [], guestValue);
 
@@ -613,6 +622,7 @@ export function getAssigUtils(
       }
       i++;
     }
+    startPolling();
     refetch();
   };
 
@@ -667,7 +677,7 @@ export function getAssigUtils(
   };
 
   // 마크와함께 부킹시작
-  const startBookingModalWithMark: TBookingModalOpenWithMark = (
+  const makeBookingModalWithMark: TBookingModalOpenWithMark = (
     modalInfo: IBookingModalProp
   ) => {
     const createItems = getItems(GuestTypeAdd.MARK);
@@ -820,6 +830,7 @@ export function getAssigUtils(
   };
   // 유틸 아이템을 화면에서 삭제
   const deleteItemById: TDeleteItemById = async id => {
+    stopPolling();
     allTooltipsHide();
     const targetItem = getItemById(id);
     if (targetItem.type === GuestTypeAdd.BLOCK) {
@@ -836,6 +847,7 @@ export function getAssigUtils(
     } else {
       setGuestValue([...guestValue.filter(guest => guest.id !== id)]);
     }
+    startPolling();
   };
 
   // create 툴팁 오픈
@@ -931,7 +943,7 @@ export function getAssigUtils(
     getGuestsInGroup,
     popUpItemMenuTooltip,
     getBookingIdByGuestId,
-    startBookingModalWithMark,
+    makeBookingModalWithMark,
     hilightGuestBlock,
     hilightHeader,
     deleteGhost,
