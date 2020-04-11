@@ -73,6 +73,7 @@ import PageBody from "../../../components/pageBody/PageBody";
 import AssigTimelineConfigModal from "./components/AssigTimelineConfigModal/AssigTimelineConfigModal";
 import getConfigStorage from "./helper/getStorage";
 import Preloader from "../../../atoms/preloader/Preloader";
+import { SIDE_IS_OPEN } from "../../../components/sideNav/SideNav";
 
 interface IProps {
   context: IContext;
@@ -125,7 +126,7 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
     stopPolling,
     startPolling
   } = assigDataControl;
-  const { house, houseConfig, sideNavIsOpen } = context;
+  const { house, houseConfig } = context;
   const isDesktopHDDown = windowWidth < EWindowSize.DESKTOPHD;
   const isTabletDown = windowWidth <= EWindowSize.TABLET;
   const isMobile = windowWidth < EWindowSize.PHABLET;
@@ -237,7 +238,7 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
   const handleWindowScrollEvent = () => {
     allTooltipsHide();
     if (isMobile) return;
-    // scrollAnimater();
+    scrollAnimater();
     debounceCut();
   };
 
@@ -435,7 +436,7 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
     );
   }, [zoomValue]);
 
-  const timelineKey = `timeline${endTime}${sideNavIsOpen ? "a" : "b"}`;
+  const timelineKey = `timeline${endTime}${SIDE_IS_OPEN ? "a" : "b"}`;
 
   useLayoutEffect(() => {
     if (!firstUpdate.current) scrollAnimater();

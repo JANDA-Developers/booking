@@ -71,6 +71,12 @@
       }
     }
 
+    &__placeIn {
+      @include response($phablet) {
+        font-size: $typho-tiny;
+      }
+    }
+
     // roomType이름과 room 이름들
     &__names {
       display: flex;
@@ -81,9 +87,10 @@
       max-height: 100%;
       white-space: normal;
       width: 100%;
-      line-height: 1.3;
+      line-height: 1.1;
       word-wrap: break-word;
       @include response($phablet) {
+        font-size: $typho-tiny;
         width: 80%;
         word-break: break-all;
       }

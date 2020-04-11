@@ -7,6 +7,7 @@ import { WindowSize } from "../../types/enum";
 import { currentWinSize } from "../../utils/currentWinSize";
 import reactWindowSize, { WindowSizeProps } from "react-window-size";
 import { IContext } from "../../pages/bookingHost/BookingHostRouter";
+import { SIDE_IS_OPEN } from "../../components/sideNav/SideNav";
 
 interface Iprops extends JDatomExtentionSet {
   src?: string;
@@ -35,12 +36,10 @@ const PhotoFrame: React.FC<Iprops & WindowSizeProps> = ({
 }) => {
   let src = srcProp;
 
-  const sideIsOpen = context?.sideNavIsOpen;
-
   // "mb" || "pc"
   if (responseImg) {
     const mode = currentWinSize();
-    const changePoint = sideIsOpen ? WindowSize.DESKTOP : WindowSize.TABLET;
+    const changePoint = SIDE_IS_OPEN ? WindowSize.DESKTOP : WindowSize.TABLET;
 
     if (windowWidth < changePoint) {
       src += "--mb";

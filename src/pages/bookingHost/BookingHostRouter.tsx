@@ -65,7 +65,6 @@ export interface IContext extends RouteComponentProps<any> {
   houseConfig: IHouseConfigFull;
   applyedProduct: getMyProfile_GetMyProfile_user_houses_product | undefined;
   houses: IHouse[];
-  sideNavIsOpen: boolean;
   JDlang: (key: string) => any;
   langHook: {
     currentLang: TLanguageShort;
@@ -100,7 +99,6 @@ const JDbookingHost: React.FC<IProps> = ({
   const { userRole } = user;
   // 추가적 설정 모달
   // const additionalConfigModal = useModal(false);
-  const { sideNavIsOpen, setSideNavIsOpen } = useSideNav();
   const houseConfig = houseConfigSetting(currentHouse);
   const isExpired = applyedProduct?.isExpired;
   const daysLeftToExpire = applyedProduct?.daysLeftToExpire || 0;
@@ -128,12 +126,11 @@ const JDbookingHost: React.FC<IProps> = ({
     houseConfig,
     applyedProduct,
     houses,
-    sideNavIsOpen,
     langHook
   };
 
   const bookingHostClassNames = classnames("bookingHost", undefined, {
-    "bookingHost--sideOpen": sideNavIsOpen && houseExists
+    "bookingHost--houseExists": houseExists
   });
 
   const routers: JDRoute[] = [
@@ -332,12 +329,7 @@ const JDbookingHost: React.FC<IProps> = ({
                   context={propContext as any}
                   modalHook={memoAlertModal}
                 />
-                <Header
-                  setSideNavIsOpen={setSideNavIsOpen}
-                  sideNavIsOpen={sideNavIsOpen}
-                  {...(props as any)}
-                  context={propContext as any}
-                />
+                <Header {...(props as any)} context={propContext as any} />
               </Fragment>
             );
           }}
@@ -350,13 +342,7 @@ const JDbookingHost: React.FC<IProps> = ({
               <Route
                 render={props => {
                   const propContext = Object.assign(tempContext, props, JDlang);
-                  return (
-                    <SideNav
-                      context={propContext as any}
-                      isOpen={sideNavIsOpen}
-                      setIsOpen={setSideNavIsOpen}
-                    />
-                  );
+                  return <SideNav context={propContext as any} />;
                 }}
               />
             )}

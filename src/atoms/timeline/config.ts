@@ -1,22 +1,17 @@
-import {
-  defaultHeaderFormats,
-} from "react-calendar-timeline";
+import { defaultHeaderFormats } from "react-calendar-timeline";
 import { LANG } from "../../hooks/hook";
 import moment from "moment";
 import { TimePerMs } from "../../types/enum";
+import { IS_MOBILE } from "../../types/const";
 
 // 변수설정
-const ASSIG_IMELINE_HEIGHT = 40;
+const ASSIG_IMELINE_HEIGHT = IS_MOBILE ? 45 : 40;
 
 // 또는 HeaderCellRedner 파일 참조
-const krSubHeaderLabelFormats = Object.assign(
-  {},
-  defaultHeaderFormats,
-  {
-    monthLong: `AMM ${LANG("month")}`, // 년 LANG("month") 필요
-    hourLong: `M${LANG("month")} D${LANG("date")} ddd` // LANG("month") 일
-  }
-);
+const krSubHeaderLabelFormats = Object.assign({}, defaultHeaderFormats, {
+  monthLong: `AMM ${LANG("month")}`, // 년 LANG("month") 필요
+  hourLong: `M${LANG("month")} D${LANG("date")} ddd` // LANG("month") 일
+});
 
 const krHeaderLabelFormats = Object.assign({}, defaultHeaderFormats, {
   day: {
@@ -71,8 +66,4 @@ const sharedProps = {
   defaultTimeEnd
 };
 
-export {
-  defaultHeaderFormats,
-  ASSIG_IMELINE_HEIGHT,
-  sharedProps
-};
+export { defaultHeaderFormats, ASSIG_IMELINE_HEIGHT, sharedProps };

@@ -6,7 +6,7 @@ html {
 }
 
 .bookingHost {
-  &--sideOpen {
+  &--houseExists.bookingHost--sideOpen {
     @include response($full, $phablet) {
       .bookingHost__page {
         width: calc(100% - #{$sideNav-width});

@@ -1,6 +1,7 @@
 import React, { Fragment, useState } from "react";
 import { NavLink, Link } from "react-router-dom";
 import "./SideNav.scss";
+import $ from "jquery";
 import classNames from "classnames";
 import ErrProtecter from "../../utils/errProtect";
 import Button from "../../atoms/button/Button";
@@ -21,10 +22,9 @@ import JDmenuLinker, {
   IMenusItem
 } from "../../atoms/menu/components/MenuLiLinker";
 import isMobile from "is-mobile";
+import { useSideNav } from "@janda-com/front/build/hooks/hook";
 
 interface IProps {
-  isOpen: boolean;
-  setIsOpen: any;
   context: IContext;
 }
 
@@ -37,17 +37,28 @@ interface IMenusGroup {
   contents: IMenusItem[];
 }
 
-const SideNav: React.FC<IProps> = ({ isOpen, setIsOpen, context }) => {
+export let SIDE_IS_OPEN = false;
+
+export const sideNavToggler = () => {
+  const target = $(".JDsideNav");
+  target.toggleClass("JDsideNav--open");
+  target.find(".JDsideNav-curtain").toggleClass("JDsideNav-curtain--open");
+  target.find(".bookingHost").toggleClass("bookingHost--sideOpen");
+  $("#sideNavControlIconOpend").toggle();
+  $("#sideNavControlIconClosed").toggle();
+  SIDE_IS_OPEN = !SIDE_IS_OPEN;
+};
+
+const SideNav: React.FC<IProps> = ({ context }) => {
   const { applyedProduct, house, user } = context;
   const [openMenu, setOpenMenu] = useState<string[]>([]);
 
   const classes = classNames({
-    JDsideNav: true,
-    "JDsideNav--open": isOpen
+    JDsideNav: true
   });
 
   const handleCurtainClick = () => {
-    setIsOpen(false);
+    sideNavToggler();
   };
 
   const status = house && house.status;
@@ -192,7 +203,7 @@ const SideNav: React.FC<IProps> = ({ isOpen, setIsOpen, context }) => {
                 setOpenMenu(openKeys);
               }}
               onClick={() => {
-                if (isMobile()) setIsOpen(false);
+                if (isMobile()) sideNavToggler();
               }}
               openKeys={[...openMenu]}
               customMode="sideNav"
@@ -285,9 +296,7 @@ const SideNav: React.FC<IProps> = ({ isOpen, setIsOpen, context }) => {
         <div
           role="presentation"
           onClick={handleCurtainClick}
-          className={`JDsideNav-curtain ${
-            isOpen ? "JDsideNav-curtain--open" : ""
-          }`}
+          className="JDsideNav-curtain"
         />
       </div>
     </Fragment>

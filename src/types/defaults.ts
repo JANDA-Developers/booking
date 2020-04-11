@@ -43,7 +43,7 @@ export const ANY: any = {};
 export const DEFAULT_ROOMTYPE_ROOM: getAllRoomType_GetAllRoomType_roomTypes_rooms = {
   __typename: "Room",
   _id: "",
-  name: "222",
+  name: "222"
 };
 
 export const DEFAULT_ROOMTYPE: IRoomType = {
@@ -145,11 +145,11 @@ export const DEFAULT_SMS_INFO: getSmsInfo_GetSmsInfo_smsInfo = {
 };
 
 export const FAKE_MODAL_HOOK: IUseModal = {
-  closeModal: () => { },
+  closeModal: () => {},
   isOpen: true,
   info: {},
-  openModal: () => { }
-}
+  openModal: () => {}
+};
 
 export const FAKE_CONTEXT: IContext = {
   JDlang: ANY,
@@ -162,9 +162,8 @@ export const FAKE_CONTEXT: IContext = {
   langHook: ANY,
   location: ANY,
   match: ANY,
-  sideNavIsOpen: ANY,
-  user: ANY,
-}
+  user: ANY
+};
 
 // specification에서 사용
 export const DEFAULT_PRODUCT: getSpecification_GetHouse_house_product = {
@@ -198,7 +197,7 @@ export const DEFAULT_PRODUCT: getSpecification_GetHouse_house_product = {
 
 export const DEFAULT_NONE_GOUP: IAssigGroup = {
   ...DEFAULT_ASSIG_GROUP,
-  id: "noneGroup",
+  id: "noneGroup"
 };
 
 export const DEFAULT_BLOCK_OP: IBlockOp = {
@@ -375,4 +374,3 @@ export const DEFAULT_PAGE_INFO: JDpageInfo = {
   rowCount: 0,
   totalPage: 0
 };
-

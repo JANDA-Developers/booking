@@ -16,20 +16,12 @@ import HeaderMenu from "./components/HeaderMenu";
 type ITempProps = IDiv & {
   context: IContext;
   logOutMutation: any;
-  setSideNavIsOpen: any;
-  sideNavIsOpen: any;
   [key: string]: any;
 };
 
 type IProps = ITempProps;
 
-const Header: React.FC<IProps> = ({
-  context,
-  logOutMutation,
-  windowWidth,
-  sideNavIsOpen,
-  setSideNavIsOpen
-}) => {
+const Header: React.FC<IProps> = ({ context, logOutMutation, windowWidth }) => {
   const { house } = context;
   const doneHouseInit = !isEmpty(house);
   const isPhabletDown = windowWidth < WindowSize.TABLET;
@@ -44,11 +36,7 @@ const Header: React.FC<IProps> = ({
     <div className="header">
       <div className="header__left">
         <Logo completeDefaultSetting={doneHouseInit} />
-        <HeaderMenu
-          setSideNavIsOpen={setSideNavIsOpen}
-          sideNavIsOpen={sideNavIsOpen}
-          doneHouseInit={doneHouseInit}
-        />
+        <HeaderMenu doneHouseInit={doneHouseInit} />
       </div>
       {house && (
         <div className="header__center">
