@@ -1,6 +1,6 @@
 import React from "react";
 import PrivacyPolicy from "../../docs/privacyPolicy";
-import { IUseModal } from "../../hooks/hook";
+import { IUseModal, LANG } from "../../hooks/hook";
 import JDmodal from "../../atoms/modal/Modal";
 
 interface Iprops {
@@ -9,7 +9,13 @@ interface Iprops {
 
 const PrivacyPolicyModal: React.FC<Iprops> = ({ modalHook }) => {
   return (
-    <JDmodal {...modalHook}>
+    <JDmodal
+      head={{
+        title: LANG("agree_to_privacy_policy")
+      }}
+      fullInMobile
+      {...modalHook}
+    >
       <PrivacyPolicy />
     </JDmodal>
   );

@@ -5,6 +5,11 @@
 // 👿 에니메이션 css 순수하게 가진 파일이필요
 @import "../../../../atoms/animation/ComponentAnimations.scss";
 
+html {
+  @extend %JDscrollbar;
+  -webkit-overflow-scrolling: touch;
+}
+
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -34,8 +39,22 @@
 }
 
 #AssigTimeline {
+  .rct-outer {
+    transition: all 1s ease-in-out;
+    overflow: hidden;
+
+    @include response($phablet) {
+      transition-duration: 1s;
+    }
+  }
+
   .rct-header-root {
     top: $header-height;
+
+    @include response($phablet) {
+      top: 0;
+      transition-duration: 1s;
+    }
     z-index: 999999;
   }
 
@@ -106,11 +125,15 @@
 
   @include response($phablet) {
     .assigTimeline__timelineWrap {
-      margin-left: -$container-padding--md;
-      margin-right: -$container-padding--md;
       border-left: none !important;
       border-right: none !important;
     }
+  }
+}
+.assigTimeline__timelineBody {
+  padding-top: 0px;
+  @include response($phablet) {
+    padding: 0px;
   }
 }
 

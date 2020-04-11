@@ -77,7 +77,8 @@ const AddressSearcher: React.FC<IProps> = ({
     <div className="JDz-index-2">
       <JDsearchInput
         inputProp={{
-          label: LANG("house_address")
+          label: LANG("house_address"),
+          mr: "no"
         }}
         onSelectData={handleSelectData}
         onSearchChange={onTypeChange}

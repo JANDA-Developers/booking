@@ -7,7 +7,6 @@ import Timeline, {
   CustomHeader,
   TimelineMarkers,
   CustomMarker,
-  TodayMarker,
   CursorMarker
 } from "react-calendar-timeline";
 import React, { useState, useEffect } from "react";
@@ -122,6 +121,7 @@ const JDtimeline: React.FC<ITimelineProps> = ({
   return (
     <div onMouseMove={throttenHandleMouseMove} onMouseDown={hanldeMouseDown}>
       <Timeline
+        fixedHeader="fixed"
         id="react-calendar-timeline"
         {...props}
         resizeDetector={containerResizeDetector}

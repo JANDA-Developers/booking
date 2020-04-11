@@ -1,7 +1,6 @@
 @import "~Styles";
 @import "./components/dragItem";
 
-
 .dailyAssigWrap {
   &--loading {
     display: flex;
@@ -12,7 +11,6 @@
 }
 
 .dailyAssig {
-  overflow: hidden;
   max-height: 90vh;
   border-radius: $standard-border-radius;
   border: 1px solid $grey-opacity1;

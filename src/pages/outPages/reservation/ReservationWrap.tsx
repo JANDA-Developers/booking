@@ -95,7 +95,6 @@ export default ReservationWrap;
 
 <script>
 window.addEventListener('message', function(e) {
-  console.log(e.data); 
   if(e.data.height) {
     jQuery('#JD_RESV_APP').height(e.data.height);
  }

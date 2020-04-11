@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 import { LANG, IUseModal } from "../../../hooks/hook";
 import JDmodal from "../../../atoms/modal/Modal";
 import { JDpreloader, useInput } from "@janda-com/front";
-import SecurityLevelViewer from "../signUp/SecurityLevelViewer";
+import SecurityLevelViewer, { TCheck } from "../signUp/SecurityLevelViewer";
 import ModalEndSection from "../../../atoms/modal/components/ModalEndSection";
 import Button from "../../../atoms/button/Button";
 import {
@@ -37,6 +37,12 @@ const PasswordChangeModal: React.FC<Iprops> = ({
   const keyHook = useInput("");
   const newPasswordHook = useInput("");
   const newConfimPasswordHook = useInput("");
+  const [passwordLevelViewer, setPasswordLevelViewer] = useState<TCheck>({
+    enAndNumber: false,
+    length: false,
+    special: false,
+    checkedCount: 0
+  });
 
   const verifyValidate = () => {
     if (!isPhone(phoneNumberHook.value)) {
@@ -107,7 +113,11 @@ const PasswordChangeModal: React.FC<Iprops> = ({
           {...newPasswordHook}
         />
       </div>
-      <SecurityLevelViewer password={newPasswordHook.value} />
+      <SecurityLevelViewer
+        passwordCondition={passwordLevelViewer}
+        setPasswordCondition={setPasswordLevelViewer}
+        password={newPasswordHook.value}
+      />
       <div className="JDsmall-text JDstandard-margin-bottom"></div>
       <div>
         <InputText

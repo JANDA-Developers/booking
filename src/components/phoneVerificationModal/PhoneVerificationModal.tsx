@@ -42,13 +42,15 @@ const PhoneVerification: React.FC<IProps> = ({
 
   return (
     <JDmodal
+    head={{
+      title: LANG("mobile_phone_verification_number")
+    }}
       loading={muLoading}
       {...modalHook}
       className="Modal"
       overlayClassName="Overlay"
       ariaHideApp={false}
     >
-      <h5>{LANG("mobile_phone_verification_number")}</h5>
       <JDTimer initialTime={TimePerMs.M * 3} direction="backward">
         {({ timerState }: any) => {
           if (timerState === "STOPPED") {

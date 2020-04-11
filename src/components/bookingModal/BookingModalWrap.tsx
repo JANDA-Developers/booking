@@ -138,8 +138,26 @@ const BookingModalWrap: React.FC<IBookingModalWrapProps> = ({
                 "roomTypeDatePrices",
                 []
               );
+
+              let dataTemp: {
+                roomTypeId: string;
+                count: number;
+              }[] = [];
+
+              if (mergedBooking) {
+                const { guests, roomTypes } = mergedBooking;
+                if (roomTypes && guests) {
+                  dataTemp = roomTypes?.map(rt => ({
+                    roomTypeId: rt._id,
+                    count: guests!.filter(g => g.roomType._id === rt._id).length
+                  }));
+                }
+              }
+
               const placeHolederPrice = totalPriceGetAveragePrice(
-                priceData || []
+                priceData || [],
+                false,
+                dataTemp
               );
               return (
                 <UpdateBookingMu
@@ -173,7 +191,6 @@ const BookingModalWrap: React.FC<IBookingModalWrapProps> = ({
                           makeBookingCallBack &&
                             makeBookingCallBack(MakeBooking);
 
-                          console.log("reached To Modal");
                           modalHook.closeModal();
                           if (modalHook.info.makeBookingCallBack)
                             modalHook.info.makeBookingCallBack(MakeBooking);
@@ -210,9 +227,6 @@ const BookingModalWrap: React.FC<IBookingModalWrapProps> = ({
 
                             const totalLoading =
                               getBooking_loading || getPrice_loading;
-
-                            console.log("totalLoading");
-                            console.log(totalLoading);
 
                             return (
                               <Fragment>

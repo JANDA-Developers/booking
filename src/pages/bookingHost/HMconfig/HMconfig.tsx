@@ -151,8 +151,7 @@ const HMconfig: React.FC<IProps> = ({
     }
   };
 
-  if (loading) return <Preloader page loading={loading} />;
-
+  if (loading) return <Fragment />;
   const LangConfigBtn = () => (
     <Button
       mb="normal"

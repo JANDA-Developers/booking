@@ -115,8 +115,6 @@ export const getGenderChangedGuest = (
       if (isDomitoryGuest(copyGuest) && copyGuest._id === info._id)
         copyGuest.gender = info.gender;
     });
-    console.log("copyGuest");
-    console.log(copyGuest);
     return copyGuest;
   });
 };

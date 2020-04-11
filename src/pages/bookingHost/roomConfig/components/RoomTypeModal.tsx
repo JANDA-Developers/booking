@@ -93,6 +93,10 @@ const RoomTypeModal: React.FC<IProps> = ({ modalHook, loading, onSubmit }) => {
 
   return (
     <Modal
+      head={{
+        title: LANG("room_type_config")
+      }}
+      fullInMobile
       overlayClassName="Overlay"
       center={false} // 이거 제거 필요
       id="RoomTypeModal"

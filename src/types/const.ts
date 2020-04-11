@@ -300,6 +300,8 @@ export const EMPTY = "";
 
 export const MODAL_MIN_WIDTH = isMobile() ? `90%` : "360px";
 
+export const IS_MOBILE = isMobile();
+
 export const STATIC_COLORS = [
   "#4c5b73",
   "#E8554E",

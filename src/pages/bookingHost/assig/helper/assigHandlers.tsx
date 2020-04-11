@@ -53,7 +53,13 @@ export function getAssigHandlers(
     getItemsByType,
     getInfoesFromMarks
   }: IAssigTimelineUtils,
-  { groupData, isMobile, networkStatus, lock }: IAssigTimelineContext,
+  {
+    groupData,
+    filteredGroup,
+    isMobile,
+    networkStatus,
+    lock
+  }: IAssigTimelineContext,
   {
     setDataTime,
     dataTime,
@@ -187,8 +193,8 @@ export function getAssigHandlers(
     let ids = [];
 
     for (let i = 0; i <= y; i++) {
-      if (!groupData[placeIndex + i]) return;
-      ids.push(groupData[placeIndex + i].id);
+      if (!filteredGroup[placeIndex + i]) return;
+      ids.push(filteredGroup[placeIndex + i].id);
     }
 
     if (isMultiSelectingMode) {
@@ -335,7 +341,6 @@ export function getAssigHandlers(
     e: React.MouseEvent<HTMLElement>,
     time: number
   ) => {
-    handleItemClick(itemId, e, time);
     const target = getItemById(itemId);
     if (target) {
       await $(".assigItem").removeClass(CLASS_LINKED);

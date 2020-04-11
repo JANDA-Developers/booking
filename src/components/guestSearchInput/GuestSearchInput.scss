@@ -3,6 +3,28 @@
 #JDBookingSearcher {
   display: flex;
   align-items: center;
+  width: 100%;
+  .JDsearchInput {
+    width: 100%;
+  }
+  @include response($full, $tabletUp) {
+    .dataModal {
+      width: 500px;
+      &__tags {
+        width: 120px;
+      }
+    }
+  }
+  @include response($tablet) {
+    .dataModal {
+      position: fixed;
+      left: $standard-space;
+      right: $standard-space;
+      &__tags {
+        width: 120px;
+      }
+    }
+  }
 }
 #JDBookingSearcher .JDinput {
   background-color: white;

@@ -71,8 +71,13 @@ const RoomTypeCard: React.SFC<IProps> = ({
       if (key === "maleCount") {
         genderKey = ` ${LANG("male")}`;
         if (availableCount.maleCount || guestCountValue.male) {
+          let prevSelect =
+            guestCountValue.initGender === Gender.MALE
+              ? guestCountValue.male
+              : 0;
+
           return selectOpCreater({
-            count: availableCount.maleCount + 1 + guestCountValue.male,
+            count: availableCount.maleCount + 1 + prevSelect,
             labelAdd: genderKey
           });
         }
@@ -81,8 +86,12 @@ const RoomTypeCard: React.SFC<IProps> = ({
       if (key === "femaleCount") {
         genderKey = ` ${LANG("female")}`;
         if (availableCount.femaleCount || guestCountValue.female) {
+          let prevSelect =
+            guestCountValue.initGender === Gender.FEMALE
+              ? guestCountValue.female
+              : 0;
           return selectOpCreater({
-            count: availableCount.femaleCount + 1 + guestCountValue.female,
+            count: availableCount.femaleCount + 1 + prevSelect,
             labelAdd: genderKey
           });
         }
@@ -280,7 +289,7 @@ const RoomTypeCard: React.SFC<IProps> = ({
           />
         </div>
       </div>
-      <JDmodal className="roomImgPop" {...roomImgModalHook}>
+      <JDmodal fullInMobile className="roomImgPop" {...roomImgModalHook}>
         <img
           className="roomImgPop__img"
           src={roomTypeData.img?.url || ""}

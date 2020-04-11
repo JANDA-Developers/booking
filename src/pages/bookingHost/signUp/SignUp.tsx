@@ -1,5 +1,5 @@
 /* eslint-disable  */
-import React from "react";
+import React, { useState } from "react";
 import { toast } from "react-toastify";
 import InputText from "../../../atoms/forms/inputText/InputText";
 import Radio from "../../../atoms/forms/radio/Radio";
@@ -14,7 +14,7 @@ import privacyPolicy from "../../../docs/privacyPolicy";
 import { IContext } from "../../bookingHost/BookingHostRouter";
 import { emailSignUp, emailSignUpVariables } from "../../../types/api";
 import { useMutation } from "@apollo/react-hooks";
-import SecurityLevelViewer from "./SecurityLevelViewer";
+import SecurityLevelViewer, { TCheck } from "./SecurityLevelViewer";
 
 interface Iprops {
   context: IContext;
@@ -27,6 +27,12 @@ const SignUp: React.FC<Iprops> = ({ context }) => {
   const phoneNumberHook = useInput("");
   const passwordHook = useInput("");
   const checkPasswordHook = useInput("");
+  const [passwordLevelViewer, setPasswordLevelViewer] = useState<TCheck>({
+    enAndNumber: false,
+    length: false,
+    special: false,
+    checkedCount: 0
+  });
   const [infoAgreement, setInfoAgreement] = useRadio("N");
 
   // 생성 요청
@@ -36,7 +42,7 @@ const SignUp: React.FC<Iprops> = ({ context }) => {
     refetchQueries: [{ query: GET_USER_INFO }],
     onCompleted: () => {
       history.replace(`/dashboard`);
-    },
+    }
   });
 
   // 생성 요청
@@ -51,8 +57,8 @@ const SignUp: React.FC<Iprops> = ({ context }) => {
         name: nameHook.value,
         email: emailHook.value,
         phoneNumber: phoneNumberHook.value,
-        password: passwordHook.value,
-      },
+        password: passwordHook.value
+      }
     },
     onCompleted: ({ EmailSignUp: { ok, error, token } }: any) => {
       // 자동로그인
@@ -60,15 +66,15 @@ const SignUp: React.FC<Iprops> = ({ context }) => {
         toast.success(LANG("signup_complted"));
         eamilSingInMu({
           variables: {
-            token: token,
-          },
+            token: token
+          }
         });
       }
       if (error) {
         toast.warn(error);
         console.error(error);
       }
-    },
+    }
   });
 
   const validate = () => {
@@ -80,12 +86,12 @@ const SignUp: React.FC<Iprops> = ({ context }) => {
       toast.warn(LANG("not_a_valid_email"));
       return false;
     }
-    if (!phoneNumberHook.isValid) {
-      toast.warn(LANG("not_a_valid_phoneNumber"));
+    if (passwordLevelViewer.checkedCount! < 2) {
+      toast.warn(LANG("not_a_valid_password"));
       return false;
     }
-    if (!passwordHook.isValid) {
-      toast.warn(LANG("not_a_valid_password"));
+    if (!phoneNumberHook.isValid) {
+      toast.warn(LANG("not_a_valid_phoneNumber"));
       return false;
     }
     if (passwordHook.value !== checkPasswordHook.value) {
@@ -129,15 +135,18 @@ const SignUp: React.FC<Iprops> = ({ context }) => {
                   mb="superTiny"
                   id="signupPassword"
                   {...passwordHook}
-                  onChange={(v) => {
+                  onChange={v => {
                     passwordHook.onChange(v);
                   }}
-                  validation={utils.isPassword}
                   type="password"
                   label={LANG("password")}
                 />
               </div>
-              <SecurityLevelViewer password={passwordHook.value} />
+              <SecurityLevelViewer
+                setPasswordCondition={setPasswordLevelViewer}
+                passwordCondition={passwordLevelViewer}
+                password={passwordHook.value}
+              />
             </div>
             <div className="flex-grid__col col--full-12 col--md-12">
               <InputText

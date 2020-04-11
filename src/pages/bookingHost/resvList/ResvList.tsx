@@ -26,7 +26,7 @@ import {
   DateFormat,
   PayMethod
 } from "../../../types/enum";
-import { FLOATING_PRELOADER_SIZE } from "../../../types/const";
+import { FLOATING_PRELOADER_SIZE, IS_MOBILE } from "../../../types/const";
 import moment from "moment";
 import JDbadge from "../../../atoms/badge/Badge";
 import "./ResvList.scss";
@@ -51,6 +51,7 @@ import client from "../../../apollo/apolloClient";
 import { GET_BOOKINGS } from "../../../apollo/queries";
 import { JDSelectableJDtable } from "../../../atoms/table/SelectTable";
 import { IModalSMSinfo } from "../../../components/smsModal/SendSmsModal";
+import JDtypho from "../../../atoms/typho/Typho";
 
 interface IProps {
   pageInfo: IPageInfo;
@@ -161,6 +162,28 @@ const ResvList: React.SFC<IProps> = ({
 
   const TableColumns: JDcolumn<IBooking>[] = [
     {
+      Header: () => (
+        <div>
+          <JDtypho mb="superTiny" weight={600}>
+            {LANG("booker_name")}
+          </JDtypho>
+          <JDtypho size="small">{LANG("contact")}</JDtypho>
+        </div>
+      ),
+      accessor: "name",
+      Cell: ({ original }) => {
+        const Booking: IBooking = original;
+        return (
+          <div>
+            <JDtypho mb="superTiny" weight={600}>
+              {Booking.name}
+            </JDtypho>
+            <JDtypho size="small">{autoHyphen(Booking.phoneNumber)}</JDtypho>
+          </div>
+        );
+      }
+    },
+    {
       Header: LANG("reservation_did_date"),
       accessor: "createdAt",
       Cell: ({ value }) => {
@@ -230,26 +253,7 @@ const ResvList: React.SFC<IProps> = ({
       accessor: "_id",
       Cell: ({ original }) => <div>{to4YMMDD(original.checkOut)}</div>
     },
-    {
-      Header: () => (
-        <div>
-          {LANG("booker_name")}
-          <br />
-          {LANG("contact")}
-        </div>
-      ),
-      accessor: "name",
-      Cell: ({ original }) => {
-        const Booking: IBooking = original;
-        return (
-          <div>
-            {Booking.name}
-            <br />
-            {autoHyphen(Booking.phoneNumber)}
-          </div>
-        );
-      }
-    },
+
     {
       Header: () => (
         <div>
@@ -354,138 +358,148 @@ const ResvList: React.SFC<IProps> = ({
   ];
 
   return (
-    <div id="resvList" className="resvList">
-      <PageHeader
-        desc={LANG("bookingList__desc")}
-        title={LANG("bookingList")}
+    <Fragment>
+      <Preloader
+        size={FLOATING_PRELOADER_SIZE}
+        floating
+        loading={networkStatus !== 1 && loading}
       />
-      <PageBody>
-        <div>
-          <Button
-            size="small"
-            icon={"download"}
-            label={LANG("excel_express")}
-            onClick={() => {
-              const selectData = bookingsData.filter(booking =>
-                checkedIds.includes(booking._id)
-              );
-
-              const getData = async ({
-                mode,
-                count,
-                date
-              }: TExcelGetDataProp) => {
-                const filter: GetBookingsFilterInput | undefined = date
-                  ? {
-                      houseId,
-                      stayDate: {
-                        checkIn: to4YMMDD(date.from),
-                        checkOut: to4YMMDD(date.to)
-                      }
-                    }
-                  : {
-                      houseId
-                    };
-
-                const { data, loading } = await client.query<
-                  getBookings,
-                  getBookingsVariables
-                >({
-                  query: GET_BOOKINGS,
-                  variables: {
-                    param: {
-                      filter,
-                      paging: {
-                        count: count || 99999,
-                        selectedPage: 1
-                      }
-                    }
-                  }
-                });
-
-                const result = queryDataFormater(
-                  data,
-                  "GetBookings",
-                  "result",
-                  undefined
+      <div id="resvList" className="resvList">
+        <PageHeader
+          desc={LANG("bookingList__desc")}
+          title={LANG("bookingList")}
+        />
+        <PageBody>
+          <div>
+            <Button
+              mode={IS_MOBILE ? "iconButton" : undefined}
+              icon={IS_MOBILE ? "download" : undefined}
+              size="small"
+              label={LANG("excel_express")}
+              onClick={() => {
+                const selectData = bookingsData.filter(booking =>
+                  checkedIds.includes(booking._id)
                 );
-                const bookings = result?.bookings || [];
 
-                const excelData = resvDatasToExcel(bookings);
+                const getData = async ({
+                  mode,
+                  count,
+                  date
+                }: TExcelGetDataProp) => {
+                  const filter: GetBookingsFilterInput | undefined = date
+                    ? {
+                        houseId,
+                        stayDate: {
+                          checkIn: to4YMMDD(date.from),
+                          checkOut: to4YMMDD(date.to)
+                        }
+                      }
+                    : {
+                        houseId
+                      };
+
+                  const { data, loading } = await client.query<
+                    getBookings,
+                    getBookingsVariables
+                  >({
+                    query: GET_BOOKINGS,
+                    variables: {
+                      param: {
+                        filter,
+                        paging: {
+                          count: count || 99999,
+                          selectedPage: 1
+                        }
+                      }
+                    }
+                  });
+
+                  const result = queryDataFormater(
+                    data,
+                    "GetBookings",
+                    "result",
+                    undefined
+                  );
+                  const bookings = result?.bookings || [];
+
+                  const excelData = resvDatasToExcel(bookings);
+                  const excelSelectData = resvDatasToExcel(selectData);
+                  excelModal.openModal({
+                    data: excelData,
+                    loading,
+                    getData,
+                    selectData: excelSelectData
+                  });
+                };
+
                 const excelSelectData = resvDatasToExcel(selectData);
                 excelModal.openModal({
-                  data: excelData,
-                  loading,
-                  getData,
-                  selectData: excelSelectData
+                  data: [],
+                  selectData: excelSelectData,
+                  getData
                 });
-              };
-
-              const excelSelectData = resvDatasToExcel(selectData);
-              excelModal.openModal({
-                data: [],
-                selectData: excelSelectData,
-                getData
-              });
-            }}
-          ></Button>
-          <Button
-            size="small"
-            onClick={handleCancleBookingBtnClick}
-            label={LANG("cancelBooking")}
+              }}
+            ></Button>
+            <Button
+              size="small"
+              mode={IS_MOBILE ? "iconButton" : undefined}
+              icon={IS_MOBILE ? "negative" : undefined}
+              onClick={handleCancleBookingBtnClick}
+              label={LANG("cancelBooking")}
+            />
+            <Button
+              mode={IS_MOBILE ? "iconButton" : undefined}
+              icon={IS_MOBILE ? "sms" : undefined}
+              onClick={handleSendSmsBtnClick}
+              size="small"
+              label={LANG("sendSMS")}
+            />
+            <Button
+              mode={IS_MOBILE ? "iconButton" : undefined}
+              icon={IS_MOBILE ? "icon" : undefined}
+              onClick={handleDeleteBookingBtnClick}
+              size="small"
+              thema="error"
+              label={LANG("delete_booking")}
+            />
+          </div>
+          {networkStatus === 1 && loading ? (
+            <div className="resvList__table--skeleton" />
+          ) : (
+            <JDSelectableJDtable
+              {...ReactTableDefault}
+              {...checkBoxTableHook}
+              // 아래 숫자는 요청하는 쿼리와 같아야합니다.
+              defaultPageSize={20}
+              isCheckable
+              align="center"
+              data={bookingsData}
+              columns={TableColumns}
+              keyField="_id"
+            />
+          )}
+          <JDPagination
+            setPage={setPage}
+            pageInfo={pageInfo}
+            pageRangeDisplayed={1}
+            marginPagesDisplayed={4}
           />
-          <Button
-            onClick={handleSendSmsBtnClick}
-            size="small"
-            label={LANG("sendSMS")}
+          <BookingModalWrap
+            key={`${bookingModalHook.info.bookingId ||
+              "BookingModaldefaultId"}`}
+            modalHook={bookingModalHook}
+            context={context}
           />
-          <Button
-            onClick={handleDeleteBookingBtnClick}
-            size="small"
-            thema="error"
-            label={LANG("delete_booking")}
+          <JDtoastModal
+            confirm
+            confirmCallBackFn={deleteModalCallBackFn}
+            {...alertModalHook}
           />
-        </div>
-        {networkStatus === 1 && loading ? (
-          <Preloader size="large" loading={true} />
-        ) : (
-          <JDSelectableJDtable
-            {...ReactTableDefault}
-            {...checkBoxTableHook}
-            // 아래 숫자는 요청하는 쿼리와 같아야합니다.
-            defaultPageSize={20}
-            isCheckable
-            align="center"
-            data={bookingsData}
-            columns={TableColumns}
-            keyField="_id"
-          />
-        )}
-        <Preloader
-          size={FLOATING_PRELOADER_SIZE}
-          floating
-          loading={networkStatus !== 1 && loading}
-        />
-        <JDPagination
-          setPage={setPage}
-          pageInfo={pageInfo}
-          pageRangeDisplayed={1}
-          marginPagesDisplayed={4}
-        />
-        <BookingModalWrap
-          key={`${bookingModalHook.info.bookingId || "BookingModaldefaultId"}`}
-          modalHook={bookingModalHook}
-          context={context}
-        />
-        <JDtoastModal
-          confirm
-          confirmCallBackFn={deleteModalCallBackFn}
-          {...alertModalHook}
-        />
-        <SendSMSmodalWrap modalHook={sendSmsModalHook} context={context} />
-      </PageBody>
-      <ExcelModal modalHook={excelModal} />
-    </div>
+          <SendSMSmodalWrap modalHook={sendSmsModalHook} context={context} />
+        </PageBody>
+        <ExcelModal modalHook={excelModal} />
+      </div>
+    </Fragment>
   );
 };
 

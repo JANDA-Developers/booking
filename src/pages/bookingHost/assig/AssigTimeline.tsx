@@ -24,6 +24,7 @@ import {
   getCuttedGroups,
   getCuttedItmes
 } from "./helper/outHelper";
+import $ from "jquery";
 import windowSize from "react-window-size";
 import Button from "../../../atoms/button/Button";
 import BookingModalWrap from "../../../components/bookingModal/BookingModalWrap";
@@ -118,7 +119,12 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
     roomTypesData.map(roomType => roomType._id)
   );
   const firstUpdate = useRef(true);
-  const { networkStatus, totalMuLoading } = assigDataControl;
+  const {
+    networkStatus,
+    totalMuLoading,
+    stopPolling,
+    startPolling
+  } = assigDataControl;
   const { house, houseConfig, sideNavIsOpen } = context;
   const isDesktopHDDown = windowWidth < EWindowSize.DESKTOPHD;
   const isTabletDown = windowWidth <= EWindowSize.TABLET;
@@ -142,12 +148,15 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
 
   // 그룹 데이터에서 필터된것만 추출
   let filteredGroup = useMemo(() => {
-    return getCuttedGroups(
+    stopPolling();
+    const groups = getCuttedGroups(
       groupData.filter(group => viewRoomType.includes(group.roomTypeId)),
       cutCount.cutFrom,
       cutCount.cutTo
     );
-  }, [groupData.length, cutCount.cutTo, cutCount.cutFrom]);
+    startPolling();
+    return groups;
+  }, [groupData.length, cutCount.cutTo, cutCount.cutFrom, viewRoomType]);
 
   // 그룹 데이터가 비어있다면 보정용으로 하나추가
   if (isEmpty(filteredGroup)) filteredGroup = [DEFAULT_NONE_GOUP];
@@ -155,7 +164,8 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
   const filtedGroupIds = useMemo(() => filteredGroup.map(fg => fg.id), [
     groupData.length,
     cutCount.cutTo,
-    cutCount.cutFrom
+    cutCount.cutFrom,
+    viewRoomType
   ]);
 
   const [guestValue, setGuestValue] = useState<IAssigItem[]>(
@@ -163,11 +173,13 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
   );
 
   useEffect(() => {
+    stopPolling();
     const cuttedItems = getCuttedItmes(
       filteredGroup.map(fg => fg.id),
       deafultGuestsData
     );
     setGuestValue(cuttedItems);
+    startPolling();
   }, [filtedGroupIds.join()]);
 
   const dayPickerModalHook = useModal(false);
@@ -192,11 +204,13 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
   ]);
   const { useTodayMark, useCursorMark, zoomValue } = basicConfig;
 
-  const debounceCut = _.debounce(
+  const debounceCut = _.throttle(
     () => {
+      stopPolling();
       setCutCount(getCutCount(windowHeight));
+      startPolling();
     },
-    1000,
+    300,
     {
       leading: false,
       trailing: true
@@ -204,8 +218,26 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
   );
 
   // 스크롤시 데이터로딩
+
+  const scrollAnimater = () => {
+    if (isMobile) return;
+    const secter = $("#AssigTimeline");
+    const targetHeight = secter.find(".rct-sidebar").height() || 0;
+    if (!targetHeight) return;
+    const target = secter.find(".rct-outer");
+    target.css("max-height", targetHeight + 100);
+  };
+
+  const handleWindowScrollTouchEndEvent = () => {
+    // allTooltipsHide();
+    debounceCut();
+    scrollAnimater();
+  };
+
   const handleWindowScrollEvent = () => {
     allTooltipsHide();
+    if (isMobile) return;
+    // scrollAnimater();
     debounceCut();
   };
 
@@ -249,16 +281,17 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
       windowWidth,
       windowHeight,
       groupData,
+      filteredGroup,
       lock,
       setLock,
       houseId: house._id
     }),
-    [windowWidth, guestValue, networkStatus]
+    [windowWidth, guestValue, networkStatus, viewRoomType]
   );
 
   const assigUtils = useMemo(
     () => getAssigUtils(assigHooks, assigDataControl, assigContext),
-    [guestValue, isMultiSelectingMode, lock, networkStatus]
+    [guestValue, isMultiSelectingMode, lock, networkStatus, viewRoomType]
   );
 
   const { assigTimeline } = houseConfig;
@@ -272,7 +305,7 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
 
   const assigHandler = useMemo(
     () => getAssigHandlers(assigUtils, assigContext, assigHooks),
-    [guestValue, isMultiSelectingMode, lock, networkStatus]
+    [guestValue, isMultiSelectingMode, lock, networkStatus, viewRoomType]
   );
 
   const {
@@ -318,7 +351,7 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
       value: roomTypesData.map(roomType => roomType._id),
       labels: roomTypesData.map(roomType => roomType.name)
     }),
-    [roomTypesData.length]
+    [roomTypesData.length, viewRoomType]
   );
 
   const callBackitemRenderer = useCallback(
@@ -357,6 +390,7 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
     const remove = () => {
       window.removeEventListener("keyup", handleKeyUpCavnas);
       window.removeEventListener("keydown", debounceKeyDownCanvas);
+      window.removeEventListener("touchend", handleWindowScrollTouchEndEvent);
       window.removeEventListener("scroll", e => handleWindowScrollEvent);
       window.removeEventListener("click", handleClickWindow);
       return "";
@@ -364,6 +398,7 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
 
     window.addEventListener("keyup", handleKeyUpCavnas);
     window.addEventListener("keydown", debounceKeyDownCanvas);
+    window.addEventListener("touchend", handleWindowScrollTouchEndEvent);
     window.addEventListener("scroll", handleWindowScrollEvent);
     window.addEventListener("click", handleClickWindow);
     return () => {
@@ -402,6 +437,10 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
 
   const timelineKey = `timeline${endTime}${sideNavIsOpen ? "a" : "b"}`;
 
+  useLayoutEffect(() => {
+    if (!firstUpdate.current) scrollAnimater();
+  }, [viewRoomType]);
+
   return (
     <Fragment>
       <PageHeader
@@ -409,14 +448,18 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
         desc={LANG("assigTimeline__decs")}
       />
 
-      <PageBody>
-        <div
-          id="AssigTimeline"
-          className={timelineClassNames}
-          onDoubleClick={handleTimelineWrapClickEvent}
-          onClick={e => {
-            // 윈도우 마우스클릭 이벤트를 방지함
-            // e.stopPropagation();
+      <div
+        id="AssigTimeline"
+        className={timelineClassNames}
+        onDoubleClick={handleTimelineWrapClickEvent}
+        onClick={e => {
+          // 윈도우 마우스클릭 이벤트를 방지함
+          // e.stopPropagation();
+        }}
+      >
+        <PageBody
+          style={{
+            paddingBottom: 0
           }}
         >
           <div className="flex-grid flex-grid--end">
@@ -468,16 +511,20 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
             {roomTypeTabEnable && (
               <JDmultiBox
                 noWrap
-                reversal="onlyFull"
+                reversal="always"
                 defaultAllToogle={true}
                 withAllTooglerLabel={LANG("see_all")}
                 withAllToogler
-                onChange={setViewRoomType}
+                onChange={foo => {
+                  if (networkStatus >= 7) setViewRoomType(foo);
+                }}
                 selectedValue={viewRoomType}
                 {...roomTypesDatas}
               />
             )}
           </div>
+        </PageBody>
+        <PageBody className="assigTimeline__timelineBody">
           <CanvasMenuTooltip
             assigHooks={assigHooks}
             assigContext={assigContext}
@@ -584,29 +631,33 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
           <BookingModalWrap context={context} modalHook={bookingModal} />
           <JDtoastModal confirm {...confirmModalHook} />
           <AssigTimelineConfigModal context={context} modalHook={configModal} />
-          <JDmodal {...dailyAssigHook}>
+          <JDmodal
+            head={{
+              title: moment(dailyAssigHook.info.date).format("YYYY-MM-DD")
+            }}
+            fullInMobile
+            {...dailyAssigHook}
+          >
             <DailyAssigWrap date={dailyAssigHook.info.date} context={context} />
           </JDmodal>
-        </div>
-        <DayPickerModal
-          modalHook={dayPickerModalHook}
-          isRange={false}
-          canSelectBeforeDay={true}
-          calenaderPosition="center"
-          label={`${LANG("calender_date")}`}
-          {...dayPickerHook}
-          className="JDwaves-effect JDoverflow-visible"
-        />
-      </PageBody>
+        </PageBody>
+      </div>
+      <DayPickerModal
+        modalHook={dayPickerModalHook}
+        isRange={false}
+        canSelectBeforeDay={true}
+        calenaderPosition="center"
+        label={`${LANG("calender_date")}`}
+        {...dayPickerHook}
+        className="JDwaves-effect JDoverflow-visible"
+      />
       <Preloader
+        style={{
+          zIndex: 99999999
+        }}
         floating
         loading={loading}
         className="assigTimeline__mainPreloder"
-      />
-      <Preloader
-        id="assigTimeline__verticalPreloader"
-        size="small"
-        loading={true}
       />
     </Fragment>
   );

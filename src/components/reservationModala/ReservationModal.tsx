@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { IUseModal } from "../../hooks/hook";
+import { IUseModal, LANG } from "../../hooks/hook";
 import ReservationWrap, {
   IReservationWrapProps
 } from "../../pages/outPages/reservation/ReservationWrap";
@@ -21,7 +21,14 @@ const ReservationModal: React.FC<IReservationModalProps> = ({
   const { match, location, history } = context;
 
   return (
-    <JDmodal className="reservationModal" {...modalHook}>
+    <JDmodal
+      head={{
+        title: LANG("make_reservation")
+      }}
+      fullInMobile
+      className="reservationModal"
+      {...modalHook}
+    >
       <ReservationWrap
         match={match}
         history={history}

@@ -29,9 +29,6 @@ const CalculateViewer: React.FC<IProps> = ({ products }) => {
     )
   );
 
-  console.log("products");
-  console.log(products);
-
   return (
     <div className="calculateViewer">
       {products.map(p => (

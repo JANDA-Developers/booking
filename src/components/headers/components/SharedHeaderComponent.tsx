@@ -4,7 +4,7 @@ import { IContext } from "../../../pages/bookingHost/BookingHostRouter";
 import TooltipList, {
   ReactTooltip,
   TooltipButtons,
-  TButtonProp,
+  TButtonProp
 } from "../../../atoms/tooltipList/TooltipList";
 import { useModal, LANG } from "../../../hooks/hook";
 import { insideRedirect, isEmpty } from "../../../utils/utils";
@@ -12,6 +12,7 @@ import CircleIcon from "../../../atoms/circleIcon/CircleIcon";
 import MemoIcon from "../../Memo/component/MemoIcon";
 import NotiIcon from "../../noti/component/NotiIcon";
 import LangSelectModal from "../../../atoms/dayPicker/component/langSelectModal";
+import { UserRole } from "../../../types/enum";
 
 interface IProps {
   context: IContext;
@@ -20,10 +21,11 @@ interface IProps {
 
 const SharedHeaderComponent: React.FC<IProps> = ({
   context,
-  logOutMutation,
+  logOutMutation
 }) => {
   const { user, applyedProduct } = context;
-  const { isPhoneVerified } = user;
+  const { isPhoneVerified, userRole } = user;
+  const isSuperAdmin = userRole === UserRole.ADMIN;
   const langSelectModal = useModal();
 
   // 로그 여부와 상관없이 공유된
@@ -33,7 +35,7 @@ const SharedHeaderComponent: React.FC<IProps> = ({
     onClick: () => {
       langSelectModal.openModal();
       ReactTooltip.hide();
-    },
+    }
   };
 
   // 툴팁내용
@@ -43,23 +45,24 @@ const SharedHeaderComponent: React.FC<IProps> = ({
     <TooltipButtons
       Buttons={[
         {
+          cond: isSuperAdmin,
+          className: "superAdmin",
+          redirect: insideRedirect(`superAdmin`),
+          label: LANG("admin_screen")
+        },
+        {
           onClick: () => {
             logOutMutation();
           },
           icon: "logout",
-          label: LANG("logOut"),
-        },
-        {
-          redirect: insideRedirect(`superAdmin`),
-          label: LANG("admin_screen"),
-          icon: "admin",
+          label: LANG("logOut")
         },
         {
           redirect: insideRedirect(`myPage`),
           icon: "person",
-          label: "MYpage",
+          label: "MYpage"
         },
-        sharedOverLogin,
+        sharedOverLogin
       ]}
     />
   );
@@ -75,17 +78,13 @@ const SharedHeaderComponent: React.FC<IProps> = ({
           onClick: () => {
             ReactTooltip.hide();
           },
-          label: LANG("login"),
+          label: LANG("login")
         },
         {
           redirect: insideRedirect(`signUp`),
-          label: LANG("login"),
+          label: LANG("signUp")
         },
-        {
-          redirect: insideRedirect(`signUp`),
-          label: LANG("signUp"),
-        },
-        sharedOverLogin,
+        sharedOverLogin
       ]}
     />
   );

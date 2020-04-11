@@ -83,7 +83,6 @@ $(document).ready(function() {
 				that it has a 30 degree angle and therefore, 
 				exactly aligned with the spin btn*/
         if (aoY < 23.89) {
-          console.log("<<<<<<<<");
           $("#spin").addClass("spin");
           setTimeout(function() {
             $("#spin").removeClass("spin");

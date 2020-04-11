@@ -1,11 +1,10 @@
-import React from "react";
+import React, { Fragment } from "react";
 import DynamicImport from "../../utils/dynamicComponent";
-import Preloader from "../../atoms/preloader/Preloader";
 
 export const SmsInfo = props => (
   <DynamicImport load={() => import("./smsInfo/SmsInfo")}>
     {DNcompoent =>
-      DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />
+      DNcompoent === null ? <Fragment /> : <DNcompoent {...props} />
     }
   </DynamicImport>
 );
@@ -13,7 +12,7 @@ export const SmsInfo = props => (
 export const Expired = props => (
   <DynamicImport load={() => import("./expire/Expired")}>
     {DNcompoent =>
-      DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />
+      DNcompoent === null ? <Fragment /> : <DNcompoent {...props} />
     }
   </DynamicImport>
 );
@@ -23,7 +22,7 @@ export const SmsTemplateSetting = props => (
     load={() => import("./smsTemplateSetting/SmsTemplateSettingWrap")}
   >
     {DNcompoent =>
-      DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />
+      DNcompoent === null ? <Fragment /> : <DNcompoent {...props} />
     }
   </DynamicImport>
 );
@@ -32,7 +31,7 @@ export const DashBoard = props => (
   <DynamicImport load={() => import("./dashboard/DashBoardWrap")}>
     {DNcompoent =>
       DNcompoent === null ? (
-        <Preloader page loading={true} />
+        <Fragment page loading={true} />
       ) : (
         <DNcompoent {...props} />
       )
@@ -44,7 +43,7 @@ export const HMconfig = props => (
   <DynamicImport load={() => import("./HMconfig/HMconfigWrap.tsx")}>
     {DNcompoent =>
       DNcompoent === null ? (
-        <Preloader page loading={true} />
+        <Fragment page loading={true} />
       ) : (
         <DNcompoent {...props} />
       )
@@ -55,7 +54,7 @@ export const HMconfig = props => (
 export const ResvList = props => (
   <DynamicImport load={() => import("./resvList/ResvListWrap")}>
     {DNcompoent =>
-      DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />
+      DNcompoent === null ? <Fragment /> : <DNcompoent {...props} />
     }
   </DynamicImport>
 );
@@ -63,7 +62,7 @@ export const ResvList = props => (
 export const Qna = props => (
   <DynamicImport load={() => import("./qna/Qna")}>
     {DNcompoent =>
-      DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />
+      DNcompoent === null ? <Fragment /> : <DNcompoent {...props} />
     }
   </DynamicImport>
 );
@@ -71,7 +70,7 @@ export const Qna = props => (
 export const Statistic = props => (
   <DynamicImport load={() => import("./statistic/StatisticWrap")}>
     {DNcompoent =>
-      DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />
+      DNcompoent === null ? <Fragment /> : <DNcompoent {...props} />
     }
   </DynamicImport>
 );
@@ -79,7 +78,7 @@ export const Statistic = props => (
 export const SmsHistory = props => (
   <DynamicImport load={() => import("./smsHistory/SmsHistoryWrap")}>
     {DNcompoent =>
-      DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />
+      DNcompoent === null ? <Fragment /> : <DNcompoent {...props} />
     }
   </DynamicImport>
 );
@@ -87,7 +86,7 @@ export const SmsHistory = props => (
 export const SetPrice = props => (
   <DynamicImport load={() => import("./setPrice/SetPriceWrap")}>
     {DNcompoent =>
-      DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />
+      DNcompoent === null ? <Fragment /> : <DNcompoent {...props} />
     }
   </DynamicImport>
 );
@@ -95,7 +94,7 @@ export const SetPrice = props => (
 export const ConfigWrap = props => (
   <DynamicImport load={() => import("./config/ConfigWrap")}>
     {DNcompoent =>
-      DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />
+      DNcompoent === null ? <Fragment /> : <DNcompoent {...props} />
     }
   </DynamicImport>
 );
@@ -103,7 +102,7 @@ export const ConfigWrap = props => (
 export const SelectProducts = props => (
   <DynamicImport load={() => import("./product/SelectProductWrap")}>
     {DNcompoent =>
-      DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />
+      DNcompoent === null ? <Fragment /> : <DNcompoent {...props} />
     }
   </DynamicImport>
 );
@@ -111,7 +110,7 @@ export const SelectProducts = props => (
 export const SuperMain = props => (
   <DynamicImport load={() => import("./super/superAdminRouter")}>
     {DNcompoent =>
-      DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />
+      DNcompoent === null ? <Fragment /> : <DNcompoent {...props} />
     }
   </DynamicImport>
 );
@@ -119,7 +118,7 @@ export const SuperMain = props => (
 export const CreateHouse = props => (
   <DynamicImport load={() => import("./createHouse/CreateHouseWrap")}>
     {DNcompoent =>
-      DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />
+      DNcompoent === null ? <Fragment /> : <DNcompoent {...props} />
     }
   </DynamicImport>
 );
@@ -127,7 +126,7 @@ export const CreateHouse = props => (
 export const MyPage = props => (
   <DynamicImport load={() => import("./myPage/MyPageWrap")}>
     {DNcompoent =>
-      DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />
+      DNcompoent === null ? <Fragment /> : <DNcompoent {...props} />
     }
   </DynamicImport>
 );
@@ -135,7 +134,7 @@ export const MyPage = props => (
 export const SignUp = props => (
   <DynamicImport load={() => import("./signUp/SignUp")}>
     {DNcompoent =>
-      DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />
+      DNcompoent === null ? <Fragment /> : <DNcompoent {...props} />
     }
   </DynamicImport>
 );
@@ -143,7 +142,7 @@ export const SignUp = props => (
 export const Login = props => (
   <DynamicImport load={() => import("./Login/Login")}>
     {DNcompoent =>
-      DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />
+      DNcompoent === null ? <Fragment /> : <DNcompoent {...props} />
     }
   </DynamicImport>
 );
@@ -151,7 +150,7 @@ export const Login = props => (
 export const AssigTimeline = props => (
   <DynamicImport load={() => import("./assig/AssigTimelineWrap")}>
     {DNcompoent =>
-      DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />
+      DNcompoent === null ? <Fragment /> : <DNcompoent {...props} />
     }
   </DynamicImport>
 );
@@ -159,7 +158,7 @@ export const AssigTimeline = props => (
 export const RoomConfig = props => (
   <DynamicImport load={() => import("./roomConfig/RoomConfigWrap")}>
     {DNcompoent =>
-      DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />
+      DNcompoent === null ? <Fragment /> : <DNcompoent {...props} />
     }
   </DynamicImport>
 );
@@ -167,7 +166,7 @@ export const RoomConfig = props => (
 export const DailyPrice = props => (
   <DynamicImport load={() => import("./dailyPrice/DailyPriceWrap")}>
     {DNcompoent =>
-      DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />
+      DNcompoent === null ? <Fragment /> : <DNcompoent {...props} />
     }
   </DynamicImport>
 );
@@ -175,7 +174,7 @@ export const DailyPrice = props => (
 export const HouseConfig = props => (
   <DynamicImport load={() => import("./houseConfig/HouseConfigWrap")}>
     {DNcompoent =>
-      DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />
+      DNcompoent === null ? <Fragment /> : <DNcompoent {...props} />
     }
   </DynamicImport>
 );
@@ -183,7 +182,7 @@ export const HouseConfig = props => (
 export const HomepageRequest = props => (
   <DynamicImport load={() => import("./homepageRequest/HomepageRequestWrap")}>
     {DNcompoent =>
-      DNcompoent === null ? <Preloader page /> : <DNcompoent {...props} />
+      DNcompoent === null ? <Fragment /> : <DNcompoent {...props} />
     }
   </DynamicImport>
 );

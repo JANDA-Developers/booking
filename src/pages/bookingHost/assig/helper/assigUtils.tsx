@@ -105,7 +105,7 @@ export function getAssigUtils(
     stopPolling,
     startPolling
   }: IAssigDataControl,
-  { houseId, groupData }: IAssigTimelineContext
+  { houseId, groupData, filteredGroup }: IAssigTimelineContext
 ): IAssigTimelineUtils {
   // 마크제거 MARK REMOVE 마커 제거
   const removeMark: TRemoveMark = () => {
@@ -514,7 +514,7 @@ export function getAssigUtils(
     newGroupOrder: number
   ) => {
     const targetGroup = getGroupById(targetGuest.group);
-    const moveGroup = groupData[newGroupOrder];
+    const moveGroup = filteredGroup[newGroupOrder];
 
     if (targetGroup.id === moveGroup.id) return;
 
@@ -537,7 +537,7 @@ export function getAssigUtils(
     if (JDisNetworkRequestInFlight(networkStatus)) return;
     stopPolling();
 
-    const group = groupData[newGroupOrder];
+    const group = filteredGroup[newGroupOrder];
     const newGroupId = group.roomId;
 
     const result = await allocateMu({

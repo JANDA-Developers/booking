@@ -4,12 +4,17 @@ import { IDiv } from "../../types/interface";
 import { WindowSize } from "../../types/enum";
 import classNames from "classnames";
 
-interface IContinaerProp {
+interface IContinaerProp extends IDiv {
   size?: WindowSize;
 }
 
-const PageBody: React.FC<IContinaerProp> = ({ children, size }) => {
-  const classes = classNames("container", classNames, {
+const PageBody: React.FC<IContinaerProp> = ({
+  children,
+  size,
+  className,
+  ...props
+}) => {
+  const classes = classNames("container", className, {
     "container--full": size === undefined,
     "container--sm": size === WindowSize.MOBILE,
     "container--md": size === WindowSize.PHABLET,
@@ -17,7 +22,11 @@ const PageBody: React.FC<IContinaerProp> = ({ children, size }) => {
     "container--lg": size === WindowSize.DESKTOP,
     "container--wlg": size === WindowSize.DESKTOPHD
   });
-  return <div className={`pageBody ${classes}`}>{children}</div>;
+  return (
+    <div className={`pageBody ${classes}`} {...props}>
+      {children}
+    </div>
+  );
 };
 
 export const PageBottom: React.FC<IDiv> = props => <div {...props} />;

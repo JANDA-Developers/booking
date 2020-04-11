@@ -9,6 +9,7 @@ import { makeBooking_MakeBooking } from "../../../../../types/api";
 import { LANG } from "../../../../../hooks/hook";
 import { ToastContainer, toast } from "react-toastify";
 import { TooltipButtons } from "../../../../../atoms/tooltipList/TooltipList";
+import isMobile from "is-mobile";
 
 interface IProps {
   assigHooks: IAssigTimelineHooks;
@@ -49,7 +50,14 @@ const CanvasMenuTooltip: React.FC<IProps> = ({
     }
   };
 
+  const addBlockBtnHandler = () => {
+    allTooltipsHide();
+    if (validater()) {
+      addBlock(start, end, groupIds);
+    }
+  };
   const createBtnHandler = () => {
+    allTooltipsHide();
     if (validater())
       makeBookingModalWithMark({
         makeBookingCallBack: bookingCallBack,
@@ -64,17 +72,30 @@ const CanvasMenuTooltip: React.FC<IProps> = ({
           {
             label: LANG("create_booking"),
             onClick: (e: any) => {
-              allTooltipsHide();
+              e.preventDefault();
               e.stopPropagation();
+
               createBtnHandler();
+            },
+            onTouchEnd: (e: any) => {
+              e.preventDefault();
+              e.stopPropagation();
+
+              if (isMobile()) {
+                createBtnHandler();
+              }
             }
           },
           {
-            onClick: () => {
-              allTooltipsHide();
-              if (validater()) {
-                addBlock(start, end, groupIds);
+            onTouchEnd: () => {
+              if (isMobile()) {
+                addBlockBtnHandler();
               }
+            },
+            onClick: e => {
+              e.preventDefault();
+              e.stopPropagation();
+              addBlockBtnHandler();
             },
             label: LANG("block_room")
           }

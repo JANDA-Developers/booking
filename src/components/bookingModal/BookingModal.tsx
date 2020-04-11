@@ -37,7 +37,6 @@ import {
 } from "../../utils/typeChanger";
 import { IBookingModalContext, IBookingModalProp } from "./declaration";
 import optionFineder from "../../utils/optionFinder";
-import ModalEndSection from "../../atoms/modal/components/ModalEndSection";
 import RefundModal from "../refundModal/RefundModal";
 import { IModalSMSinfo } from "../smsModal/SendSmsModal";
 import Align from "../../atoms/align/Align";
@@ -239,6 +238,7 @@ const BookingModal: React.FC<IProps & WindowSizeProps> = ({
 
   return (
     <Modal
+      fullInMobile
       foot={
         <div className="JDmodal__paddingBottom">
           <Button

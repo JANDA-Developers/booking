@@ -52,6 +52,7 @@ export interface IAssigTimelineContext {
   networkStatus: number;
   houseConfig: IHouseConfig;
   groupData: IAssigGroup[];
+  filteredGroup: IAssigGroup[];
   lock: boolean;
   setLock: React.Dispatch<React.SetStateAction<boolean>>;
   houseId: string;

@@ -25,7 +25,7 @@ const Login: React.FC<Iprops> = ({ context }) => {
   const { history } = context;
   const lastLoginEmail = localStorage.getItem("lastLogin") || "";
   const emailHook = useInput(lastLoginEmail, true);
-  const passwordHook = useInput("");
+  const passwordHook = useInput("", true);
   const ressetPasswordModalHook = useModal(false);
   const findPasswordModalHook = useModal(false);
 
@@ -36,6 +36,7 @@ const Login: React.FC<Iprops> = ({ context }) => {
         <Card>
           {/* 로그인 뮤테이션 (로컬 ) */}
           <Mutation
+            client={client}
             mutation={LOG_USER_IN}
             awaitRefetchQueries
             refetchQueries={[{ query: GET_USER_INFO }]}
@@ -50,10 +51,6 @@ const Login: React.FC<Iprops> = ({ context }) => {
                 e.preventDefault();
                 if (!emailHook.isValid) {
                   toast.warn(LANG("username_must_be_email"));
-                  return;
-                }
-                if (!passwordHook.isValid) {
-                  toast.warn(LANG("invalid_password"));
                   return;
                 }
 
@@ -105,7 +102,6 @@ const Login: React.FC<Iprops> = ({ context }) => {
                     <InputText
                       id="LoginPassword"
                       {...passwordHook}
-                      validation={utils.isPassword}
                       type="password"
                       label="Password"
                     />

@@ -1,6 +1,6 @@
 {
   "name": "client_dev",
-  "version": "1.0.1",
+  "version": "1.2.8",
   "description": "Janda Reservation Module for Development(client)",
   "main": "index.jsx",
   "author": "KMJ",
@@ -64,7 +64,6 @@
     "jquery": "^3.3.1",
     "js-base64": "^2.5.2",
     "jsx-to-string": "^1.4.0",
-    "leven": "^3.1.0",
     "lodash": "^4.17.11",
     "markdown-to-jsx": "^6.9.1",
     "md5": "^2.2.1",

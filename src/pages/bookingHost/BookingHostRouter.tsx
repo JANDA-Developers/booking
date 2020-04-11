@@ -29,14 +29,14 @@ import {
   ConfigWrap,
   HMconfig,
   HouseConfig,
-  HomepageRequest,
+  HomepageRequest
 } from "./pages";
 import { UserRole, TLanguageShort } from "../../types/enum";
 import { IHouse, IHouseConfigFull } from "../../types/interface";
 import { DEFAULT_USER } from "../../types/defaults";
 import {
   getMyProfile_GetMyProfile_user,
-  getMyProfile_GetMyProfile_user_houses_product,
+  getMyProfile_GetMyProfile_user_houses_product
 } from "../../types/api";
 import { setCookie } from "../../utils/cookies";
 import getCurrentHouse from "../../utils/getLastSelectHouse";
@@ -89,7 +89,7 @@ openChannelTok();
 
 const JDbookingHost: React.FC<IProps> = ({
   GetUserInfo: { GetMyProfile: { user = DEFAULT_USER } = {}, loading } = {},
-  langHook,
+  langHook
 }) => {
   const isLogIn = user !== DEFAULT_USER;
   const isLoading: boolean = loading;
@@ -129,139 +129,139 @@ const JDbookingHost: React.FC<IProps> = ({
     applyedProduct,
     houses,
     sideNavIsOpen,
-    langHook,
+    langHook
   };
 
   const bookingHostClassNames = classnames("bookingHost", undefined, {
-    "bookingHost--sideOpen": sideNavIsOpen && houseExists,
+    "bookingHost--sideOpen": sideNavIsOpen && houseExists
   });
 
   const routers: JDRoute[] = [
     {
       path: "/",
       Component: DashBoard,
-      condition: houseExists,
+      condition: houseExists
     },
     {
       path: "/dashboard",
       Component: DashBoard,
-      condition: houseExists,
+      condition: houseExists
     },
     {
       path: "/products",
       Component: SelectProducts,
-      condition: houseExists,
+      condition: houseExists
     },
     {
       path: "/myPage",
       Component: MyPage,
-      condition: houseExists,
+      condition: houseExists
     },
     {
       path: "/createHouse",
       Component: CreateHouseWrap,
-      condition: houseExists,
+      condition: houseExists
     },
     {
       path: "/houseConfig",
       Component: HouseConfig,
-      condition: houseExists,
+      condition: houseExists
     },
     {
       path: "/config",
       Component: ConfigWrap,
-      condition: houseExists,
+      condition: houseExists
     },
     {
       path: "/smsHistory",
       Component: SmsHistory,
-      condition: houseExists,
+      condition: houseExists
     },
     {
       path: "/smsInfo",
       Component: SmsInfo,
-      condition: houseExists,
+      condition: houseExists
     },
     {
       path: "/homepageRequest",
       Component: HomepageRequest,
-      condition: houseExists,
+      condition: houseExists
     },
     {
       path: "/signUp",
       Component: SignUp,
-      condition: true,
+      condition: true
     },
     {
       path: "/login",
       Component: Login,
-      condition: true,
+      condition: true
     },
     {
       path: "/superAdmin",
       Component: SuperMain,
       condition: superPermission,
-      exact: false,
+      exact: false
     },
     {
       path: undefined,
       Component: Expired,
-      condition: daysLeftToExpire < -6,
+      condition: daysLeftToExpire < -6
     },
     {
       Component: AssigTimeline,
       path: "/assigTimeline",
-      condition: houseExists,
+      condition: houseExists
     },
     {
       Component: HMconfig,
       path: "/HMconfig",
-      condition: houseExists,
+      condition: houseExists
     },
     {
       Component: DailyPrice,
       path: "/dailyPrice",
-      condition: houseExists,
+      condition: houseExists
     },
     {
       Component: Statistic,
       path: "/statistic",
-      condition: houseExists,
+      condition: houseExists
     },
     {
       Component: RoomConfig,
       path: "/roomConfig",
-      condition: houseExists,
+      condition: houseExists
     },
     {
       Component: SmsTemplateSetting,
       path: "/smsTemplate",
-      condition: houseExists,
+      condition: houseExists
     },
     {
       Component: SetPrice,
       path: "/setPrice",
-      condition: houseExists,
+      condition: houseExists
     },
     {
       Component: ResvList,
       path: "/resvList",
-      condition: houseExists,
+      condition: houseExists
     },
     {
       Component: CreateHouseWrap,
       path: undefined,
-      condition: isLogIn && !houseExists,
+      condition: isLogIn && !houseExists
     },
     {
       path: "/",
       Component: Login,
-      condition: true,
+      condition: true
     },
     {
       Component: NoMatch,
-      condition: true,
-    },
+      condition: true
+    }
   ];
 
   const renderRoute = (propContext: IContext, loginRouter: JDRoute) => {
@@ -273,7 +273,7 @@ const JDbookingHost: React.FC<IProps> = ({
           exact={exact}
           key={path || Component.name}
           path={path}
-          render={(prop) => {
+          render={prop => {
             return <Component context={propContext} />;
           }}
         />
@@ -312,11 +312,15 @@ const JDbookingHost: React.FC<IProps> = ({
     <div className={bookingHostClassNames}>
       <Fragment>
         <Helmet>
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+          />
           <title>JANDA | {currentHouse?.name || "App"}</title>
         </Helmet>
         {/* 헤더 */}
         <Route
-          render={(props) => {
+          render={props => {
             const propContext = Object.assign(tempContext, props, JDlang);
             return (
               <Fragment>
@@ -344,7 +348,7 @@ const JDbookingHost: React.FC<IProps> = ({
           <div className="bookingHost__side">
             {houseExists && (
               <Route
-                render={(props) => {
+                render={props => {
                   const propContext = Object.assign(tempContext, props, JDlang);
                   return (
                     <SideNav
@@ -360,12 +364,12 @@ const JDbookingHost: React.FC<IProps> = ({
           {/* 페이지  */}
           <div className="bookingHost__page">
             <Route path="/">
-              {(props) => {
+              {props => {
                 const propContext = Object.assign(tempContext, props);
                 return (
                   <Fragment>
                     <Switch>
-                      {routers.map((router) =>
+                      {routers.map(router =>
                         renderRoute(propContext as any, router)
                       )}
                     </Switch>
@@ -389,6 +393,6 @@ export default compose(
         return false;
       }
       return true;
-    },
+    }
   })
 )(JDbookingHost);

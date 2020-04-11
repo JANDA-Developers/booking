@@ -20,6 +20,7 @@ import JDmenuTitle from "../../atoms/menu/components/MenuTitle";
 import JDmenuLinker, {
   IMenusItem
 } from "../../atoms/menu/components/MenuLiLinker";
+import isMobile from "is-mobile";
 
 interface IProps {
   isOpen: boolean;
@@ -178,7 +179,7 @@ const SideNav: React.FC<IProps> = ({ isOpen, setIsOpen, context }) => {
           <div className="JDsideNav__profill">
             <Link to="/myPage">
               <div className="JDsideNav__circle">
-                <ProfileCircle size={"large"} file={user.profileImg} />
+                <ProfileCircle size={"normal"} file={user.profileImg} />
               </div>
             </Link>
             <span className="JDsideNav__name">{user.name || "비회원"}</span>
@@ -189,6 +190,9 @@ const SideNav: React.FC<IProps> = ({ isOpen, setIsOpen, context }) => {
             <JDmenu
               onOpenChange={(openKeys: string[]) => {
                 setOpenMenu(openKeys);
+              }}
+              onClick={() => {
+                if (isMobile()) setIsOpen(false);
               }}
               openKeys={[...openMenu]}
               customMode="sideNav"

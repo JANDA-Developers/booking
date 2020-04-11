@@ -93,8 +93,8 @@ const isMaxOver = (string, max) => {
 
 const isPassword = string => {
   if (string === "") return NEUTRAL;
-  // 특수문자 1개이상 숫자 0 에서  9  7~15 자리의 숫자
-  const regExp = /^(?=.*[0-9])(?=.*[!@#$%^&*_\-~;?/])[a-zA-Z0-9!@#$%^&*_\-~;?/]{7,15}$/gi;
+  // 숫자와 문자사이 8자 이상
+  const regExp = new RegExp("(?=.*d)(?=.*[a-z])(?=.*[A-Z]).{8,}");
   return regExp.test(string);
 };
 

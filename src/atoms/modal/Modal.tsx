@@ -7,7 +7,7 @@ import { IUseModal, LANG } from "../../hooks/hook";
 import { s4 } from "../../utils/utils";
 import ModalEndSection from "./components/ModalEndSection";
 import ModalHeadSection, {
-  IPropsModalHeadProps,
+  IPropsModalHeadProps
 } from "./components/ModalHeadSection";
 import Preloader from "../preloader/Preloader";
 import { TElements } from "../../types/interface";
@@ -28,6 +28,7 @@ export interface JDmodalConfigProps {
   falseMessage?: string | any[];
   trueMessage?: string | any[];
   contentClassName?: string;
+  fullInMobile?: boolean;
   id?: string;
   contentWrapStyle?: React.CSSProperties;
   confirmCallBackFn?(flag: boolean, key?: string): any;
@@ -58,6 +59,7 @@ const JDmodal: React.SFC<IProps> = ({
   noAnimation = true,
   falseMessage,
   loading,
+  fullInMobile,
   contentClassName = "JDmodal__body",
   contentWrapStyle: contentWrapStyleProp,
   appElement = document.getElementById("root") ||
@@ -84,7 +86,7 @@ const JDmodal: React.SFC<IProps> = ({
 
   const overlayClassNames = classNames("JDmodal-overlay", undefined, {
     "JDmodal-overlay--noAnimation": !shouldAnimation,
-    "JDmodal-overlay--underHeader": isUnderHeader,
+    "JDmodal-overlay--underHeader": isUnderHeader
   });
 
   const classes = classNames("Modal JDmodal", className, {
@@ -94,11 +96,12 @@ const JDmodal: React.SFC<IProps> = ({
     "JDmodal--alertWaring": info && info.thema === "warn",
     "JDmodal--noAnimation": !shouldAnimation,
     "JDmodal--loading": loading,
+    "JDmodal--fullInMobile": fullInMobile
   });
 
   const defualtJDmodalProps = {
     className: `Modal ${classes}`,
-    overlayClassName: "Overlay",
+    overlayClassName: "Overlay"
   };
 
   const hanldeClickBtn = (flag: boolean, key?: string) => {
@@ -113,7 +116,7 @@ const JDmodal: React.SFC<IProps> = ({
     onClick: () => {
       hanldeClickBtn(true);
     },
-    label: trueMessage || LANG("confirm"),
+    label: trueMessage || LANG("confirm")
   };
 
   const sharedFalseBtnProp: any = {
@@ -122,7 +125,7 @@ const JDmodal: React.SFC<IProps> = ({
     onClick: () => {
       hanldeClickBtn(false);
     },
-    label: falseMessage || LANG("close"),
+    label: falseMessage || LANG("close")
   };
 
   const misClickPreventCloseModal = () => {
@@ -133,12 +136,12 @@ const JDmodal: React.SFC<IProps> = ({
 
   const modalStyle = {
     minWidth: loading || minWidth,
-    ...style,
+    ...style
   };
 
   const modalContentsStyle = {
     minWidth: minContentsWidth,
-    ...contentWrapStyleProp,
+    ...contentWrapStyleProp
   };
 
   const getChildren = () => (

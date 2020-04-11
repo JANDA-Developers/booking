@@ -1,6 +1,7 @@
 body,
 html {
   min-height: 100%;
+  touch-action: pan-x pan-y;
 }
 
 #root {
@@ -56,6 +57,7 @@ main {
 
 // 상하 좌우 가운데로
 .container--centerlize {
+  touch-action: touch-zoom;
   position: fixed;
   top: 0;
   left: 0;

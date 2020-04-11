@@ -34,8 +34,6 @@ const selectOp = selectOpCreater({
 const ExcelModal: React.FC<Iprops> = ({ modalHook }) => {
   const { data, selectData, loading, getData } = modalHook.info;
 
-  console.log("data");
-  console.log(data);
   if (!data) return <div />;
   const dateCallDayPicker = useDayPicker(null, null);
   const excelExpressHook = useSelect(EXCEL_EXPRESS_OP[0]);
@@ -63,7 +61,13 @@ const ExcelModal: React.FC<Iprops> = ({ modalHook }) => {
     );
 
   return (
-    <JDmodal visibleOverflow {...modalHook}>
+    <JDmodal
+      head={{
+        title: LANG("excel_express")
+      }}
+      visibleOverflow
+      {...modalHook}
+    >
       <div className="JDz-index-2">
         <JDselect
           {...excelExpressHook}

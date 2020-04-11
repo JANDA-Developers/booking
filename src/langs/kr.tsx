@@ -664,6 +664,7 @@ export const kr = {
       적용됩니다.
     </span>
   ),
+  F_well_come_text: "환영합니다.",
   F_have_x_days_left_to_try_for_free: (daysLeftToExpire: string) =>
     `서비스 종료 까지 ${daysLeftToExpire} 남았습니다.`,
   F_user_name_hello: (userName: any) => `${userName}님 안녕하세요.`,
@@ -1253,5 +1254,23 @@ export const kr = {
   },
   it_is_wrong_number: "잘못된 전화번호입니다.",
   auth_complete: "인증완료",
-  auth_failed: "인증실패"
+  auth_failed: "인증실패",
+  save_room_done: "방저장 완료",
+  save_room_failed: "방저장 실패",
+  resv_search: "예약검색",
+  how_search: "검색방법",
+  search_helper: (
+    <JDlist
+      style={{
+        paddingTop: "1rem"
+      }}
+      marginBottom="long"
+      contents={[
+        "날짜로 검색가능 EX) 2020-04-02",
+        "전화번호로 검색가능",
+        "이름으로 검색가능"
+      ]}
+    />
+  ),
+  room_type_config: "룸타입 설정"
 };

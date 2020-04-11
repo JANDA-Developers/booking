@@ -36,7 +36,7 @@
     "src/pages/outPages/print/CreditCardReceipt.js",
     "src/setup.js",
     "src/components/cardModal",
-    "src/components/bookingModal/stories/bookingModal.storiestsx"
+    "src/components/bookingModal/stories/bookingModal.storiestsx", "src/components/guestSearchInput/siteDatats"
   ],
   "exclude": [
     "node_modules",

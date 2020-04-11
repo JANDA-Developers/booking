@@ -22,10 +22,13 @@ import { RoomConfigSubmitData } from "../../../components/bookingModal/declarati
 import Preloader from "../../../atoms/preloader/Preloader";
 import { getOperationName } from "apollo-utilities";
 import { arraySum } from "../../../utils/elses";
+import { LANG } from "../../../hooks/hook";
 
 interface IProps {
   context: IContext;
 }
+
+let LastKey = "";
 
 const RoomConfigWrap: React.FC<IProps> = ({ context }) => {
   const { house } = context;
@@ -34,6 +37,7 @@ const RoomConfigWrap: React.FC<IProps> = ({ context }) => {
     getAllRoomTypeVariables
   >(GET_ALL_ROOMTYPES, {
     client,
+    notifyOnNetworkStatusChange: true,
     fetchPolicy: "network-only",
     variables: { houseId: house._id }
   });
@@ -43,10 +47,15 @@ const RoomConfigWrap: React.FC<IProps> = ({ context }) => {
     saveRoomTypesVariables
   >(SAVE_ROOMTYPES, {
     client,
+    notifyOnNetworkStatusChange: true,
     refetchQueries: [getOperationName(GET_ALL_ROOMTYPES) || ""],
     awaitRefetchQueries: true,
     onCompleted: ({ SaveRoomTypes }) => {
-      onCompletedMessage(SaveRoomTypes, "save rooms done", "save rooms fail");
+      onCompletedMessage(
+        SaveRoomTypes,
+        LANG("save_room_done"),
+        LANG("save_room_failed")
+      );
     }
   });
 
@@ -67,21 +76,25 @@ const RoomConfigWrap: React.FC<IProps> = ({ context }) => {
     });
   };
 
-  const key = useMemo(() => s4(), [
-    roomTypesData.length,
-    arraySum(roomTypesData.map(rt => rt.rooms.length))
-  ]);
+  const innerKey = useMemo(() => {
+    const key = s4();
+    LastKey = key;
+    if (loading) return LastKey;
+    return key;
+  }, [loading]);
+
   return (
     <Fragment>
       <RoomConfig
         onSubmit={handleSubmit}
         context={context}
         loading={loading}
+        saveRoomsLoading={saveRoomsLoading}
         defaultData={{
           defaultAddTemp: undefined,
           roomTypesData
         }}
-        key={key}
+        key={innerKey}
       />
       <Preloader floating loading={saveRoomsLoading} />
     </Fragment>

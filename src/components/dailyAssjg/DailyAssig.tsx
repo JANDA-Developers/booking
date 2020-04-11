@@ -9,7 +9,6 @@ import { useModal, IUseModal, LANG } from "../../hooks/hook";
 import JDdayPicker from "../../atoms/dayPicker/DayPicker";
 import BookingModalWrap from "../bookingModal/BookingModalWrap";
 import ArrowDayByDay from "../../atoms/dayPicker/component/inputComponent/ArrowDayByDay";
-import Preloader from "../../atoms/preloader/Preloader";
 import { IContext } from "../../pages/bookingHost/BookingHostRouter";
 import { DragBoxPlace } from "./components/DragBoxPlace";
 import { DndProvider, DragObjectWithType } from "react-dnd";
@@ -21,10 +20,7 @@ import getDailyAssigUtils from "../../pages/bookingHost/assig/helper/dailyAssigU
 import { JDtoastModal } from "../../atoms/modal/Modal";
 import { ReactTooltip } from "../../atoms/tooltipList/TooltipList";
 import { PricingType } from "../../types/enum";
-import {
-  FLOATING_PRELOADER_SIZE,
-  MODAL_PRELOADER_SIZE
-} from "../../types/const";
+import { FLOATING_PRELOADER_SIZE } from "../../types/const";
 import Tooltip from "../../atoms/tooltip/Tooltip";
 import { isMobile } from "is-mobile";
 import { IDailyAssigDataControl } from "../../pages/bookingHost/assig/components/assigIntrerface";
@@ -175,12 +171,8 @@ const DailyAssig: React.FC<IProps> = ({
 
   return (
     <div
-      onClick={() => {
-        console.log("eee");
-      }}
-      onClickCapture={() => {
-        console.log("----");
-      }}
+      onClick={() => {}}
+      onClickCapture={() => {}}
       className={`dailyAssigWrap ${(networkStatus === 1 || roomTypeLoading) &&
         "dailyAssigWrap--loading"}`}
     >

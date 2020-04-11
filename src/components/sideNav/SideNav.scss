@@ -14,10 +14,11 @@
   @extend %z-depth-1;
 
   @include response($tablet) {
-    position: fixed;
+    position: sticky;
     left: 0;
     top: $header-height;
     bottom: 0;
+    transition: 0s;
     -webkit-box-shadow: 0 24px 38px 3px rgba(0, 0, 0, 0.14),
       0 9px 46px 8px rgba(0, 0, 0, 0.12), 0 11px 15px -7px rgba(0, 0, 0, 0.2);
     box-shadow: 0 24px 38px 3px rgba(0, 0, 0, 0.14),
@@ -117,11 +118,17 @@
       margin-bottom: 0;
       text-align: left;
     }
+    @include response($phablet) {
+      height: $sideNav-profile-mb-height;
+    }
   }
 
   &__name {
     font-size: $typho-small;
     margin-bottom: $standard-margin-bottom;
+    @include response($phablet) {
+      margin-bottom: $standard-small-space;
+    }
   }
 
   &__circle {

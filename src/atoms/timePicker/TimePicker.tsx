@@ -57,7 +57,6 @@ const JDtimePicker: React.FC<IProps> = ({ timeUnit = TimePerMs.H / 2 }) => {
 
   const handleClickLineBlock = (start: number) => {
     const targetBlock = timeBlocks.find(tb => tb.start === start);
-    console.log(targetBlock);
     if (!targetBlock) throw Error(`존재하지않는 타임블록 시간 ${start}`);
     if (targetBlock.isPast) return;
     // 이미 선택된경우 리턴
@@ -65,7 +64,6 @@ const JDtimePicker: React.FC<IProps> = ({ timeUnit = TimePerMs.H / 2 }) => {
     targetBlock.isSelected = true;
 
     const lastBlock = selectedBlocks[selectedBlocks.length - 1];
-    console.log(selectedBlocks);
     const isNextOfLastSelect = lastBlock
       ? start - lastBlock.start === timeUnit
       : false;
@@ -160,8 +158,6 @@ const JDtimePicker: React.FC<IProps> = ({ timeUnit = TimePerMs.H / 2 }) => {
     e.persist();
     const firstSelectedCellLeft = getFisrtSetSelectedCellLeft();
     const count = Math.floor((e.clientX - firstSelectedCellLeft) / cellWidth);
-    console.log("count");
-    console.log(count);
 
     setDragInfo({
       isDrag: false,

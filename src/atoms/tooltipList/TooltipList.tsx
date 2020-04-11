@@ -9,15 +9,18 @@ import Button, { IButtonProps } from "../button/Button";
 import { TElements } from "../../types/interface";
 import JDtypho from "../typho/Typho";
 import isMobile from "is-mobile";
+import { s4 } from "@janda-com/front/build/utils/utils";
 
 export interface TButtonProp extends IButtonProps {
   label: string;
   onClick?: (e: any) => any;
   icon?: IIcons;
+  cond?: boolean;
 }
 
 interface TooltipButtonsProps {
   Buttons: TButtonProp[];
+  key?: string;
   head?: {
     title?: string;
     onlyMobile?: boolean;
@@ -27,7 +30,8 @@ interface TooltipButtonsProps {
 
 export const TooltipButtons: React.FC<TooltipButtonsProps> = ({
   Buttons,
-  head
+  head,
+  key = ""
 }) => {
   return (
     <div>
@@ -43,16 +47,30 @@ export const TooltipButtons: React.FC<TooltipButtonsProps> = ({
         </div>
       )}
       <ul className="tooltipList__ul">
-        {Buttons.map((btnProp, i) => (
-          <li className="tooltipList__li" key={i}>
-            <Button
-              mb="no"
-              mr="no"
-              className={`tooltipList__btn` + " " + btnProp.className}
-              {...btnProp}
-            />
-          </li>
-        ))}
+        {Buttons.map((btnProp, i) => {
+          const { cond = true } = btnProp;
+          if (!cond) {
+            return (
+              <span
+                key={key + i}
+                style={{
+                  display: "none"
+                }}
+              />
+            );
+          }
+
+          return (
+            <li className="tooltipList__li" key={key + i + "tooltip"}>
+              <Button
+                mb="no"
+                mr="no"
+                className={`tooltipList__btn` + " " + btnProp.className}
+                {...btnProp}
+              />
+            </li>
+          );
+        })}
       </ul>
     </div>
   );

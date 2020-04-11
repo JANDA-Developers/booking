@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { randomIntFromInterval } from "../../../../utils/utils";
 import { getMyProfile_GetMyProfile_user } from "../../../../types/api";
 import { LANG } from "../../../../hooks/hook";
+import isMobile from "is-mobile";
 
 interface IProps {
   userData: getMyProfile_GetMyProfile_user;
@@ -10,14 +11,16 @@ interface IProps {
 const GreetingBox: React.FC<IProps> = ({ userData }) => {
   if (!userData.name) return null;
 
-  const greetingTexts = [
-    <span>
-      {LANG("F_user_name_hello")(userData.name)}
-      {LANG("have_a_bright_day_sir")}
-    </span>,
-    LANG("F_user_name_have_a_bright_day")(userData.name),
-    LANG("F_user_name_good_luck")(userData.name)
-  ];
+  const greetingTexts = isMobile()
+    ? [
+        <span>
+          {LANG("F_user_name_hello")(userData.name)}
+          {LANG("have_a_bright_day_sir")}
+        </span>,
+        LANG("F_user_name_have_a_bright_day")(userData.name),
+        LANG("F_user_name_good_luck")(userData.name)
+      ]
+    : [LANG("F_well_come_text")];
 
   const gretting = useState(
     greetingTexts[randomIntFromInterval(0, greetingTexts.length - 1)]

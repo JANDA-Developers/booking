@@ -20,7 +20,12 @@ const LangSelectModal: React.FC<Iprops> = ({ context, modalHook }) => {
     langHook: { currentLang, changeLang }
   } = context;
   return (
-    <JDmodal {...modalHook}>
+    <JDmodal
+      head={{
+        title: LANG("language_setting")
+      }}
+      {...modalHook}
+    >
       <div className="JDflex JDstandard-margin-bottom-minus">
         <LangList
           onClickLng={lang => {

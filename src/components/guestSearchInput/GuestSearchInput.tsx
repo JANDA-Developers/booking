@@ -6,7 +6,7 @@ import {
   getBookingsVariables
 } from "../../types/api";
 import BookingModalWrap from "../bookingModal/BookingModalWrap";
-import { useModal } from "../../hooks/hook";
+import { useModal, LANG } from "../../hooks/hook";
 import $ from "jquery";
 import { IContext } from "../../pages/bookingHost/BookingHostRouter";
 import { JDsearchInput } from "@janda-com/front";
@@ -15,6 +15,11 @@ import moment from "moment";
 import "./GuestSearchInput.scss";
 import { ApolloQueryResult } from "apollo-client";
 import { searchFilterCreater } from "./helper";
+import { autoHypen, targetBlink } from "../../utils/utils";
+import JDIcon from "../../atoms/icons/Icons";
+import JDtypho from "../../atoms/typho/Typho";
+import Align from "../../atoms/align/Align";
+import isMobile from "is-mobile";
 interface IProps {
   loading: boolean;
   context: IContext;
@@ -77,7 +82,7 @@ const GuestSearchInput: React.FC<IProps> = ({
     return bookings.map(booking => ({
       id: booking._id,
       title: booking.name,
-      describe: booking.phoneNumber,
+      describe: autoHypen(booking.phoneNumber),
       tag: moment(booking.checkIn).format("YYYY-MM-DD")
     }));
   };
@@ -110,18 +115,46 @@ const GuestSearchInput: React.FC<IProps> = ({
     dataRefetcher(value);
   };
 
+  const classToggler = () => {
+    if (isMobile()) {
+      const className = "header__center--grow";
+      const target = $(".header .header__center");
+      target.toggleClass(className);
+    }
+  };
+
   return (
     <div id="JDBookingSearcher">
       <JDsearchInput
+        head={<JDtypho weight={600}>{LANG("resv_search")}</JDtypho>}
         inputProp={{
           mb: "no",
-          mr: "no"
+          mr: "small",
+          placeholder: LANG("resv_search"),
+          onBlurCapture: () => {
+            classToggler();
+          },
+          onFocusCapture: () => {
+            classToggler();
+          }
         }}
         onSelectData={handleSelectData}
         id="JDBookingSearcher"
         onSearchChange={handleTypeChange}
         searchValue={onTypeValue}
         dataList={BookingsDataManufacter(bookings)}
+        foot={
+          <Align
+            flex={{
+              vCenter: true
+            }}
+          >
+            <JDtypho size="small" mr="small">
+              {LANG("how_search")}{" "}
+            </JDtypho>
+            <JDIcon size="small" tooltip={LANG("search_helper")} icon="help" />
+          </Align>
+        }
       />
       <BookingModalWrap context={context} modalHook={bookingModalHook} />
     </div>

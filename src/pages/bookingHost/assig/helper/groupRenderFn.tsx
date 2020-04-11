@@ -51,7 +51,7 @@ const assigGroupRendererFn: React.FC<IRenderGroupProps> = ({ group }) => {
   });
 
   if (renderRoom) {
-    roomStyle.height = group.roomType.peopleCount * ASSIG_IMELINE_HEIGHT;
+    roomStyle.height = placeCount * ASSIG_IMELINE_HEIGHT;
   }
 
   if (renderRoomType) {

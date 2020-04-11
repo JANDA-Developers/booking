@@ -29,6 +29,7 @@ $typho-superTiny: 9px !default;
 
 // -- 🌈 Colors 컬러 칼라
 $html-color: #343434 !default;
+
 $primary-color: #4c5b73 !default;
 $primary-color-on: #fff !default;
 $primary-color-light: lighten($primary-color, 15%) !default;
@@ -363,6 +364,7 @@ $sideNav-list-padding: $standard-large-space !default;
 $sideNav-width: 0.4rem * 38 !default;
 $sideNav-width-wmd: $sideNav-width * 0.95 !default;
 $sideNav-profile-height: 13rem !default;
+$sideNav-profile-mb-height: 9rem !default;
 $sideNav-profile-circle-margin-top: 2rem !default;
 $sideNav-list-li-height: 3.25rem !default;
 $sideNav-list-li-bgColor: white !default;

@@ -29,22 +29,35 @@ type TProp2 = {
 
 // 날자들에 대해서 방타입들의 평균 가격을 가져옴
 export const totalPriceGetAveragePrice = (
-  priceData: getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices[]
+  priceData: getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices[],
+  division?: boolean,
+  dataCount?: {
+    roomTypeId: string;
+    count: number;
+  }[]
 ): number => {
   const averagePrice = arraySum(
-    priceData.map(data => getAveragePrice(data.datePrices || []))
+    priceData.map(data => {
+      let count = 1;
+      if (dataCount) {
+        const target = dataCount.find(
+          dc => dc.roomTypeId === data.roomType._id
+        );
+        count = target?.count || 1;
+      }
+      return getAveragePrice(data.datePrices || [], division) * count;
+    })
   );
   return averagePrice;
 };
 
 // 위쪽 함수 종속
 export const getAveragePrice = (
-  priceData: getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_datePrices[]
+  priceData: getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_datePrices[],
+  division: boolean = true
 ): number => {
-  const averagePrice =
-    arraySum(priceData.map(priceD => priceD.price)) / priceData.length;
-
-  return averagePrice;
+  const price = arraySum(priceData.map(priceD => priceD.price));
+  return division ? price / priceData.length : price;
 };
 
 // 예약들의 가격을 머지함

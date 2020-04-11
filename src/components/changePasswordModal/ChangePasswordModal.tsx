@@ -46,7 +46,7 @@ const ChangePasswordModal: React.FC<Iprops> = ({
   };
 
   return (
-    <JDmodal {...modalHook}>
+    <JDmodal head={LANG("password_rewrite")} {...modalHook}>
       <h6>
         {mode === "tempCover"
           ? LANG("please_rewrite_your_new_password")

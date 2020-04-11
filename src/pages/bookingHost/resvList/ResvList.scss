@@ -1,6 +1,15 @@
 @import "~Styles";
 
 .resvList {
+  &__table {
+    &--skeleton {
+      height: 25rem;
+      @extend %shining-loading-bg;
+      border: $table-outborder;
+      border-radius: $table-border-radius;
+    }
+  }
+
   &__roomSelectWraps {
     flex-direction: column;
   }

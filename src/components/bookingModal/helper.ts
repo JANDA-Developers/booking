@@ -57,12 +57,11 @@ export const bookingModalValidate = (
 
   if (!bookingNameHook.value) {
     toast.warn(LANG("please_enter_booker_name"));
-    console.log("focuseOccur");
     $("#BookerNameInput").focus();
     return false;
   }
 
-  if (!bookingPhoneHook.isValid) {
+  if (bookingPhoneHook.value && !bookingPhoneHook.isValid) {
     toast.warn(LANG("it_is_wrong_number"));
     $("#BookerPhoneInput").focus();
     return false;

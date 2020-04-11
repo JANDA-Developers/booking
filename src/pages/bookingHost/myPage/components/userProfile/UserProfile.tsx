@@ -30,7 +30,7 @@ import ChangePasswordModalWrap from "../../../../../components/changePasswordMod
 import MyHouseModalWrap from "../myHouseModal/MyHouseModalWrap";
 import PasswordCheckModal from "../passwordCheckModal/PasswordCheckModal";
 import JDpreloader from "../../../../../atoms/preloader/Preloader";
-import { onCompletedMessage } from "../../../../../utils/utils";
+import { onCompletedMessage, insideRedirect } from "../../../../../utils/utils";
 import { UPDATE_MYPROFILE, GET_USER_INFO } from "../../../../../apollo/queries";
 import client from "../../../../../apollo/apolloClient";
 import { useMutation } from "@apollo/react-hooks";
@@ -254,12 +254,6 @@ const UserProfile: React.FC<Iprops> = ({ context, userInfo }) => {
           desc={LANG("mypage_houses_desc")}
           title={LANG("created_house")}
         />
-        <CardSection></CardSection>
-
-        <CardHeader
-          desc={LANG("mypage_houses_desc")}
-          title={LANG("created_house")}
-        />
         <CardSection>
           {/* 숙소 목록들 */}
           {<JDpreloader loading={loading} />}
@@ -288,15 +282,16 @@ const UserProfile: React.FC<Iprops> = ({ context, userInfo }) => {
                     </div>
                     {houses.length === index + 1 && (
                       <div className={commonClasses}>
-                        <Link to="/createHouse">
-                          <JDbox
-                            clickable
-                            mode="border"
-                            className="myHouseCard JDflex JDflex--vCenter JDflex--center"
-                          >
-                            <JDIcon size="huge" icon="addCircle" />
-                          </JDbox>
-                        </Link>
+                        <JDbox
+                          onClick={() => {
+                            insideRedirect("createHouse");
+                          }}
+                          clickable
+                          mode="border"
+                          className="myHouseCard JDflex JDflex--vCenter JDflex--center"
+                        >
+                          <JDIcon size="huge" icon="addCircle" />
+                        </JDbox>
                       </div>
                     )}
                   </Fragment>

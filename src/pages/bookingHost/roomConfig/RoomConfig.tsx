@@ -43,6 +43,7 @@ interface IProps {
     roomTypesData: IRoomType[];
     defaultAddTemp?: IRoomType[];
   };
+  saveRoomsLoading?: boolean;
   onSubmit: (data: RoomConfigSubmitData) => void;
   submitRef?: React.MutableRefObject<null>;
   isStart?: boolean;
@@ -54,6 +55,7 @@ const RoomConfig: React.FC<IProps> = ({
   loading,
   onSubmit,
   submitRef,
+  saveRoomsLoading,
   isStart,
   defaultData
 }) => {
@@ -71,10 +73,6 @@ const RoomConfig: React.FC<IProps> = ({
     )
   };
   const [data, setData] = useState<IRoomDataSet>(defulatData);
-  console.log("data");
-  console.log(data);
-  console.log("defaultAddTemp");
-  console.log(defaultAddTemp);
   const shouldSave = data !== defulatData;
   const indexOp = selectOpCreater({
     count: data.updateCreateData.length || 1,
@@ -107,14 +105,16 @@ const RoomConfig: React.FC<IProps> = ({
     return roomType;
   };
 
-  // 오리지널에만 존재하는 데이터
+  // 오리지널에만 존재하는 데이터 로딩하는 순간에 이부분 필터가 안딘다..
   const originalUniqData = data.original.filter(d => {
     const targets = finder(d._id, ["update", "delete"]);
     if (isEmpty(targets)) return true;
     return false;
   });
 
-  const viewRoomTypeData = [...data.updateCreateData, ...originalUniqData];
+  const viewRoomTypeData = saveRoomsLoading
+    ? [...data.updateCreateData]
+    : [...data.updateCreateData, ...originalUniqData];
 
   const isRoomTypeExist = viewRoomTypeData.length === 0 && !loading;
 
@@ -140,6 +140,9 @@ const RoomConfig: React.FC<IProps> = ({
         delete RT.createdAt;
         delete RT.updatedAt;
         if (RT.img) delete RT.img.__typename;
+        RT.img?.tags?.forEach(tag => {
+          delete tag.__typename;
+        });
 
         RT.rooms.forEach(r => {
           if (targetIsInOrigin) {
@@ -459,5 +462,9 @@ const RoomConfig: React.FC<IProps> = ({
     </div>
   );
 };
+const memoRoomConfig = React.memo(RoomConfig, (prev, next) => {
+  if (next.loading || next.saveRoomsLoading) return false;
+  return true;
+});
 
-export default RoomConfig;
+export default memoRoomConfig;

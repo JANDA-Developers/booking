@@ -55,8 +55,9 @@ const RoomTypeCardWrap: React.SFC<IProps> = ({
   });
   const checkIn = to4YMMDD(dayPickerHook.from);
   const checkOut = to4YMMDD(dayPickerHook.to);
-  const initMale = guestCountValue.initGender === Gender.FEMALE;
+  const initMale = guestCountValue.initGender === Gender.MALE;
   const initCount = initMale ? guestCountValue.male : guestCountValue.female;
+
   const roomTypeId = roomTypeData._id;
   const shouldSkip = () =>
     checkIn && checkOut && checkIn != checkOut ? false : true;

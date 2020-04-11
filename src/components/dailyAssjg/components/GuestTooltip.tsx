@@ -1,13 +1,13 @@
 import React, { Fragment } from "react";
 import TooltipList, {
-  TooltipButtons,
+  TooltipButtons
 } from "../../../atoms/tooltipList/TooltipList";
 import Button from "../../../atoms/button/Button";
 import { IContext } from "../../../pages/bookingHost/BookingHostRouter";
 import { IDailyAssigContext } from "../DailyAssig";
 import {
   IDailyAssigUtils,
-  IDailyAssigDataControl,
+  IDailyAssigDataControl
 } from "../../../pages/bookingHost/assig/components/assigIntrerface";
 import { getGuests_GetGuests_guests as IG } from "../../../types/api";
 import { BookingStatus } from "../../../types/enum";
@@ -27,7 +27,7 @@ const GuestTooltip: React.FC<Iprops> = ({
   infoBtnCallBack,
   deleteBtnCallBack,
   dailayAssigContext,
-  checkInBtnCallBack,
+  checkInBtnCallBack
 }) => {
   const { guestsData } = dailayAssigContext;
 
@@ -35,7 +35,7 @@ const GuestTooltip: React.FC<Iprops> = ({
     <TooltipList
       unPadding
       getContent={(guestId: string) => {
-        const targetGuest = guestsData.find((guest) => guest._id === guestId);
+        const targetGuest = guestsData.find(guest => guest._id === guestId);
         if (!targetGuest) return;
 
         return (
@@ -45,8 +45,8 @@ const GuestTooltip: React.FC<Iprops> = ({
                 onClick: () => {
                   infoBtnCallBack(targetGuest);
                 },
-                label: LANG("view_info"),
-              },
+                label: LANG("view_info")
+              }
             ]}
           />
         );

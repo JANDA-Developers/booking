@@ -19,9 +19,11 @@ import { toast } from "react-toastify";
 import { FAVI_URL } from "./types/const";
 import LoadBalancer from "./pages/loadBalancer/LoadBalancer";
 import { getFromUrl } from "./utils/utils";
-import userTacking from "./utils/userTracking";
 import Tracker from "./Tracker";
 import JDtypho from "./atoms/typho/Typho";
+const { version } = require("../package.json");
+
+sessionStorage.setItem("app-version", version || "");
 
 function App() {
   const ln = getFromUrl("ln");
@@ -95,13 +97,7 @@ function App() {
           id="JDversion"
           className="JDtextColor--placeHolder"
         >
-          <JDtypho
-            style={{
-              fontSize: "4px"
-            }}
-          >
-            1.2.0
-          </JDtypho>
+          <JDtypho size="superTiny">{version}</JDtypho>
         </div>
         <div
           style={{

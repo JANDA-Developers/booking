@@ -44,7 +44,7 @@ const HMcompoent: React.FC<IProps> = ({
   const visibleMenuData = menuData.filter(m => m.isEnable);
 
   if (loading) {
-    return <Preloader page size="large" loading={loading} />;
+    return <div />;
   }
 
   return (
