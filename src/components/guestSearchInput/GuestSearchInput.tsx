@@ -117,9 +117,12 @@ const GuestSearchInput: React.FC<IProps> = ({
 
   const classToggler = () => {
     if (isMobile()) {
+      const iconClass = "header--iconHide";
       const className = "header__center--grow";
       const target = $(".header .header__center");
+      const header = $(".header");
       target.toggleClass(className);
+      header.toggleClass(iconClass);
     }
   };
 
