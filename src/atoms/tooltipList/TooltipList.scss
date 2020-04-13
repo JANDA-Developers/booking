@@ -1,42 +1,44 @@
 @import "~Styles";
 
+
 #root,
 .ReactModalPortal {
-  .tooltipList {
-    pointer-events: auto;
-    background-color: white;
-    opacity: 1;
-    z-index: 80 !important;
-    padding: 0;
-    margin-top: 0;
-    @extend %z-depth-3;
-    // 모바일때 아래로붙게해줌
-    @extend %tooltipMobileFixedMode;
+	.tooltipList {
+		pointer-events: auto;
+		background-color: white;
+		opacity: 1;
+		z-index: 80 !important;
+		padding: 0;
+		margin-top: 0;
+		@extend %z-depth-3;
+		// 모바일때 아래로붙게해줌
+		@extend %tooltipMobileFixedMode;
 
-    &__btn {
-      width: 100%;
-      box-shadow: none;
-    }
 
-    &__head {
-      text-align: center;
-      padding: $standard-small-space;
-      font-size: $typho-large;
-      font-weight: 600;
-      border-bottom: 1px solid $grey-level1;
-    }
+		&__btn {
+			width: 100%;
+			box-shadow: none;
+		}
 
-    // 상단 화살표
-    &:after {
-      position: absolute;
-      border-radius: 3px;
-      border: none;
-      width: 16px;
-      height: 16px;
-      z-index: 0;
-      background-color: white;
-      transform: translateY(2px) rotate(45deg);
-      @extend %z-depth-1;
-    }
-  }
+		&__head {
+			text-align: center;
+			padding: $standard-small-space;
+			font-size: $typho-large;
+			font-weight: 600;
+			border-bottom: 1px solid $grey-level1;
+		}
+
+		// 상단 화살표
+		&:after {
+			position: absolute;
+			border-radius: 3px;
+			border: none;
+			width: 16px;
+			height: 16px;
+			z-index: 0;
+			background-color: white;
+			transform: translateY(2px) rotate(45deg);
+			@extend %z-depth-1;
+		}
+	}
 }

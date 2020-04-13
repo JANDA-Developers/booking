@@ -4,9 +4,7 @@ import Align from "../../../atoms/align/Align";
 import JDtypho from "../../../atoms/typho/Typho";
 import InputText from "../../../atoms/forms/inputText/InputText";
 import { LANG } from "../../../hooks/hook";
-import JDselect, {
-  SelectBoxSize
-} from "../../../atoms/forms/selectBox/SelectBox";
+import JDselect from "../../../atoms/forms/selectBox/SelectBox";
 import { FUNNELS_OP } from "../../../types/const";
 import { IModalSMSinfo } from "../../smsModal/SendSmsModal";
 import { toast } from "react-toastify";

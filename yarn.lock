@@ -1638,10 +1638,10 @@
   resolved "https://registry.yarnpkg.com/@interactjs/vue/-/vue-1.9.7.tgz#9942407a144b4cd9d1f264ccaaf43d75f5a00a60"
   integrity sha512-Y1mjCB5tGxsaUkfYP/i1dIoBRnxkDpvZtmfKp38u1SRt3QCfNznKf4252QC7RBTSgIL/Cohi8c/oAq++ZpkTSQ==
 
-"@janda-com/front@^0.3.5":
-  version "0.3.5"
-  resolved "https://registry.yarnpkg.com/@janda-com/front/-/front-0.3.5.tgz#244bafe6e4b9f23df150e32bee0a5ac9852a7c51"
-  integrity sha512-t9WsaZ41bkctgkNg+9RozsLUj5l/gAa4zkg2x/+tJKUBPXmMcuSAmdaMS1JCPv+Uk5XxsFowW92FCnD+8WaHiA==
+"@janda-com/front@^0.4.4":
+  version "0.4.4"
+  resolved "https://registry.yarnpkg.com/@janda-com/front/-/front-0.4.4.tgz#59513a26ab2d22d88734456a599a1e67685e1080"
+  integrity sha512-SUDYcyNrK7xpNiUPX7/x5Y0i5daFJf0Axi5pKLCdB8qCmIm5/JZRjaOlLSZC9XLvvqDK9yBvwpacJWGUAaC4mA==
   dependencies:
     "@storybook/addon-knobs" "^5.3.14"
     "@storybook/preset-create-react-app" "^2.1.1"

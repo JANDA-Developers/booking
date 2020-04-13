@@ -101,7 +101,7 @@ const JDmodal: React.SFC<IProps> = ({
 
   const defualtJDmodalProps = {
     className: `Modal ${classes}`,
-    overlayClassName: "Overlay"
+  overlayClassName: "Overlay"
   };
 
   const hanldeClickBtn = (flag: boolean, key?: string) => {

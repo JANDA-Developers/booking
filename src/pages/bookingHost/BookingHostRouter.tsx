@@ -373,6 +373,13 @@ const JDbookingHost: React.FC<IProps> = ({
 export default compose(
   graphql(GET_USER_INFO, {
     name: "GetUserInfo",
+    options:{
+      
+      onError: () => {
+        localStorage.removeItem("jwt");
+        location.reload();
+      },
+    },
     skip: () => {
       const jwt = localStorage.getItem("jwt");
       if (jwt) {

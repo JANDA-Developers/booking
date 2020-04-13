@@ -41,20 +41,15 @@ import { IContext } from "../../pages/bookingHost/BookingHostRouter";
 import DailyAssig from "./DailyAssig";
 import { NetworkStatus } from "apollo-client";
 import {
-  IAssigItem,
-  IAssigGroup,
   IDailyAssigDataControl
 } from "../../pages/bookingHost/assig/components/assigIntrerface";
 import moment from "moment";
 import { useMutation, useQuery } from "@apollo/react-hooks";
-import { roomDataManufacturer } from "../../pages/bookingHost/assig/helper/groupDataMenufacture";
-import { guestsDataManufacturer } from "../../pages/bookingHost/assig/helper/guestsDataManufacturer";
 import { BookingStatus } from "../../types/enum";
 import { getOperationName } from "apollo-link";
 
 export interface IDailyAssigProp {
   networkStatus: NetworkStatus;
-  formatedItemData: IAssigItem[];
   calendarPosition?: "center" | "inside" | "topLeft";
   loading: boolean;
   roomTypeLoading: boolean;
@@ -77,14 +72,12 @@ interface IProps extends IChainProps {
 interface WrapProp {
   roomTypesData: getAllRoomType_GetAllRoomType_roomTypes[];
   roomTypeLoading: boolean;
-  formatedRoomData: IAssigGroup[];
 }
 
 const DailyAssigWrap: React.FC<IProps & WrapProp> = ({
   date,
   context,
   roomTypesData,
-  formatedRoomData,
   roomTypeLoading,
   calendarPosition = "topLeft",
   ...props
@@ -242,12 +235,10 @@ const DailyAssigWrap: React.FC<IProps & WrapProp> = ({
     updateBlockLoading;
 
   const itemDatas = [...guestsData, ...blocksData];
-  const formatedItemData = guestsDataManufacturer(guestsData);
 
   const dailyAssigContext: IDailyAssigProp = {
     blocksData,
     dayPickerHook,
-    formatedItemData,
     guestsData,
     itemDatas,
     loading,
@@ -295,14 +286,12 @@ const DailyAssigHigher: React.FC<IProps> = ({ context, ...prop }) => {
 
   const roomTypesData =
     queryDataFormater(roomData, "GetAllRoomType", "roomTypes", []) || []; // 원본데이터
-  const formatedRoomData = roomDataManufacturer(roomTypesData); // 타임라인을 위해 가공된 데이터
 
   return (
     <div>
       <DailyAssigWrap
         context={context}
         roomTypesData={roomTypesData}
-        formatedRoomData={formatedRoomData}
         roomTypeLoading={roomTypeLoading}
         {...prop}
       />

@@ -47,6 +47,9 @@ import PaymentInfo from "./components/PayInfo";
 import BookerInfo from "./components/BookerInfo";
 import ResvInfo from "./components/ResvInfo";
 import { getHandler } from "./getHandler";
+import SummaryInfo from "./components/SummaryInfo";
+import JDtypho from "../../atoms/typho/Typho";
+import { JDmodal } from "@janda-com/front";
 
 interface IProps {
   modalHook: IUseModal<IBookingModalProp>;
@@ -237,7 +240,7 @@ const BookingModal: React.FC<IProps & WindowSizeProps> = ({
   } = getHandler(bookingModalContext, smsModalInfoTemp);
 
   return (
-    <Modal
+    <JDmodal
       fullInMobile
       foot={
         <div className="JDmodal__paddingBottom">
@@ -272,7 +275,7 @@ const BookingModal: React.FC<IProps & WindowSizeProps> = ({
         </div>
       }
       head={{
-        title: "예약정보"
+        element: <JDtypho size="h6"><Align flex={{}}><JDtypho  weight={600} color="primary" mr="small">{LANG("sir")(name)}</JDtypho> 예약정보</Align></JDtypho>
       }}
       onAfterClose={() => {
         modalHook.info.onCloseModal?.();
@@ -285,7 +288,7 @@ const BookingModal: React.FC<IProps & WindowSizeProps> = ({
     >
       {isDesktopUp ? (
         <Align
-          className={`JDz-index-1`}
+        className={`JDz-index-1`}
           flex={{
             wrap: true,
             oneone: true
@@ -306,12 +309,16 @@ const BookingModal: React.FC<IProps & WindowSizeProps> = ({
               marginTop: "-1.2rem"
             }}
           >
+            <Tab>커스텀</Tab>
             <Tab>예약자</Tab>
             <Tab>결제</Tab>
             <Tab>예약</Tab>
             <Tab>배정</Tab>
             <Tab>기타</Tab>
           </TabList>
+          <TabPanel>
+            <SummaryInfo {...sharedProp}  />
+          </TabPanel>
           <TabPanel>
             <BookerInfo {...sharedProp} smsModalInfoTemp={smsModalInfoTemp} />
           </TabPanel>
@@ -345,7 +352,7 @@ const BookingModal: React.FC<IProps & WindowSizeProps> = ({
         confirmCallBackFn={deleteModalCallBackFn}
         {...confirmModalHook}
       />
-    </Modal>
+    </JDmodal>
   );
 };
 

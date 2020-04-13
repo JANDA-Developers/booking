@@ -2,103 +2,106 @@
 
 #root,
 .ReactModalPortal {
-  .JDtable {
-    width: 100%;
-    border-collapse: inherit;
-    border-radius: $table-radius;
-    border-color: $table-outborder-color;
-    border: $table-outborder;
-    box-sizing: border-box;
-    background-color: white;
+	.JDtable {
+		width: 100%;
+		border-collapse: inherit;
+		border-radius: $table-radius;
+		border-color: $table-outborder-color;
+		border: $table-outborder;
+		box-sizing: border-box;
+		background-color: white;
 
-    .JDinput {
-      width: auto;
+		.JDinput {
+			width: auto;
+		}
+
+		&--checkable {
+			//  ❗️ 강제 오버라이드
+			.rt-tr > div:first-child {
+				width: 0.4rem * 8 !important;
+				flex: 0.4rem * 8 0 auto !important;
+				max-width: 0.4rem * 8 !important;
+				justify-content: end;
+			}
+		}
+
+		.rt-thead {
+			border-bottom: 2px solid $grey-level1;
     }
+    
+		&--center {
+			text-align: center;
+		}
 
-    &--checkable {
-      //  ❗️ 강제 오버라이드
-      .rt-tr > div:first-child {
-        width: 0.4rem * 8 !important;
-        flex: 0.4rem * 8 0 auto !important;
-        max-width: 0.4rem * 8 !important;
-        justify-content: end;
-      }
-    }
+		&--visibleOver:not(.JDtable--scrollOverPadding) {
+			.rt-table {
+				overflow: visible;
+			}
+			.rt-tbody {
+				overflow: visible !important;
+			}
+			.rt-tr-group {
+				overflow: visible;
+			}
+			.rt-td {
+				overflow: visible;
+			}
+		}
 
-    &--center {
-      text-align: center;
-    }
+		// 끝까지 선이 안그어지는 버그가 있음. 편법사용
+		.rt-th:last-child {
+			margin-bottom: -2px;
+		}
 
-    &--visibleOver:not(.JDtable--scrollOverPadding) {
-      .rt-table {
-        overflow: visible;
-      }
-      .rt-tbody {
-        overflow: visible !important;
-      }
-      .rt-tr-group {
-        overflow: visible;
-      }
-      .rt-td {
-        overflow: visible;
-      }
-    }
+		* {
+			border-color: $table-borders-color;
+		}
 
-    // 끝까지 선이 안그어지는 버그가 있음. 편법사용
-    .rt-th:last-child {
-      margin-bottom: -2px;
-    }
+		.JDinput {
+			box-sizing: border-box;
+		}
 
-    * {
-      border-color: $table-borders-color;
-    }
+		// 데이터가 없을때 플레이스 홀더
+		.rt-noData {
+			color: $placeholder-color;
+			padding: 0;
+			top: auto;
+			bottom: 0;
+		}
 
-    .JDinput {
-      box-sizing: border-box;
-    }
+		.rt-tbody {
+			overflow: hidden;
+		}
 
-    // 데이터가 없을때 플레이스 홀더
-    .rt-noData {
-      color: $placeholder-color;
-      padding: 0;
-      top: auto;
-      bottom: 0;
-    }
+		//      👼 REACT TABLE
+		.rt {
+			&-thead {
+				box-shadow: none;
+			}
 
-    .rt-tbody {
-      overflow: hidden;
-    }
+			&-td {
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+		}
 
-    //      👼 REACT TABLE
-    .rt {
-      &-thead {
-        box-shadow: none;
-        border-bottom: $table-header-border-bottom;
-      }
-
-      &-td {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-    }
-
-    .rt-th,
-    .rt-td {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      white-space: normal;
-      max-width: 100%;
-      padding: $table-padding;
-    }
-  }
+		.rt-th,
+		.rt-td {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			white-space: normal;
+			max-width: 100%;
+			padding: $table-padding;
+		}
+	}
 }
 
 .JDtable {
-  .rt-tr > div:first-child {
-    .JDcheck_box_wrap {
-      width: 100%;
-    }
-  }
+	.rt-tr > div:first-child {
+		.JDcheck_box_wrap {
+			width: 100%;
+		}
+	}
 }

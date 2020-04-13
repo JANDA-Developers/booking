@@ -1,0 +1,16 @@
+@import "../../../../node_modules/@janda-com/front/build/scss/components/Configer.scss";
+
+.confige__li {
+	word-break: break-all;
+}
+
+#SummaryInfo {
+	.confige__li {
+		word-break: break-all;
+	}
+	.configer__enables,
+	.configer__unables {
+		max-height: 500px;
+		flex-grow: 1;
+	}
+}

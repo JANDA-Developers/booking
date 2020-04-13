@@ -114,6 +114,7 @@ const ResvList: React.SFC<IProps> = ({
     });
   };
 
+
   const handleSendSmsBtnClick = () => {
     const receivers = checkedIds.map(id => {
       const target = bookingsData.find(booking => booking._id === id);
