@@ -66,6 +66,7 @@ const RoomTypeCardWrap: React.SFC<IProps> = ({
     getRoomTypeInfoVariables
   >(GET_ROOM_TYPE_INFO, {
     client,
+    fetchPolicy: "no-cache",
     notifyOnNetworkStatusChange: true,
     skip: shouldSkip(),
     variables: {
