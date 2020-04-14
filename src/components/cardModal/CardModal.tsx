@@ -3,13 +3,17 @@ import { IContext } from "../../pages/bookingHost/BookingHostRouter";
 import CreaditCard from "./components/CreaditCard";
 import { LANG, useModal, IUseModal } from "../../hooks/hook";
 import JDIcon from "../../atoms/icons/Icons";
+import "./CardModal.scss";
 import "./CardViewer.scss";
 import {
   getMyProfile_GetMyProfile_user_paymentInfos,
   registerBillKey,
   registerBillKeyVariables,
   unregisterBillKey,
-  unregisterBillKeyVariables
+  unregisterBillKeyVariables,
+  updateProductBillInfo_UpdateProductBillInfo,
+  updateProductBillInfo,
+  updateProductBillInfoVariables
 } from "../../types/api";
 import { isEmpty, cardValidate } from "../../utils/utils";
 import { getTargetsWithBillKey } from "../../utils/getTargetsWithBillKey";
@@ -30,16 +34,19 @@ import { scrollSlider } from "./helper";
 import { cardExpire, cardExpToObj } from "../../utils/autoFormat";
 import { TCardRegistInfo, ICardModalPropShareWrap } from "./declare";
 import JDmodal from "../../atoms/modal/Modal";
+import moment from "moment";
 
 interface Iprops extends ICardModalPropShareWrap {
   context: IContext;
   createMu: IMu<registerBillKey, registerBillKeyVariables>;
   deleteMu: IMu<unregisterBillKey, unregisterBillKeyVariables>;
+  pChangeMu: IMu<updateProductBillInfo,updateProductBillInfoVariables>;
 }
 
 const CardModal: React.FC<Iprops> = ({
   context,
   createMu,
+  pChangeMu,
   deleteMu,
   modalHook
 }) => {
@@ -60,6 +67,7 @@ const CardModal: React.FC<Iprops> = ({
   );
 
   const isCreateMode = mode === "modify" || mode === "all";
+  const periodicalPayMode = mode === "changePer";
   const isCreatable = isCreateMode && selecteCard === null;
 
   const create = (newCardInfo: TCardRegistInfo) => {
@@ -82,6 +90,21 @@ const CardModal: React.FC<Iprops> = ({
       }
     });
   };
+
+  const pChangeFn = (billKey:string) => {
+    if(!modalHook.info.productIds) {
+      throw Error("mode 가 periodicalChange 일경우 productIds를 모달 Info에 전달해야합니다.");
+    }
+    pChangeMu({
+      variables:{
+        param:{
+          billKey,
+          productIds: modalHook.info.productIds
+        }
+      }
+    })
+    
+  }
 
   const handleDeleteBtn = (billKey: string) => {
     deleteFn(billKey);
@@ -145,7 +168,7 @@ const CardModal: React.FC<Iprops> = ({
   const payTargets = getTargetsWithBillKey(context);
 
   return (
-    <JDmodal {...modalHook}>
+    <JDmodal id="CardModal" className="cardModal" {...modalHook}>
       <div
         id="CardViewr"
         className={`CardViewer ${unPadding && "CardViewer--unPadding"}`}
@@ -244,7 +267,7 @@ const CardModal: React.FC<Iprops> = ({
                   <InputText card value={selecteCard?.cardNo} />
                 </FormCell>
                 <FormCell label={LANG("regi_date")}>
-                  <InputText value={selecteCard?.authDate} />
+                  <InputText value={moment(selecteCard?.authDate).format("YYYY-MM-DD")} />
                 </FormCell>
               </FormBox>
             )}
@@ -278,7 +301,7 @@ const CardModal: React.FC<Iprops> = ({
             )}
           </div>
           <Fragment>
-            {mode !== "modify" && !isCreatable && (
+            { !periodicalPayMode && mode !== "modify" && !isCreatable && (
               <Button
                 onClick={() => {
                   handleSubmit();
@@ -290,7 +313,7 @@ const CardModal: React.FC<Iprops> = ({
                 label={LANG("select_this_card")}
               />
             )}
-            {isCreatable && (
+            { !periodicalPayMode && isCreatable && (
               <Button
                 id="CardModal__CardRegistBtn"
                 onClick={() => {
@@ -301,6 +324,19 @@ const CardModal: React.FC<Iprops> = ({
                 mode="flat"
                 thema="primary"
                 label={LANG("card_regist")}
+              />
+            )}
+            {periodicalPayMode && (
+              <Button
+                id="CardModal__PeriodicalPayBtn"
+                onClick={() => {
+                  pChangeFn(selecteCard?.billKey || "");
+                }}
+                mb="no"
+                size="small"
+                mode="flat"
+                thema="primary"
+                label={LANG("bill_pay_regist_change_width_this_card")}
               />
             )}
             {mode !== "onlyGet" && (

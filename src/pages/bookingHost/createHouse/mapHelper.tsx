@@ -1,61 +1,62 @@
-import axios from "axios";
+import axios from 'axios';
 
 export const geoCode = async (address: string) => {
-  const URL = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.REACT_APP_API_MAP_KEY}&language=ko&region=KO`;
-  const { data } = await axios(URL);
-  if (!data.error_message) {
-    const { results } = data;
-    const firstPlace = results[0];
-    if (!firstPlace) return false;
-    const {
-      formatted_address: formatedAddress,
-      geometry: {
-        location: { lat, lng }
-      }
-    } = firstPlace;
-    return { formatedAddress, lat, lng };
-  }
-  return false;
+	const URL = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env
+		.REACT_APP_API_MAP_KEY}&language=ko&region=KO`;
+	const { data } = await axios(URL);
+
+	console.log('data2');
+	console.log(data);
+	if (!data.error_message) {
+		const { results } = data;
+		const firstPlace = results[0];
+		if (!firstPlace) return false;
+		const { formatted_address: formatedAddress, geometry: { location: { lat, lng } } } = firstPlace;
+		return { formatedAddress, lat, lng };
+	}
+	return false;
 };
 
 export const reverseGeoCode = async (lat: number, lng: number) => {
-  const URL = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${process.env.REACT_APP_API_MAP_KEY}&language=ko&region=KO`;
-  const { data } = await axios(URL);
-  if (!data.error_message) {
-    const { results } = data;
-    const firstPlace = results[0];
-    if (!firstPlace) return "";
-    const address = firstPlace.formatted_address;
-    return address;
-  }
-  return "";
+	const URL = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=${process.env
+		.REACT_APP_API_MAP_KEY}&language=ko&region=KO`;
+	const { data } = await axios(URL);
+
+	if (!data.error_message) {
+		const { results } = data;
+		const firstPlace = results[0];
+		if (!firstPlace) return '';
+		const address = firstPlace.formatted_address;
+		return address;
+	}
+	return '';
 };
 
 // Map Config 그리고 생성
 export const loadMap = (lat: number, lng: number, mapRef: any, google: any) => {
-  const { maps } = google;
-  const mapNode = mapRef.current;
-  const mapConfig = {
-    center: {
-      lat,
-      lng
-    },
-    disableDefaultUI: true,
-    minZoom: 8,
-    zoom: 15,
-    zoomControl: true
-  };
-  return new maps.Map(mapNode, mapConfig);
+	const { maps } = google;
+	const mapNode = mapRef.current;
+	const mapConfig = {
+		center: {
+			lat,
+			lng
+		},
+		disableDefaultUI: true,
+		minZoom: 8,
+		zoom: 15,
+		zoomControl: true
+	};
+	return new maps.Map(mapNode, mapConfig);
 };
 
 export const getLocationFromMap = async (map: google.maps.Map) => {
-  const newCenter = map.getCenter();
-  const lat = newCenter.lat();
-  const lng = newCenter.lng();
-  const reversedAddress = await reverseGeoCode(lat, lng);
-  return {
-    lat,
-    lng,
-    reversedAddress
-  };
+	const newCenter = map.getCenter();
+	const lat = newCenter.lat();
+	const lng = newCenter.lng();
+	const reversedAddress = await reverseGeoCode(lat, lng);
+	return {
+		lat,
+		lng,
+		reversedAddress
+	};
 };
