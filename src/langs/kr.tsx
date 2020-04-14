@@ -393,7 +393,7 @@ export const kr = {
 	please_select_date: '날짜를 선택해 주세요',
 	please_select_reservation_status: '예약상태를 선택해주세요.',
 	please_select_the_accommodation_type: '숙소타입을 선택 해주세요.',
-	please_select_the_number_of_people: '인원수를 선택해주세요.',
+	please_select_the_number_of_people: '객실/인원을 선택해주세요.',
 	please_slect_date_at_calender: '달력에서 날짜를 선택해주세요.',
 	please_specify_the_date: '날짜를 지정해주세요.',
 	polling_period: '풀링주기',
@@ -1017,7 +1017,7 @@ export const kr = {
 	server_dose_not_respond: '서버가 응답하지 않습니다.',
 	network_connected: '네트워크에 연결되었습니다.',
 	periodical_payment_is_changed: (houseName: string, flag?: boolean) =>
-		`${houseName}의 정기결제가 ${flag ? '중지' : '등록'}되었습니다.`,
+		`${houseName}의 정기결제가 ${flag ? '등록' : '중지'}되었습니다.`,
 	request_is_failed: '요청이 실패했습니다.',
 	product_regist_complete_message: '상품등록이 완료 되었습니다.',
 	select_product_desc: '상품을 등록할때 카드정보를 입력받습니다. 만료기간이 끝나면 자동적으로 결제를 진행합니다.',
@@ -1048,7 +1048,7 @@ export const kr = {
 	support_payment_method: '지원 결제수단',
 	update_house_completed: '숙소 업데이트 완료',
 	update_house_failed: '숙소 업데이트 실패',
-	sms__decs: 'SMS 양식을 설정해두시면 메세지를 보낼떄 해당 양식을 편리하게 보낼수 있습니다.',
+	sms__decs: 'SMS 양식을 설정해두시면 메세지를 보낼때 해당 양식을 편리하게 보낼 수 있습니다.',
 	do_you_want_to_change_periodical_pay: '현재 정기결제가 이루어지고 있습니다. 변경 하시겠습니까?',
 	auto_pay_stop: '해지',
 	auto_pay_continue: '정기결재 재사용 하기',
@@ -1219,5 +1219,10 @@ export const kr = {
 	password_rewrite_error: '패스워드 확인과 일치하지 않습니다.',
 	email_sended: '이메일 전송완료',
 	email_sended_failed: '이메일 전송실패',
-	static_list: <JDlist linePoint="·" contents={[ '매출은 숙박일 기준으로 생성됩니다.', '통계는 통계날자의 범위안에서 단위별로 보여집니다.' ]} />
+	static_list: <JDlist linePoint="·" contents={[ '매출은 숙박일 기준으로 생성됩니다.', '통계는 통계날자의 범위안에서 단위별로 보여집니다.' ]} />,
+	today_mark: '오늘 마크',
+	cursor_mark: '커서 마크',
+	zoom_range: '확대 범위',
+	adress_search: '주소검색',
+	pay_stopped: '결제중단'
 };

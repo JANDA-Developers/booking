@@ -1,7 +1,6 @@
 import React, { useState, Fragment, useEffect } from "react";
 import windowSize, { WindowSizeProps } from "react-window-size";
 import { Query } from "react-apollo";
-import { cardExpToObj } from "../../../utils/autoFormat";
 import ErrProtecter from "../../../utils/errProtect";
 import JDdayPicker from "../../../atoms/dayPicker/DayPicker";
 import {

@@ -275,7 +275,11 @@ const BookingModal: React.FC<IProps & WindowSizeProps> = ({
         </div>
       }
       head={{
-        element: <JDtypho size="h6"><Align flex={{}}><JDtypho  weight={600} color="primary" mr="small">{LANG("sir")(name)}</JDtypho> 예약정보</Align></JDtypho>
+        element: isCreateMode ? <JDtypho size="h6">예약생성하기</JDtypho> :  <JDtypho size="h6">
+          <Align flex={{}}>
+          <JDtypho  weight={600} color="primary" mr="small">{LANG("sir")(name)}</JDtypho> 
+          예약정보</Align>
+          </JDtypho>
       }}
       onAfterClose={() => {
         modalHook.info.onCloseModal?.();

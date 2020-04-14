@@ -68,7 +68,7 @@ const HouseConfig: React.FC<IProps & ProvidedProps> = ({
     lat,
     lng
   });
-  const mapRef = useRef(null);
+  const mapRef = useRef<HTMLDivElement>(null);
 
   // 지도 드래그가 끝날때 좌표값을 받아서 저장함
   const handleDragEnd = async () => {
@@ -120,11 +120,18 @@ const HouseConfig: React.FC<IProps & ProvidedProps> = ({
     }
   };
 
+
+
+  console.log("mapRef");
   useEffect(() => {
+    console.log(mapRef);
+    console.log("???!");
+    if (!mapRef.current) return;
     map = loadMap(location.lat, location.lng, mapRef, google);
     if (!map) return;
     map.addListener("dragend", handleDragEnd);
-  }, []);
+
+  });
 
   return (
     <div className="houseConfigWrap">
@@ -193,7 +200,7 @@ const HouseConfig: React.FC<IProps & ProvidedProps> = ({
                 />
               </div>
             </div>
-            <GoogleMap mapRef={mapRef} />
+            <GoogleMap ref={mapRef} />
           </CardSection>
           <CardHeader
             desc={LANG("deposit_info_desc")}
@@ -266,7 +273,7 @@ const HouseConfig: React.FC<IProps & ProvidedProps> = ({
 export default EerrorProtect<IProps>(
   // @ts-ignore
   GoogleApiWrapper({
-    apiKey: "AIzaSyCLG8qPORYv6HJIDSgXpLqYDDzIKgSs6FY",
+    apiKey: process.env.REACT_APP_API_MAP_KEY || "",
     LoadingContainer: () => (
       <div style={{ height: "85vh" }}>
         <Preloader floating size={FLOATING_PRELOADER_SIZE} loading={true} />

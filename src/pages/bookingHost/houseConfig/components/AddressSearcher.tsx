@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useFetch, LANG } from "../../../../hooks/hook";
 import { ISearchViewData, JDsearchInput } from "@janda-com/front";
 import { s4 } from "../../../../utils/utils";
+import $ from "jquery";
 
 export type jsuo = {
   detBdNmList: string;
@@ -66,6 +67,7 @@ const AddressSearcher: React.FC<IProps> = ({
 
   const handleSelectData = (data: ISearchViewData) => {
     handleOnFind(data.title);
+    $("#SearchWrap .JDinput").blur();
   };
 
   // 도로명주소 가져오기
@@ -74,7 +76,7 @@ const AddressSearcher: React.FC<IProps> = ({
   }, [addressGeturl]);
 
   return (
-    <div className="JDz-index-2">
+    <div id="SearchWrap" className="JDz-index-2">
       <JDsearchInput
         inputProp={{
           label: LANG("house_address"),

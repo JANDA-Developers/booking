@@ -25,9 +25,12 @@ import { DEFAULT_SMS_TEMPLATE } from "../../../../types/defaults";
 import InputText from "../../../../atoms/forms/inputText/InputText";
 import { MutationFn } from "react-apollo";
 import JDLabel from "../../../../atoms/label/JDLabel";
-import JDselect, {
+import {
   SelectBoxSize
 } from "../../../../atoms/forms/selectBox/SelectBox";
+import {
+  JDselect,
+} from "@janda-com/front";
 import JDswitch from "../../../../atoms/forms/switch/Switch";
 import Help from "../../../../atoms/Help/Help";
 import {
@@ -193,9 +196,12 @@ const SmsTemplateModal: React.FC<Iprops> = ({
               size={SelectBoxSize.FIVE}
               options={AUTO_SEND_OP}
               {...autoSendHook}
+              menuPosition="up"
               label={LANG("auto_send")}
             />
             <JDselect
+              autoWidth
+              menuPosition="up"
               id="SendTagetSelect"
               size={SelectBoxSize.FOUR}
               options={SMS_TARGET_OP}

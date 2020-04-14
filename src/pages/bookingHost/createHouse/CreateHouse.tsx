@@ -29,8 +29,8 @@ import { initHouseVariables, HouseType } from "../../../types/api";
 import { TRef } from "../../../types/interface";
 import EerrorProtect from "../../../utils/errProtect";
 import optionFineder from "../../../utils/optionFinder";
-import PageBody from "../../../components/pageBody/PageBody";
 import { JDsearchInput, ISearchViewData } from "@janda-com/front";
+import JDtypho from "../../../atoms/typho/Typho";
 
 let map: google.maps.Map | null = null;
 
@@ -267,7 +267,7 @@ const CreateHouse: React.FC<IProps> = ({
           />
         </div>
         {/* 숙소 타입 선택 */}
-        <div className="flex-grid__col col--full-12 col--md-12">
+        <div className="flex-grid__col JDz-index-1 col--full-12 col--md-12">
           <SelectBox
             id="HouseType"
             {...typeSelectHook}
@@ -282,6 +282,10 @@ const CreateHouse: React.FC<IProps> = ({
               label: LANG("house_address"),
               mr: "no"
             }}
+            head={<div>
+              <h6>{LANG("adress_search")}</h6>
+              <JDtypho>{addressData.results?.common.errorMessage || ""}</JDtypho>
+            </div>}
             onSelectData={handleOnFind}
             onSearchChange={onTypeChange}
             searchValue={location.address}
@@ -317,7 +321,7 @@ const CreateHouse: React.FC<IProps> = ({
           />
         </div>
         <div className="test__googleMapWrap createHomePage__map flex-grid__col col--full-12 col--md-12">
-          <GoogleMap mapRef={mapRef} />
+          <GoogleMap ref={mapRef} />
         </div>
         <Button
           refContainer={submitRef}
@@ -335,7 +339,7 @@ const CreateHouse: React.FC<IProps> = ({
 export default EerrorProtect<IProps>(
   // @ts-ignore
   GoogleApiWrapper({
-    apiKey: "AIzaSyCLG8qPORYv6HJIDSgXpLqYDDzIKgSs6FY",
+    apiKey: process.env.REACT_APP_API_MAP_KEY || "",
     LoadingContainer: () => (
       <div style={{ height: "85vh" }}>
         <Preloader floating size={FLOATING_PRELOADER_SIZE} loading={true} />

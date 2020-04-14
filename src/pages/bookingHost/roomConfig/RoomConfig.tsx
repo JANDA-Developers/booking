@@ -7,10 +7,9 @@ import _ from "lodash";
 import omitDeep from "omit-deep";
 import {
   getAllRoomType_GetAllRoomType_roomTypes as IRoomType,
-  UpsertRoomTypeInput
 } from "../../../types/api";
 import Preloader from "../../../atoms/preloader/Preloader";
-import { useModal, LANG, useSelect } from "../../../hooks/hook";
+import { useModal, LANG } from "../../../hooks/hook";
 import Card from "../../../atoms/cards/Card";
 import { IContext } from "../../bookingHost/BookingHostRouter";
 import Help from "../../../atoms/Help/Help";
