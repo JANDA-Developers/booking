@@ -356,3 +356,14 @@ a.JDanchor {
 		margin-bottom: 0;
 	}
 }
+
+#root,
+.ReactModalPortal {
+	.anchor {
+		color: #1a73e8;
+		text-decoration: underline;
+		&:hover {
+			cursor: pointer;
+		}
+	}
+}

@@ -1,9 +1,0 @@
-{
-    "version": 3,
-    "mappings": "AACK,AAAD,6BAAY,CAAC;EAET,OAAO,EAAC,GAAG;EACX,MAAM,EAAC,IAAI;EACX,UAAU,EAAE,IAAI;EAChB,UAAU,EAAE,MAAM;EAClB,OAAO,EAAC,IAAI;EACZ,WAAW,EAAE,MAAM;CAQtB;;AAfA,AAQG,6BARQ,GAQJ,GAAG,CAAC;EACJ,OAAO,EAAC,YAAY;CAKvB;;AAdJ,AAWO,6BAXI,GAQJ,GAAG,AAGF,YAAY,CAAC;EACV,WAAW,EAAE,CAAC;CACjB",
-    "sources": [
-        "ApplyProductModal.scss"
-    ],
-    "names": [],
-    "file": "ApplyProductModal.css"
-}
