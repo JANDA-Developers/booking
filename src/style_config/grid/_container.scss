@@ -1,98 +1,98 @@
 body,
 html {
-  min-height: 100%;
-  touch-action: pan-x pan-y;
+	min-height: 100%;
+	touch-action: pan-x pan-y;
 }
 
 #root {
-  height: 100%;
+	height: 100%;
 }
 main {
-  height: 100%;
+	height: 100%;
 }
 .container {
-  margin: 0 auto;
-  max-width: $container-width;
-  padding: 0 $container-padding;
-  position: relative;
-  width: 100%;
-  box-sizing: border-box;
-  min-height: 90%;
-  height: 100%;
+	margin: 0 auto;
+	max-width: $container-width;
+	padding: 0 $container-padding;
+	position: relative;
+	width: 100%;
+	box-sizing: border-box;
+	min-height: 90%;
+	height: 100%;
 
-  @include response($phablet) {
-    padding: 0 $container-padding--md;
-  }
-  @include response($mobile) {
-    overflow: hidden;
-  }
+	@include response($phablet) {
+		padding: 0 $container-padding--md;
+	}
+	@include response($mobile) {
+		overflow: hidden;
+	}
 }
 
 .container--full {
-  margin: 0 auto;
-  width: auto;
-  max-width: none;
+	margin: 0 auto;
+	width: auto;
+	max-width: none;
 }
 
 .container--sm {
-  margin: 0 auto;
-  max-width: $container-small-width;
+	margin: 0 auto;
+	max-width: $container-small-width;
 }
 
 .container--md {
-  margin: 0 auto;
-  max-width: $container-middle-width;
+	margin: 0 auto;
+	max-width: $container-middle-width;
 }
 
 .container--lg {
-  margin: 0 auto;
-  max-width: $container-large-width;
+	margin: 0 auto;
+	max-width: $container-large-width;
 }
 
 .container--center {
-  display: flex;
-  justify-content: center;
-  text-align: center;
+	display: flex;
+	justify-content: center;
+	text-align: center;
 }
 
 // 상하 좌우 가운데로
 .container--centerlize {
-  touch-action: touch-zoom;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  max-width: none;
-  padding-left: 0;
-  padding-right: 0;
-  padding-top: $header-height;
-  padding-bottom: $header-height * 2;
-  transition: 0.3s;
+	touch-action: touch-zoom;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	max-width: none;
+	padding-left: 0;
+	padding-right: 0;
+	padding-top: $header-height;
+	padding-bottom: $header-height * 2;
+	transition: 0.3s;
 }
 
 .bookingHost--sideOpen {
-  @include response($full, $phablet) {
-    .container--centerlize {
-      padding-left: $sideNav-width;
-    }
-  }
-  @include response($tablet, $phablet) {
-    .container--centerlize {
-      padding-left: $sideNav-width-wmd;
-    }
-  }
+	@include response($full, $phablet) {
+		.container--centerlize {
+			padding-left: $sideNav-width;
+		}
+	}
+	@include response($tablet, $phablet) {
+		.container--centerlize {
+			padding-left: $sideNav-width-wmd;
+		}
+	}
 }
 
 /* Self Clearing Goodness */
 .container:after,
 .row:after {
-  position: absolute;
-  clear: both;
-  content: "";
-  display: table;
+	position: absolute;
+	clear: both;
+	content: "";
+	display: table;
 }

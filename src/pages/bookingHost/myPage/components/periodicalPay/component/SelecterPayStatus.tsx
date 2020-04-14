@@ -13,7 +13,6 @@ import { useMutation } from "@apollo/react-hooks";
 import { onCompletedMessage } from "../../../../../../utils/utils";
 import { IContext } from "../../../../BookingHostRouter";
 import TerminateModal from "./TerminateModal";
-import Button from "../../../../../../atoms/button/Button";
 import TextButton from "../../../../../../atoms/textButton/TextButton";
 import { getOperationName } from "apollo-link";
 
@@ -90,7 +89,7 @@ const SelecterPayStatus: React.FC<Iprops> = ({
       </TextButton>
       <TerminateModal
         modalHook={terminateModalHook}
-        onTerminateBtn={handelTerminateBtn}
+        handleTerminateBtn={handelTerminateBtn}
       />
     </Fragment>
   );

@@ -166,7 +166,7 @@ const StarterModal: React.FC<IProps> = ({ context, onSubmit, muLoading }) => {
 
   const Wrap: React.FC = useCallback(
     ({ children }) => (
-      <JDmodal className="staterModal" {...modalHook} isUnderHeader>
+      <JDmodal fullInMobile className="staterModal" {...modalHook} isUnderHeader>
         <div className="staterModal__stepsWrap">
           <JDmultiStep steps={staterSteps} />
         </div>
@@ -365,7 +365,7 @@ const StarterModal: React.FC<IProps> = ({ context, onSubmit, muLoading }) => {
                 setStep("card");
               }}
               className="JDmargin-bottom0"
-              label={"prev step"}
+              label={LANG("prev_step")}
             />
             <Button
               id="SettingFinishBtn"

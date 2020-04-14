@@ -1,47 +1,55 @@
 @import "~Styles";
 
 .myPage {
-  &__profileSectionWrap {
-    @include response($phablet) {
-      display: block;
-    }
-  }
+	&__profileSectionWrap {
+		@include response($phablet) {
+			display: block;
+		}
+	}
 
-  &__profileCircleWrap {
-    display: flex;
-    max-width: 200px;
-    align-items: center;
-    padding-right: $standard-space;
-    padding-left: $standard-space;
-    @include response($phablet) {
-      padding: 0;
-      justify-content: center;
-      max-width: none;
-      margin-bottom: $standard-space;
-    }
-  }
+	&__profileCircleWrap {
+		display: flex;
+		max-width: 200px;
+		align-items: center;
+		padding-right: $standard-space;
+		padding-left: $standard-space;
+		@include response($phablet) {
+			padding: 0;
+			justify-content: center;
+			max-width: none;
+			margin-bottom: $standard-space;
+		}
+	}
 
-  &__myHouses {
-    justify-content: unset;
-    min-width: 460px;
-    @include response($phablet) {
-      min-width: 290px;
-    }
-  }
+	&__myHouses {
+		justify-content: unset;
+		min-width: 460px;
+		@include response($phablet) {
+			min-width: 290px;
+		}
+	}
 
-  .myPage__myHouse {
-    margin-right: $column-margin;
-  }
+	.myPage__myHouse {
+		margin-right: $column-margin;
+	}
 
-  @include response($full, $phabletUp) {
-    .myPage__myHouses > .col:nth-child(3n + 1) {
-      margin-right: 0;
-    }
-  }
+	@include response($full, $phabletUp) {
+		.myPage__myHouses > .col:nth-child(3n + 1) {
+			margin-right: 0;
+		}
+	}
 
-  @include response($phablet) {
-    .myPage__myHouses > .col:nth-child(2n + 1) {
-      margin-right: 0;
-    }
-  }
+	@include response($phablet) {
+		.myPage__myHouses > .col:nth-child(2n + 1) {
+			margin-right: 0;
+		}
+	}
+}
+
+#UserProfileVtable {
+	.vtable__cell {
+		.vtable__content {
+			max-width: 70%;
+		}
+	}
 }

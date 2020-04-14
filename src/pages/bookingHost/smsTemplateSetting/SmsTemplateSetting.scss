@@ -2,12 +2,9 @@
 @import "./components/smsTemplateModal";
 
 .sms {
-  &__templateViewCard {
-    &_smsFormat {
-      overflow: auto;
-      height: 0.25rem * 5 * 9;
-      @extend %JDscrollbar;
-      white-space: pre-line;
-    }
-  }
+	&__templateViewCard {
+		&_smsFormat {
+			white-space: pre-line;
+		}
+	}
 }
