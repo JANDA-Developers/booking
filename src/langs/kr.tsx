@@ -6,6 +6,7 @@ import PhotoFrame from '../atoms/photoFrame/PhotoFrame';
 import { autoComma } from '../utils/utils';
 import JDtypho from '../atoms/typho/Typho';
 import Align from '../atoms/align/Align';
+import { JDalign } from '@janda-com/front';
 
 export const kr = {
 	Apply: '적용',
@@ -1219,5 +1220,92 @@ export const kr = {
 	password_rewrite_error: '패스워드 확인과 일치하지 않습니다.',
 	email_sended: '이메일 전송완료',
 	email_sended_failed: '이메일 전송실패',
-	static_list: <JDlist linePoint="·" contents={[ '매출은 숙박일 기준으로 생성됩니다.', '통계는 통계날자의 범위안에서 단위별로 보여집니다.' ]} />
+	static_list: <JDlist linePoint="·" contents={[ '매출은 숙박일 기준으로 생성됩니다.', '통계는 통계날자의 범위안에서 단위별로 보여집니다.' ]} />,
+	janda_price_policy: '잔다 요금제',
+	janda33: [
+		<JDtypho component="span">시간제 공간 예약 시스템</JDtypho>,
+		'공유공간 예약',
+		'온라인 티켓 판매',
+		<span>
+			AI 자동 문자 서비스 <JDtypho color="point">*사용량 만큼 청구</JDtypho>
+		</span>,
+		'통합 전자 결제 솔루션 탑재',
+		'수익 수수료 없음',
+		'매출 수수료 없음'
+	],
+	janda55: [
+		'숙소운영 및 예약관리 솔루션',
+		<span>
+			국내·외{' '}
+			<JDtypho component={'span'} color="point">
+				OTA 예약채널 연동
+			</JDtypho>
+		</span>,
+		<span>
+			다국어{' '}
+			<JDtypho component={'span'} color="point">
+				AI 무인 솔루션
+			</JDtypho>
+		</span>,
+		<span>
+			직접 꾸미는
+			<JDtypho component={'span'} color="point">
+				반응형 홈페이지
+			</JDtypho>
+		</span>,
+		<span>
+			AI 자동 문자 서비스{' '}
+			<JDtypho component="span" color="point">
+				*사용량 만큼 청구
+			</JDtypho>
+		</span>,
+		<span>통합 전자 결제 솔루션 탑재</span>,
+		<span>성수기 걱정없는 트래픽 제공</span>,
+		<span>수익 수수료 없음</span>,
+		<span>매출 수수료 없음</span>
+	],
+	janda110: [
+		'호텔운영 및 예약관리 솔루션',
+		<span>
+			국내·외
+			<JDtypho component={'span'} color="point">
+				OTA 예약채널 연동
+			</JDtypho>
+		</span>,
+		<span>
+			다국어
+			<JDtypho component={'span'} color="point">
+				AI 무인 솔루션
+			</JDtypho>
+		</span>,
+		<span>
+			IOT 객실관리 시스템
+			<JDtypho component={'span'} color="point">
+				연동(별도문의)
+			</JDtypho>
+		</span>,
+		<span>
+			직접 꾸미는
+			<JDtypho component={'span'} color="point">
+				프리미엄 홈페이지
+			</JDtypho>
+		</span>,
+		<span>
+			AI 자동 문자 서비스
+			<JDtypho component={'span'} color="point">
+				*사용량 만큼 청구
+			</JDtypho>
+		</span>,
+		<span>통합 전자 결제 솔루션 탑재</span>,
+		<span>성수기 걱정없는 트래픽 제공</span>,
+		<span>수익 수수료 없음</span>,
+		<span>매출 수수료 없음</span>
+	],
+	jandaGold: [
+		'홈페이지 맞춤 디자인 제작',
+		'홈페이지 맞춤 기능 제작',
+		<JDtypho color="point">타사 상품과의 연동</JDtypho>,
+		<span>기본 제공 범위 이외의 요청사항</span>
+	],
+	price_policy_detail: '요금표 자세히보기'
 };

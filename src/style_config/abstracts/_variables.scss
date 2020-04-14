@@ -1,4 +1,7 @@
 // superTiny => tiny => small => normal => large => huge => largest;
+@function space($number) {
+	@return ($number * 0.4rem);
+}
 
 // ⭐️ Style Rule
 
@@ -100,14 +103,14 @@ $grey-text-color: $grey-level5 !default;
 $curtain-color: rgba(0, 0, 0, 0.78) !default; // 사이드 네비와 모달의 화면 가림색
 
 // 📖 ---- 표준 단위
-$doc-section-space: 0.4rem * 12 !default;
-$standard-largest-space: 0.4rem * 7 !default;
-$standard-huge2-space: 0.4rem * 6 !default;
-$standard-huge-space: 0.4rem * 5 !default;
-$standard-large-space: 0.4rem * 4 !default;
-$standard-space: 0.4rem * 3 !default;
-$standard-small-space: 0.4rem * 2 !default;
-$standard-tiny-space: 0.4rem !default;
+$doc-section-space: space(12) !default;
+$standard-largest-space: space(7) !default;
+$standard-huge2-space: space(6) !default;
+$standard-huge-space: space(5) !default;
+$standard-large-space: space(4) !default;
+$standard-space: space(3) !default;
+$standard-small-space: space(2) !default;
+$standard-tiny-space: space(1) !default;
 $standard-superTiny-space: 0.25rem !default;
 // --- 표준 규격
 $standard-margin-bottom: $standard-space !default;

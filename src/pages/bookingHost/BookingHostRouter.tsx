@@ -12,7 +12,6 @@ import "./BookingHostRouter.scss";
 import classnames from "classnames";
 import { openChannelTok } from "../../utils/channelTok";
 import {
-  SelectProducts,
   DashBoard,
   MyPage,
   SignUp,
@@ -142,11 +141,6 @@ const JDbookingHost: React.FC<IProps> = ({
     {
       path: "/dashboard",
       Component: DashBoard,
-      condition: houseExists
-    },
-    {
-      path: "/products",
-      Component: SelectProducts,
       condition: houseExists
     },
     {
