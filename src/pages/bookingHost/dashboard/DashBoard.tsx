@@ -35,15 +35,15 @@ const DashBoard: React.SFC<Iprops> = ({ context }) => {
   const [loading, setLoading] = useState(true);
   const { house } = context;
 
-  const MemoDaySalesWrap = useMemo(
-    () => <DaySalesWrap context={context} />,
-    []
-  );
+  // const MemoDaySalesWrap = useMemo(
+  //   () => <DaySalesWrap context={context} />,
+  //   []
+  // );
 
-  const MemoDayCheckInWrap = useMemo(
-    () => <DayCheckInWrap context={context} />,
-    []
-  );
+  // const MemoDayCheckInWrap = useMemo(
+  //   () => <DayCheckInWrap context={context} />,
+  //   []
+  // );
 
   const MemoDailyAssigWrap = useMemo(() => {
     return (
@@ -132,7 +132,7 @@ const DashBoard: React.SFC<Iprops> = ({ context }) => {
           </div>
           {/* 통계 */}
 
-          {loading || (
+          {/* {loading || (
             <div className="flex-grid flex-grid--start">
               <div className="flex-grid__col col--full-4 col--md-12 JDstandard-space">
                 <Card className="dashboard__dailyStaticsCard">
@@ -147,7 +147,7 @@ const DashBoard: React.SFC<Iprops> = ({ context }) => {
                 </Card>
               </div>
             </div>
-          )}
+          )} */}
         </div>
       </PageBody>
       {/* 데일리 어시그 컨트롤 툴팁 */}

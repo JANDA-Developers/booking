@@ -51,9 +51,9 @@ const GuestSearchInput: React.FC<IProps> = ({
     });
   };
 
-  useSubScribeNotification(item => {
-    if (item.house._id === houseId) openBookingModal(item._id);
-  }, context);
+  // useSubScribeNotification(item => {
+  //   if (item.house._id === houseId) openBookingModal(item._id);
+  // }, context);
 
   const unHilightTarget = () => {
     $(".assigItem--searched").removeClass("assigItem--searched");
