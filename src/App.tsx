@@ -21,6 +21,8 @@ import LoadBalancer from "./pages/loadBalancer/LoadBalancer";
 import { getFromUrl } from "./utils/utils";
 import Tracker from "./Tracker";
 import JDtypho from "./atoms/typho/Typho";
+import "./App.scss";
+
 const { version } = require("../package.json");
 
 sessionStorage.setItem("app-version", version || "");
