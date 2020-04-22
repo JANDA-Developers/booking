@@ -49,7 +49,7 @@ const JDpreloader: React.FC<IPreloaderConfigProps> = ({
         {...props}
         version="1.1"
         className={classes}
-        xmlns="http://www.w3.org/2000/svg"
+        xmlns="https://www.w3.org/2000/svg"
         x="0px"
         y="0px"
         width="30px"

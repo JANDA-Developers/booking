@@ -43,7 +43,7 @@ const AddressSearcher: React.FC<IProps> = ({
   handleOnFind,
   onTypeChange
 }) => {
-  const addressGeturl = `http://www.juso.go.kr/addrlink/addrLinkApi.do?currentPag<e=1&resultType=json&countPerPage=100&keyword=${address}&confmKey=${process.env.REACT_APP_API_ADDRESS_API_KEY}`;
+  const addressGeturl = `https://www.juso.go.kr/addrlink/addrLinkApi.do?currentPag<e=1&resultType=json&countPerPage=100&keyword=${address}&confmKey=${process.env.REACT_APP_API_ADDRESS_API_KEY}`;
   const [addressData, addressLoading, getAddressError, addressGet] = useFetch(
     addressGeturl
   );

@@ -83,8 +83,6 @@ interface IProps {
   };
 }
 
-openChannelTok();
-
 const JDbookingHost: React.FC<IProps> = ({
   GetUserInfo: { GetMyProfile: { user = DEFAULT_USER } = {}, loading } = {},
   langHook
@@ -111,6 +109,7 @@ const JDbookingHost: React.FC<IProps> = ({
   // 지원하지 않는 브라우저로 부터 접속했는지 확인합니다.
 
   useEffect(() => {
+    openChannelTok();
     browserDetect();
   }, []);
 
