@@ -2,18 +2,19 @@ import React from "react";
 import TooltipList, {
   TooltipButtons
 } from "../../../atoms/tooltipList/TooltipList";
-import Button from "../../../atoms/button/Button";
-import { ReactTooltip } from "../../../atoms/tooltip/Tooltip";
 import { LANG } from "../../../hooks/hook";
+import { TPlaceInfo } from "./DragItem";
+
 interface Iprops {
-  blockRoomBtnCallBack: (info: any) => void;
+  blockRoomBtnCallBack: (info: TPlaceInfo) => void;
 }
 
 const PlaceTooltip: React.FC<Iprops> = ({ blockRoomBtnCallBack }) => {
   return (
     <TooltipList
       unPadding
-      getContent={(info: string) => {
+      getContent={(infoString: string) => {
+        const info: TPlaceInfo = JSON.parse(infoString);
         return (
           <TooltipButtons
             Buttons={[

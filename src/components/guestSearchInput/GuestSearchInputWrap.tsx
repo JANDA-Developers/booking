@@ -41,11 +41,7 @@ const GuestSearchInputWrap: React.FC<IProps> = ({ context }) => {
   const bookingData =
     queryDataFormater(data, "GetBookings", "result", undefined) || undefined;
 
-  const { data: bookings, pageInfo } = getFromResult(
-    bookingData,
-    "bookings",
-    undefined
-  );
+  const { data: bookings } = getFromResult(bookingData, "bookings", undefined);
 
   return (
     <GuestSearchInput

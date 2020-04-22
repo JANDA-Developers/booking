@@ -3,12 +3,6 @@ import { toast } from "react-toastify";
 import React, { useState, useEffect, useRef } from "react";
 import { ProvidedProps, GoogleApiWrapper } from "google-maps-react";
 import {
-  reverseGeoCode,
-  geoCode,
-  loadMap,
-  getLocationFromMap
-} from "./mapHelper";
-import {
   useInput,
   useSelect,
   useFetch,
@@ -31,15 +25,29 @@ import EerrorProtect from "../../../utils/errProtect";
 import optionFineder from "../../../utils/optionFinder";
 import { JDsearchInput, ISearchViewData } from "@janda-com/front";
 import JDtypho from "../../../atoms/typho/Typho";
+import {
+  getLocationFromMap,
+  loadMap,
+  geoCode,
+  reverseGeoCode,
+  JDgoogleMapWraper,
+  changeMapBySearch,
+  TLocation
+} from "./components/googleMapHelper";
+import AddressSearcher from "../houseConfig/components/AddressSearcher";
+
+const defaultData = {
+  name: "",
+  houseType: null,
+  location: {
+    addressDetail: "",
+    address: "",
+    lat: 0,
+    lng: 0
+  }
+};
 
 let map: google.maps.Map | null = null;
-
-type TLocation = {
-  addressDetail: string;
-  address: string;
-  lat: number;
-  lng: number;
-};
 
 type houseData = {
   name: string;
@@ -64,17 +72,6 @@ const CreateHouse: React.FC<IProps> = ({
   submitRef,
   muLoading
 }) => {
-  const defaultData = {
-    name: "",
-    houseType: null,
-    location: {
-      addressDetail: "",
-      address: "",
-      lat: 0,
-      lng: 0
-    }
-  };
-
   const { name, houseType, location: defaultLocation } =
     houseData || defaultData;
   const houseNameHoook = useInput(name);
@@ -88,23 +85,6 @@ const CreateHouse: React.FC<IProps> = ({
   const mapRef = useRef(null);
 
   if (getAddressError) console.error(getAddressError);
-
-  const dataMapper = (data?: any[]): ISearchViewData[] => {
-    if (!data) return [];
-    if (typeof data !== "object") return [];
-    if (!data.map) return [];
-
-    const sliced = data.splice(0, 20);
-    return sliced.map((d, i) => {
-      const { zipNo, rnMgtSn, emdNo, roadAddr, jibunAddr, roadFullAddr } = d;
-      return {
-        id: s4(),
-        title: roadAddr,
-        describe: jibunAddr,
-        tag: zipNo
-      };
-    });
-  };
 
   // 제출전 입력값이 정확한지 검사
   const submitValidation = () => {
@@ -135,72 +115,18 @@ const CreateHouse: React.FC<IProps> = ({
     return true;
   };
 
-  // 선택가능한 숙소타입 목록
-  const selectTypeHouse = [
-    { value: "GUEST_HOUSE", label: LANG("guestHouse") },
-    { value: "HOTEL", label: LANG("hotel") },
-    { value: "MOTEL", label: LANG("motel") },
-    { value: "PENSION", label: LANG("pension") },
-    { value: "HOSTEL", label: LANG("hostel") },
-    { value: "YOUTH_HOSTEL", label: LANG("youth_hostel") }
-  ];
-
-  // 지도 드래그가 끝날때 좌표값을 받아서 저장함
-  const handleDragEnd = async () => {
-    if (!map) return;
-    const { lat, lng, reversedAddress } = await getLocationFromMap(map);
-    setLocation({
-      ...location,
-      address: reversedAddress as string,
-      lat,
-      lng
-    });
-  };
-
-  // 구글맵 네비 현재위치 조회 성공시
-  const handleGeoSucces = (positon: Position) => {
-    const {
-      coords: { latitude, longitude }
-    } = positon;
-    map = loadMap(latitude, longitude, mapRef, google);
-    if (!map) return;
-    map.addListener("dragend", handleDragEnd);
-  };
-
-  // 인풋서치 이후에 구글맵 위치를 변환
-  const changeMapBySearch = async (value: string | null) => {
-    if (!value || !map) return;
-    const result = await geoCode(value);
-    if (result !== false) {
-      const { lat, lng } = result;
-      setLocation({
-        ...location,
-        address: value,
-        lat,
-        lng
-      });
-      map.panTo({ lat, lng });
-    }
-  };
-
   // 서치인풋에 값이 제출될때마다.
-  const handleOnFind = (data: ISearchViewData) => {
-    const { title } = data;
-    onTypeChange(title || "");
+  const handleOnFind = (adress: string) => {
+    changeMapBySearch(adress, map, location, setLocation);
+    onTypeChange(adress || "");
   };
 
   // 서치인풋에 값을 입력할때마다.
   const onTypeChange = (value: string = "") => {
-    changeMapBySearch(value);
     setLocation({
       ...location,
       address: value
     });
-  };
-
-  // 도로명주소 가져오기
-  const handleGeoError = (error: PositionError) => {
-    console.error(error);
   };
 
   // 도로명주소 가져오기
@@ -209,31 +135,7 @@ const CreateHouse: React.FC<IProps> = ({
   }, [addressGeturl]);
 
   // 구글맵 첫 생성 (현재위치)
-  useEffect(() => {
-    navigator.geolocation.getCurrentPosition(
-      async inlocation => {
-        handleGeoSucces(inlocation);
-        const {
-          coords: { latitude: lat, longitude: lng }
-        } = inlocation;
-        if (map) {
-          map.panTo({ lat: lat || 35.1484595, lng: lng || 129.0632157 });
-        }
-        const address = await reverseGeoCode(lat, lng);
-        if (address) {
-          setLocation({
-            ...location,
-            lat,
-            lng,
-            address
-          });
-        }
-      },
-      prop => {
-        handleGeoError(prop);
-      }
-    );
-  }, []);
+  useEffect(() => {}, []);
 
   const createHouseSubmit = () => {
     if (submitValidation()) {
@@ -271,41 +173,20 @@ const CreateHouse: React.FC<IProps> = ({
           <SelectBox
             id="HouseType"
             {...typeSelectHook}
-            options={selectTypeHouse}
+            options={HOUSE_TYPE_OP}
             isOpen
             label={LANG("select_house_type")}
           />
         </div>
         <div className="JDz-index-2 flex-grid__col col--full-8 col--md-12">
-          <JDsearchInput
-            inputProp={{
-              label: LANG("house_address"),
-              mr: "no"
+          <AddressSearcher
+            onTypeChange={(s: string = "") => {
+              location.address = s;
+              setLocation({ ...location });
             }}
-            head={<div>
-              <h6>{LANG("adress_search")}</h6>
-              <JDtypho>{addressData.results?.common.errorMessage || ""}</JDtypho>
-            </div>}
-            onSelectData={handleOnFind}
-            onSearchChange={onTypeChange}
-            searchValue={location.address}
-            dataList={dataMapper(addressData.results?.juso)}
+            address={location.address}
+            handleOnFind={handleOnFind}
           />
-          {/* <SearchInput
-            id="Address"
-            maxCount={10}
-            filter={false}
-            feedBackMessage={addressData.results?.common.errorMessage || ""}
-            dataList={addressData.results && addressData.results.juso}
-            label={LANG("house_address")}
-            asId="bdMgtSn"
-            asName="roadAddr"
-            asDetail="jibunAddr"
-            isLoading={addressLoading}
-            onFindOne={handleOnFind}
-            onTypeChange={onTypeChange}
-            onTypeValue={location.address}
-          /> */}
         </div>
         <div className="flex-grid__col col--full-4 col--md-12">
           <InputText
@@ -336,14 +217,4 @@ const CreateHouse: React.FC<IProps> = ({
   );
 };
 
-export default EerrorProtect<IProps>(
-  // @ts-ignore
-  GoogleApiWrapper({
-    apiKey: process.env.REACT_APP_API_MAP_KEY || "",
-    LoadingContainer: () => (
-      <div style={{ height: "85vh" }}>
-        <Preloader floating size={FLOATING_PRELOADER_SIZE} loading={true} />
-      </div>
-    )
-  })(CreateHouse)
-);
+export default JDgoogleMapWraper(CreateHouse);

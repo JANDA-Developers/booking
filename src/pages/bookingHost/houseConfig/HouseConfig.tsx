@@ -12,20 +12,20 @@ import JDselect from "../../../atoms/forms/selectBox/SelectBox";
 import { isMaxOver } from "../../../utils/inputValidations";
 // @ts-ignore
 import omitDeep from "omit-deep";
-import {
-  HOUSE_TYPE_OP,
-  FLOATING_PRELOADER_SIZE,
-  OPTIONAL_APPLY_PAYMETHOD
-} from "../../../types/const";
+import { HOUSE_TYPE_OP, OPTIONAL_APPLY_PAYMETHOD } from "../../../types/const";
 import AddressSearcher from "./components/AddressSearcher";
 import GoogleMap from "../createHouse/components/googleMap";
-import { loadMap, getLocationFromMap, geoCode } from "../createHouse/mapHelper";
-import EerrorProtect from "../../../utils/errProtect";
-import Preloader from "../../../atoms/preloader/Preloader";
-import { GoogleApiWrapper, ProvidedProps } from "google-maps-react";
+import { ProvidedProps } from "google-maps-react";
 import { IContext } from "../BookingHostRouter";
 import { UpdateHouseInput } from "../../../types/api";
 import optionFineder from "../../../utils/optionFinder";
+import {
+  JDgoogleMapWraper,
+  changeMapBySearch,
+  getLocationFromMap,
+  loadMap
+} from "../createHouse/components/googleMapHelper";
+import { DEFAULT_BANK_INFO } from "../../../types/defaults";
 
 let map: google.maps.Map | null = null;
 
@@ -47,6 +47,7 @@ const HouseConfig: React.FC<IProps & ProvidedProps> = ({
     payMethods
   } = house.bookingPayInfo!;
 
+  // Multiple UseSelect
   const [applyPayMethods, setApplyPayMethods] = useState(
     payMethods?.map(p => ({
       label: LANG(p),
@@ -54,11 +55,7 @@ const HouseConfig: React.FC<IProps & ProvidedProps> = ({
     }))
   );
   const [bankAccountInfo, setBankAccountInfo] = useState(
-    defaultBankAcountInfo || {
-      bankName: "",
-      accountNum: "",
-      accountHolder: ""
-    }
+    defaultBankAcountInfo || DEFAULT_BANK_INFO
   );
   const nameHook = useInput(name);
   const houseTypeHook = useSelect(optionFineder(HOUSE_TYPE_OP, houseType));
@@ -70,33 +67,17 @@ const HouseConfig: React.FC<IProps & ProvidedProps> = ({
   });
   const mapRef = useRef<HTMLDivElement>(null);
 
+  const handleOnFind = (value: string | null) => {
+    changeMapBySearch(value, map, location, setLocation);
+    location.address = value || "";
+    setLocation({ ...location });
+  };
+
   // 지도 드래그가 끝날때 좌표값을 받아서 저장함
   const handleDragEnd = async () => {
     if (!map) return;
     const { lat, lng, reversedAddress } = await getLocationFromMap(map);
     setLocation({ ...location, address: reversedAddress, lat, lng });
-  };
-
-  // 인풋서치 이후에 구글맵 위치를 변환
-  const changeMapBySearch = async (value: string | null) => {
-    if (!value || !map) return;
-    const result = await geoCode(value);
-    if (result === false) return;
-    const { lat, lng } = result;
-
-    setLocation({
-      ...location,
-      address: value,
-      lat,
-      lng
-    });
-    map.panTo({ lat, lng });
-  };
-
-  const handleOnFind = (value: string | null) => {
-    changeMapBySearch(value);
-    location.address = value || "";
-    setLocation({ ...location });
   };
 
   const handleUpdateBtn = (updateFlag: "bankAccountInfo" | "basicInfo") => {
@@ -120,18 +101,10 @@ const HouseConfig: React.FC<IProps & ProvidedProps> = ({
     }
   };
 
-
-
-  console.log("mapRef");
   useEffect(() => {
-    console.log(mapRef);
-    console.log("???!");
-    if (!mapRef.current) return;
-    map = loadMap(location.lat, location.lng, mapRef, google);
-    if (!map) return;
-    map.addListener("dragend", handleDragEnd);
-
-  });
+    map = loadMap(lat, lng, mapRef, google);
+    map?.addListener("dragend", handleDragEnd);
+  }, []);
 
   return (
     <div className="houseConfigWrap">
@@ -164,7 +137,7 @@ const HouseConfig: React.FC<IProps & ProvidedProps> = ({
                   label={LANG("houseName")}
                 />
               </div>
-              <div className="flex-grid__col col--full-6 col--wmd-12">
+              <div className="flex-grid__col JDz-index-3 col--full-6 col--wmd-12">
                 <JDselect
                   {...houseTypeHook}
                   id="HouseType"
@@ -270,14 +243,4 @@ const HouseConfig: React.FC<IProps & ProvidedProps> = ({
   );
 };
 
-export default EerrorProtect<IProps>(
-  // @ts-ignore
-  GoogleApiWrapper({
-    apiKey: process.env.REACT_APP_API_MAP_KEY || "",
-    LoadingContainer: () => (
-      <div style={{ height: "85vh" }}>
-        <Preloader floating size={FLOATING_PRELOADER_SIZE} loading={true} />
-      </div>
-    )
-  })(HouseConfig)
-);
+export default JDgoogleMapWraper(HouseConfig);

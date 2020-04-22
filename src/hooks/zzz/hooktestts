@@ -1,7 +1,0 @@
-// import { useImageUploader } from "../hook";
-
-// test("FileUploadeHookTest", () => {
-// const {onChangeFile,file,isError} = useImageUploader();
-// onChangeFile()
-// });
-1

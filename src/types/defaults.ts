@@ -374,3 +374,9 @@ export const DEFAULT_PAGE_INFO: JDpageInfo = {
   rowCount: 0,
   totalPage: 0
 };
+
+export const DEFAULT_BANK_INFO = {
+  bankName: "",
+  accountNum: "",
+  accountHolder: ""
+};

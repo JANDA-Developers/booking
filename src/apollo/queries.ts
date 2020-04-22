@@ -1072,6 +1072,7 @@ export const GET_ALL_GUEST_AND_BLOCK = gql`
       error
       blocks {
         ...Fblock
+        updatedAt
         room {
           ...Froom
         }
@@ -1253,6 +1254,26 @@ export const GET_BOOKINGS_PHONE_NUMBERS = gql`
         bookings {
           _id
           phoneNumber
+        }
+      }
+    }
+  }
+`;
+
+export const GET_BOOKINGS_FOR_NOTI = gql`
+  query getBookingsForNoti($param: GetBookingsInput!) {
+    GetBookings(param: $param) {
+      ok
+      error
+      result {
+        bookings {
+          _id
+          name
+          house {
+            _id
+            name
+          }
+          madeByHost
         }
       }
     }

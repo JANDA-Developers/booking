@@ -2573,6 +2573,49 @@ export interface getPhoneNumbersVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: getBookingsForNoti
+// ====================================================
+
+export interface getBookingsForNoti_GetBookings_result_bookings_house {
+  __typename: "House";
+  _id: string;
+  name: string;
+}
+
+export interface getBookingsForNoti_GetBookings_result_bookings {
+  __typename: "Booking";
+  _id: string;
+  name: any;
+  house: getBookingsForNoti_GetBookings_result_bookings_house;
+  madeByHost: boolean | null;
+}
+
+export interface getBookingsForNoti_GetBookings_result {
+  __typename: "GetBookingsResultData";
+  bookings: getBookingsForNoti_GetBookings_result_bookings[] | null;
+}
+
+export interface getBookingsForNoti_GetBookings {
+  __typename: "GetBookingsResponse";
+  ok: boolean;
+  error: string | null;
+  result: getBookingsForNoti_GetBookings_result | null;
+}
+
+export interface getBookingsForNoti {
+  GetBookings: getBookingsForNoti_GetBookings;
+}
+
+export interface getBookingsForNotiVariables {
+  param: GetBookingsInput;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: getBookingMemos
 // ====================================================
 
@@ -5307,6 +5350,9 @@ export interface changePassword_ChangePassword {
 }
 
 export interface changePassword {
+  /**
+   * 로그인 상태에서 패스워드 변경
+   */
   ChangePassword: changePassword_ChangePassword;
 }
 

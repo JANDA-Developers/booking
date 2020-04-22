@@ -2439,6 +2439,18 @@
             "deprecationReason": null
           },
           {
+            "name": "madeByHost",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "isNew",
             "description": "",
             "args": [],
@@ -21332,7 +21344,7 @@
           },
           {
             "name": "ChangePassword",
-            "description": "",
+            "description": "로그인 상태에서 패스워드 변경",
             "args": [
               {
                 "name": "currentPassword",

@@ -6,202 +6,203 @@
 @import "../../../../atoms/animation/ComponentAnimations.scss";
 
 html {
-	@extend %JDscrollbar;
-	-webkit-overflow-scrolling: touch;
+  @extend %JDscrollbar;
+  -webkit-overflow-scrolling: touch;
+  overflow-x: hidden;
 }
 
 @keyframes fadeInUp {
-	from {
-		opacity: 0;
-		-webkit-transform: translate3d(0, 100%, 0);
-		transform: translate3d(0, 100%, 0);
-	}
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(0, 100%, 0);
+    transform: translate3d(0, 100%, 0);
+  }
 
-	to {
-		opacity: 1;
-		-webkit-transform: translate3d(0, 0, 0);
-		transform: translate3d(0, 0, 0);
-	}
+  to {
+    opacity: 1;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
 }
 
 @-webkit-keyframes fadeInUp {
-	from {
-		opacity: 0;
-		-webkit-transform: translate3d(0, 100%, 0);
-		transform: translate3d(0, 100%, 0);
-	}
+  from {
+    opacity: 0;
+    -webkit-transform: translate3d(0, 100%, 0);
+    transform: translate3d(0, 100%, 0);
+  }
 
-	to {
-		opacity: 1;
-		-webkit-transform: translate3d(0, 0, 0);
-		transform: translate3d(0, 0, 0);
-	}
+  to {
+    opacity: 1;
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+  }
 }
 
 #AssigTimeline {
-	.rct-outer {
-		transition: all 1s ease-in-out;
-		overflow: hidden;
+  .rct-outer {
+    transition: all 1s ease-in-out;
+    overflow: hidden;
 
-		@include response($phablet) {
-			transition-duration: 0s;
-		}
-	}
+    @include response($phablet) {
+      transition-duration: 0s;
+    }
+  }
 
-	.rct-header-root {
-		top: $header-height;
+  .rct-header-root {
+    top: $header-height;
 
-		@include response($phablet) {
-			top: 0;
-			transition-duration: 1s;
-		}
-		z-index: 999999;
-	}
+    @include response($phablet) {
+      top: 0;
+      transition-duration: 1s;
+    }
+    z-index: 999999;
+  }
 
-	.assigTimeline__titleSection {
-		position: relative;
-		.assigTimeline__mainPreloder {
-			position: absolute;
-			bottom: 0;
-			z-index: $z-index-9;
-		}
-	}
+  .assigTimeline__titleSection {
+    position: relative;
+    .assigTimeline__mainPreloder {
+      position: absolute;
+      bottom: 0;
+      z-index: $z-index-9;
+    }
+  }
 
-	.assigTimeline__placeHolderWrap {
-		position: relative;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-	}
-	.assigTimeline__placeHolder {
-		position: absolute;
-	}
-	.rct-horizontal-lines {
-		& > div:last-child {
-			border-bottom: none;
-		}
-	}
+  .assigTimeline__placeHolderWrap {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .assigTimeline__placeHolder {
+    position: absolute;
+  }
+  .rct-horizontal-lines {
+    & > div:last-child {
+      border-bottom: none;
+    }
+  }
 
-	.rct-sidebar {
-		overflow: hidden;
-		white-space: normal;
-		display: inline-block;
-		vertical-align: top;
-		position: relative;
-		box-sizing: border-box;
-		border-right: none;
+  .rct-sidebar {
+    overflow: hidden;
+    white-space: normal;
+    display: inline-block;
+    vertical-align: top;
+    position: relative;
+    box-sizing: border-box;
+    border-right: none;
 
-		// 사이드바에 줄 하나 하나
-		.rct-sidebar-row {
-			overflow: hidden;
-			white-space: nowrap;
-			text-overflow: ellipsis;
-			box-sizing: content-box;
-			margin: 0;
-			border-bottom: 1px dotted $grey-opacity3;
+    // 사이드바에 줄 하나 하나
+    .rct-sidebar-row {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      box-sizing: content-box;
+      margin: 0;
+      border-bottom: 1px dotted $grey-opacity3;
 
-			&-odd {
-				// odd
-			}
-			&-even {
-				// even
-			}
-		}
-	}
+      &-odd {
+        // odd
+      }
+      &-even {
+        // even
+      }
+    }
+  }
 
-	@extend %timelineTopLeftIconBox;
+  @extend %timelineTopLeftIconBox;
 
-	.rct-sidebar {
-	}
+  .rct-sidebar {
+  }
 
-	.group {
-		&--lastOfRoom {
-			border-bottom: 1px solid $grey-level3;
-		}
-		&--lastOfRoomType {
-			border-bottom: 1px solid $grey-level4;
-		}
-	}
+  .group {
+    &--lastOfRoom {
+      border-bottom: 1px solid $grey-level3;
+    }
+    &--lastOfRoomType {
+      border-bottom: 1px solid $grey-level4;
+    }
+  }
 
-	@include response($phablet) {
-		.assigTimeline__timelineWrap {
-			border-left: none !important;
-			border-right: none !important;
-		}
-	}
+  @include response($phablet) {
+    .assigTimeline__timelineWrap {
+      border-left: none !important;
+      border-right: none !important;
+    }
+  }
 }
 .assigTimeline__timelineBody {
-	padding-top: 0px;
-	@include response($phablet) {
-		padding: 0px;
-	}
+  padding-top: 0px;
+  @include response($phablet) {
+    padding: 0px;
+  }
 }
 
 @-webkit-keyframes grdAnime {
-	0% {
-		background-position: 0 0;
-	}
-	100% {
-		background-position: 200% 0;
-	}
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
 }
 @keyframes grdAnime {
-	0% {
-		background-position: 0 0;
-	}
-	100% {
-		background-position: 200% 0;
-	}
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
 }
 #assigTimeline__verticalPreloader {
-	display: none !important;
-	position: fixed;
-	bottom: 5%;
-	left: 50%;
+  display: none !important;
+  position: fixed;
+  bottom: 5%;
+  left: 50%;
 }
 
 #root {
-	// 로딩 (첫로딩)
-	.assigTimeline {
-		&__timelineWrap {
-			border: 2px solid $outborder-color;
-		}
+  // 로딩 (첫로딩)
+  .assigTimeline {
+    &__timelineWrap {
+      border: 2px solid $outborder-color;
+    }
 
-		.rct-outer {
-			width: 100%;
-		}
+    .rct-outer {
+      width: 100%;
+    }
 
-		&--empty {
-			.react-calendar-timeline {
-				display: none !important;
-			}
-		}
+    &--empty {
+      .react-calendar-timeline {
+        display: none !important;
+      }
+    }
 
-		&--foldSidebar {
-			.assigGroups__place,
-			.assigGroups__roomType {
-				display: none;
-			}
-			.assigGroups__room {
-				left: 0px;
-				width: 30px;
-			}
-		}
+    &--foldSidebar {
+      .assigGroups__place,
+      .assigGroups__roomType {
+        display: none;
+      }
+      .assigGroups__room {
+        left: 0px;
+        width: 30px;
+      }
+    }
 
-		&--loading {
-			.rct-outer {
-				height: 0.25rem * 90 !important;
-				@extend %shining-loading-bg;
-			}
-			.group,
-			.rct-scroll {
-				z-index: 1;
-				opacity: 0;
-			}
+    &--loading {
+      .rct-outer {
+        height: 0.25rem * 90 !important;
+        @extend %shining-loading-bg;
+      }
+      .group,
+      .rct-scroll {
+        z-index: 1;
+        opacity: 0;
+      }
 
-			.rct-sidebar {
-				opacity: 0;
-			}
-		}
-	}
+      .rct-sidebar {
+        opacity: 0;
+      }
+    }
+  }
 }

@@ -15,6 +15,8 @@ import selectOpCreater from "../../../../../utils/selectOptionCreater";
 import JDbadge from "../../../../../atoms/badge/Badge";
 import { IReservationHooks } from "../../declation";
 
+const optionZero = 1;
+
 interface IProps {
   className?: string;
   roomTypeData: IRoomType;
@@ -56,6 +58,7 @@ const RoomTypeCard: React.SFC<IProps> = ({
     male: false,
     count: false
   });
+
   const classes = classNames("roomTypeCard", className, {
     "roomTypeCard--last": lastCard
   });
@@ -77,7 +80,7 @@ const RoomTypeCard: React.SFC<IProps> = ({
               : 0;
 
           return selectOpCreater({
-            count: availableCount.maleCount + 1 + prevSelect,
+            count: availableCount.maleCount + optionZero + prevSelect,
             labelAdd: genderKey
           });
         }
@@ -91,7 +94,7 @@ const RoomTypeCard: React.SFC<IProps> = ({
               ? guestCountValue.female
               : 0;
           return selectOpCreater({
-            count: availableCount.femaleCount + 1 + prevSelect,
+            count: availableCount.femaleCount + optionZero + prevSelect,
             labelAdd: genderKey
           });
         }
@@ -101,7 +104,7 @@ const RoomTypeCard: React.SFC<IProps> = ({
         genderKey = ` ${LANG("room_count")}`;
         if (availableCount.roomCount) {
           return selectOpCreater({
-            count: availableCount.roomCount + 1 + guestCountValue.room,
+            count: availableCount.roomCount + optionZero + guestCountValue.room,
             labelAdd: genderKey
           });
         }
@@ -125,7 +128,8 @@ const RoomTypeCard: React.SFC<IProps> = ({
   const totalCan =
     maleSeleteOption.length +
     femaleSeleteOption.length +
-    roomSeleteOption.length;
+    roomSeleteOption.length -
+    optionZero * 3;
 
   // 이미 선택한 방인지 체크1
   const isSelectedRoom = ((): boolean => {

@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useMemo } from "react";
 import { onCompletedMessage } from "../../utils/utils";
 import {
   allocateGuestToRoom,
@@ -15,11 +15,8 @@ import {
   deleteBlock,
   updateBooking,
   updateBookingVariables,
-  getAllRoomType,
-  getAllRoomTypeVariables,
   getGuests_GetBlocks_blocks,
   getGuests_GetGuests_guests,
-  getAllRoomType_GetAllRoomType_roomTypes,
   getGuests,
   getGuestsVariables
 } from "../../types/api";
@@ -32,21 +29,19 @@ import {
   DELETE_BLOCK,
   DELETE_BOOKING,
   UPDATE_BOOKING,
-  GET_ALL_GUEST_AND_BLOCK,
-  GET_ALL_ROOMTYPES
+  GET_ALL_GUEST_AND_BLOCK
 } from "../../apollo/queries";
 import { queryDataFormater } from "../../utils/utils";
 import { useDayPicker, IUseDayPicker, LANG } from "../../hooks/hook";
-import { IContext } from "../../pages/bookingHost/BookingHostRouter";
 import DailyAssig from "./DailyAssig";
 import { NetworkStatus } from "apollo-client";
-import {
-  IDailyAssigDataControl
-} from "../../pages/bookingHost/assig/components/assigIntrerface";
+import { IDailyAssigDataControl } from "../../pages/bookingHost/assig/components/assigIntrerface";
 import moment from "moment";
 import { useMutation, useQuery } from "@apollo/react-hooks";
 import { BookingStatus } from "../../types/enum";
 import { getOperationName } from "apollo-link";
+import { TDailyGroup } from "./groupDataManufacter";
+import { IDailyWrapWrapProp } from "./DailyAssigWrapWrap";
 
 export interface IDailyAssigProp {
   networkStatus: NetworkStatus;
@@ -56,7 +51,7 @@ export interface IDailyAssigProp {
   blocksData: getGuests_GetBlocks_blocks[];
   guestsData: getGuests_GetGuests_guests[];
   dayPickerHook: IUseDayPicker;
-  roomTypesData: getAllRoomType_GetAllRoomType_roomTypes[];
+  roomTypesData: TDailyGroup[];
   itemDatas: (getGuests_GetGuests_guests | getGuests_GetBlocks_blocks)[];
 }
 
@@ -65,16 +60,12 @@ export interface IChainProps {
   onRederCallBack?: () => void;
 }
 
-interface IProps extends IChainProps {
-  context: IContext;
-  date: Date;
-}
 interface WrapProp {
-  roomTypesData: getAllRoomType_GetAllRoomType_roomTypes[];
+  roomTypesData: TDailyGroup[];
   roomTypeLoading: boolean;
 }
 
-const DailyAssigWrap: React.FC<IProps & WrapProp> = ({
+const DailyAssigWrap: React.FC<IDailyWrapWrapProp & WrapProp> = ({
   date,
   context,
   roomTypesData,
@@ -109,6 +100,8 @@ const DailyAssigWrap: React.FC<IProps & WrapProp> = ({
     pollInterval: houseConfig.pollingPeriod?.period || 300000
   });
 
+  const refetch = [getOperationName(GET_ALL_GUEST_AND_BLOCK) || ""];
+
   const guestsData = queryDataFormater(data, "GetGuests", "guests", []) || [];
   const blocksData = queryDataFormater(data, "GetBlocks", "blocks", []) || [];
 
@@ -117,8 +110,8 @@ const DailyAssigWrap: React.FC<IProps & WrapProp> = ({
     allocateGuestToRoomVariables
   >(ALLOCATE_GUEST_TO_ROOM, {
     client,
+    refetchQueries: refetch,
     ignoreResults: true,
-    refetchQueries: [getOperationName(GET_ALL_GUEST_AND_BLOCK) || ""],
     onCompleted: ({ AllocateGuestToRoom }) => {
       onCompletedMessage(
         AllocateGuestToRoom,
@@ -134,7 +127,7 @@ const DailyAssigWrap: React.FC<IProps & WrapProp> = ({
     updateBookingVariables
   >(UPDATE_BOOKING, {
     client,
-    refetchQueries: [getOperationName(GET_ALL_GUEST_AND_BLOCK) || ""],
+    refetchQueries: refetch,
     ignoreResults: true
   });
 
@@ -144,7 +137,7 @@ const DailyAssigWrap: React.FC<IProps & WrapProp> = ({
     deleteGuestsVariables
   >(DELETE_GUEST, {
     client,
-    refetchQueries: [getOperationName(GET_ALL_GUEST_AND_BLOCK) || ""],
+    refetchQueries: refetch,
     ignoreResults: true,
     onCompleted: ({ DeleteGuests }) => {
       onCompletedMessage(
@@ -161,8 +154,8 @@ const DailyAssigWrap: React.FC<IProps & WrapProp> = ({
     createBlockVariables
   >(CREATE_BLOCK, {
     client,
+    refetchQueries: refetch,
     ignoreResults: true,
-    refetchQueries: [getOperationName(GET_ALL_GUEST_AND_BLOCK) || ""],
     onCompleted: ({ CreateBlock }) => {
       onCompletedMessage(
         CreateBlock,
@@ -178,9 +171,8 @@ const DailyAssigWrap: React.FC<IProps & WrapProp> = ({
     deleteBlockVariables
   >(DELETE_BLOCK, {
     client,
+    refetchQueries: refetch,
     ignoreResults: true,
-    refetchQueries: [getOperationName(GET_ALL_GUEST_AND_BLOCK) || ""],
-
     onCompleted: ({ DeleteBlock }) => {
       onCompletedMessage(
         DeleteBlock,
@@ -196,9 +188,8 @@ const DailyAssigWrap: React.FC<IProps & WrapProp> = ({
     deleteBookingVariables
   >(DELETE_BOOKING, {
     client,
-    refetchQueries: [getOperationName(GET_ALL_GUEST_AND_BLOCK) || ""],
-
     ignoreResults: true,
+    refetchQueries: refetch,
     onCompleted: ({ DeleteBooking }) => {
       onCompletedMessage(
         DeleteBooking,
@@ -215,8 +206,7 @@ const DailyAssigWrap: React.FC<IProps & WrapProp> = ({
   >(UPDATE_BLOCK_OPTION, {
     client,
     ignoreResults: true,
-    refetchQueries: [getOperationName(GET_ALL_GUEST_AND_BLOCK) || ""],
-
+    refetchQueries: refetch,
     onCompleted: ({ UpdateBlockOption }) => {
       onCompletedMessage(
         UpdateBlockOption,
@@ -235,6 +225,17 @@ const DailyAssigWrap: React.FC<IProps & WrapProp> = ({
     updateBlockLoading;
 
   const itemDatas = [...guestsData, ...blocksData];
+
+  roomTypesData.forEach(rt => {
+    rt.rooms.forEach(r => {
+      const targets = itemDatas.filter(item => item.room?._id === r._id);
+      r.places.forEach((p, i) => {
+        // @ts-ignore
+        const target = targets.find(item => item.bedIndex === i);
+        p.item = target || null;
+      });
+    });
+  });
 
   const dailyAssigContext: IDailyAssigProp = {
     blocksData,
@@ -258,6 +259,7 @@ const DailyAssigWrap: React.FC<IProps & WrapProp> = ({
     totalMuLoading,
     updateBlockOpMu
   };
+
   return (
     <Fragment>
       <DailyAssig
@@ -270,33 +272,4 @@ const DailyAssigWrap: React.FC<IProps & WrapProp> = ({
   );
 };
 
-const DailyAssigHigher: React.FC<IProps> = ({ context, ...prop }) => {
-  const { langHook, house } = context;
-  const { data: roomData, loading: roomTypeLoading } = useQuery<
-    getAllRoomType,
-    getAllRoomTypeVariables
-  >(GET_ALL_ROOMTYPES, {
-    client,
-    variables: {
-      houseId: house._id
-    }
-  });
-
-  moment.lang(langHook.currentLang);
-
-  const roomTypesData =
-    queryDataFormater(roomData, "GetAllRoomType", "roomTypes", []) || []; // 원본데이터
-
-  return (
-    <div>
-      <DailyAssigWrap
-        context={context}
-        roomTypesData={roomTypesData}
-        roomTypeLoading={roomTypeLoading}
-        {...prop}
-      />
-    </div>
-  );
-};
-
-export default DailyAssigHigher;
+export default DailyAssigWrap;

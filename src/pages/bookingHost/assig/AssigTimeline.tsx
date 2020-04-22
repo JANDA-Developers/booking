@@ -61,7 +61,7 @@ import { getAssigHandlers } from "./helper/assigHandlers";
 import moment from "moment";
 import { isEmpty } from "../../../utils/utils";
 import BlockOpModal from "./helper/BlockOpModal";
-import DailyAssigWrap from "../../../components/dailyAssjg/DailyAssigWrap";
+import DailyAssigWrap from "../../../components/dailyAssjg/DailyAssigWrapWrap";
 import ReservationModal from "../../../components/reservationModala/ReservationModal";
 import ReadyItemTooltip from "./components/tooltips/ReadyItemTooltip";
 import HeaderCellRender from "./helper/HeaderCellRender";
@@ -127,6 +127,9 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
     startPolling
   } = assigDataControl;
   const { house, houseConfig } = context;
+  const isFirstLoading = networkStatus === 1;
+  const isLoading = networkStatus < 7;
+  const totalLoading = networkStatus < 7;
   const isDesktopHDDown = windowWidth < EWindowSize.DESKTOPHD;
   const isTabletDown = windowWidth <= EWindowSize.TABLET;
   const isMobile = windowWidth < EWindowSize.PHABLET;
@@ -137,13 +140,6 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
     if (isDesktopHDDown) return 5;
     return 0;
   })();
-
-  useLayoutEffect(() => {
-    if (firstUpdate.current) {
-      firstUpdate.current = false;
-      return;
-    }
-  });
 
   const [cutCount, setCutCount] = useState(getCutCount(windowHeight));
 
@@ -173,16 +169,6 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
     getCuttedItmes(filtedGroupIds, deafultGuestsData)
   );
 
-  useEffect(() => {
-    stopPolling();
-    const cuttedItems = getCuttedItmes(
-      filteredGroup.map(fg => fg.id),
-      deafultGuestsData
-    );
-    setGuestValue(cuttedItems);
-    startPolling();
-  }, [filtedGroupIds.join()]);
-
   const dayPickerModalHook = useModal(false);
   const [isMultiSelectingMode, setIsMultiSelectingMode] = useState(false);
   const configModal = useModal(false);
@@ -190,7 +176,6 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
   const reservationModal = useModal(false);
   const [inIsEmpty, setEmpty] = useState(false);
   const [sideBarFold, setSideBarFold] = useState(isMobile);
-
   const bookingModal = useModal(false);
   const blockOpModal = useModal<IAssigItem>(false, DEFAULT_ASSIG_ITEM);
   const [blockMenuProps, setBlockMenuProps] = useState<IDeleteMenuProps>({
@@ -219,7 +204,6 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
   );
 
   // 스크롤시 데이터로딩
-
   const scrollAnimater = () => {
     if (isMobile) return;
     const secter = $("#AssigTimeline");
@@ -296,9 +280,7 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
   );
 
   const { assigTimeline } = houseConfig;
-  if (!assigTimeline) {
-    throw Error("empty houseConfig__assigTimeline");
-  }
+  if (!assigTimeline) throw Error("empty houseConfig__assigTimeline");
 
   const { roomTypeTabEnable } = assigTimeline;
 
@@ -308,6 +290,48 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
     () => getAssigHandlers(assigUtils, assigContext, assigHooks),
     [guestValue, isMultiSelectingMode, lock, networkStatus, viewRoomType]
   );
+
+  // 메모를 사용해 멀티박스 업데이트 방지
+  const roomTypesDatas = useMemo(
+    () => ({
+      value: roomTypesData.map(roomType => roomType._id),
+      labels: roomTypesData.map(roomType => roomType.name)
+    }),
+    [roomTypesData.length, viewRoomType]
+  );
+
+  const callBackitemRenderer = useCallback(
+    (props: any) =>
+      itemRendererFn({
+        ...props,
+        assigUtils,
+        assigContext,
+        assigHooks
+      }),
+    []
+  );
+
+  const timelineClassNames = useMemo(
+    () =>
+      classnames("assigTimeline", undefined, {
+        "assiTimeline--mobile": windowWidth <= WindowSize.MOBILE,
+        "assigTimeline--loading": firstUpdate.current && loading,
+        "assigTimeline--empty": inIsEmpty,
+        "assigTimeline--foldSidebar": sideBarFold
+      }),
+    [windowWidth, loading, inIsEmpty]
+  );
+
+  // 기본으로 사용될 끝시간을 계산합니다.
+  const endTime = useMemo(() => {
+    let configZoom = zoomValue || 0;
+    return moment(defaultTimeEnd.valueOf() - configZoom * TimePerMs.H * 3).add(
+      -1 * timeline_size_var,
+      "days"
+    );
+  }, [zoomValue]);
+
+  const timelineKey = `timeline${endTime}${SIDE_IS_OPEN ? "a" : "b"}`;
 
   const {
     handleCanvasClick,
@@ -346,41 +370,27 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
     );
   }, []);
 
-  // 메모를 사용해 멀티박스 업데이트 방지
-  const roomTypesDatas = useMemo(
-    () => ({
-      value: roomTypesData.map(roomType => roomType._id),
-      labels: roomTypesData.map(roomType => roomType.name)
-    }),
-    [roomTypesData.length, viewRoomType]
-  );
-
-  const callBackitemRenderer = useCallback(
-    (props: any) =>
-      itemRendererFn({
-        ...props,
-        assigUtils,
-        assigContext,
-        assigHooks
-      }),
-    []
-  );
-
   // 아예 그룹이 없을떄 처리
   useEffect(() => {
     if (isEmpty(groupData) && !loading) setEmpty(true);
   }, [inIsEmpty]);
 
-  const timelineClassNames = useMemo(
-    () =>
-      classnames("assigTimeline", undefined, {
-        "assiTimeline--mobile": windowWidth <= WindowSize.MOBILE,
-        "assigTimeline--loading": firstUpdate.current && loading,
-        "assigTimeline--empty": inIsEmpty,
-        "assigTimeline--foldSidebar": sideBarFold
-      }),
-    [windowWidth, loading, inIsEmpty]
-  );
+  useLayoutEffect(() => {
+    if (firstUpdate.current) {
+      firstUpdate.current = false;
+      return;
+    }
+  });
+
+  useEffect(() => {
+    stopPolling();
+    const cuttedItems = getCuttedItmes(
+      filteredGroup.map(fg => fg.id),
+      deafultGuestsData
+    );
+    setGuestValue(cuttedItems);
+    startPolling();
+  }, [filtedGroupIds.join()]);
 
   // 이벤트 리스너
   useEffect(() => {
@@ -410,7 +420,7 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
   // 풀링으로 새로받은 게스트데이터를 적용시켜준다.
   useEffect(() => {
     if (!totalMuLoading) {
-      if (networkStatus >= 7) {
+      if (!isLoading) {
         const cuttedData = getCuttedItmes(filtedGroupIds, deafultGuestsData);
         const newIndexStart = cuttedData.length;
 
@@ -427,20 +437,15 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
     }
   }, [deafultGuestsData]);
 
-  // 기본으로 사용될 끝시간을 계산합니다.
-  const endTime = useMemo(() => {
-    let configZoom = zoomValue || 0;
-    return moment(defaultTimeEnd.valueOf() - configZoom * TimePerMs.H * 3).add(
-      -1 * timeline_size_var,
-      "days"
-    );
-  }, [zoomValue]);
-
-  const timelineKey = `timeline${endTime}${SIDE_IS_OPEN ? "a" : "b"}`;
-
   useLayoutEffect(() => {
     if (!firstUpdate.current) scrollAnimater();
   }, [viewRoomType]);
+
+  const commonButtonProps: any = {
+    mode: isMobile ? "iconButton" : undefined,
+    size: "small",
+    disabled: isFirstLoading
+  };
 
   return (
     <Fragment>
@@ -448,15 +453,10 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
         title={LANG("allocation_calendar")}
         desc={LANG("assigTimeline__decs")}
       />
-
       <div
         id="AssigTimeline"
         className={timelineClassNames}
         onDoubleClick={handleTimelineWrapClickEvent}
-        onClick={e => {
-          // 윈도우 마우스클릭 이벤트를 방지함
-          // e.stopPropagation();
-        }}
       >
         <PageBody
           style={{
@@ -466,18 +466,15 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
           <div className="flex-grid flex-grid--end">
             <div>
               <Button
-                size="small"
+                {...commonButtonProps}
                 onClick={() => {
                   reservationModal.openModal();
                 }}
                 label={LANG("make_reservation")}
-                mode={isMobile ? "iconButton" : undefined}
-                disabled={networkStatus === 1}
                 icon="edit"
               />
               <Button
-                size="small"
-                mode={isMobile ? "iconButton" : undefined}
+                {...commonButtonProps}
                 onClick={() => {
                   dayPickerHook.setDate(
                     moment()
@@ -491,18 +488,16 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
                 label={LANG("goto_today")}
               />
               <Button
+                {...commonButtonProps}
                 onClick={() => {
                   configModal.openModal();
                 }}
-                mode={isMobile ? "iconButton" : undefined}
-                size="small"
                 label={LANG("config")}
                 icon="keyBoard"
               />
               <Button
-                mode={isMobile ? "iconButton" : undefined}
+                {...commonButtonProps}
                 label={LANG("assig_lock")}
-                size="small"
                 onClick={() => {
                   setLock(!lock);
                 }}

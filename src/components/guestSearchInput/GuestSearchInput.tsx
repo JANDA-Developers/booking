@@ -15,16 +15,18 @@ import moment from "moment";
 import "./GuestSearchInput.scss";
 import { ApolloQueryResult } from "apollo-client";
 import { searchFilterCreater } from "./helper";
-import { autoHypen, targetBlink } from "../../utils/utils";
+import { autoHypen } from "../../utils/utils";
 import JDIcon from "../../atoms/icons/Icons";
 import JDtypho from "../../atoms/typho/Typho";
 import Align from "../../atoms/align/Align";
 import isMobile from "is-mobile";
+import { useSubScribeNotification } from "./notificationSystem";
+
 interface IProps {
   loading: boolean;
   context: IContext;
   refetch: (
-    variables?: getBookingsVariables | undefined
+    variables?: getBookingsVariables
   ) => Promise<ApolloQueryResult<getBookings>>;
   bookings: getBookings_GetBookings_result_bookings[];
 }
@@ -49,19 +51,33 @@ const GuestSearchInput: React.FC<IProps> = ({
     });
   };
 
+  useSubScribeNotification(item => {
+    if (item.house._id === houseId) openBookingModal(item._id);
+  }, context);
+
   const unHilightTarget = () => {
     $(".assigItem--searched").removeClass("assigItem--searched");
+  };
+
+  const scrollMoveToTargetGuest = (
+    target: HTMLElement,
+    scrollEl: HTMLElement
+  ) => {
+    const { offsetTop, offsetLeft } = target;
+    window.scrollTo({ top: offsetTop });
+    const targetWidth = $(scrollEl).width() || 0;
+    scrollEl.scrollTo({ left: offsetLeft - targetWidth / 2 });
   };
 
   // 방배정에서 사용가능
   const hilightTarget = (target: JQuery<HTMLElement>) => {
     $(".assigItem--searched").removeClass("assigItem--searched");
-    const scrollTarget = $(`.rct-scroll`).get(0);
     $(target).addClass("assigItem--searched");
+
+    const scrollTarget = $(`.rct-scroll`).get(0);
     const targetDom = $(target).get(0);
-    window.scrollTo({ top: targetDom.offsetTop });
-    const targetWidth = $(scrollTarget).width() || 0;
-    scrollTarget.scrollTo({ left: targetDom.offsetLeft - targetWidth / 2 });
+
+    scrollMoveToTargetGuest(targetDom, scrollTarget);
   };
 
   const handleSelectData = (data: ISearchViewData) => {

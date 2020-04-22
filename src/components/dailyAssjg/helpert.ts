@@ -27,3 +27,5 @@ export const getPlaceArray = (pricingType: PricingType, itemsInRoom: (IG | IB | 
 	});
 	return places;
 };
+
+

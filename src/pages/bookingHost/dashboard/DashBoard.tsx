@@ -2,7 +2,7 @@ import React, { Fragment, useMemo, useState, useEffect } from "react";
 
 import { ErrProtecter } from "../../../utils/utils";
 import Card from "../../../atoms/cards/Card";
-import DailyAssigWrap from "../../../components/dailyAssjg/DailyAssigWrap";
+import DailyAssigWrap from "../../../components/dailyAssjg/DailyAssigWrapWrap";
 import "./DashBoard.scss";
 import { useModal, useDayPicker, LANG } from "../../../hooks/hook";
 import Button from "../../../atoms/button/Button";
@@ -19,8 +19,6 @@ import SendSMSmodalWrap from "../../../components/smsModal/SendSmsModalWrap";
 import moment from "moment";
 import PageHeader from "../../../components/pageHeader/PageHeader";
 import PageBody from "../../../components/pageBody/PageBody";
-import JDcard from "../../../atoms/cards/Card";
-import TutoHelper from "./components/TutoHelper";
 import { DO_TUTO_KEY } from "../../../types/const";
 import { IModalSMSinfo } from "../../../components/smsModal/SendSmsModal";
 

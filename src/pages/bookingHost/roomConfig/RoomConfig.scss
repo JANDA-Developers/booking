@@ -66,7 +66,11 @@ $roomWidth: 10rem;
   &__roomsWrapWrap {
     margin-right: -$standard-space;
     display: flex;
+    overflow-x: hidden;
     @extend %JDscrollbar;
+    &:hover {
+      overflow-x: auto;
+    }
     overflow-y: hidden;
     @include response($tablet) {
       flex-wrap: wrap;

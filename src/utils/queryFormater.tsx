@@ -19,7 +19,8 @@ function queryDataFormater<T, K extends keyof T, C extends keyof T[K], D>(
   data: T | undefined,
   queryName: K,
   dataName: C | undefined,
-  falsyReturn: D
+  falsyReturn: D,
+  skipErrorMessage?: boolean
 ): C extends undefined ? T[K] | D : T[K][C] | D {
   if (isEmpty(data) || isEmpty(data[queryName])) return falsyReturn as any;
 
@@ -28,7 +29,12 @@ function queryDataFormater<T, K extends keyof T, C extends keyof T[K], D>(
   const { error } = inData;
 
   if (error) {
-    dataErrorToast(error);
+    if (process.env.NODE_ENV === "development") {
+      toast.warn(`개발메시지 ERR 쿼리:${queryName} 자세한건 콘솔에`);
+      console.error(error);
+    } else if (!skipErrorMessage) {
+      dataErrorToast(error);
+    }
     return falsyReturn as any;
   }
 
