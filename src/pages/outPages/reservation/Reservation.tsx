@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useEffect } from "react";
+import React, { useState, Fragment, useEffect,useLayoutEffect } from "react";
 import windowSize, { WindowSizeProps } from "react-window-size";
 import { Query } from "react-apollo";
 import ErrProtecter from "../../../utils/errProtect";
@@ -77,6 +77,7 @@ interface IProps {
   reservationModalHook?: IUseModal;
 }
 
+let LAST_HEIGHT = 0;
 const Reservation: React.SFC<IProps & WindowSizeProps> = ({
   windowWidth,
   makeBookingForPublicMu,
@@ -162,9 +163,14 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
   }, [dayPickerHook.to, dayPickerHook.from]);
 
   // Iframe 높이조절
-  useEffect(() => {
+  useLayoutEffect(() => {
+
     const theHeight = $("#JDreservation").height() || 1000;
-    window.parent.postMessage({ height: theHeight }, "*");
+    const changeHeight = ()=> {
+      window.parent.postMessage({ height: theHeight }, "*");
+      LAST_HEIGHT = theHeight; 
+    }
+    changeHeight();
   });
 
   //방선택 을 했는지 확인
@@ -334,12 +340,12 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
             )}
             {isMobile && (
               <div className="JDflex">
-                <JDbox align="flexVcenter" size="small">
+                <JDbox mb="no" align="flexVcenter" size="small">
                   {dayPickerHook.from?.toLocaleDateString() +
                     " " +
                     LANG("checkIn")}
                 </JDbox>
-                <JDbox align="flexVcenter" size="small">
+                <JDbox mb="no" align="flexVcenter" size="small">
                   {dayPickerHook.to?.toLocaleDateString() +
                     " " +
                     LANG("checkOut")}

@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import React, { Fragment, useState, useMemo } from "react";
+import React, { Fragment, useState, useMemo, useLayoutEffect } from "react";
 import JDselect, {
   IselectedOption
 } from "../../../../../atoms/forms/selectBox/SelectBox";
@@ -14,7 +14,7 @@ import moment from "moment";
 import selectOpCreater from "../../../../../utils/selectOptionCreater";
 import JDbadge from "../../../../../atoms/badge/Badge";
 import { IReservationHooks } from "../../declation";
-
+import $ from "jquery";
 const optionZero = 1;
 
 interface IProps {
@@ -210,6 +210,15 @@ const RoomTypeCard: React.SFC<IProps> = ({
       "https://s3.ap-northeast-2.amazonaws.com/booking.stayjanda.files/infographic/noimg.png"})`
   };
 
+   // Iframe 높이조절
+   useLayoutEffect(() => {
+    const theHeight = $("#JDreservation").height() || 1000;
+    const changeHeight = ()=> {
+      window.parent.postMessage({ height: theHeight }, "*");
+    }
+    changeHeight();
+  });
+
   return (
     <Fragment>
       <div className={`flex-grid-grow flex-grid-grow--margin0 ${classes}`}>
@@ -223,7 +232,9 @@ const RoomTypeCard: React.SFC<IProps> = ({
         <div className="flex-grid__col col--grow-2 roomTypeCard__middleSection">
           <div className="roomTypeCard__middleTopSection">
             <h6 className="roomTypeCard__roomTypeTitle">
+              <div>
               {roomTypeData.name}{" "}
+              </div>
               {totalCan === 0 && (
                 <JDbadge thema="error">{LANG("fullRoom")}</JDbadge>
               )}
@@ -293,7 +304,9 @@ const RoomTypeCard: React.SFC<IProps> = ({
           />
         </div>
       </div>
-      <JDmodal fullInMobile className="roomImgPop" {...roomImgModalHook}>
+      <JDmodal head={{
+        title: "방 이미지"
+      }} fullInMobile className="roomImgPop" {...roomImgModalHook}>
         <img
           className="roomImgPop__img"
           src={roomTypeData.img?.url || ""}
