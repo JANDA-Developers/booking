@@ -50,6 +50,16 @@ $roomCardHeight: 0.25rem * 32;
   &__roomTypeTitle {
     display: flex;
     align-items: center;
+    margin-bottom: 0px;
+    @include response($mobile) {
+      font-size: $typho-normal;
+    }
+
+    .JDbadge {
+      position: absolute;
+      top: 0.5rem;
+      left: 0;
+    }
   }
 
   &__selectButton {
