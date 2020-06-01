@@ -8,17 +8,10 @@ import {
 } from "../../../../types/api";
 import { IContext } from "../../../bookingHost/BookingHostRouter";
 import { LANG } from "../../../../hooks/hook";
+import { IAddtionProp } from "../components/ConfigBlock";
 
-interface IProps {
-  updateHouseConfigMu: MutationFn<
-    updateHouseConfig,
-    updateHouseConfigVariables
-  >;
-  context: IContext;
-}
-
-const SystemDescription: React.FC<IProps> = ({
-  updateHouseConfigMu,
+const SystemDescription: React.FC<IAddtionProp> = ({
+  updateFn,
   context
 }) => {
   const { house } = context;
@@ -30,15 +23,10 @@ const SystemDescription: React.FC<IProps> = ({
     if (typeof value !== "number") return;
     setRange(value);
 
-    updateHouseConfigMu({
-      variables: {
-        houseId: house._id,
-        UpdateHouseConfigParams: {
-          pollingPeriod: {
-            enable: true,
-            period: value
-          }
-        }
+    updateFn({
+      pollingPeriod: {
+        enable: true,
+        period: value
       }
     });
   };

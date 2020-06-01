@@ -5,6 +5,7 @@ import SelectBox from "../../../../atoms/forms/selectBox/SelectBox";
 import InputText from "../../../../atoms/forms/inputText/InputText";
 import Button from "../../../../atoms/button/Button";
 import JDLabel from "../../../../atoms/label/JDLabel";
+import TagInput, { Ttag } from "../../../../atoms/tagInput/TagInput";
 import ImageUploader from "../../../../atoms/imageUploader/ImageUploader";
 import {
   MAX_PEOPLE_COUNT_OP_FN,
@@ -27,6 +28,7 @@ import { DEFAULT_ROOMTYPE } from "../../../../types/defaults";
 import { toast } from "react-toastify";
 import { toNumber } from "../../../../utils/utils";
 import ModalEndSection from "../../../../atoms/modal/components/ModalEndSection";
+import { JDalign, JDlabel } from "@janda-com/front";
 
 interface IProps {
   context: IContext;
@@ -38,6 +40,12 @@ interface IProps {
 const RoomTypeModal: React.FC<IProps> = ({ modalHook, loading, onSubmit }) => {
   const { info } = modalHook;
   const { roomType, mode } = info;
+  const [tags, setTags] = useState<Ttag[]>(
+    [
+      { id: "Thailand", text: "Thailand" },
+      { id: "India", text: "India" }
+    ]
+  );
   const [data, setData] = useState(roomType || DEFAULT_ROOMTYPE);
   const {
     img,
@@ -188,6 +196,8 @@ const RoomTypeModal: React.FC<IProps> = ({ modalHook, loading, onSubmit }) => {
                 * {LANG("appliedby_default_in_periods_with_no_price_set")}
               </p>
             </div>
+            <JDlabel txt={LANG("insert_tag")} />
+            <TagInput mb="normal" tags={tags} setTags={setTags} />
           </div>
           <ModalEndSection>
             <Button

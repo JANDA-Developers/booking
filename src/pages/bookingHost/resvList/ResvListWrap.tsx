@@ -7,7 +7,11 @@ import {
   updateBooking,
   updateBookingVariables,
   deleteBooking,
-  deleteBookingVariables
+  deleteBookingVariables,
+  cancelBooking,
+  cancelBookingVariables,
+  cancelBookings,
+  cancelBookingsVariables
 } from "../../../types/api";
 import {
   queryDataFormater,
@@ -17,25 +21,47 @@ import {
 import {
   GET_BOOKINGS,
   DELETE_BOOKING,
-  UPDATE_BOOKING
+  UPDATE_BOOKING,
+  CANCLE_BOOKING,
+  CANCLE_BOOKINGS
 } from "../../../apollo/queries";
 import { DEFAULT_PAGE_INFO } from "../../../types/defaults";
 import { getOperationName } from "apollo-link";
 import { usePageNation, LANG } from "../../../hooks/hook";
 import { isNetworkRequestInFlight } from "apollo-client/core/networkStatus";
 import { IContext } from "../../bookingHost/BookingHostRouter";
+import { useMutation } from "@apollo/react-hooks";
+import client from "../../../apollo/apolloClient";
 
 interface IProps {
   context: IContext;
 }
 
-class UpdateBookingMu extends Mutation<updateBooking, updateBookingVariables> {}
-class DeleteBookingMu extends Mutation<deleteBooking, deleteBookingVariables> {}
-class GetBookingsQuery extends Query<getBookings, getBookingsVariables> {}
+class UpdateBookingMu extends Mutation<updateBooking, updateBookingVariables> { }
+class DeleteBookingMu extends Mutation<deleteBooking, deleteBookingVariables> { }
+class GetBookingsQuery extends Query<getBookings, getBookingsVariables> { }
 
 const ResvListWrap: React.FC<IProps> = ({ context }) => {
   const { house, houseConfig } = context;
   const { page, setPage } = usePageNation(1);
+
+  const refetchQueries = [getOperationName(GET_BOOKINGS) || ""];
+
+  const [cancelBookingMu, { loading: cancelBookingsLoading }] = useMutation<
+    cancelBookings,
+    cancelBookingsVariables
+  >(CANCLE_BOOKINGS, {
+    client,
+    refetchQueries,
+    ignoreResults: true,
+    onCompleted: ({ CancelBookings }) => {
+      onCompletedMessage(
+        CancelBookings,
+        LANG("assig_completed"),
+        LANG("assig_failed")
+      );
+    }
+  });
 
   const {
     pollingPeriod: { period }
@@ -59,7 +85,7 @@ const ResvListWrap: React.FC<IProps> = ({ context }) => {
       }}
     >
       {({ data: boookerData, loading, error, networkStatus }) => {
-        const result = queryDataFormater(
+      const result = queryDataFormater(
           boookerData,
           "GetBookings",
           "result",
@@ -97,6 +123,7 @@ const ResvListWrap: React.FC<IProps> = ({ context }) => {
                       context={context}
                       pageInfo={pageInfo || DEFAULT_PAGE_INFO}
                       bookingsData={data || []}
+                      cancelBookingMu={cancelBookingMu}
                       deleteBookingMu={deleteBookingMu}
                       updateBookingMu={updateBookingMu}
                       updateBookingLoading={updateBookingLoading}

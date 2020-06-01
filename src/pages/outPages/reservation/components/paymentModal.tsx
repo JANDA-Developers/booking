@@ -110,14 +110,14 @@ const PayMentModal: React.FC<IProps> = ({
       loading={createLoading}
       className={classes}
       {...modalHook}
+      head={{
+        title: step === "bookerInput" ? LANG("booker_info") : LANG("payment_info")
+      }}
     >
       {
         <div>
           {step === "bookerInput" && (
             <div>
-              <h6 className="JDreservation__sectionTitle JDtext-align-center">
-                {LANG("booker_info")}
-              </h6>
               <BookerInfoBox
                 bookerInfo={bookerInfo}
                 setBookerInfo={setBookerInfo}
@@ -140,9 +140,6 @@ const PayMentModal: React.FC<IProps> = ({
           )}
           {step === "cardInput" && (
             <div>
-              <h6 className="JDreservation__sectionTitle JDtext-align-center">
-                {LANG("payment_info")}
-              </h6>
               <div>
                 <JDselect
                   {...payMethodHook}

@@ -7,16 +7,17 @@ import { autoComma } from "../utils/utils";
 import JDtypho from "../atoms/typho/Typho";
 import Align from "../atoms/align/Align";
 import { JDalign } from "@janda-com/front";
+import { L_DEFAULT as DefaultVar } from "./langVar";
 
-export const kr = {
+export const krFn = (Var = DefaultVar) => ({
   Apply: "적용",
-  BOTH: "게스트,호스트",
+  BOTH: `${Var.G},${Var.H}`,
   BY_DATE: "날짜별",
   BY_DAY_OF_WEEK: "요일별",
   CANCEL: "예약취소",
   CARD: "카드결제",
   CASH: "현금결제",
-  BANK_TRANSFER: " 무통장입금",
+BANK_TRANSFER: " 무통장입금",
   CHANNEL_PAY: "채널페이",
   CHINESE: "중국어",
   COMPLETE: "예약완료",
@@ -24,11 +25,11 @@ export const kr = {
   ENABLE: "정상",
   ENGLISH: "영어",
   FAIL: "예약실패",
-  GUEST: "게스트",
+  GUEST: `${Var.G}`,
   HM: "AI 무인 솔루션",
   HM_set: "AI 무인 솔루션 설정",
   HM_title: "AI 무인 솔루션 타이틀",
-  HOST: "호스트",
+  HOST: `${Var.H}`,
   Headcount: "인원수",
   JANDA_provide_free_homepage_for_guest:
     "잔다 고객분 들에게 무료 홈페이지를 제공합니다.",
@@ -39,20 +40,20 @@ export const kr = {
   MONTHLY: "월별",
   NOT_YET: "예약진행중",
   Pricing: "가격설정",
-  Rooms: "객실",
+  Rooms: `${Var.GS}`,
   DOMITORY: "도미토리",
-  ROOM: "룸",
+  ROOM: `${Var.R}`,
   SmsReplaceKey: {
-    STAYDATE: `[숙박일자(년/일)]`,
-    STAYDATE_YMD: `[숙박일자(년/월/일)]`,
-    ROOMTYPE_N_COUNT: `[숙박정보(방/명)]`,
+    STAYDATE: `[${Var.SB}일자(년/일)]`,
+    STAYDATE_YMD: `[${Var.SB}일자(년/월/일)]`,
+    ROOMTYPE_N_COUNT: `[${Var.SB}정보(${Var.B}/명)]`,
     BOOKERNAME: `[예약자명]`,
     TOTALPRICE: `[가격]`,
     PAYMETHOD: `[결제방법]`,
     PAYMENTSTATUS: `[결제상태]`,
     HM: `[AI 무인 솔루션URL]`
   },
-  Use_room_specific_tabs: "방타입별 탭을 사용합니다.",
+  Use_room_specific_tabs: `${Var.BT}별 탭을 사용합니다.`,
   VBANK: "무통장입금",
   WAIT: "대기",
   WEEKLY: "주별",
@@ -61,9 +62,9 @@ export const kr = {
   WHEN_BOOKING_CREATED_PAYMENT_NOT_YET: "예약생성시(미결제)",
   WHEN_BOOKING_UPDATE: "예약업데이트시",
   YEARLY: "년별",
-  accommodation_info: "숙박정보",
-  add_room: "방추가",
-  add_roomType: "방타입추가",
+  accommodation_info: `${Var.SB}정보`,
+  add_room: `${Var.B}추가`,
+  add_roomType: `${Var.BT}추가`,
   additional_cost: "추가비용",
   admin_screen: "관리자 화면",
   agree: "동의",
@@ -81,14 +82,14 @@ export const kr = {
   applies_to_all_reservations_booked_together: "함께 예약된 예약에 모두 적용",
   apply: "신청하기",
   apply_color: "적용색상",
-  apply_layout: "신청레이아웃",
-  apply_this_product_to_house: "이 상품을 숙소에 적용하기",
+  apply_layout: `신청레이${Var.CO}`,
+  apply_this_product_to_house: `이 상품을 ${Var.SS}에 적용하기`,
   are_you_sure_you_want_to_delete_the_reservation:
     "정말 예약을 삭제 하시겠습니까?",
-  are_you_sure_you_want_to_delete_this_guest: "해당 게스트를 삭제하시겠습니까?",
+  are_you_sure_you_want_to_delete_this_guest: `해당 ${Var.G}를 삭제하시겠습니까?`,
   assig_completed: "배정완료",
   assig_failed: "배정실패",
-  assig_guest_specific_setting: "배정 게스트에 대한 상세설정기능",
+  assig_guest_specific_setting: `배정 ${Var.G}에 대한 상세설정기능`,
   auth: "인증",
   authenticate: "인증하기",
   auto_send: "자동발신",
@@ -101,14 +102,14 @@ export const kr = {
   basic_price: "기본가격",
   basic_price_is_used_when_season_is_un_setted:
     '시즌이 적용되지 않는 기간 동안 "기본가격"을 사용합니다.',
-  basic_room_price: "기본 방 가격",
+  basic_room_price: `기본 ${Var.B} 가격`,
   bedIndex: "침대번호",
   block: "자리막음",
   block_highlights: "블록 하일라이트",
   block_place: "자리막기",
-  block_room: "방막기",
-  block_room_completed: "방막기 완료",
-  block_room_failed: "방막기 실패",
+  block_room: `${Var.B}막기`,
+  block_room_completed: `${Var.B}막기 완료`,
+  block_room_failed: `${Var.B}막기 실패`,
   booker: "예약자",
   booker_info: "예약자정보",
   booker_name: "예약자명",
@@ -129,29 +130,29 @@ export const kr = {
   change_complited: "변경완료",
   change_date: "날짜변경",
   change_failed: "변경실패",
-  change_house: "숙소변경",
-  change_house_fail: "숙소 변경 실패",
+  change_house: `${Var.SS}변경`,
+  change_house_fail: `${Var.SS} 변경 실패`,
   change_profile: "프로필 변경",
   change_statistics: "통계변경",
-  changed_current_house: "현재숙소 변경",
-  checkCheckInDate: "체크인 날짜를 선택해 주세요.",
+  changed_current_house: `현재${Var.SS} 변경`,
+  checkCheckInDate: `${Var.CI} 날짜를 선택해 주세요.`,
   checkDelete: "개를 삭제하시겠습니까?",
-  checkIn: "체크인",
-  checkOut: "체크아웃",
+  checkIn: `${Var.CI}`,
+  checkOut: `${Var.CO}`,
   check_location_with_google_map: "구글맵으로 위치 확인하기",
   check_net_status: "인터넷 연결을 확인해주세요.",
   check_our_samples: "샘플들을 살펴보세요.",
   check_password: "비밀번호 확인",
   check_selection: "선택 확인",
-  checkin_change_fail: "체크인 변경 실패",
-  checkin_date: "체크인 날짜",
-  checkin_status: "체크인 현황",
-  checkout_date: "체크아웃 날짜",
+  checkin_change_fail: `${Var.CI} 변경 실패`,
+  checkin_date: `${Var.CI} 날짜`,
+  checkin_status: `${Var.CI} 현황`,
+  checkout_date: `${Var.CO} 날짜`,
   chnage_priority: "순위변경",
   choose_product: "상품선택",
   choosen_person: "선택 인원",
-  choseCheckInDate: "체크인 날짜를 선택해 주세요.",
-  choseCheckOutDate: "체크아웃 날짜를 선택해 주세요.",
+  choseCheckInDate: `${Var.CI} 날짜를 선택해 주세요.`,
+  choseCheckOutDate: `${Var.CO} 날짜를 선택해 주세요.`,
   close: "닫기",
   close_today: "하루동안 알림 중지",
   color_set: "색상설정",
@@ -167,21 +168,21 @@ export const kr = {
   copy_reservation_page_URL: "예약페이지 URL 복사",
   create_a_new_template: "새로운 양식을 생성하세요.",
   create_booking: "예약생성",
-  create_house: "숙소생성",
-  create_house_completed: "숙소생성",
+  create_house: `${Var.SS}생성`,
+  create_house_completed: `${Var.SS}생성`,
   create_memo_completed: "메모 생성완료",
   create_memo_fail: "메모 생성실패",
   create_new_memo: "새로운 메모 쓰기",
-  create_room: "방생성",
-  create_roomType_completed: "방타입 생성성공",
-  create_roomType_fail: "방타입 생성실패",
+  create_room: `${Var.B}생성`,
+  create_roomType_completed: `${Var.BT} 생성성공`,
+  create_roomType_fail: `${Var.BT} 생성실패`,
   create_season: "시즌생성",
   create_season_complete: "시즌 생성완료",
   create_season_fail: "시즌 생성실패",
   create_template: "양식 생성",
   create_template_complited: "양식 생성완료",
   create_template_failed: "양식 생성실패",
-  created_house: "생성한 숙소",
+  created_house: `생성한 ${Var.SS}`,
   current_set_number: "현재 설정된 번호",
   current_status: "현재상태",
   currently_applied_service: "현재 적용된 서비스",
@@ -190,7 +191,7 @@ export const kr = {
   date: "일",
   date_of_creation: "생성일시",
   date_of_statistics: "통계날짜",
-  date_of_stay: "숙박일자",
+  date_of_stay: `${Var.SB}일자`,
   day_of_week: "요일",
   day_of_week_price: "요일별가격",
   day_sales: "일매출",
@@ -223,10 +224,10 @@ export const kr = {
   dont_send: "발송안함",
   download: "다운로드",
   eamil: "이메일",
-  enter_room_type_name: "방타입명을 입력해주세요.",
-  exit_room_settings: "방설정 끝내기",
+  enter_room_type_name: `${Var.BT}명을 입력해주세요.`,
+  exit_room_settings: `${Var.B}설정 끝내기`,
   expire_date: "만료일",
-  failt_to_change_house: "숙소변경 실패",
+  failt_to_change_house: `${Var.SS}변경 실패`,
   female: "여",
   female_gender: "여성",
   file: "파일",
@@ -239,41 +240,41 @@ export const kr = {
   go_back_to_home: "홈으로 돌아가기",
   go_to_set: "설정하러 가기",
   good_status: "정상",
-  goto_create_roomType: "방타입 생성하러가기",
+  goto_create_roomType: `${Var.BT} 생성하러가기`,
   goto_reservation_list: "예약목록 보기",
   graph_shape: "그래프 형태",
   group_notification: "단체알림",
-  guest: "게스트",
-  guestHouse: "게스트하우스",
+  guest: `${Var.G}`,
+  guestHouse: `${Var.G}하우스`,
   have_a_bright_day_sir: "오늘도 밝은 하루 보내세요",
-  heavy_type_layout: "heavy 타입 레이아웃",
+  heavy_type_layout: `heavy 타입 레이${Var.CO}`,
   home: "홈",
   homepage_application_date: "홈페이지 신청일시",
   homepage_complete_estimated_date: "홈페이지 신청일시",
   homepage_develope_status: "홈페이지 작업 현황",
   homepage_manual: "홈페이지 메뉴얼",
-  host: "호스트",
+  host: `${Var.H}`,
   hostel: "호스텔",
   hotel: "호텔",
-  houseName: "숙소명",
-  house_address: "숙소주소",
-  house_delete_completed: "숙소삭제 완료",
-  house_delete_failed: "숙소삭제 실패",
-  house_info: "숙소정보",
-  house_reservation: "숙소 예약",
-  house_setting_completed: "숙소설정 완료",
-  house_setting_failed: "숙소 설정 실패",
-  house_type: "숙소타입",
+  houseName: `${Var.SS}명`,
+  house_address: `${Var.SS}주소`,
+  house_delete_completed: `${Var.SS}삭제 완료`,
+  house_delete_failed: `${Var.SS}삭제 실패`,
+  house_info: `${Var.SS}정보`,
+  house_reservation: `${Var.SS} 예약`,
+  house_setting_completed: `${Var.SS}설정 완료`,
+  house_setting_failed: `${Var.SS} 설정 실패`,
+  house_type: `${Var.SS}타입`,
   if_there_is_a_new_reservation_the_new_reservation_will_be_displayed_without_refreshing_the_screen:
     "새로운 예약이 있다면 새로운 예약을 화면에 새로고침 없이 나타냅니다.",
   if_tou_enable_auto_send_msg_msg_will_send_autoMetically:
     "자동 발신을 해두시면해당 메세지는 설정된 상황에 맞게 자동으로 발송됨니다.",
   if_you_choose_wrong_size_product_to_house_service_can_be_stop:
-    "규모에 맞지 않는 숙소를 선택하실 경우에 서비스가 중지 될수 있습니다.",
+    `규모에 맞지 않는 ${Var.SS}를 선택하실 경우에 서비스가 중지 될수 있습니다.`,
   if_you_have_problems_with_computer_performance_and_frequent_screen_updates_try_setting_a_higher_pooling_frequency:
     "컴퓨터 성능 및 잦은 화면 업데이트에 문제가 있을경우 풀링주기를 높게 설정해보세요.",
   if_you_violate_the_accommodation_policy_your_personal_information_will_be_saved_with_the_violation:
-    "숙박 규정을 위반할 시 위반내용과 함께 개인정보가 저장됩니다.",
+    "이용 규정을 위반할 시 위반내용과 함께 개인정보가 저장됩니다.",
   index: "번호",
   information_does_not_exist: "정보가 존재하지 않습니다...",
   input_your_name_please: "이름을 입력해주세요.",
@@ -282,17 +283,17 @@ export const kr = {
   invalid_password: "잘못된 패스워드입니다.",
   is_apply_homepage: "홈페이지 신청여부",
   is_auto_send_enable: "자동발신 활성화 여부",
-  is_layout_paied: "레이아웃 비용 지불여부",
+  is_layout_paied: `레이${Var.CO} 비용 지불여부`,
   is_selected_info_collect: "선택 정보가 맞나요?",
   item: "항목",
   keep_noti: "계속 알림",
   lang_set: "언어설정",
   language_setting: "언어설정",
-  layout_cost: "레이아웃 비용",
+  layout_cost: `레이${Var.CO} 비용`,
   left_days: "남은일수",
-  light_type_layout: "light 타입 레이아웃",
-  logOut: "로그아웃",
-  logOut_complete: "로그아웃 완료",
+  light_type_layout: `light 타입 레이${Var.CO}`,
+  logOut: `로그${Var.CO}`,
+  logOut_complete: `로그${Var.CO} 완료`,
   login: "로그인",
   login_complete: "로그인 완료",
   make_payment: "결제하기",
@@ -329,10 +330,10 @@ export const kr = {
   nextResv: "다음 예약 ",
   no: "아니요",
   no_choosen_option: "선택사항이 없습니다.",
-  no_house_currently_created: "현재 생성된 숙소가 없습니다.",
+  no_house_currently_created: `현재 생성된 ${Var.SS}가 없습니다.`,
   no_notes_are_currently_created: "현재 작성된 메모가 없습니다.",
   no_notifications: "알람이 없습니다.",
-  no_room_selected: "선택된방이 없습니다.",
+  no_room_selected: `선택된${Var.B}이 없습니다.`,
   non_members: "비회원",
   none: "없음",
   none_limit_gender: "제한없음(혼숙O)",
@@ -355,7 +356,7 @@ export const kr = {
   noti_title: "알림 제목",
   nth: "순위",
   only_on_first_purchase: "첫구매시에만 발생",
-  // delete 1.0.1: only_remove_that_guest: "해당 게스트만 제거",
+  // delete 1.0.1: only_remove_that_guest: `해당 ${Var.G}만 제거`,
   opps_something_problem_happend: "이런! 문제가 발생했습니다.",
   others_booked_by_the_reservation_will_not_be_erased:
     "해당 예약자가 예약한 다른 인원들은 지워지지 않습니다.",
@@ -384,30 +385,30 @@ export const kr = {
   paymethod: "결제방법",
   pension: "펜션",
   person_unit: "명",
-  personnel: "인원/객실",
+  personnel: (onlyRoom?: boolean) => `${onlyRoom || `인원/`}${Var.GS}`,
   phoneNum_is_not_valid: "올바른 이름이 아닙니다.",
   phoneNumber: "전화번호",
   phone_authenticate: "휴대폰 인증하기",
   please_agree_collect_personal_info: "개인정보 수집에 동의해주세요",
   please_aree_to_info_offer: "정보제공 동의를 해주세요",
   please_cancel_the_product_first: "상품을 먼저 해지 해주세요.",
-  please_create_house: " 숙소를 생성해주세요.",
+  please_create_house: ` ${Var.SS}를 생성해주세요.`,
   please_enter_a_base_price: "기본가격을 입력바랍니다.",
   please_enter_booker_name: "예약자명을 입력해주세요",
   please_enter_phone_number: "전화번호를 입력해주세요.",
-  please_enter_the_name_of_the_house: "숙소명을 입력해주세요.",
+  please_enter_the_name_of_the_house: `${Var.SS}명을 입력해주세요.`,
   please_enter_your_phone_number: "전화번호를 입력해주세요.",
   please_input_HM_title: "AI 무인 솔루션 타이틀을 입력해주세요",
   please_inquire_separately: "별도 문의 바랍니다.",
   please_request_through_helpline: "상담전화를 통해 요청바람니다.",
-  please_search_house_location: "숙소위치를 검색해주세요.",
+  please_search_house_location: `${Var.SS}위치를 검색해주세요.`,
   please_select_a_payment_method: "결제방법을 선택해주세요.",
   please_select_a_payment_status: "결제상태를 선택해주세요.",
-  please_select_checkOut_date: "체크아웃 날짜를 선택해주세요.",
+  please_select_checkOut_date: `${Var.CO} 날짜를 선택해주세요.`,
   please_select_date: "날짜를 선택해 주세요",
   please_select_reservation_status: "예약상태를 선택해주세요.",
-  please_select_the_accommodation_type: "숙소타입을 선택 해주세요.",
-  please_select_the_number_of_people: "객실/인원을 선택해주세요.",
+  please_select_the_accommodation_type: `${Var.SS}타입을 선택 해주세요.`,
+  please_select_the_number_of_people: `${Var.GS}/인원을 선택해주세요.`,
   please_slect_date_at_calender: "달력에서 날짜를 선택해주세요.",
   please_specify_the_date: "날짜를 지정해주세요.",
   polling_period: "풀링주기",
@@ -437,11 +438,11 @@ export const kr = {
   product1_short1: "이주일간 테스트가능",
   product1_short2: "사용해보고 결정하세요",
   product1_short3: "지금 바로 시작할 수 있습니다.",
-  product2_detail1: "게스트 하우스 및 중소숙박에 최적화된 상품입니다.",
+  product2_detail1: `${Var.G} 하우스 및 중소업소에 최적화된 상품입니다.`,
   product2_detail3:
     "잔다에서 무료로 제공하는 홈페이지를 제공받으실수 있습니다.",
   product2_detail4: "사용기한은 한달이며 한달후 재결제가 이루어집니다.",
-  product2_short1: "중소숙박 최적화 서비스",
+  product2_short1: "중소업소 최적화 서비스",
   product2_short2: "필요한 서비스만 쉽고",
   product2_short3: "간단하게 사용하세요.",
   product3_detail1: "호텔 같은 큰규모에 적합한 상품.",
@@ -453,7 +454,7 @@ export const kr = {
   product3_short1: "호텔 대규모 솔루션 최적화",
   product3_short2: "호텔관리자가 관여하여",
   product3_short3: "다양한 서비스를 제공합니다.",
-  product4_short1: "숙박외 서비스 예약 및",
+  product4_short1: `${Var.SB}외 서비스 예약 및`,
   product4_short2: "다른 예약관리가 필요하신가요?",
   product4_short3: "이상품을 선택하세요.",
   product_application_completed: "상품 적용 완료",
@@ -462,13 +463,13 @@ export const kr = {
   product_memo: "상품 메모",
   product_price: "상품금액",
   provides_a_tab_that_can_be_divided_by_status_in_the_assignment_calendar:
-    "배정달력에서 방태입별로 나누어볼수있는 탭을 제공",
+    `배정달력에서 ${Var.B}태입별로 나누어볼수있는 탭을 제공`,
   purpose_of_collection: "수집 목적",
   receiver: "수신자",
   release_service: "서비스 해제",
   remove_all_reservations_booked_together: "함께 예약된 모든 예약 인원 제거",
-  remove_roomType_completed: "방타입 삭제성공",
-  remove_roomType_fail: "방타입 삭제실패",
+  remove_roomType_completed: `${Var.BT} 삭제성공`,
+  remove_roomType_fail: `${Var.BT} 삭제실패`,
   rep_color: "대표색상",
   request_url: "요청URL",
   reservation_confirm: "예약확인",
@@ -489,30 +490,30 @@ export const kr = {
   reservations_booked_directly_by_the_administrator_are_not_displayed:
     "관리자가 직접 예약한 예약은 표시되지 않습니다.",
   retention_period: "보유 기간",
-  room: "방",
-  roomForm: "방형태",
-  roomPic: "방사진",
-  roomType: "방타입",
-  room_block_release: "방막기 해제",
-  room_block_release_fail: "방막기 해제 실패",
-  room_config: "방 설정",
-  room_count: "객실수",
-  room_create_completed: "방 생성완료",
-  room_create_fail: "방 생성실패",
-  room_delete_completed: "방 삭제완료",
-  room_delete_fail: "방 삭제실패",
-  room_gender: "방성별",
-  room_info: "객실정보",
-  room_name: "방이름",
-  room_name_must_be_10_characters_or_less: "방이름은 10자 이하여야합니다.",
-  room_select: "방 선택",
-  room_setting: "방설정",
-  room_type_basic_price: "방 기본가격",
-  room_type_desc: "방타입 추가설명",
-  room_type_name: "방타입 이름",
-  room_type_tab: "방타입별 탭",
-  room_update: "방 업데이트",
-  room_update_fail: "방 업데잍 실패",
+  room: `${Var.B}`,
+  roomForm: `${Var.B}형태`,
+  roomPic: `${Var.B}사진`,
+  roomType: `${Var.BT}`,
+  room_block_release: `${Var.B}막기 해제`,
+  room_block_release_fail: `${Var.B}막기 해제 실패`,
+  room_config: `${Var.B} 설정`,
+  room_count: `${Var.GS}수`,
+  room_create_completed: `${Var.B} 생성완료`,
+  room_create_fail: `${Var.B} 생성실패`,
+  room_delete_completed: `${Var.B} 삭제완료`,
+  room_delete_fail: `${Var.B} 삭제실패`,
+  room_gender: `${Var.B}성별`,
+  room_info: `${Var.GS}정보`,
+  room_name: `${Var.B}이름`,
+  room_name_must_be_10_characters_or_less: `${Var.B}이름은 10자 이하여야합니다.`,
+  room_select: `${Var.B} 선택`,
+  room_setting: `${Var.B}설정`,
+  room_type_basic_price: `${Var.B} 기본가격`,
+  room_type_desc: `${Var.BT} 추가설명`,
+  room_type_name: `${Var.BT} 이름`,
+  room_type_tab: `${Var.BT}별 탭`,
+  room_update: `${Var.B} 업데이트`,
+  room_update_fail: `${Var.B} 업데잍 실패`,
   row: "열",
   sales: "매출",
   sales_statistics: "매출통계",
@@ -527,9 +528,9 @@ export const kr = {
   second: "초",
   select: "선택",
   select_date: "날짜선택",
-  select_house_type: "숙소타입 선택",
-  select_roomGender: "방성별 선택",
-  select_roomType: "방타입 선택",
+  select_house_type: `${Var.SS}타입 선택`,
+  select_roomGender: `${Var.B}성별 선택`,
+  select_roomType: `${Var.BT} 선택`,
   select_service: "서비스 선택",
   select_support_language: "지원 언어 선택",
   select_the_desired_setting_item: "원하는 설정 항목을 선택하세요.",
@@ -544,8 +545,8 @@ export const kr = {
   send_sms_failed: "SMS 발송실패",
   send_status: "발신상태",
   send_target: "발신대상",
-  host_slash_guest: "호스트/게스트",
-  send_text_to_host: "호스트에게 문자 보내기",
+  host_slash_guest: `${Var.H}/${Var.G}`,
+  send_text_to_host: `${Var.H}에게 문자 보내기`,
   send_type: "발신타입",
   seperatle_gender: "제한없음(혼숙X)",
   server_will_check_if_there_is_a_new_reservation_once_every_set_number_by_ms:
@@ -557,7 +558,7 @@ export const kr = {
   signUp: "회원가입",
   signup_complted: "회원가입 완료",
   signup_submit: "가입완료",
-  six_months_after_stay: "숙박후 6개월",
+  six_months_after_stay: `${Var.SB}후 6개월`,
   smooth_reservation_management: "원활한 예약 관리",
   sms_history: "SMS 내역",
   sms_setting: "SMS설정",
@@ -581,14 +582,14 @@ export const kr = {
   the_current_product_has_expired_normal_service_is_not_possible_Please_proceed_with_the_payment:
     "현재 상품이 만료되었습니다. 정상적인 서비스가 불가능합니다. 결제를 진행 해주세요.",
   the_email_set_is_not_valid: "설정된 이메일이 유효하지 않습니다.",
-  the_max_count_of_houseName_is_20: "숙소명은 최대 20글자 입니다.",
+  the_max_count_of_houseName_is_20: `${Var.SS}명은 최대 20글자 입니다.`,
   the_memo_gives_an_alarm_on_the_next_connection:
     "해당 메모는 다음 접속시 알람을 줍니다.",
   the_minimum_personal_information_required_to_provide_the_service_is_required_to_use_the_service:
     "서비스 제공을 위해 필요한 최소한의 개인정보이므로 동의를 해주셔야 서비스를 이용하실수 있습니다",
   the_phone_number_set_is_not_valid: "설정된 전화번호가 유효하지 않습니다.",
   there_is_an_alarm_set_note: "알람 설정된 메모가 있습니다.",
-  there_is_no_room_in_selected_date: "해당날짜에 예약가능한 방이 없습니다",
+  there_is_no_room_in_selected_date: `해당날짜에 예약가능한 ${Var.B}이 없습니다`,
   this_month_sales: "이번달매출",
   this_price_modification_will_be_the_highest_priority_of_all_pricing:
     "해당 가격 수정은 모든 가격설정 중 최우선 적용 됩니다.",
@@ -596,11 +597,11 @@ export const kr = {
   till: "까지",
   time: "시간",
   timeout_please_request_again: "시간초과 다시 요청 해주세요.",
-  todat_sleep_people: "오늘 숙박 인원",
+  todat_sleep_people: `오늘 ${Var.SB} 인원`,
   today: "오늘",
-  today_checkIn_people: "오늘 체크인 인원",
+  today_checkIn_people: `오늘 ${Var.CI} 인원`,
   today_sales: "오늘매출",
-  tomorrow_checkIn_people: "내일 체크인 인원",
+  tomorrow_checkIn_people: `내일 ${Var.CI} 인원`,
   total_price: "총가격",
   transmission_time: "전송시간",
   try_to_create_in_SMS_settings: "SMS 설정에서 생성 해보세요.",
@@ -616,8 +617,8 @@ export const kr = {
   update_fail: "업데이트 실패",
   update_profile: "프로필 업데이트",
   update_profile_fail: "프로필 업데이트 실패",
-  update_roomType_completed: "방타입 업데이트 성공",
-  update_roomType_fail: "방타입 업데이트 실패",
+  update_roomType_completed: `${Var.BT} 업데이트 성공`,
+  update_roomType_fail: `${Var.BT} 업데이트 실패`,
   update_template_completed: "양식 업데이트 완료",
   update_template_failed: "양식 업데이트 실패",
   update_to_recommended_browser_chrome: "권장 브라우저(Chrome)로 업데이트",
@@ -662,7 +663,7 @@ export const kr = {
   ),
   F_selected_product_apply_to_house: (houseName: any) => (
     <span>
-      * 선택하신 서비스는 숙소
+      * 선택하신 서비스는 {Var.SS}
       <span className="JDtextColor--point">{` ${houseName} `}</span>에
       적용됩니다.
     </span>
@@ -675,16 +676,16 @@ export const kr = {
     `${userName}님 좋은 일 가득하길 기원합니다.`,
   F_user_name_have_a_bright_day: (userName: any) =>
     `${userName}님 오늘도 힘찬 하루 되세요.`,
-  F_have_house_count_n: (n: any) => `숙소 ${n}개 보유중`,
+  F_have_house_count_n: (n: any) => `${Var.SS} ${n}개 보유중`,
   F_you_have_x_free_trial_left_y__is_about_to_expire: (
     daysLeftToExpire: any,
     expireDate: any
   ) =>
     `무료 테스트 기간이 ${daysLeftToExpire} 남았습니다. ${expireDate} 만료예정.`,
   F_product2_detail2: (n: any) =>
-    `해당 상품은 방갯수가 ${n}개 이하인 숙소에 적합합니다.`,
+    `해당 상품은 ${Var.B}갯수가 ${n}개 이하인 ${Var.SS}에 적합합니다.`,
   F_product3_detail2: (n: any) =>
-    `해당 상품은 방갯수가 ${n}개 이하인 숙소에 적합합니다.`,
+    `해당 상품은 ${Var.B}갯수가 ${n}개 이하인 ${Var.SS}에 적합합니다.`,
   the_price_is_too_low_are_you_sure_to_set_this_price: (
     <span>
       가격이 1000원 이하입니다. <br />
@@ -693,7 +694,7 @@ export const kr = {
   ),
   house_create: (
     <span>
-      숙소
+      {Var.SS}
       <Mbr />
       생성
     </span>
@@ -713,19 +714,19 @@ export const kr = {
   ),
   automatically_send_prompts_to_your_guests: (
     <span>
-      게스트에게 안내문자를
+      {Var.G}에게 안내문자를
       <Mbr />
       자동 발송해 보세요.
     </span>
   ),
   roomType_dose_not_exsist: (
     <span>
-      방타입이 <Mbr /> 존재하지 않습니다.
+      {Var.BT}이 <Mbr /> 존재하지 않습니다.
     </span>
   ),
   additionaly_setting_to_will_good_for_manage_ment: (
     <span>
-      추가로 다음과 같은 설정을 해두시면 <Mbr /> 숙소운영에 도움이 될거에요!
+      추가로 다음과 같은 설정을 해두시면 <Mbr /> ${Var.SS}운영에 도움이 될거에요!
     </span>
   ),
   default_setting_is_compelted: (
@@ -736,7 +737,7 @@ export const kr = {
   ),
   make_it_easy_to_guide_accommodation_for_guests: (
     <span>
-      게스트에게 숙소 이용 <Mbr />
+      {Var.G}에게 {Var.SS} 이용 <Mbr />
       안내를 편리하게 해보세요.
     </span>
   ),
@@ -749,8 +750,8 @@ export const kr = {
   // 🔻 new
   monthly_fee: "월요금",
   TODAY_STAY: "오늘 머무르는 인원",
-  TODAY_CHECKIN: "오늘 체크인하는 인원",
-  TOMORROW_CHECKIN: "내일 체크인하는 인원",
+  TODAY_CHECKIN: `오늘 ${Var.CI}하는 인원`,
+  TOMORROW_CHECKIN: `내일 ${Var.CI}하는 인원`,
   EXSIST_INFO: "선택한 인원",
   service_expire: "서비스 만료",
   RoomGender: {
@@ -783,12 +784,12 @@ export const kr = {
     COMPLETED: "결제완료"
   },
   SendTarget: {
-    BOTH: "게스트&호스트",
-    GUEST: "게스트",
-    HOST: "호스트"
+    BOTH: `${Var.G}&${Var.H}`,
+    GUEST: `${Var.G}`,
+    HOST: `${Var.H}`
   },
   please_select_pay_status: "결제 상태를 선택해 주세요.",
-  exit_house_settings: "숙소설정 끝내기",
+  exit_house_settings: `${Var.SS}설정 끝내기`,
   none_data: "no data",
   dontSMS: "전송안함",
   hm_page_URL: "AI 무인 솔루션 URL",
@@ -798,7 +799,7 @@ export const kr = {
   reservation_creation_complete_for_guest: "예약이 완료 되었습니다.",
   reservation_creation_fail_for_guest: "예약 생성 실패",
   price_priority:
-    "*우선 적용순위: 방타입 기본가격 < 시즌기본가격 < 시즌 요일별가격 < 일별 가격",
+    `*우선 적용순위: ${Var.BT} 기본가격 < 시즌기본가격 < 시즌 요일별가격 < 일별 가격`,
   reference_fail: "조회실패",
   reference_success: "조회성공",
   funnels: "유입경로",
@@ -862,10 +863,10 @@ export const kr = {
   and: "그리고",
   member_ship: "멤버쉽",
   create_memo: "메모쓰기",
-  host_memo: "호스트 메모",
-  guest_memo: "게스트 메모",
+  host_memo: `${Var.H} 메모`,
+  guest_memo: `${Var.G} 메모`,
   write: "작성",
-  no_guest_notes_after_today: "오늘자 이후로 작성된 게스트 메모가 없습니다.",
+  no_guest_notes_after_today: `오늘자 이후로 작성된 ${Var.G} 메모가 없습니다.`,
   update: "업데이트",
   create: "생성하기",
   house_front_img: "하우스 대표 이미지",
@@ -897,7 +898,7 @@ export const kr = {
   pay_with_this_card: "이카드로 정기결제 등록",
   static_page_desc:
     "매출에 관한 통계를 확인할수 있습니다. 표기할 날짜와 기한을 설정하여 그사이에 매출을 확인할 수 있습니다.",
-  assigTimeline__decs: "배정달력에서 게스트들을 원하는 방에 배정할수 있습니다.",
+  assigTimeline__decs: `배정달력에서 ${Var.G}들을 원하는 ${Var.B}에 배정할수 있습니다.`,
   JANDA_home: "JANDA 홈",
   JANDA_home_desc:
     "현 대쉬보드에서 오늘날짜에 관한 배정 현황을 확인할수 있습니다.",
@@ -907,9 +908,9 @@ export const kr = {
   lang_use_set: "언어 사용설정",
   HM_set__desc: (
     <span>
-      AI 무인 솔루션은 게스트가 쉽고 편하게 숙소를 이용할 수 있도록 안내
+      AI 무인 솔루션은 {Var.G}가 쉽고 편하게 {Var.SS}를 이용할 수 있도록 안내
       페이지를 송신합니다. <br />
-      AI 무인 솔루션이 게스트의 숙소 이용법을 설명하는 수고를 덜어 줄겁니다.
+      AI 무인 솔루션이 {Var.G}의 {Var.SS} 이용법을 설명하는 수고를 덜어 줄겁니다.
     </span>
   ),
   user_info: "회원정보",
@@ -958,7 +959,7 @@ export const kr = {
           2. 양식생성 화면에서 타이틀과, 메시지를 입력하시고 메시지화면에서 중간
           중간에 생성할
           <b>
-            숙박일자/숙박정보/예약자명/가격/결제방법/결제상태/AI 무인 솔루션URL
+            {Var.SB}일자/{Var.SB}정보/예약자명/가격/결제방법/결제상태/AI 무인 솔루션URL
           </b>
           문구를 아래에 <b>양식메시지</b>에서 클릭하시면 메시지 발송시에
           자동으로 정보가 입력됩니다.
@@ -974,7 +975,7 @@ export const kr = {
           선택하여 설정하고
         </div>,
         <div>
-          4. 발신대상을 <b>게스트/호스트/게스트+호스트</b> 별로 지정을 해주시고
+          4. 발신대상을 <b>{Var.G}/${Var.H}/{Var.G}+${Var.H}</b> 별로 지정을 해주시고
           우측에 <b>자동발신 활설화</b> 여부를 on / oFF 설정해주시면 언제든지
           고객에게 알림 문자가 발송되게 설정됩니다
         </div>
@@ -1035,10 +1036,10 @@ export const kr = {
   house_detail_config: "하우스 세부설정",
   frequent_questions: "자주하는 질문",
   mypage_profile_desc: "회원정보를 수정할수 있습니다.",
-  mypage_houses_desc: "보유중인 숙소를 관리할수 있습니다.",
+  mypage_houses_desc: `보유중인 ${Var.SS}를 관리할수 있습니다.`,
   show_detail: "자세히보기",
   basic_config: "기본설정",
-  guestStatus_mark: "게스트 상태 마크",
+  guestStatus_mark: `${Var.G} 상태 마크`,
   shortkey_config: "키보드 설정",
   change_pay_method: "결제수단변경",
   un_validate_card_number: "유효하지 않은 카드번호 입니다.",
@@ -1050,24 +1051,24 @@ export const kr = {
   there_is_no_card: "등록된 카드가 존재하지 않습니다.",
   no_card: "카드 없음",
   HouseType: {
-    GUEST_HOUSE: "게스트하우스",
+    GUEST_HOUSE: `${Var.G}하우스`,
     HOTEL: "호텔",
     MOTEL: "모텔",
     PENSION: "펜션",
     HOSTEL: "호스텔",
     YOUTH_HOSTEL: "유스호스텔"
   },
-  please_select_room_gender: "방성별을 선택 해주세요.",
-  please_select_room_type: "방타입을 선택 해주세요.",
+  please_select_room_gender: `${Var.B}성별을 선택 해주세요.`,
+  please_select_room_type: `${Var.BT}을 선택 해주세요.`,
   please_input_max_people_count: "최대인원수를 입력 해주세요.",
-  room_assig_info: "방/배정 정보",
+  room_assig_info: `${Var.B}/배정 정보`,
   else: "기타",
   check_init: "생성확인",
   timeline_config: "타임라인설정",
   mypage_desc:
-    "정기결제에 대한 관리 및 생성한 숙소와 유저 프로필을 확인할 수 있습니다.",
+    `정기결제에 대한 관리 및 생성한 ${Var.SS}와 유저 프로필을 확인할 수 있습니다.`,
   room_config_desc:
-    "숙소를 운영하는데 필요한 방타입 및 방을 생성 및 수정하세요.",
+    `${Var.SS}를 운영하는데 필요한 ${Var.BT} 및 ${Var.B}을 생성 및 수정하세요.`,
   HouseStatus: {
     DISALBE: "중지",
     WAIT: "대기",
@@ -1078,15 +1079,15 @@ export const kr = {
   server_dose_not_respond: "서버가 응답하지 않습니다.",
   network_connected: "네트워크에 연결되었습니다.",
   periodical_payment_is_changed: (houseName: string, flag?: boolean) =>
-    `${houseName}의 정기결제가 ${flag ? "등록" : "중지"}되었습니다.`,
+    `${houseName}의 정기결제가 ${flag ? `등록` : "중지"}되었습니다.`,
   request_is_failed: "요청이 실패했습니다.",
   product_regist_complete_message: "상품등록이 완료 되었습니다.",
   select_product_desc:
     "상품을 등록할때 카드정보를 입력받습니다. 만료기간이 끝나면 자동적으로 결제를 진행합니다.",
   please_check_file_has_special_char: "파일에 특수문자가 있는지 검사 해주세요.",
-  room_start_number: "방시작 번호.",
+  room_start_number: `${Var.B}시작 번호.`,
   assig_info: "배정정보",
-  people_and_room_info: "인원 및 방정보",
+  people_and_room_info: `인원 및 ${Var.B}정보`,
   to_next: "다음으로",
   payment_completed: "결제가 완료 되었습니다.",
   payer: "결제자",
@@ -1094,23 +1095,23 @@ export const kr = {
   payment_date: "결제일자",
   move_to_check_page: "예약 확인 페이지로 이동합니다.",
   please_upload_image: "이미지를 업로드 해주세요.",
-  check_in_slash_check_out: "체크인/체크아웃",
+  check_in_slash_check_out: `${Var.CI}/${Var.CO}`,
   finish: "설정 끝마치기",
   prev_step: "이전단계",
   next_step: "다음단계",
-  house_config: "숙소설정",
+  house_config: `${Var.SS}설정`,
   house_config_desc:
-    "선택한 숙소에대한 정보를 한눈에 관리가 가능합니다. 여기에서 입력되는 정보는 홈페이지와 e-mail 등등 여러가지로 발송됩니다.",
+    `선택한 ${Var.SS}에대한 정보를 한눈에 관리가 가능합니다. 여기에서 입력되는 정보는 홈페이지와 e-mail 등등 여러가지로 발송됩니다.`,
   basic_info: "기본정보",
-  basic_info_desc: "숙소의 기본정보를 수정 하실 수 있습니다.",
+  basic_info_desc: `${Var.SS}의 기본정보를 수정 하실 수 있습니다.`,
   deposit_info: "입금정보",
-  deposit_info_desc: "숙소의 입금정보를 수정 하실 수 있습니다.",
+  deposit_info_desc: `${Var.SS}의 입금정보를 수정 하실 수 있습니다.`,
   account_number: "계좌번호",
   depositor: "예금주",
   bank_name: "은행명",
   support_payment_method: "지원 결제수단",
-  update_house_completed: "숙소 업데이트 완료",
-  update_house_failed: "숙소 업데이트 실패",
+  update_house_completed: `${Var.SS} 업데이트 완료`,
+  update_house_failed: `${Var.SS} 업데이트 실패`,
   sms__decs:
     "SMS 양식을 설정해두시면 메세지를 보낼때 해당 양식을 편리하게 보낼 수 있습니다.",
   do_you_want_to_change_periodical_pay:
@@ -1149,8 +1150,8 @@ export const kr = {
   homepage: "홈페이지",
   complete: "완료",
   un_complete: "미완료",
-  room_type_create: "방타입생성",
-  room_create: "방생성",
+  room_type_create: `${Var.BT}생성`,
+  room_create: `${Var.B}생성`,
   sms_config: "SMS 설정",
   homepage_request: "홈페이지 신청하기",
   homepage_request_desc:
@@ -1175,12 +1176,12 @@ export const kr = {
     "정기결제를 취소하는 시점부터 잔다부킹시스템 이용이 힘드니 이점 유념하시길 바랍니다.",
   check_new_password: "새로운 패스워드 확인 입력",
   detail_info: "상세정보",
-  roomType_count: "방타입 수",
+  roomType_count: `${Var.BT} 수`,
   createHouse_desc: (
     <span>
-      한계정에 추가적인 숙소를 생성 하실 수 있습니다.{" "}
+      한계정에 추가적인 {Var.SS}를 생성 하실 수 있습니다.{" "}
       <span className="JDtextColor--error">
-        * 월별 요금은 숙소당 개별 지불 되니 이점 유의하시길 바랍니다.{" "}
+        * 월별 요금은 {Var.SS}당 개별 지불 되니 이점 유의하시길 바랍니다.{" "}
       </span>
     </span>
   ),
@@ -1198,16 +1199,16 @@ export const kr = {
     "정기결제 취소를 원하시면 [MYPAGE > 정기결제 관리 > 현재상태]를 변경하시면 정기결제가 되지 않습니다.",
   product_type_help_txt: () => (
     <span>
-      방 20개 이상은 JANDA-H (110,000/월) <br /> 그외 JANDA-G (55,000/월) 권장
+      ${Var.B} 20개 이상은 JANDA-H (110,000/월) <br /> 그외 JANDA-G (55,000/월) 권장
     </span>
   ),
   product_type_desc: (productTypePrice: number) =>
     `${autoComma(productTypePrice)} / 월 (14일 무료 취소가능)`,
-  house_init_done_fisrt: "환영합니다. 숙소 생성이 완료 되었습니다.",
-  house_init_done: "숙소가 추가 되었습니다.",
-  house_init_failed: "숙소 생성에 실패했습니다. 별도 문의 바랍니다.",
+  house_init_done_fisrt: `환영합니다. ${Var.SS} 생성이 완료 되었습니다.`,
+  house_init_done: `${Var.SS}가 추가 되었습니다.`,
+  house_init_failed: `${Var.SS} 생성에 실패했습니다. 별도 문의 바랍니다.`,
   drag_failed_msg: "선택된 구간은 사용 할 수 없습니다.",
-  room_index: "방순서",
+  room_index: `${Var.B}순서`,
   index_unit: "번",
   user_request_create: "유저 요청 생성 완료",
   user_request_failed: "유저 요청 생성 실패",
@@ -1221,7 +1222,7 @@ export const kr = {
     PRICE_PAGE: "가격 페이지",
     RESV_API: "예약 API",
     RESV_PAGE: "예약 페이지",
-    ROOM_INFO_PAGE: "방 정보 페이지"
+    ROOM_INFO_PAGE: `${Var.B} 정보 페이지`
   },
   add: "추가",
   request_domain: "신청 도메인",
@@ -1258,8 +1259,8 @@ export const kr = {
   it_is_wrong_number: "잘못된 전화번호입니다.",
   auth_complete: "인증완료",
   auth_failed: "인증실패",
-  save_room_done: "방저장 완료",
-  save_room_failed: "방저장 실패",
+  save_room_done: `${Var.B}저장 완료`,
+  save_room_failed: `${Var.B}저장 실패`,
   resv_search: "예약검색",
   how_search: "검색방법",
   search_helper: (
@@ -1275,7 +1276,7 @@ export const kr = {
       ]}
     />
   ),
-  room_type_config: "룸타입 설정",
+  room_type_config: "타입 설정",
   edit: "편집",
   summaryEdit: "보기 요약편집",
   summaryCreateEdit: (
@@ -1286,13 +1287,13 @@ export const kr = {
   Summary: {
     name: "이름",
     phoneNumber: "전화번호",
-    checkInOut: "체크인/아웃",
+    checkInOut: `${Var.CI}/${Var.CO}`,
     funnel: "유입경로",
     memo: "메모",
     payMethod: "결제방법",
     phone: "전화번호",
     resvDate: "예약일",
-    roomSelectInfo: "방정보",
+    roomSelectInfo: `${Var.B}정보`,
     bookingStatus: "예약상태",
     breakfast: "조삭",
     paymentStatus: "결제수단"
@@ -1308,8 +1309,8 @@ export const kr = {
     <JDlist
       linePoint="·"
       contents={[
-        "매출은 숙박일 기준으로 생성됩니다.",
-        "통계는 통계날자의 범위안에서 단위별로 보여집니다."
+        `매출은 ${Var.SB}일 기준으로 생성됩니다.`,
+        "통계는 통계날짜의 범위안에서 단위별로 보여집니다."
       ]}
     />
   ),
@@ -1331,7 +1332,7 @@ export const kr = {
     "매출 수수료 없음"
   ],
   janda55: [
-    "숙소운영 및 예약관리 솔루션",
+    `${Var.SS}운영 및 예약관리 솔루션`,
     <span>
       국내·외{" "}
       <JDtypho component={"span"} color="point">
@@ -1376,7 +1377,7 @@ export const kr = {
       </JDtypho>
     </span>,
     <span>
-      IOT 객실관리 시스템
+      IOT ${Var.GS}관리 시스템
       <JDtypho component={"span"} color="point">
         연동(별도문의)
       </JDtypho>
@@ -1404,5 +1405,17 @@ export const kr = {
     <JDtypho color="point">타사 상품과의 연동</JDtypho>,
     <span>기본 제공 범위 이외의 요청사항</span>
   ],
-  price_policy_detail: "요금표 자세히보기"
-};
+  price_policy_detail: "요금표 자세히보기",
+  roomType_card_unit: "원/일",
+  insert_tag: "태그입력",
+  // 이건 예약페이지에 관한 텍스트 수정이다.
+  // 부킹에 있어도 될것같다.
+  resv_page_info_editer: "예약페이지 안내 설정",
+  resv_page_info_editer_desc: "고객이 예약하면서 지켜야 할 주의사항 및 예약완료 안내메세지, 환불정책 등",
+  resv_complete_msg: "예약완료 메세지",
+  check_point_msg: "예약 확인 페이지 메세지",
+  refund_cancel: "환불취소",
+  refund_modal_header: "환불조정하기",
+  refund_modal_header_desc: "카드결제를 통해서 들어온 예약일경우 JANDA측에서 해당금액만큼 환불을 진행합니다.",
+  max_refund: (amt:number) => `최대 금액 ${amt}원`
+});

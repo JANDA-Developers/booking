@@ -1,5 +1,5 @@
 import React, { Fragment, useMemo } from "react";
-import { onCompletedMessage } from "../../utils/utils";
+import { onCompletedMessage, isEmpty } from "../../utils/utils";
 import {
   allocateGuestToRoom,
   allocateGuestToRoomVariables,
@@ -229,9 +229,15 @@ const DailyAssigWrap: React.FC<IDailyWrapWrapProp & WrapProp> = ({
   roomTypesData.forEach(rt => {
     rt.rooms.forEach(r => {
       const targets = itemDatas.filter(item => item.room?._id === r._id);
+      if(!isEmpty(targets)) {
+      console.log("targets");
+      console.log(targets);
+      console.log("r");
+      console.log(r);
+      }
       r.places.forEach((p, i) => {
         // @ts-ignore
-        const target = targets.find(item => item.bedIndex === i);
+        const target = targets.find(item => (item.bedIndex || 0) === i);
         p.item = target || null;
       });
     });

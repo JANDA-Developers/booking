@@ -11,7 +11,7 @@ import {
 import { IMG_REPO } from "../../../../types/const";
 
 const AssigTimelineRoomTabs: React.FC<IAddtionProp> = ({
-  updateHouseConfigMu,
+  updateFn: updateFnProp,
   context
 }) => {
   const { houseConfig, house } = context;
@@ -24,20 +24,15 @@ const AssigTimelineRoomTabs: React.FC<IAddtionProp> = ({
   const [colorEnable, setEnableColor] = useState(useColor);
 
   const updateFn = async () => {
-    const result = await updateHouseConfigMu({
-      variables: {
-        houseId: house._id,
-        UpdateHouseConfigParams: {
-          assigTimeline: {
-            roomTypeTabEnable,
-            itemBlockOp: {
-              itemBlockOpEnable: !use,
-              useColor: !colorEnable
-            }
-          }
+    const result = await updateFnProp({
+      assigTimeline: {
+        roomTypeTabEnable,
+        itemBlockOp: {
+          itemBlockOpEnable: !use,
+          useColor: !colorEnable
         }
       }
-    });
+    })
 
     return result;
   };

@@ -3,6 +3,7 @@ import { IAddition, IAddtionProp } from "../components/ConfigBlock";
 import SystemDescription from "./systemConfig";
 import AssigTimelineRoomTypeTab from "./assigTimelineRoomTypeTab";
 import { LANG } from "../../../../hooks/hook";
+import ReservationConfig from "./ReservationConfig";
 
 export const configBlocks: IAddition[] = [
   // {
@@ -11,12 +12,12 @@ export const configBlocks: IAddition[] = [
   //   updateAt: "2019-09-23",
   //   detailDescription: (prop: IAddtionProp) => <BaseConfig {...prop} />
   // },
-  // {
-  //   description: "예약 관련 설정",
-  //   name: "예약 설정",
-  //   updateAt: "2019-09-23",
-  //   detailDescription: (prop: IAddtionProp) => <ReservationConfig {...prop} />
-  // },
+  {
+    description: "예약 관련 설정",
+    name: "예약 설정",
+    updateAt: "2019-09-23",
+    detailDescription: (prop: IAddtionProp) => <ReservationConfig {...prop} />
+  },
   {
     description: LANG("system_related_settings"),
     name: LANG("system_config"),
@@ -32,7 +33,16 @@ export const configBlocks: IAddition[] = [
     detailDescription: (prop: IAddtionProp) => (
       <AssigTimelineRoomTypeTab {...prop} />
     )
-  }
+  },
+  {
+    description: LANG("resv_page_info_editer_desc"),
+    name: LANG("resv_page_info_editer"),
+    updateAt: "2019-07-01",
+    detailDescription: (prop: IAddtionProp) => (
+      <AssigTimelineRoomTypeTab {...prop} />
+    )
+  },
+
   // 테스트하고 정리해서 ㄱㄱ
   // {
   //   description: "배정 게스트에 대한 상세설정기능",

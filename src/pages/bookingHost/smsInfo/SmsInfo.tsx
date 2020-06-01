@@ -8,6 +8,7 @@ import PhotoFrame from "../../../atoms/photoFrame/PhotoFrame";
 import { IMG_REPO } from "../../../types/const";
 import { IContext } from "../BookingHostRouter";
 import { Redirect } from "react-router-dom";
+import { currentLang } from "../../../langs/JDlang";
 
 interface Iprops {
   context: IContext;
@@ -25,7 +26,7 @@ const SmsInfo: React.FC<Iprops> = ({ context }) => {
         <PhotoFrame
           unStyle
           type=".png"
-          lang={context.langHook.currentLang}
+          lang={currentLang}
           src={IMG_REPO + `booking_app/describe/smsinfo_img_02`}
         />
         <Doc>

@@ -26,6 +26,7 @@ import {
   loadMap
 } from "../createHouse/components/googleMapHelper";
 import { DEFAULT_BANK_INFO } from "../../../types/defaults";
+import { JDalign } from "@janda-com/front";
 
 let map: google.maps.Map | null = null;
 
@@ -39,7 +40,9 @@ const HouseConfig: React.FC<IProps & ProvidedProps> = ({
   updateHouseFn,
   context
 }) => {
-  const { house } = context;
+  const { house, houseConfig } = context;
+  const { bookingConfig } = houseConfig;
+
   const { name, houseType, location: defaultLocation } = house;
   const { address, addressDetail, lat, lng } = defaultLocation;
   const {
@@ -236,6 +239,14 @@ const HouseConfig: React.FC<IProps & ProvidedProps> = ({
                 />
               </div>
             </div>
+          </CardSection>
+          <CardHeader title={"템프"} desc={"요거요거 바꿀수있음"} />
+          <CardSection>
+            <JDalign>
+              <InputText mr="no" label="예약완료 메세지" textarea />
+              <InputText mr="no" label="예약조회 페이지 메세지" textarea />
+              <InputText label="흠" textarea />
+            </JDalign>
           </CardSection>
         </JDcard>
       </PageBody>

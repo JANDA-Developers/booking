@@ -25,12 +25,10 @@ import { DEFAULT_SMS_TEMPLATE } from "../../../../types/defaults";
 import InputText from "../../../../atoms/forms/inputText/InputText";
 import { MutationFn } from "react-apollo";
 import JDLabel from "../../../../atoms/label/JDLabel";
-import {
+import JDselect, {
   SelectBoxSize
 } from "../../../../atoms/forms/selectBox/SelectBox";
-import {
-  JDselect,
-} from "@janda-com/front";
+
 import JDswitch from "../../../../atoms/forms/switch/Switch";
 import Help from "../../../../atoms/Help/Help";
 import {
@@ -109,10 +107,10 @@ const SmsTemplateModal: React.FC<Iprops> = ({
   const AutoSendWhenTemp =
     sendTSO?.value && sendASO?.value
       ? {
-          enable: enableHook.checked,
-          when: sendASO.value,
-          who: sendTSO.value
-        }
+        enable: enableHook.checked,
+        when: sendASO.value,
+        who: sendTSO.value
+      }
       : null;
 
   const tempTemplateVariables = {
@@ -184,7 +182,7 @@ const SmsTemplateModal: React.FC<Iprops> = ({
                 mode="border"
                 key={`templateBtn${templateData._id}${value}`}
                 label={LANG("SmsReplaceKey")
-                  [value].replace("[", "")
+                [value].replace("[", "")
                   .replace("]", "")}
               />
             ))}

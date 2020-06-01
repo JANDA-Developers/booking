@@ -6,11 +6,11 @@ import resolvers from "./resolvers";
 import cache from "./cache";
 import { toast } from "react-toastify";
 import ToastError from "../components/toasts/ErrorToast";
-import { JDlang } from "../langs/JDlang";
-import { CURRENT_LANG } from "../hooks/hook";
+import { } from "../langs/JDlang";
 import { Observable, ApolloLink } from "apollo-link";
 import { onError, ErrorResponse } from "apollo-link-error";
 import { createUploadLink } from "apollo-upload-client";
+import { LANG } from "../hooks/hook";
 
 const request = async (operation: any) => {
   operation.setContext({
@@ -54,7 +54,7 @@ const hanldeError = ({ graphQLErrors, networkError }: ErrorResponse) => {
     });
     toast.warn(<ToastError />);
   } else if (networkError) {
-    toast.warn(JDlang(CURRENT_LANG, "server_dose_not_respond"));
+    toast.warn(LANG("server_dose_not_respond"));
   }
 };
 

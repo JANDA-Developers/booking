@@ -1,4 +1,4 @@
-import React, { useState, Fragment, useEffect,useLayoutEffect } from "react";
+import React, { useState, Fragment, useEffect, useLayoutEffect } from "react";
 import windowSize, { WindowSizeProps } from "react-window-size";
 import { Query } from "react-apollo";
 import ErrProtecter from "../../../utils/errProtect";
@@ -62,9 +62,9 @@ import { IBookerInfo, IReservationHooks } from "./declation";
 import { Redirect } from "react-router-dom";
 import { TCardRegistInfo } from "../../../components/cardModal/declare";
 
-class GetAllAvailRoomQu extends Query<getAllRoomTypeForBooker> {}
+class GetAllAvailRoomQu extends Query<getAllRoomTypeForBooker> { }
 export interface ISetBookingInfo
-  extends React.Dispatch<React.SetStateAction<IBookerInfo>> {}
+  extends React.Dispatch<React.SetStateAction<IBookerInfo>> { }
 
 interface IProps {
   makeBookingForPublicMu?: IMu<
@@ -126,6 +126,11 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
     payMethods.includes(op.value)
   );
 
+  useEffect(() => {
+    console.log(window);
+    window.scrollTo(screen.width / 2, screen.height / 2);
+  }, [bookingInfoModal.isOpen, rsevModalHook.isOpen]);
+
   const payMethodHook = useSelect(filteredPayMethodOp[0]);
   const reservationHooks: IReservationHooks = {
     priceHook,
@@ -166,9 +171,9 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
   useLayoutEffect(() => {
 
     const theHeight = $("#JDreservation").height() || 1000;
-    const changeHeight = ()=> {
+    const changeHeight = () => {
       window.parent.postMessage({ height: theHeight }, "*");
-      LAST_HEIGHT = theHeight; 
+      LAST_HEIGHT = theHeight;
     }
     changeHeight();
   });
@@ -239,12 +244,12 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
         price: toNumber(priceHook.value),
         cardPayInfo: isCardPay
           ? {
-              cardNo: cardNo,
-              cardPw: cardPw,
-              expMonth,
-              expYear,
-              idNo
-            }
+            cardNo: cardNo,
+            cardPw: cardPw,
+            expMonth,
+            expYear,
+            idNo
+          }
           : undefined
       }
     };
@@ -334,7 +339,7 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
               <JDdayPicker
                 mode="checkInOutStyle"
                 canSelectSameDate={false}
-                isRange
+                isRange={false}
                 {...dayPickerHook}
               />
             )}
@@ -393,17 +398,17 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
                     />
                   ))
                 ) : (
-                  <Fragment>
-                    <h4 className="JDreservation__cardMessage JDtextcolor--placeHolder JDtext-align-center">
-                      <Preloader
-                        className="JDstandard-margin0"
-                        size="large"
-                        loading={roomAvailCountLoading}
-                      />
-                      {roomAvailCountLoading || roomCardMessage()}
-                    </h4>
-                  </Fragment>
-                );
+                    <Fragment>
+                      <h4 className="JDreservation__cardMessage JDtextcolor--placeHolder JDtext-align-center">
+                        <Preloader
+                          className="JDstandard-margin0"
+                          size="large"
+                          loading={roomAvailCountLoading}
+                        />
+                        {roomAvailCountLoading || roomCardMessage()}
+                      </h4>
+                    </Fragment>
+                  );
               }}
             </GetAllAvailRoomQu>
           </Card>

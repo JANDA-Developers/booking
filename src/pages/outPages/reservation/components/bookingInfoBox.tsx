@@ -56,7 +56,7 @@ const BookingInfoBox: React.FC<IBookingInfoBoxProps> = ({
       }
     },
     {
-      Header: LANG("personnel"),
+      Header: LANG("personnel")(!Boolean(roomTypeInfo.find(ri => ri.pricingType === PricingType.DOMITORY))),
       accessor: "roomTypeId",
       Cell: ({ original }) =>
         original.pricingType === PricingType.DOMITORY ? (
@@ -65,10 +65,10 @@ const BookingInfoBox: React.FC<IBookingInfoBoxProps> = ({
             <span>{`${original.count.female}${LANG("female")} `}</span>
           </div>
         ) : (
-          <div>
-            <span>{`${LANG("room_count")}:${original.count.roomCount}`}</span>
-          </div>
-        )
+            <div>
+              <span>{`${LANG("room_count")}:${original.count.roomCount}`}</span>
+            </div>
+          )
     }
   ];
 

@@ -29,6 +29,7 @@ import JDlist from "../../../atoms/list/List";
 import JDIcon from "../../../atoms/icons/Icons";
 import { arraySum } from "../../../utils/elses";
 import { ICardModalInfo } from "../../../components/cardModal/declare";
+import { currentLang } from "../../../langs/JDlang";
 
 type TRequest = {
   siteName: string;
@@ -55,10 +56,9 @@ const HomepageRequest: React.FC<IProps> = ({
   createUserRequestMu,
   homepageOptions
 }) => {
-  const { langHook, house, user } = context;
+  const { house, user } = context;
   const { _id, name: userName, email } = user;
   const { _id: houseId } = house;
-  const { currentLang } = langHook;
   const cardModalHook = useModal<ICardModalInfo>(false);
   const previewModalHook = useModal(false);
   const urlModalHook = useModal(false);
@@ -128,10 +128,10 @@ const HomepageRequest: React.FC<IProps> = ({
           },
           payInfo: payInfo
             ? {
-                ...payInfo,
-                buyerName: userName,
-                buyerEmail: email
-              }
+              ...payInfo,
+              buyerName: userName,
+              buyerEmail: email
+            }
             : undefined,
           types: UserReqeustType.HOMEPAGE,
           userMsg

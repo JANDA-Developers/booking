@@ -109,6 +109,10 @@ export const F_HOUSE = gql`
     publicKey
     createdAt
     updatedAt
+    tags{
+      key
+      value
+    }
   }
 `;
 
@@ -162,6 +166,7 @@ export const F_HOUSE_CONFIG = gql`
       period
     }
     bookingConfig {
+      bookOnlySingleDay 
       newBookingMark {
         enable
         newGuestTime
@@ -904,8 +909,6 @@ export const FIND_BOOKING = gql`
       }
     }
   }
-  ${F_GUEST}
-  ${F_BOOKING}
 `;
 
 // 예약 ::예약정보로 예약찾기 (게스트용)
@@ -1766,6 +1769,35 @@ export const DELETE_BLOCK = gql`
     }
   }
 `;
+
+// 취소S + 환불
+export const CANCLE_BOOKINGS = gql`
+  mutation cancelBookings(
+    $cancelParams: [CancelBookingInput!]
+    $refundRatio: Float
+    $cancelMessage: String
+    ) {
+    CancelBookings(
+      cancelParams: $cancelParams
+      refundRatio: $refundRatio
+      cancelMessage: $cancelMessage
+      ) {
+      ok
+      error
+    }
+  }
+`;
+
+// 취소 + 환불
+export const CANCLE_BOOKING = gql`
+  mutation cancelBooking($param: CancelBookingInput!) {
+    CancelBooking(param: $param) {
+      ok
+      error
+    }
+  }
+`;
+
 // 방배정 :: 방막기
 export const CREATE_BLOCK = gql`
   mutation createBlock(
@@ -2602,6 +2634,8 @@ export const DO_BILL_PAY_PRODUCT = gql`
   }
 `;
 
+// Defrecated 
+// CancelBooking을 사용하세요.
 export const REFUND_BOOKING = gql`
   mutation refundBooking($param: CancelBookingInput!) {
     CancelBooking(param: $param) {
@@ -2648,3 +2682,26 @@ export const SAVE_ROOMTYPES = gql`
     }
   }
 `;
+
+export const SEARCH_BOOKING = gql`
+  query searchBooking($bookingNum: String!) {
+    SearchBooking(bookingNum:$bookingNum) {
+    ok
+    error
+    data {
+      ...Fbooking
+      guests {
+        ...Fguest
+        roomType {
+          _id
+          name
+          index
+          description
+        }
+      }
+    }
+  }
+}
+  ${F_GUEST}
+  ${F_BOOKING}
+`

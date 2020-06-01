@@ -96,11 +96,8 @@ src/pages/document/pics/
 *.code-workspace
 src/schema.graphql
 src/types/graph.d.ts
-<<<<<<< HEAD
 *.svg
 *.png
-=======
->>>>>>> master
 dist
 .env.production
 server/src/schema.graphql

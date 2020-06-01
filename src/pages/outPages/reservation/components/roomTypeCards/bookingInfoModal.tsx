@@ -16,23 +16,22 @@ const BookingInfoModal: React.FC<Iprops> = ({
   ...props
 }) => {
   return (
-    <JDmodal noAnimation {...modalHook}>
-      <h6 className="JDtext-align-center">
-        {LANG("is_selected_info_collect")}
-      </h6>
+    <JDmodal
+      foot={<Button
+        mode="flat"
+        onClick={() => {
+          modalHook.closeModal();
+          paymentModalHook.openModal();
+        }}
+        thema="primary"
+        size="long"
+        label={LANG("selection_information_is_correct")}
+      />
+      }
+      head={{
+        title: LANG("is_selected_info_collect")
+      }} noAnimation {...modalHook}>
       <BookingInfoBox {...props} />
-      <ModalEndSection>
-        <Button
-          mode="flat"
-          onClick={() => {
-            modalHook.closeModal();
-            paymentModalHook.openModal();
-          }}
-          thema="primary"
-          size="long"
-          label={LANG("selection_information_is_correct")}
-        />
-      </ModalEndSection>
     </JDmodal>
   );
 };

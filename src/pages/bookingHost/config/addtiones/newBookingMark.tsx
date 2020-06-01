@@ -3,7 +3,7 @@ import JDLabel from "../../../../atoms/label/JDLabel";
 import JDrange from "../../../../atoms/forms/range/Range";
 import { IAddtionProp } from "../components/ConfigBlock";
 import JDswitch from "../../../../atoms/forms/switch/Switch";
-import { useSwitch, useRange, LANG } from "../../../../hooks/hook";
+import { useRange, LANG } from "../../../../hooks/hook";
 import { muResult } from "../../../../utils/utils";
 import JDbox from "../../../../atoms/box/JDbox";
 import { DEFAULT_HOUSE_CONFIG } from "../../../../types/defaults";
@@ -12,8 +12,8 @@ import { IMG_REPO } from "../../../../types/const";
 import JDbadge from "../../../../atoms/badge/Badge";
 
 const NewBookingMark: React.FC<IAddtionProp> = ({
-  updateHouseConfigMu,
-  context
+  context,
+  updateFn
 }) => {
   const { houseConfig, house } = context;
   const { bookingConfig } = houseConfig;
@@ -28,33 +28,23 @@ const NewBookingMark: React.FC<IAddtionProp> = ({
     if (typeof value !== "number") return;
     timeHook.onChange(value);
 
-    updateHouseConfigMu({
-      variables: {
-        houseId: house._id,
-        UpdateHouseConfigParams: {
-          bookingConfig: {
-            newBookingMark: {
-              enable: use,
-              newGuestTime: timeHook.value
-            }
-          }
+    updateFn({
+      bookingConfig: {
+        newBookingMark: {
+          enable: use,
+          newGuestTime: timeHook.value
         }
       }
     });
-  };
+  }
 
   const handleSwitchCange = async (flag: boolean) => {
     setUse(flag);
-    const result = await updateHouseConfigMu({
-      variables: {
-        houseId: house._id,
-        UpdateHouseConfigParams: {
-          bookingConfig: {
-            newBookingMark: {
-              enable: flag,
-              newGuestTime: timeHook.value
-            }
-          }
+    const result = await updateFn({
+      bookingConfig: {
+        newBookingMark: {
+          enable: flag,
+          newGuestTime: timeHook.value
         }
       }
     });

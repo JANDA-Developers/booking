@@ -56,6 +56,7 @@ const DragItem: React.FC<IProps> = ({ item, place, room, roomType }) => {
     ReactTooltip.rebuild();
   });
 
+
   if (!item) {
     const placeInfo: TPlaceInfo = {
       roomTypeId: roomType._id,
@@ -81,6 +82,8 @@ const DragItem: React.FC<IProps> = ({ item, place, room, roomType }) => {
   const [, drag] = useDrag({
     item
   });
+
+
 
   const isBlock = !instanceOfA<IG & IDragItemProp>(item, "booking");
 

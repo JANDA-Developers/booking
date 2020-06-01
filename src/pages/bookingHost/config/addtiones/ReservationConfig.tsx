@@ -1,33 +1,25 @@
 import React from "react";
-import {MutationFn} from "react-apollo";
-import {
-  updateHouseConfig,
-  updateHouseConfigVariables
-} from "../../../../types/api";
-import {IContext} from "../../../bookingHost/BookingHostRouter";
-import {useSwitch} from "../../../../hooks/hook";
+import { useSwitch } from "../../../../hooks/hook";
 import Button from "../../../../atoms/button/Button";
 import JDswitch from "../../../../atoms/forms/switch/Switch";
 import JDbox from "../../../../atoms/box/JDbox";
+import { IAddtionProp } from "../components/ConfigBlock";
+import { useCheckBox } from "@janda-com/front";
 
-interface IProps {
-  updateHouseConfigMu: MutationFn<
-    updateHouseConfig,
-    updateHouseConfigVariables
-  >;
-  context: IContext;
-}
-
-const ReservationConfig: React.FC<IProps> = ({
-  updateHouseConfigMu,
-  context
+const ReservationConfig: React.FC<IAddtionProp> = ({
+  context,
+  updateFn
 }) => {
-  const {houseConfig, house} = context;
+  const { houseConfig } = context;
+  const { bookingConfig } = houseConfig;
+  const { bookOnlySingleDay } = bookingConfig;
+  const singleDayHook = useCheckBox(bookOnlySingleDay);
+
   const {
-    bookingConfig: {collectingInfoFromGuest}
+    bookingConfig: { collectingInfoFromGuest }
   } = houseConfig;
 
-  const {email} = collectingInfoFromGuest;
+  const { email } = collectingInfoFromGuest;
 
   const enableEmailHook = useSwitch(email);
 
@@ -37,16 +29,9 @@ const ReservationConfig: React.FC<IProps> = ({
 
   const handleUpdateBtnClick = () => {
     if (vlidate()) {
-      updateHouseConfigMu({
-        variables: {
-          houseId: house._id,
-          UpdateHouseConfigParams: {
-            bookingConfig: {
-              collectingInfoFromGuest: {
-                email: enableEmailHook.checked
-              }
-            }
-          }
+      updateFn({
+        bookingConfig: {
+          bookOnlySingleDay: singleDayHook.checked,
         }
       });
     }

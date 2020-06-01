@@ -198,6 +198,8 @@ const DailyAssig: React.FC<IProps> = ({
     return <div className={classes} />;
   }
 
+
+
   return (
     <div className={classes}>
       <div className="dailyAssig__dayPicker--center">
@@ -231,9 +233,11 @@ const DailyAssig: React.FC<IProps> = ({
                 </div>
                 <div className="dailyAssig__roomsWrap">
                   {roomType.rooms.map(room => {
+
                     const itemsInRoom = itemDatas.filter(
                       guest => guest.room && guest.room._id === room._id
                     );
+
 
                     if (isEmpty(roomType.rooms))
                       return <span key={roomType._id + "empty"} />;

@@ -408,6 +408,12 @@ export interface getMyProfile_GetMyProfile_user_bankAccountInfo {
   accountHolder: string;
 }
 
+export interface getMyProfile_GetMyProfile_user_houses_tags {
+  __typename: "Tag";
+  key: string;
+  value: string;
+}
+
 export interface getMyProfile_GetMyProfile_user_houses_bookingPayInfo_bankAccountInfo {
   __typename: "BankAccountInfo";
   bankName: string;
@@ -453,6 +459,10 @@ export interface getMyProfile_GetMyProfile_user_houses_houseConfig_bookingConfig
 
 export interface getMyProfile_GetMyProfile_user_houses_houseConfig_bookingConfig {
   __typename: "BookingConfig";
+  /**
+   * 무조건 하루만 예약하게
+   */
+  bookOnlySingleDay: boolean | null;
   newBookingMark: getMyProfile_GetMyProfile_user_houses_houseConfig_bookingConfig_newBookingMark | null;
   collectingInfoFromGuest: getMyProfile_GetMyProfile_user_houses_houseConfig_bookingConfig_collectingInfoFromGuest | null;
 }
@@ -613,6 +623,7 @@ export interface getMyProfile_GetMyProfile_user_houses {
   publicKey: string | null;
   createdAt: any;
   updatedAt: any | null;
+  tags: getMyProfile_GetMyProfile_user_houses_tags[];
   bookingPayInfo: getMyProfile_GetMyProfile_user_houses_bookingPayInfo;
   houseConfig: getMyProfile_GetMyProfile_user_houses_houseConfig;
   smsInfo: getMyProfile_GetMyProfile_user_houses_smsInfo;
@@ -1965,6 +1976,12 @@ export interface getUserForSU_GetUserForSU_user_bankAccountInfo {
   accountHolder: string;
 }
 
+export interface getUserForSU_GetUserForSU_user_houses_tags {
+  __typename: "Tag";
+  key: string;
+  value: string;
+}
+
 export interface getUserForSU_GetUserForSU_user_houses_bookingPayInfo_bankAccountInfo {
   __typename: "BankAccountInfo";
   bankName: string;
@@ -2010,6 +2027,10 @@ export interface getUserForSU_GetUserForSU_user_houses_houseConfig_bookingConfig
 
 export interface getUserForSU_GetUserForSU_user_houses_houseConfig_bookingConfig {
   __typename: "BookingConfig";
+  /**
+   * 무조건 하루만 예약하게
+   */
+  bookOnlySingleDay: boolean | null;
   newBookingMark: getUserForSU_GetUserForSU_user_houses_houseConfig_bookingConfig_newBookingMark | null;
   collectingInfoFromGuest: getUserForSU_GetUserForSU_user_houses_houseConfig_bookingConfig_collectingInfoFromGuest | null;
 }
@@ -2170,6 +2191,7 @@ export interface getUserForSU_GetUserForSU_user_houses {
   publicKey: string | null;
   createdAt: any;
   updatedAt: any | null;
+  tags: getUserForSU_GetUserForSU_user_houses_tags[];
   bookingPayInfo: getUserForSU_GetUserForSU_user_houses_bookingPayInfo;
   houseConfig: getUserForSU_GetUserForSU_user_houses_houseConfig;
   smsInfo: getUserForSU_GetUserForSU_user_houses_smsInfo;
@@ -3302,6 +3324,9 @@ export interface makeBookingForPublic_MakeBookingForPublic {
 }
 
 export interface makeBookingForPublic {
+  /**
+   * madeByHost: false
+   */
   MakeBookingForPublic: makeBookingForPublic_MakeBookingForPublic;
 }
 
@@ -3339,6 +3364,9 @@ export interface makeBooking_MakeBooking {
 }
 
 export interface makeBooking {
+  /**
+   * madeByHost: true
+   */
   MakeBooking: makeBooking_MakeBooking;
 }
 
@@ -3736,6 +3764,54 @@ export interface deleteBlock {
 
 export interface deleteBlockVariables {
   blockId: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: cancelBookings
+// ====================================================
+
+export interface cancelBookings_CancelBookings {
+  __typename: "CancelBookingsResponse";
+  ok: boolean;
+  error: string | null;
+}
+
+export interface cancelBookings {
+  CancelBookings: cancelBookings_CancelBookings;
+}
+
+export interface cancelBookingsVariables {
+  cancelParams?: CancelBookingInput[] | null;
+  refundRatio?: number | null;
+  cancelMessage?: string | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: cancelBooking
+// ====================================================
+
+export interface cancelBooking_CancelBooking {
+  __typename: "CancelBookingResponse";
+  ok: boolean;
+  error: string | null;
+}
+
+export interface cancelBooking {
+  CancelBooking: cancelBooking_CancelBooking;
+}
+
+export interface cancelBookingVariables {
+  param: CancelBookingInput;
 }
 
 /* tslint:disable */
@@ -5771,6 +5847,146 @@ export interface saveRoomTypesVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: searchBooking
+// ====================================================
+
+export interface searchBooking_SearchBooking_data_roomTypes_img_tags {
+  __typename: "JdTag";
+  Key: string;
+  Value: string;
+}
+
+export interface searchBooking_SearchBooking_data_roomTypes_img {
+  __typename: "JdFile";
+  url: any;
+  filename: string;
+  mimeType: string;
+  tags: searchBooking_SearchBooking_data_roomTypes_img_tags[] | null;
+}
+
+export interface searchBooking_SearchBooking_data_roomTypes {
+  __typename: "RoomType";
+  _id: string;
+  name: string;
+  pricingType: PricingType;
+  peopleCount: number;
+  peopleCountMax: number;
+  index: number;
+  roomCount: number;
+  roomGender: RoomGender;
+  img: searchBooking_SearchBooking_data_roomTypes_img | null;
+  description: string | null;
+  /**
+   * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
+   */
+  defaultPrice: number | null;
+  createdAt: any;
+  updatedAt: any | null;
+}
+
+export interface searchBooking_SearchBooking_data_checkInInfo {
+  __typename: "CheckInInfo";
+  isIn: boolean;
+  checkInDateTime: any | null;
+}
+
+export interface searchBooking_SearchBooking_data_payment_cardInfo {
+  __typename: "PaymentInfo";
+  authDate: any;
+  billKey: string;
+  cardName: string;
+  cardNo: string;
+  cardCl: number;
+  card: Card | null;
+  cardCode: number;
+  cardNoHashed: string | null;
+  isLive: boolean;
+}
+
+export interface searchBooking_SearchBooking_data_payment {
+  __typename: "Payment";
+  /**
+   * 단발성 결제인지, 정기결제인지 확인 => ONE_TIME, SUBSCRIPTION
+   */
+  type: PaymentType;
+  payMethod: PayMethod;
+  totalPrice: number;
+  goodsVat: number | null;
+  supplyAmt: number | null;
+  status: PaymentStatus;
+  paymentResultParam: any | null;
+  refundedPrice: number | null;
+  tid: string | null;
+  cardInfo: searchBooking_SearchBooking_data_payment_cardInfo | null;
+}
+
+export interface searchBooking_SearchBooking_data_guests_roomType {
+  __typename: "RoomType";
+  _id: string;
+  name: string;
+  index: number;
+  description: string | null;
+}
+
+export interface searchBooking_SearchBooking_data_guests {
+  __typename: "GuestDomitory" | "GuestRoom";
+  _id: string;
+  pricingType: PricingType;
+  checkIn: any;
+  checkOut: any;
+  /**
+   * roomType 은 처음 예약하고나서 절대로 변경되지 않음.
+   */
+  roomType: searchBooking_SearchBooking_data_guests_roomType;
+}
+
+export interface searchBooking_SearchBooking_data {
+  __typename: "Booking";
+  _id: string;
+  roomTypes: searchBooking_SearchBooking_data_roomTypes[] | null;
+  paidByNice: boolean | null;
+  isNew: boolean;
+  name: any;
+  bookingNum: string;
+  password: string | null;
+  breakfast: boolean | null;
+  phoneNumber: any;
+  email: any | null;
+  checkInInfo: searchBooking_SearchBooking_data_checkInInfo;
+  memo: string | null;
+  agreePrivacyPolicy: boolean;
+  checkIn: any;
+  checkOut: any;
+  payment: searchBooking_SearchBooking_data_payment;
+  funnels: Funnels | null;
+  status: BookingStatus;
+  createdAt: any;
+  updatedAt: any | null;
+  isConfirm: boolean;
+  guests: searchBooking_SearchBooking_data_guests[] | null;
+}
+
+export interface searchBooking_SearchBooking {
+  __typename: "SearchBookingResponse";
+  ok: boolean;
+  error: string | null;
+  data: searchBooking_SearchBooking_data | null;
+}
+
+export interface searchBooking {
+  SearchBooking: searchBooking_SearchBooking;
+}
+
+export interface searchBookingVariables {
+  bookingNum: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL fragment: Flocation
 // ====================================================
 
@@ -5949,6 +6165,12 @@ export interface FNoti {
 // GraphQL fragment: Fhouse
 // ====================================================
 
+export interface Fhouse_tags {
+  __typename: "Tag";
+  key: string;
+  value: string;
+}
+
 export interface Fhouse {
   __typename: "House";
   _id: string;
@@ -5958,6 +6180,7 @@ export interface Fhouse {
   publicKey: string | null;
   createdAt: any;
   updatedAt: any | null;
+  tags: Fhouse_tags[];
 }
 
 /* tslint:disable */
@@ -6094,6 +6317,10 @@ export interface FhouseConfig_bookingConfig_collectingInfoFromGuest {
 
 export interface FhouseConfig_bookingConfig {
   __typename: "BookingConfig";
+  /**
+   * 무조건 하루만 예약하게
+   */
+  bookOnlySingleDay: boolean | null;
   newBookingMark: FhouseConfig_bookingConfig_newBookingMark | null;
   collectingInfoFromGuest: FhouseConfig_bookingConfig_collectingInfoFromGuest | null;
 }
@@ -6877,6 +7104,12 @@ export interface Fcontext_bankAccountInfo {
   accountHolder: string;
 }
 
+export interface Fcontext_houses_tags {
+  __typename: "Tag";
+  key: string;
+  value: string;
+}
+
 export interface Fcontext_houses_bookingPayInfo_bankAccountInfo {
   __typename: "BankAccountInfo";
   bankName: string;
@@ -6922,6 +7155,10 @@ export interface Fcontext_houses_houseConfig_bookingConfig_collectingInfoFromGue
 
 export interface Fcontext_houses_houseConfig_bookingConfig {
   __typename: "BookingConfig";
+  /**
+   * 무조건 하루만 예약하게
+   */
+  bookOnlySingleDay: boolean | null;
   newBookingMark: Fcontext_houses_houseConfig_bookingConfig_newBookingMark | null;
   collectingInfoFromGuest: Fcontext_houses_houseConfig_bookingConfig_collectingInfoFromGuest | null;
 }
@@ -7082,6 +7319,7 @@ export interface Fcontext_houses {
   publicKey: string | null;
   createdAt: any;
   updatedAt: any | null;
+  tags: Fcontext_houses_tags[];
   bookingPayInfo: Fcontext_houses_bookingPayInfo;
   houseConfig: Fcontext_houses_houseConfig;
   smsInfo: Fcontext_houses_smsInfo;
@@ -7519,7 +7757,8 @@ export interface BankAccountInfoInput {
 }
 
 export interface BaseConfigInput {
-  pricingTypes: PricingType[];
+  pricingTypes?: PricingType[] | null;
+  lang?: string | null;
 }
 
 export interface BlockOptionInput {
@@ -7529,11 +7768,13 @@ export interface BlockOptionInput {
 export interface BookingConfigInput {
   newBookingMark?: NewBookingMarkInput | null;
   collectingInfoFromGuest?: CollectingInfoFromGuestInput | null;
+  bookOnlySingleDay?: boolean | null;
 }
 
 export interface CancelBookingInput {
   bookingNum: string;
-  refundInfo?: PayCancelInput | null;
+  refundAmount?: number | null;
+  cancelMessage?: string | null;
 }
 
 export interface CheckInInput {

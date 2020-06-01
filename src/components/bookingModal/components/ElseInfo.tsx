@@ -19,11 +19,16 @@ const ElseInfo: React.FC<IProps> = ({ bookingModalContext, responseStyle }) => {
     checkInOutHook,
     breakfast,
     setBreakfast,
+    bookingData,
     isDesktopUp,
   } = bookingModalContext;
+  const { bookingNum } = bookingData;
   return (
     <Align {...responseStyle} mr={undefined}>
       {isDesktopUp && <JDtypho mb="normal">{LANG("else")}</JDtypho>}
+      <div>
+        <InputText readOnly icon="copyFile" value={bookingNum} halfHeight textarea label={LANG("booking_number")} />
+      </div>
       <div>
         <InputText {...memoHook} halfHeight textarea label={LANG("memo")} />
       </div>

@@ -1,26 +1,18 @@
-import { Language, TLanguageShort } from "../types/enum";
-import { kr } from "./kr";
+import LangModule from '@janda-com/lang';
+import { krFn } from "./kr";
 import en from "./en";
+import { getFromUrl } from '../utils/utils';
 
 export const JDlangsSet = {
-  kr,
+  kr: krFn(),
   en
 };
 
-// 언어 출력함수
-export const JDlang = (lang: TLanguageShort, key: string, key2?: string) => {
+export const BookingLang = new LangModule({
+  langPack: JDlangsSet,
+  lang: getFromUrl("ln") as any || localStorage.getItem("LastLang") as any || "kr"
+});
 
-  // @ts-ignore
-  if (!JDlangsSet[lang]) return "";
-  // @ts-ignore
-  if (!JDlangsSet[lang][key]) return "";
-  // @ts-ignore
-  if (key2) {
-    // @ts-ignore
-    if (!JDlangsSet[lang][key][key2]) return;
-    // @ts-ignore
-    return JDlangsSet[lang][key][key2];
-  }
-  // @ts-ignore
-  return JDlangsSet[lang][key];
-};
+export const { lang, currentLang } = BookingLang;
+
+//글로벌로 change 하는건 왜안될까 ?

@@ -56,6 +56,7 @@ import { IContext } from "../BookingHostRouter";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import client from "../../../apollo/apolloClient";
 import { IRoomType } from "../../../types/interface";
+import { currentLang } from "../../../langs/JDlang";
 
 moment.tz.setDefault("UTC");
 
@@ -309,7 +310,7 @@ const AssigTimelineWrap: React.FC<IProps & IWrapProp> = ({
 
 //  퍼포먼스 이유로 존재하는 상위컴포넌트
 const HiderAssigTimelineWrap: React.FC<IProps> = ({ context, ...prop }) => {
-  const { house, langHook } = context;
+  const { house } = context;
 
   const { data: roomData, loading: roomTypeLoading } = useQuery<
     getAllRoomType,
@@ -325,7 +326,7 @@ const HiderAssigTimelineWrap: React.FC<IProps> = ({ context, ...prop }) => {
     queryDataFormater(roomData, "GetAllRoomType", "roomTypes", []) || []; // 원본데이터
   const formatedRoomData = roomDataManufacturer(roomTypesData); // 타임라인을 위해 가공된 데이터
 
-  moment.lang(langHook.currentLang);
+  moment.lang(currentLang);
 
   return (
     <AssigTimelineWrap

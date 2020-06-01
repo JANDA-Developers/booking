@@ -46,12 +46,13 @@ const ReservationWrap: React.FC<IReservationWrapProps & RouteComponentProps<any>
 	const publicHouseInfo = queryDataFormater(data, 'GetHouseForPublic', 'house', undefined) || undefined;
 
 	// 스타트부킹(게스트)
-	const [ makeBookingForPublicMu, { loading: makeBookingLoading } ] = useMutation<
+	const [makeBookingForPublicMu, { loading: makeBookingLoading }] = useMutation<
 		makeBookingForPublic,
 		makeBookingForPublicVariables
 	>(MAKE_BOOKING_FOR_PUBLIC, {
 		client,
 		onCompleted: ({ MakeBookingForPublic }) => {
+			localStorage.setItem("JD-BN", MakeBookingForPublic.booking?.bookingNum || "");
 			onCompletedMessage(MakeBookingForPublic, LANG('COMPLETE'), LANG('FAIL'));
 			makeBookingCallBackFn(MakeBookingForPublic);
 		}
@@ -94,7 +95,7 @@ export default ReservationWrap;
 
 // ⭐️⭐️ ⭐️⭐️ ⭐️⭐️ ⭐️⭐️ ⭐️⭐️  IFRAME 코드 IFRAME 코드 IFRAME 코드
 // {
-/* 
+/*
 <iframe id="JD_RESV_APP" style="border:none;min-height:400px" scrolling="no" title="JDqna" src="http://localhost:8000/#/outpage/reservation/c61bf04b-446b-7907-54d5-d509147ca39e" width="100%" height="1500px"></iframe>
 
 <script>

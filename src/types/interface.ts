@@ -201,6 +201,7 @@ export interface IHouseConfigFull extends IHouseConfig {
       enable: false;
       newGuestTime: number;
     };
+    bookOnlySingleDay: false,
     collectingInfoFromGuest: {
       __typename: "CollectingInfoFromGuest";
       email: false;

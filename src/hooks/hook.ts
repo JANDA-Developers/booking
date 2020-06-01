@@ -17,8 +17,9 @@ import {
   onCompletedMessage,
   instanceOfA,
 } from "../utils/utils";
-import { JDlang as originJDlang } from "../langs/JDlang";
-import { TLanguageShort } from "../types/enum";
+import { lang } from "../langs/JDlang";
+// 경로 취합용
+export let LANG = lang;
 import { useMutation } from "@apollo/react-hooks";
 import { UPLOAD_FILE } from "../apollo/queries";
 import client from "../apollo/apolloClient";
@@ -544,26 +545,6 @@ function useModal<T = any>(
   };
 }
 
-export let CURRENT_LANG: TLanguageShort = "kr";
-
-// 언어가 결합된 LANG 함수
-export let LANG: (key: string, key2?: string) => any = key => {
-  return;
-};
-
-const useLang = (defaultLang: TLanguageShort) => {
-  const [currentLang, setCurrentLang] = useState(defaultLang);
-
-  const changeLang = (lang: TLanguageShort) => {
-    CURRENT_LANG = lang;
-    setCurrentLang(lang);
-  };
-
-  LANG = originJDlang.bind(originJDlang, currentLang);
-
-  return { currentLang, changeLang, JDlang: LANG };
-};
-
 const getKoreaSpecificDayHook = (
   years: string[]
 ): {
@@ -679,7 +660,6 @@ export {
   useRange,
   useDebounce,
   useDrawer,
-  useLang,
   useImageUploader,
   useShouldSave,
   useColorPicker,

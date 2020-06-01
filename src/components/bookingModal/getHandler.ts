@@ -7,6 +7,7 @@ import { LANG } from "../../hooks/hook";
 import { muResult, toNumber } from "../../utils/utils";
 import { AutoSendWhen } from "../../types/enum";
 import { isPhone } from "../../utils/inputValidations";
+import RefundModal from "../refundModal/RefundModal";
 
 export const getHandler = (
   bookingModalContext: IBookingModalContext,
@@ -23,15 +24,15 @@ export const getHandler = (
     bookingStatusHook,
     payMethodHook,
     breakfast,
-    refundFn,
     makeBookingMu,
     bookingModalHook,
-    refundAmt,
     sendSmsModalHook,
     bookingData,
     totalPrice,
     updateBookingMu,
+    cancelBookingMu,
     confirmModalHook,
+    refundModalHook,
     funnelStatusHook
   } = bookingModalContext;
 
@@ -94,6 +95,10 @@ export const getHandler = (
     }
   };
 
+  const handleCancelBtnClick = () => {
+    refundModalHook.openModal();
+  }
+
   // 예약수정 버튼 핸들
   const handleUpdateBtnClick = () => {
     if (!bookingModalValidate(bookingModalContext)) return;
@@ -121,27 +126,25 @@ export const getHandler = (
     bookingModalHook.closeModal();
   };
 
-  const handleRefundBtn = () => {
-    if (!tid) return;
-    refundFn({
-      param: {
-        bookingNum,
-        refundInfo: {
-          cancelAmt: refundAmt,
-          cancelMsg: "HOST-CANCEL",
-          isPartialCancel: refundAmt === totalPrice,
-          tid
+  const handleRefund = (amt: number) => {
+    cancelBookingMu({
+      variables: {
+        param: {
+          bookingNum: bookingData.bookingNum,
+          refundAmount: amt
         }
       }
-    });
-  };
+    })
+  }
+
 
   return {
-    handleRefundBtn,
     deleteModalCallBackFn,
     makeBooking,
     handleUpdateBtnClick,
     handleCreateBtnClick,
-    handleDeletBtnClick
+    handleCancelBtnClick,
+    handleDeletBtnClick,
+    handleRefund
   };
 };

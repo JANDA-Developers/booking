@@ -145,10 +145,10 @@ export const DEFAULT_SMS_INFO: getSmsInfo_GetSmsInfo_smsInfo = {
 };
 
 export const FAKE_MODAL_HOOK: IUseModal = {
-  closeModal: () => {},
+  closeModal: () => { },
   isOpen: true,
   info: {},
-  openModal: () => {}
+  openModal: () => { }
 };
 
 export const FAKE_CONTEXT: IContext = {
@@ -159,7 +159,6 @@ export const FAKE_CONTEXT: IContext = {
   houseConfig: ANY,
   houses: [],
   isLogIn: true,
-  langHook: ANY,
   location: ANY,
   match: ANY,
   user: ANY
@@ -298,6 +297,7 @@ export const DEFAULT_HOUSE_CONFIG: IHouseConfigFull = {
       enable: false,
       newGuestTime: TimePerMs.DAY
     },
+    bookOnlySingleDay: false,
     collectingInfoFromGuest: {
       __typename: "CollectingInfoFromGuest",
       email: false,

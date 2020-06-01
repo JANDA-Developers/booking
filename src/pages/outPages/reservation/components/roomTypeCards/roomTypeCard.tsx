@@ -15,6 +15,7 @@ import selectOpCreater from "../../../../../utils/selectOptionCreater";
 import JDbadge from "../../../../../atoms/badge/Badge";
 import { IReservationHooks } from "../../declation";
 import $ from "jquery";
+import JDtypho from "../../../../../atoms/typho/Typho";
 const optionZero = 1;
 
 interface IProps {
@@ -210,10 +211,10 @@ const RoomTypeCard: React.SFC<IProps> = ({
       "https://s3.ap-northeast-2.amazonaws.com/booking.stayjanda.files/infographic/noimg.png"})`
   };
 
-   // Iframe 높이조절
-   useLayoutEffect(() => {
+  // Iframe 높이조절
+  useLayoutEffect(() => {
     const theHeight = $("#JDreservation").height() || 1000;
-    const changeHeight = ()=> {
+    const changeHeight = () => {
       window.parent.postMessage({ height: theHeight }, "*");
     }
     changeHeight();
@@ -233,7 +234,7 @@ const RoomTypeCard: React.SFC<IProps> = ({
           <div className="roomTypeCard__middleTopSection">
             <h6 className="roomTypeCard__roomTypeTitle">
               <div>
-              {roomTypeData.name}{" "}
+                {roomTypeData.name}{" "}
               </div>
               {totalCan === 0 && (
                 <JDbadge thema="error">{LANG("fullRoom")}</JDbadge>
@@ -275,25 +276,25 @@ const RoomTypeCard: React.SFC<IProps> = ({
                 )}
               </Fragment>
             ) : (
-              <JDselect
-                menuItemCenterlize
-                borderColor="primary"
-                options={roomSeleteOption}
-                autoSize
-                displayArrow={false}
-                disabled={disabled.count}
-                textOverflow="visible"
-                onChange={selectedOp =>
-                  guestCountSelect(selectedOp.value, "room")
-                }
-                selectedOption={roomSeleteOption[guestCountValue.room]}
-              />
-            )}
+                <JDselect
+                  menuItemCenterlize
+                  borderColor="primary"
+                  options={roomSeleteOption}
+                  autoSize
+                  displayArrow={false}
+                  disabled={disabled.count}
+                  textOverflow="visible"
+                  onChange={selectedOp =>
+                    guestCountSelect(selectedOp.value, "room")
+                  }
+                  selectedOption={roomSeleteOption[guestCountValue.room]}
+                />
+              )}
           </div>
         </div>
         <div className="flex-grid__col col--grow-1 roomTypeCard__lastSection">
           <div className="roomTypeCard__lastTopSection">
-            <span className="roomTypeCard__price">{autoComma(truePrice)}</span>
+            <span className="roomTypeCard__price">{autoComma(truePrice)} <JDtypho component={"span"} size="small">{LANG("roomType_card_unit")}</JDtypho></span>
           </div>
           <Button
             onClick={handleRoomSelectClick}

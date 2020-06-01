@@ -8,6 +8,8 @@ import { queryDataFormater } from "../../utils/utils";
 import { groupDataManufacturer } from "./groupDataManufacter";
 import { IContext } from "../../pages/bookingHost/BookingHostRouter";
 import DailyAssigWrap, { IChainProps } from "./DailyAssigWrap";
+import { BookingLang } from "../../langs/JDlang";
+const { currentLang } = BookingLang;
 
 export interface IDailyWrapWrapProp extends IChainProps {
   context: IContext;
@@ -18,7 +20,7 @@ const DailyAssigHigher: React.FC<IDailyWrapWrapProp> = ({
   context,
   ...prop
 }) => {
-  const { langHook, house } = context;
+  const { house } = context;
   const { data: roomData, loading: roomTypeLoading } = useQuery<
     getAllRoomType,
     getAllRoomTypeVariables
@@ -29,7 +31,7 @@ const DailyAssigHigher: React.FC<IDailyWrapWrapProp> = ({
     }
   });
 
-  moment.lang(langHook.currentLang);
+  moment.lang(currentLang);
 
   const roomTypesData =
     queryDataFormater(roomData, "GetAllRoomType", "roomTypes", []) || []; // 원본데이터
