@@ -76,21 +76,25 @@ const CheckReservation: React.FC<Iprops> = ({
   return (
     <div id="JDreservation" className="JDreservation">
       <h6>{LANG("reservation_information")}</h6>
-      <Button thema={isNumMode ? "primary" : undefined} label="예약번호로 검색" />
-      <Button thema={isNumMode ? undefined : "primary"} label="예약정보로 검색" />
+      <Button onClick={() => {
+        setMode("byNum")
+      }} thema={isNumMode ? "primary" : undefined} label="예약번호로 검색" />
+      <Button onClick={() => {
+        setMode("byInfo")
+      }} thema={isNumMode ? undefined : "primary"} label="예약정보로 검색" />
       {isNumMode ? <NumForm handleSearch={handleNumSearch} />
         : <InfoForm onSearch={handleInfoSearch} />
       }
 
       <h6>{LANG("reservation_confirm")}</h6>
-      {data?.payment.cardInfo && (
+      {/* {data?.payment.cardInfo && (
         <Button
           onClick={() => {
             if (data && houseData) printRecipt(data, houseData);
           }}
           label={LANG("bill_print")}
         />
-      )}
+      )} */}
 
       <CheckTable tableData={data ? [data] : undefined} />
     </div>

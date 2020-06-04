@@ -84,6 +84,9 @@ $roomCardHeight: 0.25rem * 32;
     flex-direction: row-reverse;
 
     .roomTypeCard__price {
+      display:flex;
+      flex-direction: column;
+      text-align: end;
       font-size: $typho-huge;
       font-weight: 600;
     }

@@ -61,6 +61,7 @@ import JDbox from "../../../atoms/box/JDbox";
 import { IBookerInfo, IReservationHooks } from "./declation";
 import { Redirect } from "react-router-dom";
 import { TCardRegistInfo } from "../../../components/cardModal/declare";
+import moment from "moment";
 
 class GetAllAvailRoomQu extends Query<getAllRoomTypeForBooker> { }
 export interface ISetBookingInfo
@@ -98,7 +99,10 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
   };
 
   if (!publicHouseInfo?.bookingPayInfo.payMethods) return <div />;
-  const { payMethods } = publicHouseInfo.bookingPayInfo;
+  const { bookingPayInfo, houseConfig } = publicHouseInfo;
+  const { payMethods } = bookingPayInfo;
+  const { bookingConfig } = houseConfig;
+  const { bookOnlySingleDay } = bookingConfig;
 
   if (isEmpty(payMethods))
     return (
@@ -108,6 +112,7 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
     );
   const isMobile = windowWidth < WindowSize.PHABLET;
   const dayPickerHook = useDayPicker(null, null);
+
   // 모바일에서만 사용
   const [redirect, setRedirect] = useState("");
   const [step, setStep] = useState<"search" | "select">("search");
@@ -127,7 +132,6 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
   );
 
   useEffect(() => {
-    console.log(window);
     window.scrollTo(screen.width / 2, screen.height / 2);
   }, [bookingInfoModal.isOpen, rsevModalHook.isOpen]);
 
@@ -264,6 +268,8 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
 
     if (!validResult) return;
 
+    localStorage.setItem(localStorage.getItem("JD-BN") || "", validResult.bookingNum);
+
     openPaymentCompleteModal();
   };
 
@@ -339,7 +345,7 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
               <JDdayPicker
                 mode="checkInOutStyle"
                 canSelectSameDate={false}
-                isRange={false}
+                isRange={!bookOnlySingleDay}
                 {...dayPickerHook}
               />
             )}
@@ -375,8 +381,7 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
             >
               {({
                 data: roomTypeData,
-                loading: roomAvailCountLoading,
-                error
+                loading: roomAvailCountLoading
               }) => {
                 const roomTypes = queryDataFormater(
                   roomTypeData,
@@ -388,6 +393,7 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
                 return !isEmpty(roomTypes) ? (
                   roomTypes.map((roomType, index) => (
                     <RoomTypeCardWrap
+                      houseConfigInfo={houseConfig}
                       reservationHooks={reservationHooks}
                       windowWidth={windowWidth}
                       roomTypeData={roomType}
@@ -421,6 +427,7 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
                 {LANG("check_selection")}
               </h6>
               <BookingInfoBox
+                houseConfig={houseConfig}
                 roomTypeInfo={roomInfoHook[0]}
                 from={dayPickerHook.from}
                 to={dayPickerHook.to}
@@ -477,6 +484,7 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
       {/* 모바일 + 게스트일떄 장바구니 먼저 보여줌 */}
       {isMobile && (
         <BookingInfoModal
+          houseConfig={houseConfig}
           paymentModalHook={rsevModalHook}
           modalHook={bookingInfoModal}
           roomTypeInfo={roomInfoHook[0]}

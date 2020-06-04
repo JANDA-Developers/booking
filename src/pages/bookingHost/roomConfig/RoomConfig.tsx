@@ -35,6 +35,9 @@ import { RoomConfigSubmitData } from "../../../components/bookingModal/declarati
 import Swapping from "../../../utils/swapping";
 import selectOpCreater from "../../../utils/selectOptionCreater";
 import JDselect from "../../../atoms/forms/selectBox/SelectBox";
+import JDtypho from "../../../atoms/typho/Typho";
+import TagModal, { TModalInfo } from "../../../components/tagModal/TagModal";
+import { TChangeTags } from "./RoomConfigWrap";
 
 interface IProps {
   context: IContext;
@@ -42,6 +45,7 @@ interface IProps {
     roomTypesData: IRoomType[];
     defaultAddTemp?: IRoomType[];
   };
+  handleChangTags: TChangeTags;
   saveRoomsLoading?: boolean;
   onSubmit: (data: RoomConfigSubmitData) => void;
   submitRef?: React.MutableRefObject<null>;
@@ -56,8 +60,10 @@ const RoomConfig: React.FC<IProps> = ({
   submitRef,
   saveRoomsLoading,
   isStart,
-  defaultData
+  defaultData,
+  handleChangTags
 }) => {
+  const tagModalHook = useModal<TModalInfo>(false);
   const { defaultAddTemp, roomTypesData } = defaultData;
   const roomTypeModalHook = useModal<IRoomTypeModalInfo>(false, {});
   const roomModalHook = useModal<IRoomModalInfo>(false, {});
@@ -355,7 +361,7 @@ const RoomConfig: React.FC<IProps> = ({
           {/* 방타입 카드 출력 */}
           {isRoomTypeExist && noRoomTypeMessage}
           {viewRoomTypeData.map((roomType, index) => {
-            const { _id, name } = roomType;
+            const { _id, name, tags } = roomType;
             return (
               <Card
                 id={`RoomTypeCard${_id}`}
@@ -382,6 +388,15 @@ const RoomConfig: React.FC<IProps> = ({
                         zIndex: data.updateCreateData.length + 10 - index
                       }}
                     >
+                      <JDtypho hover mr="normal" color="grey" onClick={() => {
+                        tagModalHook.openModal({
+                          defaultTags: tags || [],
+                          roomTypeId: _id
+                        });
+                      }}>
+                        TAGS
+                      </JDtypho>
+
                       <JDselect
                         autoSize
                         selectedOption={indexOp[index]}
@@ -418,6 +433,11 @@ const RoomConfig: React.FC<IProps> = ({
                             roomModalHook.openModal({
                               roomType,
                               room,
+                              modalProp: {
+                                head: {
+                                  title: LANG("update_room_modal_title")(name)
+                                }
+                              },
                               mode: "update"
                             });
                           }}
@@ -433,6 +453,14 @@ const RoomConfig: React.FC<IProps> = ({
                         e.stopPropagation();
                         roomModalHook.openModal({
                           roomType,
+                          modalProp: {
+                            head: {
+                              title: <div>
+                                <JDtypho size="h6" mb="normal">{LANG("create_room_modal_title")(name)}</JDtypho>
+                                <div>{LANG("create_room_modal_desc")}</div>
+                              </div>
+                            }
+                          },
                           mode: "create"
                         });
                       }}
@@ -458,6 +486,14 @@ const RoomConfig: React.FC<IProps> = ({
         modalHook={roomModalHook}
         onSubmit={handleSubmitRoomModal}
       />
+      <TagModal key={"TagModal" + tagModalHook.info.roomTypeId} callBackTagModify={(tags) => { }}
+        modalHook={tagModalHook} modalProp={{
+          head: {
+            element: <div>
+              <JDtypho size="h6" mb="normal">{LANG("tag_modal_title")}</JDtypho>
+              {LANG("tag_modal_title_desc")}</div>
+          }
+        }} />
     </div>
   );
 };
@@ -467,3 +503,9 @@ const memoRoomConfig = React.memo(RoomConfig, (prev, next) => {
 });
 
 export default memoRoomConfig;
+
+
+
+
+
+

@@ -11,8 +11,8 @@ interface IProp extends JDatomExtentionSet, IDiv {
 }
 
 export type Ttag = {
-    id: string;
-    text: string;
+    key: string;
+    value: string;
 }
 
 export const TagInput: React.FC<IProp> = ({ tags, setTags, className, mr, mb, show, ...props }) => {
@@ -39,7 +39,7 @@ export const TagInput: React.FC<IProp> = ({ tags, setTags, className, mr, mb, sh
         ref.current?.focus();
     }} className={classes} >
         <div className="JDtagInput__tags">
-            {tags.map((t, i) => <span className="JDtagInput__tag" key={t.id}>{t.text}
+            {tags.map((t, i) => <span className="JDtagInput__tag" key={t.value}>{t.value}
                 <JDicon className="JDtagInput__close" icon="close" onClick={() => {
                     handleDelete(i);
                 }} />
@@ -52,8 +52,8 @@ export const TagInput: React.FC<IProp> = ({ tags, setTags, className, mr, mb, sh
             if (e.key === "Enter") {
                 if (value) {
                     handleAddition({
-                        id: s4(),
-                        text: value
+                        key: s4(),
+                        value: value
                     });
                     if (ref.current)
                         ref.current.value = "";

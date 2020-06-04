@@ -61,6 +61,11 @@ export const DEFAULT_ROOMTYPE: IRoomType = {
   updatedAt: null,
   img: null,
   createdAt: undefined,
+  tags: [{
+    __typename: "Tag",
+    key: "",
+    value: ""
+  }],
   _id: ""
 };
 
@@ -292,6 +297,7 @@ export const DEFAULT_HOUSE_CONFIG: IHouseConfigFull = {
   },
   bookingConfig: {
     __typename: "BookingConfig",
+    maxStayDate: 100,
     newBookingMark: {
       __typename: "NewBookingMark",
       enable: false,

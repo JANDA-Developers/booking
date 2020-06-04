@@ -2,119 +2,111 @@
 
 @keyframes fadeIn {
 	from {
-		opacity: 0;
+	  opacity: 0;
 	}
-
+  
 	to {
-		opacity: 1;
+	  opacity: 1;
 	}
-}
-
-@keyframes rotate {
+  }
+  
+  @keyframes rotate {
+	from {
+	  transform: rotate(0deg);
+	}
+	to {
+	  transform: rotate(360deg);
+	}
+  }
+  
+  @keyframes appear {
 	0% {
-		transform: rotate(0deg);
-	}
-	50% {
-		transform: rotate(360deg);
-	}
-}
-
-@keyframes appear {
-	0% {
-		opacity: 0;
+	  opacity: 0;
 	}
 	20% {
-		opacity: 0;
+	  opacity: 0;
 	}
 	100% {
-		opacity: 1;
+	  opacity: 1;
 	}
-}
-
-.preloader {
+  }
+  
+  .preloader {
 	width: 1.5em;
 	height: inherit;
 	position: relative;
-
+  
 	&--large {
-		width: 8rem;
-		height: 8rem;
+	  width: 8rem;
+	  height: 8rem;
 	}
-
+  
 	&--medium {
-		width: 4rem;
-		height: 4rem;
+	  width: 4rem;
+	  height: 4rem;
 	}
-
+  
 	&--tiny {
-		width: 2rem;
-		height: 2rem;
+	  width: 2rem;
+	  height: 2rem;
 	}
-
+  
 	&--small {
-		width: 3rem;
-		height: 3rem;
+	  width: 3rem;
+	  height: 3rem;
 	}
-
+  
 	&--floating {
+	  position: fixed !important;
+	  bottom: 2% !important;
+	  right: 3% !important;
+	  transform-origin: left bottom;
+	}
+  
+	&__fill {
+	  fill: $preloader-fill-color;
+	}
+  
+	&__wrap {
+	  display: inline-block;
+	  font-size: 0;
+	  transform-origin: center center;
+  
+	  &--center {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+	  }
+	  &--floating {
 		position: fixed !important;
 		bottom: 2% !important;
 		right: 3% !important;
 		transform-origin: left bottom;
+	  }
 	}
-
-	&__fill {
-		fill: $preloader-fill-color;
-	}
-
-	&__wrap {
-		display: inline-block;
-		font-size: 0;
-		transform-origin: center cetner;
-
-		&--center {
-			width: 100%;
-			display: flex;
-			justify-content: center;
-		}
-	}
-
+  
 	&__outerline {
-		fill: $preloader-background-color;
+	  fill: $preloader-background-color;
 	}
-}
-
-.preloader--page__wrap {
+  }
+  
+  .preloader--page__wrap {
 	position: fixed;
 	z-index: $z-index-8;
+	padding: 24%;
 	top: 0;
 	left: 0;
 	right: 0;
 	bottom: 0;
-	background-color: white;
-	animation: fadeIn 1s;
-	transition: 1s;
-
-	.preloader--page {
-		width: 13%;
-		padding-top: 13%;
-		margin: 29vmin auto;
-		border: 6vmin solid $preloader-background-color;
-		border-top: 6vmin solid $preloader-fill-color;
-		border-radius: 50%;
-		animation: rotate 3s infinite linear;
-		@include response($desktophd) {
-			border: 3rem solid $preloader-background-color;
-			border-top: 3rem solid $preloader-fill-color;
-		}
+	background-color: $background-color;
+	box-sizing: border-box;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+  
+	.JDpageLoding {
+	  max-width: 34rem;
+	  width: 100%;
 	}
-
-	@include response($desktophd) {
-		display: flex;
-		align-items: center;
-		.preloader--page {
-			width: 50vmin;
-			padding-top: 50vmin;
-		}
-	}
-}
+  }
+  

@@ -142,7 +142,7 @@ export const getRoomSelectString = (selectInfoes: IRoomSelectInfo[]): string =>
 
 // 성별 과 룸타입을 중심으로 분류 하는 용도
 // GetBooking 정보로 예약창에 룸타입별로 정렬된 뷰를 만들떄 사용중
-// 게스트정보(일부)[] + 방타입정보(일부)[] => 혼합정보(IRoomSelectInfo)[]
+// (게스트정보(일부)[], 방타입정보(일부)[]) => 방선택정보[]
 export const getRoomSelectInfo = (
   guests: propGuest[] | null,
   roomTypes: {

@@ -11,6 +11,7 @@ import { PricingType } from "../../../../types/enum";
 import { autoComma, toNumber } from "../../../../utils/utils";
 import { LANG } from "../../../../hooks/hook";
 import { IRoomSelectInfo } from "../../../../components/bookingModal/declaration";
+import { getHouseForPublic_GetHouseForPublic_house_houseConfig } from "../../../../types/api";
 
 export interface IBookingInfoBoxProps {
   className?: string;
@@ -19,6 +20,7 @@ export interface IBookingInfoBoxProps {
   to: Date | null;
   roomTypeInfo: IRoomType[];
   totalPrice: number;
+  houseConfig: getHouseForPublic_GetHouseForPublic_house_houseConfig;
 }
 
 const BookingInfoBox: React.FC<IBookingInfoBoxProps> = ({
@@ -27,13 +29,16 @@ const BookingInfoBox: React.FC<IBookingInfoBoxProps> = ({
   from,
   to,
   roomTypeInfo,
-  totalPrice
+  totalPrice,
+  houseConfig
 }) => {
+  const {bookingConfig} = houseConfig;
+  const {bookOnlySingleDay} = bookingConfig;
   const classes = classNames("JDselectInfo", className, {});
 
-  const TableColumns: JDcolumn<IRoomSelectInfo>[] = [
+  let TableColumns: JDcolumn<IRoomSelectInfo>[] = [
     {
-      Header: LANG("checkIn"),
+      Header: LANG("resv_showTable_start"),
       accessor: "roomTypeId",
       Cell: () =>
         from && to ? <div>{moment(from).format("YYYY-MM-DD")}</div> : <div />
@@ -71,6 +76,10 @@ const BookingInfoBox: React.FC<IBookingInfoBoxProps> = ({
           )
     }
   ];
+
+  if(bookOnlySingleDay) {
+    TableColumns = TableColumns.filter((tc,i) => i !== 1);
+  }
 
   return (
     <div className={classes}>

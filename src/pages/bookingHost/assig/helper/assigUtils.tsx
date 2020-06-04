@@ -903,8 +903,7 @@ export function getAssigUtils(
     return uniquRoomTypes.map(
       (group): getBooking_GetBooking_booking_roomTypes => ({
         ...DEFAULT_ROOMTYPE,
-        ...group.roomType,
-        // tags: [{}]
+        ...group.roomType
       })
     );
   };

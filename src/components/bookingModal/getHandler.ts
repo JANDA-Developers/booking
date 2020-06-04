@@ -126,12 +126,12 @@ export const getHandler = (
     bookingModalHook.closeModal();
   };
 
-  const handleRefund = (amt: number) => {
+  const handleRefund = (amt: any) => {
     cancelBookingMu({
       variables: {
         param: {
           bookingNum: bookingData.bookingNum,
-          refundAmount: amt
+          refundAmount: parseInt(amt)
         }
       }
     })

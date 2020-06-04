@@ -7,6 +7,7 @@ import { LANG } from "../../../hooks/hook";
 import JDselect from "../../../atoms/forms/selectBox/SelectBox";
 import { CHECK_IN_OUT_OP } from "../../../types/const";
 import CheckBox from "../../../atoms/forms/checkBox/CheckBox";
+import copytoClipboard from "../../../utils/copyToClipboard";
 
 interface IProps {
   responseStyle: any;
@@ -27,7 +28,10 @@ const ElseInfo: React.FC<IProps> = ({ bookingModalContext, responseStyle }) => {
     <Align {...responseStyle} mr={undefined}>
       {isDesktopUp && <JDtypho mb="normal">{LANG("else")}</JDtypho>}
       <div>
-        <InputText readOnly icon="copyFile" value={bookingNum} halfHeight textarea label={LANG("booking_number")} />
+        <InputText readOnly
+          iconOnClick={() => {
+            copytoClipboard(bookingNum);
+          }} iconHover icon="copyFile" value={bookingNum} label={LANG("booking_number")} />
       </div>
       <div>
         <InputText {...memoHook} halfHeight textarea label={LANG("memo")} />

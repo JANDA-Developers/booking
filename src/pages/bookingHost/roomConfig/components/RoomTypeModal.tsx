@@ -40,12 +40,6 @@ interface IProps {
 const RoomTypeModal: React.FC<IProps> = ({ modalHook, loading, onSubmit }) => {
   const { info } = modalHook;
   const { roomType, mode } = info;
-  const [tags, setTags] = useState<Ttag[]>(
-    [
-      { id: "Thailand", text: "Thailand" },
-      { id: "India", text: "India" }
-    ]
-  );
   const [data, setData] = useState(roomType || DEFAULT_ROOMTYPE);
   const {
     img,
@@ -196,8 +190,6 @@ const RoomTypeModal: React.FC<IProps> = ({ modalHook, loading, onSubmit }) => {
                 * {LANG("appliedby_default_in_periods_with_no_price_set")}
               </p>
             </div>
-            <JDlabel txt={LANG("insert_tag")} />
-            <TagInput mb="normal" tags={tags} setTags={setTags} />
           </div>
           <ModalEndSection>
             <Button

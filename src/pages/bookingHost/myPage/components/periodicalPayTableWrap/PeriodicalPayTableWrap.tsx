@@ -25,7 +25,11 @@ const PeriodicalTableWrap: React.FC<Iprops> = ({ context }) => {
       variables: {
         param: {
           filter: {
-            target: PayTarget.USAGE_PLAN
+            period:  {
+              end: new Date(),
+              start: new Date(),
+            },
+            targets: [PayTarget.USAGE_PLAN as any]
           },
           paging: {
             selectedPage: page,

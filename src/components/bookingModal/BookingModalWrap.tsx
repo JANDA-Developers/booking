@@ -79,8 +79,8 @@ const BookingModalWrap: React.FC<IBookingModalWrapProps> = ({
     onCompleted: ({ CancelBooking }) => {
       onCompletedMessage(
         CancelBooking,
-        LANG("assig_completed"),
-        LANG("assig_failed")
+        LANG("refund_complete_message"),
+        LANG("refund_complete_fail")
       );
     }
   });

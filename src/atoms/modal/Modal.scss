@@ -128,6 +128,7 @@ $modal-header-padding: $modal-padding;
 		padding: $modal-header-padding;
 		padding-bottom: $standard-space;
 		border-bottom: 1px solid $grey-level1;
+		padding-right: space(5) + $modal-header-padding;
 	}
 	&--loading {
 		min-width: 0 !important;

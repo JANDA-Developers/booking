@@ -282,7 +282,7 @@ const BookingModal: React.FC<IProps & WindowSizeProps> = ({
             size="small"
             label={LANG("refund_cancel")}
             disabled={isCreateMode}
-            thema="error"
+            thema="black"
             onClick={handleCancelBtnClick}
           />
         </div>

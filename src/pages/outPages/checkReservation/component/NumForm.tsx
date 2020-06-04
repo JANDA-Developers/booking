@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import JDtypho from '../../../../atoms/typho/Typho';
-import { InputText } from '@janda-com/front';
 import { JDbutton } from '@janda-com/front';
-import { useInput } from '../../../../hooks/hook';
+import { useInput, LANG } from '../../../../hooks/hook';
+import InputText from '../../../../atoms/forms/inputText/InputText';
 
 interface IProp {
     handleSearch: (bn: string) => void;
@@ -13,8 +13,8 @@ export const NumForm: React.FC<IProp> = ({ handleSearch }) => {
 
     return <div>
         <JDtypho />
-        <InputText {...numberSearchHook} />
-        <JDbutton onClick={() => {
+        <InputText label={LANG("booking_number")} {...numberSearchHook} />
+        <JDbutton label={LANG("reservation_lookup")} thema="primary" size="longLarge" onClick={() => {
             handleSearch(numberSearchHook.value)
         }} />
     </div>

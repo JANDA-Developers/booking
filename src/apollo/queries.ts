@@ -109,7 +109,7 @@ export const F_HOUSE = gql`
     publicKey
     createdAt
     updatedAt
-    tags{
+    tags {
       key
       value
     }
@@ -166,6 +166,7 @@ export const F_HOUSE_CONFIG = gql`
       period
     }
     bookingConfig {
+        
       bookOnlySingleDay 
       newBookingMark {
         enable
@@ -321,6 +322,10 @@ export const F_ROOMTYPE = gql`
     createdAt
     updatedAt
     roomGender
+    tags {
+      key
+      value
+    }
   }
   ${F_IMG}
 `;
@@ -471,27 +476,14 @@ const sharedGetAllRoomType = gql`
     ok
     error
     roomTypes {
-      _id
-      name
-      index
-      description
-      pricingType
-      peopleCount
-      peopleCountMax
-      roomGender
-      roomCount
-      createdAt
-      defaultPrice
-      updatedAt
-      img {
-        ...Fimg
-      }
+      ...FroomType
       rooms {
         _id
         name
       }
     }
   }
+  ${F_ROOMTYPE}
   ${F_IMG}
 `;
 
@@ -2141,6 +2133,24 @@ export const GET_HOUSE_FOR_PUBLIC = gql`
           address
           addressDetail
         }
+        tags {
+          key
+          value
+        }
+        houseConfig {
+          bookingConfig {
+            maxStayDate
+            collectingInfoFromGuest {
+              email
+              country
+            }
+            bookOnlySingleDay
+          }
+          options {
+            key
+            value
+          }
+        }
         bookingPayInfo {
           bankAccountInfo {
             ...FbankAccountInfo
@@ -2443,6 +2453,38 @@ export const GET_MEMO = gql`
     }
   }
   ${F_MEMO}
+`;
+
+
+export const CHANGE_ROOM_TYPE_TAGS = gql`
+  mutation changeRoomTypeTags($roomTypeId: ID!, $newTags: [TagInput!]!, $removeKeys: [String!]!) {
+    AddRoomTypeTags(roomTypeId: $roomTypeId, tags: $newTags) {
+      ok
+      error
+    }
+    RemoveRoomTypeTags(roomTypeId: $roomTypeId, tagKeys: $removeKeys) {
+      ok
+      error
+    }
+  }
+`;
+
+export const ADD_ROOM_TYPE_TAGS = gql`
+  mutation addRoomTypeTags($roomTypeId: ID!, $tags: [TagInput!]!) {
+    AddRoomTypeTags(roomTypeId: $roomTypeId, tags: $tags) {
+      ok
+      error
+    }
+  }
+`;
+
+export const REMOVE_ROOM_TYPE_TAGS = gql`
+  mutation removeRoomTypeTags($roomTypeId: ID!, $tagKeys: [String!]!) {
+    RemoveRoomTypeTags(roomTypeId: $roomTypeId, tagKeys: $tagKeys) {
+      ok
+      error
+    }
+  }
 `;
 
 export const UPDATE_MEMO = gql`

@@ -274,21 +274,26 @@ const ResvList: React.SFC<IProps> = ({
         </div>
       ),
       accessor: "payment",
-      Cell: ({ original }) => (
-        <div>
-          <span>
-            {autoComma(original.payment.totalPrice)}
-            {LANG("money_unit")}
-          </span>
-          <br />
-          <span
-            className={`resvList__paymentStatus ${original.payment.status ===
-              PaymentStatus.NOT_YET && "resvList__paymentStatus--notYet"}`}
-          >
-            {LANG("PaymentStatus", original.payment.status)}
-          </span>
-        </div>
-      )
+      Cell: ({ original }) => {
+        const { totalPrice, refundedPrice, status } = original.payment
+        const isUnPaid = status === PaymentStatus.NOT_YET;
+        return (
+          <div>
+            <span>
+              {autoComma(totalPrice)}
+              {LANG("money_unit")}
+              {refundedPrice ? <JDtypho mb="no" size="small" color="error" >
+                {"(-" + autoComma(refundedPrice) + ")"}
+              </JDtypho> : undefined}
+            </span>
+            <div
+              className={`resvList__paymentStatus ${isUnPaid && "resvList__paymentStatus--notYet"}`}
+            >
+              {LANG("PaymentStatus", status)}
+            </div>
+          </div>
+        )
+      }
     },
     {
       Header: LANG("memo"),
@@ -459,13 +464,6 @@ const ResvList: React.SFC<IProps> = ({
               label={LANG("cancelBooking")}
             />
             <Button
-              size="small"
-              mode={IS_MOBILE ? "iconButton" : undefined}
-              icon={IS_MOBILE ? "negative" : undefined}
-              onClick={handleCancleBookingBtnClick}
-              label={LANG("cancelBooking")}
-            />
-            <Button
               mode={IS_MOBILE ? "iconButton" : undefined}
               icon={IS_MOBILE ? "sms" : undefined}
               onClick={handleSendSmsBtnClick}
@@ -480,14 +478,14 @@ const ResvList: React.SFC<IProps> = ({
               thema="error"
               label={LANG("delete_booking")}
             />
-            <Button
+            {/* <Button
               mode={IS_MOBILE ? "iconButton" : undefined}
               icon={IS_MOBILE ? "icon" : undefined}
               onClick={handleCancelBookingBtnClick}
               size="small"
-              thema="error"
-              label={LANG("cancelBooking")}
-            />
+              thema="black"
+              label={LANG("refund_cancel")}
+            /> */}
           </div>
           {networkStatus === 1 && loading ? (
             <div className="resvList__table--skeleton" />

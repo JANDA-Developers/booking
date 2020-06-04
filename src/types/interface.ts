@@ -196,6 +196,7 @@ export interface IHouseConfigFull extends IHouseConfig {
   };
   bookingConfig: {
     __typename: "BookingConfig";
+    maxStayDate: number;
     newBookingMark: {
       __typename: "NewBookingMark";
       enable: false;

@@ -460,6 +460,10 @@ export interface getMyProfile_GetMyProfile_user_houses_houseConfig_bookingConfig
 export interface getMyProfile_GetMyProfile_user_houses_houseConfig_bookingConfig {
   __typename: "BookingConfig";
   /**
+   * 최대 연박 가능일수: 1~180
+   */
+  maxStayDate: number;
+  /**
    * 무조건 하루만 예약하게
    */
   bookOnlySingleDay: boolean | null;
@@ -837,6 +841,12 @@ export interface getHouse_GetHouse_house_roomTypes_img {
   tags: getHouse_GetHouse_house_roomTypes_img_tags[] | null;
 }
 
+export interface getHouse_GetHouse_house_roomTypes_tags {
+  __typename: "Tag";
+  key: string;
+  value: string;
+}
+
 export interface getHouse_GetHouse_house_roomTypes_rooms {
   __typename: "Room";
   _id: string;
@@ -861,6 +871,7 @@ export interface getHouse_GetHouse_house_roomTypes {
   defaultPrice: number | null;
   createdAt: any;
   updatedAt: any | null;
+  tags: getHouse_GetHouse_house_roomTypes_tags[];
   rooms: getHouse_GetHouse_house_roomTypes_rooms[];
 }
 
@@ -946,6 +957,12 @@ export interface dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_roo
   tags: dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_img_tags[] | null;
 }
 
+export interface dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_tags {
+  __typename: "Tag";
+  key: string;
+  value: string;
+}
+
 export interface dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_roomType {
   __typename: "RoomType";
   _id: string;
@@ -964,6 +981,7 @@ export interface dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_roo
   defaultPrice: number | null;
   createdAt: any;
   updatedAt: any | null;
+  tags: dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_tags[];
 }
 
 export interface dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_datePrices {
@@ -1059,6 +1077,12 @@ export interface getAllRoomTypeForBooker_GetAllRoomTypeForBooker_roomTypes_img {
   tags: getAllRoomTypeForBooker_GetAllRoomTypeForBooker_roomTypes_img_tags[] | null;
 }
 
+export interface getAllRoomTypeForBooker_GetAllRoomTypeForBooker_roomTypes_tags {
+  __typename: "Tag";
+  key: string;
+  value: string;
+}
+
 export interface getAllRoomTypeForBooker_GetAllRoomTypeForBooker_roomTypes_rooms {
   __typename: "Room";
   _id: string;
@@ -1069,20 +1093,21 @@ export interface getAllRoomTypeForBooker_GetAllRoomTypeForBooker_roomTypes {
   __typename: "RoomType";
   _id: string;
   name: string;
-  index: number;
-  description: string | null;
   pricingType: PricingType;
   peopleCount: number;
   peopleCountMax: number;
-  roomGender: RoomGender;
+  index: number;
   roomCount: number;
-  createdAt: any;
+  roomGender: RoomGender;
+  img: getAllRoomTypeForBooker_GetAllRoomTypeForBooker_roomTypes_img | null;
+  description: string | null;
   /**
    * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
    */
   defaultPrice: number | null;
+  createdAt: any;
   updatedAt: any | null;
-  img: getAllRoomTypeForBooker_GetAllRoomTypeForBooker_roomTypes_img | null;
+  tags: getAllRoomTypeForBooker_GetAllRoomTypeForBooker_roomTypes_tags[];
   rooms: getAllRoomTypeForBooker_GetAllRoomTypeForBooker_roomTypes_rooms[];
 }
 
@@ -1123,6 +1148,12 @@ export interface getAllRoomType_GetAllRoomType_roomTypes_img {
   tags: getAllRoomType_GetAllRoomType_roomTypes_img_tags[] | null;
 }
 
+export interface getAllRoomType_GetAllRoomType_roomTypes_tags {
+  __typename: "Tag";
+  key: string;
+  value: string;
+}
+
 export interface getAllRoomType_GetAllRoomType_roomTypes_rooms {
   __typename: "Room";
   _id: string;
@@ -1133,20 +1164,21 @@ export interface getAllRoomType_GetAllRoomType_roomTypes {
   __typename: "RoomType";
   _id: string;
   name: string;
-  index: number;
-  description: string | null;
   pricingType: PricingType;
   peopleCount: number;
   peopleCountMax: number;
-  roomGender: RoomGender;
+  index: number;
   roomCount: number;
-  createdAt: any;
+  roomGender: RoomGender;
+  img: getAllRoomType_GetAllRoomType_roomTypes_img | null;
+  description: string | null;
   /**
    * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
    */
   defaultPrice: number | null;
+  createdAt: any;
   updatedAt: any | null;
-  img: getAllRoomType_GetAllRoomType_roomTypes_img | null;
+  tags: getAllRoomType_GetAllRoomType_roomTypes_tags[];
   rooms: getAllRoomType_GetAllRoomType_roomTypes_rooms[];
 }
 
@@ -1191,6 +1223,12 @@ export interface findBooking_FindBooking_bookings_roomTypes_img {
   tags: findBooking_FindBooking_bookings_roomTypes_img_tags[] | null;
 }
 
+export interface findBooking_FindBooking_bookings_roomTypes_tags {
+  __typename: "Tag";
+  key: string;
+  value: string;
+}
+
 export interface findBooking_FindBooking_bookings_roomTypes {
   __typename: "RoomType";
   _id: string;
@@ -1209,6 +1247,7 @@ export interface findBooking_FindBooking_bookings_roomTypes {
   defaultPrice: number | null;
   createdAt: any;
   updatedAt: any | null;
+  tags: findBooking_FindBooking_bookings_roomTypes_tags[];
 }
 
 export interface findBooking_FindBooking_bookings_checkInInfo {
@@ -1334,6 +1373,12 @@ export interface findBookingForBooker_FindBookingForBooker_bookings_roomTypes_im
   tags: findBookingForBooker_FindBookingForBooker_bookings_roomTypes_img_tags[] | null;
 }
 
+export interface findBookingForBooker_FindBookingForBooker_bookings_roomTypes_tags {
+  __typename: "Tag";
+  key: string;
+  value: string;
+}
+
 export interface findBookingForBooker_FindBookingForBooker_bookings_roomTypes {
   __typename: "RoomType";
   _id: string;
@@ -1352,6 +1397,7 @@ export interface findBookingForBooker_FindBookingForBooker_bookings_roomTypes {
   defaultPrice: number | null;
   createdAt: any;
   updatedAt: any | null;
+  tags: findBookingForBooker_FindBookingForBooker_bookings_roomTypes_tags[];
 }
 
 export interface findBookingForBooker_FindBookingForBooker_bookings_checkInInfo {
@@ -1476,6 +1522,12 @@ export interface getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_
   tags: getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_img_tags[] | null;
 }
 
+export interface getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_tags {
+  __typename: "Tag";
+  key: string;
+  value: string;
+}
+
 export interface getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_roomType {
   __typename: "RoomType";
   _id: string;
@@ -1494,6 +1546,7 @@ export interface getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_
   defaultPrice: number | null;
   createdAt: any;
   updatedAt: any | null;
+  tags: getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_tags[];
 }
 
 export interface getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_datePrices {
@@ -1601,6 +1654,12 @@ export interface getGuests_GetGuests_guests_GuestDomitory_booking_roomTypes_img 
   tags: getGuests_GetGuests_guests_GuestDomitory_booking_roomTypes_img_tags[] | null;
 }
 
+export interface getGuests_GetGuests_guests_GuestDomitory_booking_roomTypes_tags {
+  __typename: "Tag";
+  key: string;
+  value: string;
+}
+
 export interface getGuests_GetGuests_guests_GuestDomitory_booking_roomTypes {
   __typename: "RoomType";
   _id: string;
@@ -1619,6 +1678,7 @@ export interface getGuests_GetGuests_guests_GuestDomitory_booking_roomTypes {
   defaultPrice: number | null;
   createdAt: any;
   updatedAt: any | null;
+  tags: getGuests_GetGuests_guests_GuestDomitory_booking_roomTypes_tags[];
 }
 
 export interface getGuests_GetGuests_guests_GuestDomitory_booking_checkInInfo {
@@ -1735,6 +1795,12 @@ export interface getGuests_GetGuests_guests_GuestRoom_booking_roomTypes_img {
   tags: getGuests_GetGuests_guests_GuestRoom_booking_roomTypes_img_tags[] | null;
 }
 
+export interface getGuests_GetGuests_guests_GuestRoom_booking_roomTypes_tags {
+  __typename: "Tag";
+  key: string;
+  value: string;
+}
+
 export interface getGuests_GetGuests_guests_GuestRoom_booking_roomTypes {
   __typename: "RoomType";
   _id: string;
@@ -1753,6 +1819,7 @@ export interface getGuests_GetGuests_guests_GuestRoom_booking_roomTypes {
   defaultPrice: number | null;
   createdAt: any;
   updatedAt: any | null;
+  tags: getGuests_GetGuests_guests_GuestRoom_booking_roomTypes_tags[];
 }
 
 export interface getGuests_GetGuests_guests_GuestRoom_booking_checkInInfo {
@@ -2027,6 +2094,10 @@ export interface getUserForSU_GetUserForSU_user_houses_houseConfig_bookingConfig
 
 export interface getUserForSU_GetUserForSU_user_houses_houseConfig_bookingConfig {
   __typename: "BookingConfig";
+  /**
+   * 최대 연박 가능일수: 1~180
+   */
+  maxStayDate: number;
   /**
    * 무조건 하루만 예약하게
    */
@@ -2439,6 +2510,12 @@ export interface getBookingForPublic_GetBookingForPublic_booking_roomTypes_img {
   tags: getBookingForPublic_GetBookingForPublic_booking_roomTypes_img_tags[] | null;
 }
 
+export interface getBookingForPublic_GetBookingForPublic_booking_roomTypes_tags {
+  __typename: "Tag";
+  key: string;
+  value: string;
+}
+
 export interface getBookingForPublic_GetBookingForPublic_booking_roomTypes {
   __typename: "RoomType";
   _id: string;
@@ -2457,6 +2534,7 @@ export interface getBookingForPublic_GetBookingForPublic_booking_roomTypes {
   defaultPrice: number | null;
   createdAt: any;
   updatedAt: any | null;
+  tags: getBookingForPublic_GetBookingForPublic_booking_roomTypes_tags[];
 }
 
 export interface getBookingForPublic_GetBookingForPublic_booking_checkInInfo {
@@ -2731,6 +2809,12 @@ export interface getBookings_GetBookings_result_bookings_roomTypes_img {
   tags: getBookings_GetBookings_result_bookings_roomTypes_img_tags[] | null;
 }
 
+export interface getBookings_GetBookings_result_bookings_roomTypes_tags {
+  __typename: "Tag";
+  key: string;
+  value: string;
+}
+
 export interface getBookings_GetBookings_result_bookings_roomTypes {
   __typename: "RoomType";
   _id: string;
@@ -2749,6 +2833,7 @@ export interface getBookings_GetBookings_result_bookings_roomTypes {
   defaultPrice: number | null;
   createdAt: any;
   updatedAt: any | null;
+  tags: getBookings_GetBookings_result_bookings_roomTypes_tags[];
 }
 
 export interface getBookings_GetBookings_result_bookings_checkInInfo {
@@ -2912,6 +2997,12 @@ export interface getBooking_GetBooking_booking_roomTypes_img {
   tags: getBooking_GetBooking_booking_roomTypes_img_tags[] | null;
 }
 
+export interface getBooking_GetBooking_booking_roomTypes_tags {
+  __typename: "Tag";
+  key: string;
+  value: string;
+}
+
 export interface getBooking_GetBooking_booking_roomTypes {
   __typename: "RoomType";
   _id: string;
@@ -2930,6 +3021,7 @@ export interface getBooking_GetBooking_booking_roomTypes {
   defaultPrice: number | null;
   createdAt: any;
   updatedAt: any | null;
+  tags: getBooking_GetBooking_booking_roomTypes_tags[];
 }
 
 export interface getBooking_GetBooking_booking_checkInInfo {
@@ -4362,6 +4454,43 @@ export interface getHouseForPublic_GetHouseForPublic_house_location {
   addressDetail: string | null;
 }
 
+export interface getHouseForPublic_GetHouseForPublic_house_tags {
+  __typename: "Tag";
+  key: string;
+  value: string;
+}
+
+export interface getHouseForPublic_GetHouseForPublic_house_houseConfig_bookingConfig_collectingInfoFromGuest {
+  __typename: "CollectingInfoFromGuest";
+  email: boolean | null;
+  country: boolean | null;
+}
+
+export interface getHouseForPublic_GetHouseForPublic_house_houseConfig_bookingConfig {
+  __typename: "BookingConfig";
+  /**
+   * 최대 연박 가능일수: 1~180
+   */
+  maxStayDate: number;
+  collectingInfoFromGuest: getHouseForPublic_GetHouseForPublic_house_houseConfig_bookingConfig_collectingInfoFromGuest | null;
+  /**
+   * 무조건 하루만 예약하게
+   */
+  bookOnlySingleDay: boolean | null;
+}
+
+export interface getHouseForPublic_GetHouseForPublic_house_houseConfig_options {
+  __typename: "Tag";
+  key: string;
+  value: string;
+}
+
+export interface getHouseForPublic_GetHouseForPublic_house_houseConfig {
+  __typename: "HouseConfig";
+  bookingConfig: getHouseForPublic_GetHouseForPublic_house_houseConfig_bookingConfig;
+  options: getHouseForPublic_GetHouseForPublic_house_houseConfig_options[];
+}
+
 export interface getHouseForPublic_GetHouseForPublic_house_bookingPayInfo_bankAccountInfo {
   __typename: "BankAccountInfo";
   bankName: string;
@@ -4380,6 +4509,8 @@ export interface getHouseForPublic_GetHouseForPublic_house {
   phoneNumber: any | null;
   name: string;
   location: getHouseForPublic_GetHouseForPublic_house_location;
+  tags: getHouseForPublic_GetHouseForPublic_house_tags[];
+  houseConfig: getHouseForPublic_GetHouseForPublic_house_houseConfig;
   bookingPayInfo: getHouseForPublic_GetHouseForPublic_house_bookingPayInfo;
 }
 
@@ -4681,6 +4812,12 @@ export interface getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices_roomTy
   tags: getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_img_tags[] | null;
 }
 
+export interface getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_tags {
+  __typename: "Tag";
+  key: string;
+  value: string;
+}
+
 export interface getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices_roomType {
   __typename: "RoomType";
   _id: string;
@@ -4699,6 +4836,7 @@ export interface getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices_roomTy
   defaultPrice: number | null;
   createdAt: any;
   updatedAt: any | null;
+  tags: getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_tags[];
 }
 
 export interface getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices_datePrices {
@@ -5266,6 +5404,92 @@ export interface getMemosVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: changeRoomTypeTags
+// ====================================================
+
+export interface changeRoomTypeTags_AddRoomTypeTags {
+  __typename: "AddRoomTypeTagsResponse";
+  ok: boolean;
+  error: string | null;
+}
+
+export interface changeRoomTypeTags_RemoveRoomTypeTags {
+  __typename: "RemoveRoomTypeTagsResponse";
+  ok: boolean;
+  error: string | null;
+}
+
+export interface changeRoomTypeTags {
+  /**
+   * 태그 추가. house에 중복되는 tagKey 가 있으면 덮어씀
+   */
+  AddRoomTypeTags: changeRoomTypeTags_AddRoomTypeTags;
+  RemoveRoomTypeTags: changeRoomTypeTags_RemoveRoomTypeTags;
+}
+
+export interface changeRoomTypeTagsVariables {
+  roomTypeId: string;
+  newTags: TagInput[];
+  removeKeys: string[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: addRoomTypeTags
+// ====================================================
+
+export interface addRoomTypeTags_AddRoomTypeTags {
+  __typename: "AddRoomTypeTagsResponse";
+  ok: boolean;
+  error: string | null;
+}
+
+export interface addRoomTypeTags {
+  /**
+   * 태그 추가. house에 중복되는 tagKey 가 있으면 덮어씀
+   */
+  AddRoomTypeTags: addRoomTypeTags_AddRoomTypeTags;
+}
+
+export interface addRoomTypeTagsVariables {
+  roomTypeId: string;
+  tags: TagInput[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: removeRoomTypeTags
+// ====================================================
+
+export interface removeRoomTypeTags_RemoveRoomTypeTags {
+  __typename: "RemoveRoomTypeTagsResponse";
+  ok: boolean;
+  error: string | null;
+}
+
+export interface removeRoomTypeTags {
+  RemoveRoomTypeTags: removeRoomTypeTags_RemoveRoomTypeTags;
+}
+
+export interface removeRoomTypeTagsVariables {
+  roomTypeId: string;
+  tagKeys: string[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: updateMemo
 // ====================================================
 
@@ -5665,6 +5889,9 @@ export interface getPayHistory_GetPayHistory_result_payHistories {
   __typename: "PayHistory";
   _id: string;
   userId: string;
+  /**
+   * 항목 (deprecated)
+   */
   target: PayTarget;
   payload: string;
   goodsCnt: number;
@@ -5674,6 +5901,9 @@ export interface getPayHistory_GetPayHistory_result_payHistories {
   tid: string;
   payMethod: PayMethod;
   amt: number;
+  /**
+   * 결제 결과.
+   */
   status: getPayHistory_GetPayHistory_result_payHistories_status;
   cancelStatus: getPayHistory_GetPayHistory_result_payHistories_cancelStatus | null;
   createdAt: any;
@@ -5864,6 +6094,12 @@ export interface searchBooking_SearchBooking_data_roomTypes_img {
   tags: searchBooking_SearchBooking_data_roomTypes_img_tags[] | null;
 }
 
+export interface searchBooking_SearchBooking_data_roomTypes_tags {
+  __typename: "Tag";
+  key: string;
+  value: string;
+}
+
 export interface searchBooking_SearchBooking_data_roomTypes {
   __typename: "RoomType";
   _id: string;
@@ -5882,6 +6118,7 @@ export interface searchBooking_SearchBooking_data_roomTypes {
   defaultPrice: number | null;
   createdAt: any;
   updatedAt: any | null;
+  tags: searchBooking_SearchBooking_data_roomTypes_tags[];
 }
 
 export interface searchBooking_SearchBooking_data_checkInInfo {
@@ -6318,6 +6555,10 @@ export interface FhouseConfig_bookingConfig_collectingInfoFromGuest {
 export interface FhouseConfig_bookingConfig {
   __typename: "BookingConfig";
   /**
+   * 최대 연박 가능일수: 1~180
+   */
+  maxStayDate: number;
+  /**
    * 무조건 하루만 예약하게
    */
   bookOnlySingleDay: boolean | null;
@@ -6633,6 +6874,12 @@ export interface FroomType_img {
   tags: FroomType_img_tags[] | null;
 }
 
+export interface FroomType_tags {
+  __typename: "Tag";
+  key: string;
+  value: string;
+}
+
 export interface FroomType {
   __typename: "RoomType";
   _id: string;
@@ -6651,6 +6898,7 @@ export interface FroomType {
   defaultPrice: number | null;
   createdAt: any;
   updatedAt: any | null;
+  tags: FroomType_tags[];
 }
 
 /* tslint:disable */
@@ -6936,6 +7184,12 @@ export interface FsharedGetAllRoomType_roomTypes_img {
   tags: FsharedGetAllRoomType_roomTypes_img_tags[] | null;
 }
 
+export interface FsharedGetAllRoomType_roomTypes_tags {
+  __typename: "Tag";
+  key: string;
+  value: string;
+}
+
 export interface FsharedGetAllRoomType_roomTypes_rooms {
   __typename: "Room";
   _id: string;
@@ -6946,20 +7200,21 @@ export interface FsharedGetAllRoomType_roomTypes {
   __typename: "RoomType";
   _id: string;
   name: string;
-  index: number;
-  description: string | null;
   pricingType: PricingType;
   peopleCount: number;
   peopleCountMax: number;
-  roomGender: RoomGender;
+  index: number;
   roomCount: number;
-  createdAt: any;
+  roomGender: RoomGender;
+  img: FsharedGetAllRoomType_roomTypes_img | null;
+  description: string | null;
   /**
    * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
    */
   defaultPrice: number | null;
+  createdAt: any;
   updatedAt: any | null;
-  img: FsharedGetAllRoomType_roomTypes_img | null;
+  tags: FsharedGetAllRoomType_roomTypes_tags[];
   rooms: FsharedGetAllRoomType_roomTypes_rooms[];
 }
 
@@ -6993,6 +7248,12 @@ export interface Fbooking_roomTypes_img {
   tags: Fbooking_roomTypes_img_tags[] | null;
 }
 
+export interface Fbooking_roomTypes_tags {
+  __typename: "Tag";
+  key: string;
+  value: string;
+}
+
 export interface Fbooking_roomTypes {
   __typename: "RoomType";
   _id: string;
@@ -7011,6 +7272,7 @@ export interface Fbooking_roomTypes {
   defaultPrice: number | null;
   createdAt: any;
   updatedAt: any | null;
+  tags: Fbooking_roomTypes_tags[];
 }
 
 export interface Fbooking_checkInInfo {
@@ -7155,6 +7417,10 @@ export interface Fcontext_houses_houseConfig_bookingConfig_collectingInfoFromGue
 
 export interface Fcontext_houses_houseConfig_bookingConfig {
   __typename: "BookingConfig";
+  /**
+   * 최대 연박 가능일수: 1~180
+   */
+  maxStayDate: number;
   /**
    * 무조건 하루만 예약하게
    */
@@ -7385,6 +7651,12 @@ export interface FroomTypePriceResult_roomTypeDatePrices_roomType_img {
   tags: FroomTypePriceResult_roomTypeDatePrices_roomType_img_tags[] | null;
 }
 
+export interface FroomTypePriceResult_roomTypeDatePrices_roomType_tags {
+  __typename: "Tag";
+  key: string;
+  value: string;
+}
+
 export interface FroomTypePriceResult_roomTypeDatePrices_roomType {
   __typename: "RoomType";
   _id: string;
@@ -7403,6 +7675,7 @@ export interface FroomTypePriceResult_roomTypeDatePrices_roomType {
   defaultPrice: number | null;
   createdAt: any;
   updatedAt: any | null;
+  tags: FroomTypePriceResult_roomTypeDatePrices_roomType_tags[];
 }
 
 export interface FroomTypePriceResult_roomTypeDatePrices_datePrices {
@@ -7645,6 +7918,22 @@ export enum PayCancelResultCode {
   IN_PROGRESS = "IN_PROGRESS",
   OK = "OK",
   REFUNDED = "REFUNDED",
+}
+
+/**
+ * target의 영향을 받음.
+ */
+export enum PayHistoryType {
+  PURCHASE = "PURCHASE",
+  SALES = "SALES",
+}
+
+export enum PayItem {
+  BOOKING = "BOOKING",
+  EMAIL = "EMAIL",
+  HOMEPAGE = "HOMEPAGE",
+  SMS = "SMS",
+  USAGE_PLAN = "USAGE_PLAN",
 }
 
 export enum PayMethod {
@@ -7933,24 +8222,15 @@ export interface GetHousesForSUInput {
   paging: OffsetPagingInput;
 }
 
-export interface GetPayHistoryFilterInput {
-  houseId?: string | null;
-  target?: PayTarget | null;
-  payload?: string | null;
-  payResult?: boolean | null;
-  isCanceled?: boolean | null;
-  period?: PeriodInput | null;
-}
-
 export interface GetPayHistoryInput {
   paging: OffsetPagingInput;
-  filter: GetPayHistoryFilterInput;
+  filter: PayHistorySearchFilter;
   sort?: any[] | null;
 }
 
 export interface GetReplacedMessageInput {
   bookingNum?: string | null;
-  bookingParam?: StartBookingBookerInput | null;
+  bookingParam?: MakeBookingBookerInput | null;
   smsTemplateId: string;
 }
 
@@ -8104,6 +8384,18 @@ export interface PayCancelProductInput {
   decreasePeriod: number;
 }
 
+/**
+ * 기본적으로 UserId로 필터링이 필수 포함되어 있음.
+ */
+export interface PayHistorySearchFilter {
+  period: PeriodInput;
+  houseId?: string | null;
+  targets?: PayTarget[] | null;
+  items?: PayItem[] | null;
+  isCalculated?: boolean | null;
+  type?: PayHistoryType | null;
+}
+
 export interface PeriodInput {
   start: any;
   end: any;
@@ -8186,24 +8478,14 @@ export interface SmsTemplateInput {
   smsSendCase?: SmsAutoSendInput | null;
 }
 
-/**
- * hosueId는 token에 의해서 불러와지는걸로
- */
-export interface StartBookingBookerInput {
-  name: any;
-  phoneNumber?: any | null;
-  password: string;
-  memo: string;
-  email?: string | null;
-  agreePrivacyPolicy: boolean;
-  funnels?: Funnels | null;
-  nationality?: string | null;
-  breakfast?: boolean | null;
-}
-
 export interface StayDateInput {
   checkIn: any;
   checkOut: any;
+}
+
+export interface TagInput {
+  key: string;
+  value: string;
 }
 
 export interface TermsOfBookingInput {

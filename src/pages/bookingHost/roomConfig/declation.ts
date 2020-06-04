@@ -1,4 +1,5 @@
 import { IRoomType, IRoom } from "../../../types/interface";
+import { JDmodalConfigProps } from "../../../atoms/modal/Modal";
 
 export type TRoomModalSubmit = (room: IRoom[], roomType: IRoomType, mode: TMode, index?: number) => void;
 
@@ -6,6 +7,7 @@ export interface IRoomModalInfo {
     mode: TMode;
     room?: IRoom;
     roomType: IRoomType;
+    modalProp?: JDmodalConfigProps
 }
 
 export interface IRoomDataSet {
