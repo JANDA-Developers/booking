@@ -16,10 +16,9 @@ import $ from "jquery";
 import { toast } from "react-toastify";
 import { FAVI_URL } from "./types/const";
 import LoadBalancer from "./pages/loadBalancer/LoadBalancer";
-import { getFromUrl } from "./utils/utils";
 import Tracker from "./Tracker";
 import JDtypho from "./atoms/typho/Typho";
-import LangModule, { useLang } from "@janda-com/lang";
+import { useLang } from "@janda-com/lang";
 import "./lib/wave/wave"; // [TODO 점검] 웨이브 이펙트
 import "./lib/wave/wave.scss";
 import "./App.scss";

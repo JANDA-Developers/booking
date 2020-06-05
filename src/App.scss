@@ -1,5 +1,9 @@
+@import "~@janda-com/front/src/scss/abstracts/variables.scss";
 @import "~Styles";
+@import "~@janda-com/front/src/scss/vendors/globalClass.scss";
 @import "~@janda-com/front/src/scss/components/SearchInput.scss";
+@import "~@janda-com/front/src/scss/components/Slider.scss";
+@import "~@janda-com/front/src/scss/components/FilesManager.scss";
 
 #ch-plugin-core {
   display: none;

@@ -15,7 +15,7 @@ import omitDeep from "omit-deep";
 import { HOUSE_TYPE_OP, OPTIONAL_APPLY_PAYMETHOD } from "../../../types/const";
 import AddressSearcher from "./components/AddressSearcher";
 import GoogleMap from "../createHouse/components/googleMap";
-import { ProvidedProps } from "google-maps-react";
+import { IProvidedProps, Map } from "google-maps-react";
 import { IContext } from "../BookingHostRouter";
 import { UpdateHouseInput } from "../../../types/api";
 import optionFineder from "../../../utils/optionFinder";
@@ -28,14 +28,14 @@ import {
 import { DEFAULT_BANK_INFO } from "../../../types/defaults";
 import { JDalign } from "@janda-com/front";
 
-let map: google.maps.Map | null = null;
+let map: Map | null = null;
 
 interface IProps {
   updateHouseFn: (updateHouseInput: UpdateHouseInput) => void;
   context: IContext;
 }
 
-const HouseConfig: React.FC<IProps & ProvidedProps> = ({
+const HouseConfig: React.FC<IProps & IProvidedProps> = ({
   google,
   updateHouseFn,
   context
@@ -106,6 +106,7 @@ const HouseConfig: React.FC<IProps & ProvidedProps> = ({
 
   useEffect(() => {
     map = loadMap(lat, lng, mapRef, google);
+    // @ts-ignore
     map?.addListener("dragend", handleDragEnd);
   }, []);
 

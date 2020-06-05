@@ -156,6 +156,7 @@ export interface getSpecification_GetHouse_house {
   name: string;
   houseType: HouseType;
   status: HouseStatus | null;
+  houseNum: string;
   product: getSpecification_GetHouse_house_product | null;
   createdAt: any;
   updatedAt: any | null;
@@ -445,6 +446,12 @@ export interface getMyProfile_GetMyProfile_user_houses_houseConfig_pollingPeriod
   period: number;
 }
 
+export interface getMyProfile_GetMyProfile_user_houses_houseConfig_options {
+  __typename: "Tag";
+  key: string;
+  value: string;
+}
+
 export interface getMyProfile_GetMyProfile_user_houses_houseConfig_bookingConfig_newBookingMark {
   __typename: "NewBookingMark";
   enable: boolean | null;
@@ -459,10 +466,6 @@ export interface getMyProfile_GetMyProfile_user_houses_houseConfig_bookingConfig
 
 export interface getMyProfile_GetMyProfile_user_houses_houseConfig_bookingConfig {
   __typename: "BookingConfig";
-  /**
-   * 최대 연박 가능일수: 1~180
-   */
-  maxStayDate: number;
   /**
    * 무조건 하루만 예약하게
    */
@@ -480,6 +483,7 @@ export interface getMyProfile_GetMyProfile_user_houses_houseConfig {
   __typename: "HouseConfig";
   assigTimeline: getMyProfile_GetMyProfile_user_houses_houseConfig_assigTimeline;
   pollingPeriod: getMyProfile_GetMyProfile_user_houses_houseConfig_pollingPeriod;
+  options: getMyProfile_GetMyProfile_user_houses_houseConfig_options[];
   bookingConfig: getMyProfile_GetMyProfile_user_houses_houseConfig_bookingConfig;
   baseConfig: getMyProfile_GetMyProfile_user_houses_houseConfig_baseConfig;
 }
@@ -625,6 +629,7 @@ export interface getMyProfile_GetMyProfile_user_houses {
   houseType: HouseType;
   status: HouseStatus | null;
   publicKey: string | null;
+  houseNum: string;
   createdAt: any;
   updatedAt: any | null;
   tags: getMyProfile_GetMyProfile_user_houses_tags[];
@@ -909,6 +914,7 @@ export interface getHouse_GetHouse_house {
   _id: string;
   name: string;
   houseType: HouseType;
+  houseNum: string;
   smsInfo: getHouse_GetHouse_house_smsInfo;
   roomTypes: getHouse_GetHouse_house_roomTypes[] | null;
   product: getHouse_GetHouse_house_product | null;
@@ -2080,6 +2086,12 @@ export interface getUserForSU_GetUserForSU_user_houses_houseConfig_pollingPeriod
   period: number;
 }
 
+export interface getUserForSU_GetUserForSU_user_houses_houseConfig_options {
+  __typename: "Tag";
+  key: string;
+  value: string;
+}
+
 export interface getUserForSU_GetUserForSU_user_houses_houseConfig_bookingConfig_newBookingMark {
   __typename: "NewBookingMark";
   enable: boolean | null;
@@ -2094,10 +2106,6 @@ export interface getUserForSU_GetUserForSU_user_houses_houseConfig_bookingConfig
 
 export interface getUserForSU_GetUserForSU_user_houses_houseConfig_bookingConfig {
   __typename: "BookingConfig";
-  /**
-   * 최대 연박 가능일수: 1~180
-   */
-  maxStayDate: number;
   /**
    * 무조건 하루만 예약하게
    */
@@ -2115,6 +2123,7 @@ export interface getUserForSU_GetUserForSU_user_houses_houseConfig {
   __typename: "HouseConfig";
   assigTimeline: getUserForSU_GetUserForSU_user_houses_houseConfig_assigTimeline;
   pollingPeriod: getUserForSU_GetUserForSU_user_houses_houseConfig_pollingPeriod;
+  options: getUserForSU_GetUserForSU_user_houses_houseConfig_options[];
   bookingConfig: getUserForSU_GetUserForSU_user_houses_houseConfig_bookingConfig;
   baseConfig: getUserForSU_GetUserForSU_user_houses_houseConfig_baseConfig;
 }
@@ -2260,6 +2269,7 @@ export interface getUserForSU_GetUserForSU_user_houses {
   houseType: HouseType;
   status: HouseStatus | null;
   publicKey: string | null;
+  houseNum: string;
   createdAt: any;
   updatedAt: any | null;
   tags: getUserForSU_GetUserForSU_user_houses_tags[];
@@ -3899,6 +3909,9 @@ export interface cancelBooking_CancelBooking {
 }
 
 export interface cancelBooking {
+  /**
+   * 예약 취소. 환불하는거 아님. 예약 상태에만 관여함. & 환불에 관련된 파라미터를 만들어냄
+   */
   CancelBooking: cancelBooking_CancelBooking;
 }
 
@@ -4508,6 +4521,7 @@ export interface getHouseForPublic_GetHouseForPublic_house {
   __typename: "House";
   phoneNumber: any | null;
   name: string;
+  houseNum: string;
   location: getHouseForPublic_GetHouseForPublic_house_location;
   tags: getHouseForPublic_GetHouseForPublic_house_tags[];
   houseConfig: getHouseForPublic_GetHouseForPublic_house_houseConfig;
@@ -5970,6 +5984,9 @@ export interface refundBooking_CancelBooking {
 }
 
 export interface refundBooking {
+  /**
+   * 예약 취소. 환불하는거 아님. 예약 상태에만 관여함. & 환불에 관련된 파라미터를 만들어냄
+   */
   CancelBooking: refundBooking_CancelBooking;
 }
 
@@ -6415,6 +6432,7 @@ export interface Fhouse {
   houseType: HouseType;
   status: HouseStatus | null;
   publicKey: string | null;
+  houseNum: string;
   createdAt: any;
   updatedAt: any | null;
   tags: Fhouse_tags[];
@@ -6540,6 +6558,12 @@ export interface FhouseConfig_pollingPeriod {
   period: number;
 }
 
+export interface FhouseConfig_options {
+  __typename: "Tag";
+  key: string;
+  value: string;
+}
+
 export interface FhouseConfig_bookingConfig_newBookingMark {
   __typename: "NewBookingMark";
   enable: boolean | null;
@@ -6554,10 +6578,6 @@ export interface FhouseConfig_bookingConfig_collectingInfoFromGuest {
 
 export interface FhouseConfig_bookingConfig {
   __typename: "BookingConfig";
-  /**
-   * 최대 연박 가능일수: 1~180
-   */
-  maxStayDate: number;
   /**
    * 무조건 하루만 예약하게
    */
@@ -6575,6 +6595,7 @@ export interface FhouseConfig {
   __typename: "HouseConfig";
   assigTimeline: FhouseConfig_assigTimeline;
   pollingPeriod: FhouseConfig_pollingPeriod;
+  options: FhouseConfig_options[];
   bookingConfig: FhouseConfig_bookingConfig;
   baseConfig: FhouseConfig_baseConfig;
 }
@@ -7403,6 +7424,12 @@ export interface Fcontext_houses_houseConfig_pollingPeriod {
   period: number;
 }
 
+export interface Fcontext_houses_houseConfig_options {
+  __typename: "Tag";
+  key: string;
+  value: string;
+}
+
 export interface Fcontext_houses_houseConfig_bookingConfig_newBookingMark {
   __typename: "NewBookingMark";
   enable: boolean | null;
@@ -7417,10 +7444,6 @@ export interface Fcontext_houses_houseConfig_bookingConfig_collectingInfoFromGue
 
 export interface Fcontext_houses_houseConfig_bookingConfig {
   __typename: "BookingConfig";
-  /**
-   * 최대 연박 가능일수: 1~180
-   */
-  maxStayDate: number;
   /**
    * 무조건 하루만 예약하게
    */
@@ -7438,6 +7461,7 @@ export interface Fcontext_houses_houseConfig {
   __typename: "HouseConfig";
   assigTimeline: Fcontext_houses_houseConfig_assigTimeline;
   pollingPeriod: Fcontext_houses_houseConfig_pollingPeriod;
+  options: Fcontext_houses_houseConfig_options[];
   bookingConfig: Fcontext_houses_houseConfig_bookingConfig;
   baseConfig: Fcontext_houses_houseConfig_baseConfig;
 }
@@ -7583,6 +7607,7 @@ export interface Fcontext_houses {
   houseType: HouseType;
   status: HouseStatus | null;
   publicKey: string | null;
+  houseNum: string;
   createdAt: any;
   updatedAt: any | null;
   tags: Fcontext_houses_tags[];
@@ -8621,6 +8646,7 @@ export interface UpsertRoomTypeInput {
   peopleCount?: number | null;
   peopleCountMax?: number | null;
   img?: JdFileInput | null;
+  images?: JdFileInput[] | null;
   defaultPrice?: number | null;
   description?: string | null;
   rooms?: RoomInput[] | null;

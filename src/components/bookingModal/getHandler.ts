@@ -5,9 +5,9 @@ import {
 } from "./helper";
 import { LANG } from "../../hooks/hook";
 import { muResult, toNumber } from "../../utils/utils";
-import { AutoSendWhen } from "../../types/enum";
+import { AutoSendWhen, PaymentStatus } from "../../types/enum";
 import { isPhone } from "../../utils/inputValidations";
-import RefundModal from "../refundModal/RefundModal";
+import { toast } from "react-toastify";
 
 export const getHandler = (
   bookingModalContext: IBookingModalContext,
@@ -28,7 +28,6 @@ export const getHandler = (
     bookingModalHook,
     sendSmsModalHook,
     bookingData,
-    totalPrice,
     updateBookingMu,
     cancelBookingMu,
     confirmModalHook,
@@ -36,8 +35,8 @@ export const getHandler = (
     funnelStatusHook
   } = bookingModalContext;
 
-  const { payment, bookingNum } = bookingData;
-  const { tid } = payment;
+  const { payment } = bookingData;
+  const { refundedPrice, status, totalPrice } = payment;
 
   // 예약삭제 여부를 물어보는 버튼 컬백함수
   const deleteModalCallBackFn = (confirm: boolean) => {
@@ -96,6 +95,13 @@ export const getHandler = (
   };
 
   const handleCancelBtnClick = () => {
+    if (status === PaymentStatus.CANCELED || status === PaymentStatus.NOT_YET) {
+      toast.error(LANG("can_not_refund"));
+      return
+    } else if (refundedPrice || 0 >= totalPrice) {
+      toast.error(LANG("already_refund_all"));
+      return
+    }
     refundModalHook.openModal();
   }
 

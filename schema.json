@@ -9569,6 +9569,22 @@
             "deprecationReason": null
           },
           {
+            "name": "refundStatus",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "ENUM",
+                "name": "RefundStatus",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "paymentResultParam",
             "description": "",
             "args": [],
@@ -9582,6 +9598,18 @@
           },
           {
             "name": "refundedPrice",
+            "description": "",
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "willRefundPrice",
             "description": "",
             "args": [],
             "type": {
@@ -9686,6 +9714,41 @@
           {
             "name": "FAILED",
             "description": "",
+            "isDeprecated": false,
+            "deprecationReason": null
+          }
+        ],
+        "possibleTypes": null
+      },
+      {
+        "kind": "ENUM",
+        "name": "RefundStatus",
+        "description": "",
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "enumValues": [
+          {
+            "name": "NONE",
+            "description": "기본 상태.",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "PENDING",
+            "description": "환불 진행상태",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "COMPLETED",
+            "description": "환불 완료",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "CANCELED",
+            "description": "환불신청 취소",
             "isDeprecated": false,
             "deprecationReason": null
           }
@@ -17530,7 +17593,7 @@
           },
           {
             "name": "CancelBooking",
-            "description": "",
+            "description": "예약 취소. 환불하는거 아님. 예약 상태에만 관여함. & 환불에 관련된 파라미터를 만들어냄",
             "args": [
               {
                 "name": "param",
@@ -33311,6 +33374,24 @@
               "kind": "INPUT_OBJECT",
               "name": "JdFileInput",
               "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "images",
+            "description": "",
+            "type": {
+              "kind": "LIST",
+              "name": null,
+              "ofType": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "INPUT_OBJECT",
+                  "name": "JdFileInput",
+                  "ofType": null
+                }
+              }
             },
             "defaultValue": null
           },

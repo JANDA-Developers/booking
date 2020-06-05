@@ -125,6 +125,9 @@ $modal-header-padding: $modal-padding;
 	}
 
 	&__head {
+		.JDtext-size-h6,.JDtypho--h6 {
+			font-weight: 600;
+		}
 		padding: $modal-header-padding;
 		padding-bottom: $standard-space;
 		border-bottom: 1px solid $grey-level1;

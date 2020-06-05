@@ -4,9 +4,10 @@ import { LANG, IUseModal } from "../../hooks/hook";
 import JDmodal from "../../atoms/modal/Modal";
 import ModalEndSection from "../../atoms/modal/components/ModalEndSection";
 import Button from "../../atoms/button/Button";
-import { JDalign, JDbutton } from "@janda-com/front";
+import { JDalign, JDbutton, toast } from "@janda-com/front";
 import { autoComma } from "../../utils/utils";
 import JDtypho from "../../atoms/typho/Typho";
+import { validate } from "graphql";
 
 type TRefundInfo = {
   id: string,
@@ -40,6 +41,19 @@ const RefundModal: React.FC<IProps> = ({
     amt: t.max,
     id: t.id
   })));
+
+  const validate = () => {
+    let result = true;
+
+    refundInfos.forEach(info => {
+      if (info.max > info.amt) {
+        toast.error(LANG("can_not_refund_that_much"));
+        result = false;
+      }
+    })
+
+    return result;
+  }
 
   return (
     <JDmodal
@@ -85,10 +99,12 @@ const RefundModal: React.FC<IProps> = ({
             thema="primary"
             label={LANG("refund")}
             onClick={() => {
-              if (!isMulti)
-                onRefund && onRefund(refundInfos[0].amt);
-              else
-                onRefunds && onRefunds(refundInfos);
+              if (validate()) {
+                if (!isMulti)
+                  onRefund && onRefund(refundInfos[0].amt);
+                else
+                  onRefunds && onRefunds(refundInfos);
+              }
             }}
           />
         </ModalEndSection>

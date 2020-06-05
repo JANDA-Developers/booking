@@ -1,7 +1,6 @@
 import { toast } from "react-toastify";
 /* eslint-disable max-len */
 import React, { useState, useEffect, useRef } from "react";
-import { ProvidedProps, GoogleApiWrapper } from "google-maps-react";
 import {
   useInput,
   useSelect,
@@ -15,26 +14,19 @@ import InputText from "../../../atoms/forms/inputText/InputText";
 import SelectBox from "../../../atoms/forms/selectBox/SelectBox";
 import Button from "../../../atoms/button/Button";
 import "./CreateHouse.scss";
-import Preloader from "../../../atoms/preloader/Preloader";
-import { FLOATING_PRELOADER_SIZE, HOUSE_TYPE_OP } from "../../../types/const";
+import { HOUSE_TYPE_OP } from "../../../types/const";
 import { IContext } from "../../bookingHost/BookingHostRouter";
 import PreloaderModal from "../../../atoms/preloaderModal/PreloaderModal";
 import { initHouseVariables, HouseType } from "../../../types/api";
 import { TRef } from "../../../types/interface";
-import EerrorProtect from "../../../utils/errProtect";
 import optionFineder from "../../../utils/optionFinder";
-import { JDsearchInput, ISearchViewData } from "@janda-com/front";
-import JDtypho from "../../../atoms/typho/Typho";
 import {
-  getLocationFromMap,
-  loadMap,
-  geoCode,
-  reverseGeoCode,
   JDgoogleMapWraper,
   changeMapBySearch,
   TLocation
 } from "./components/googleMapHelper";
 import AddressSearcher from "../houseConfig/components/AddressSearcher";
+import { IProvidedProps, Map } from "google-maps-react";
 
 const defaultData = {
   name: "",
@@ -47,7 +39,7 @@ const defaultData = {
   }
 };
 
-let map: google.maps.Map | null = null;
+let map: Map | null = null;
 
 type houseData = {
   name: string;
@@ -55,7 +47,7 @@ type houseData = {
   location: TLocation;
 };
 
-interface IProps extends ProvidedProps {
+interface IProps extends IProvidedProps {
   context: IContext;
   houseData?: houseData;
   muLoading?: boolean;
@@ -135,7 +127,7 @@ const CreateHouse: React.FC<IProps> = ({
   }, [addressGeturl]);
 
   // 구글맵 첫 생성 (현재위치)
-  useEffect(() => {}, []);
+  useEffect(() => { }, []);
 
   const createHouseSubmit = () => {
     if (submitValidation()) {

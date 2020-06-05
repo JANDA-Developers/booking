@@ -25,10 +25,10 @@ interface IProps extends ICardModalPropShareWrap {
 
 // 이곳에서 카드 등록 수정 삭제 모든 요청 발생
 const CardModalWrap: React.FC<IProps> = ({ context, createCallBack, deleteCallBack, onSubmit, ...props }) => {
-	const refetchQueries = [ getOperationName(GET_USER_INFO) || '' ];
+	const refetchQueries = [getOperationName(GET_USER_INFO) || ''];
 
 	// 카드 등록
-	const [ createBillMu, { loading: registerBillLoading } ] = useMutation<
+	const [createBillMu, { loading: registerBillLoading }] = useMutation<
 		registerBillKey,
 		registerBillKeyVariables
 	>(REGISTE_BILLKEY, {
@@ -45,7 +45,7 @@ const CardModalWrap: React.FC<IProps> = ({ context, createCallBack, deleteCallBa
 		}
 	});
 
-	const [ updateProductBillInfoMu ] = useMutation<
+	const [updateProductBillInfoMu, { loading: updateProductBillLoading }] = useMutation<
 		updateProductBillInfo,
 		updateProductBillInfoVariables
 	>(UPDATE_PRODUCT_BILL_INFO, {
@@ -56,7 +56,7 @@ const CardModalWrap: React.FC<IProps> = ({ context, createCallBack, deleteCallBa
 	});
 
 	// 카드 삭제
-	const [ unRegisterBillKeyMu, { loading: unRegisterBillLoading } ] = useMutation<
+	const [unRegisterBillKeyMu, { loading: unRegisterBillLoading }] = useMutation<
 		unregisterBillKey,
 		unregisterBillKeyVariables
 	>(UN_REGISTER_BILLKEY, {
@@ -67,9 +67,11 @@ const CardModalWrap: React.FC<IProps> = ({ context, createCallBack, deleteCallBa
 			if (UnregisterBillKey.ok) deleteCallBack && deleteCallBack();
 		}
 	});
+	const totalLoading = unRegisterBillLoading || updateProductBillLoading || registerBillLoading;
 
 	return (
 		<CardModal
+			loading={totalLoading}
 			createMu={createBillMu}
 			deleteMu={unRegisterBillKeyMu}
 			pChangeMu={updateProductBillInfoMu}

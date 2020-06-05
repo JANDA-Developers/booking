@@ -17,6 +17,8 @@ interface Iprops {
 }
 
 const PeriodicalTableWrap: React.FC<Iprops> = ({ context }) => {
+  const { house } = context;
+  const { createdAt } = house;
   const [page, setPage] = useState(1);
   const { data, loading } = useQuery<getPayHistory, getPayHistoryVariables>(
     GET_PAY_HISTORY,
@@ -25,11 +27,10 @@ const PeriodicalTableWrap: React.FC<Iprops> = ({ context }) => {
       variables: {
         param: {
           filter: {
-            period:  {
+            period: {
               end: new Date(),
-              start: new Date(),
-            },
-            targets: [PayTarget.USAGE_PLAN as any]
+              start: createdAt,
+            }
           },
           paging: {
             selectedPage: page,

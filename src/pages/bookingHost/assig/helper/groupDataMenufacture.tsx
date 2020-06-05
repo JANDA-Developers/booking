@@ -75,7 +75,6 @@ export const roomDataManufacturer = (
               title: room.name,
               room,
               roomIndex: index,
-              roomType: roomTypeData,
               roomId: room._id,
               bedIndex: i,
               placeIndex: i + 1,

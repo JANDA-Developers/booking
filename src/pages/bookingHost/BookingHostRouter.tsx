@@ -45,13 +45,10 @@ import MemoAlertModal from "../../components/Memo/component/MemoAlertModal";
 import browserDetect from "../../utils/browserDetect";
 import SideNav from "../../components/sideNav/SideNav";
 import Expired from "../bookingHost/expire/Expired";
-// import { AddtionalConfigModal } from "../../components/else/AdditionalConfigModal";
 import { greet, houseConfigSetting } from "./helper";
 import SmsInfo from "./smsInfo/SmsInfo";
 import CreateHouseWrap from "./createHouse/CreateHouseWrap";
-import { krFn } from "../../langs/kr";
-import { L_DEFAULT, L_PRODUCT } from "../../langs/langVar";
-import en from "../../langs/en";
+import { langVarChange } from "../../utils/langVarChange";
 
 interface JDRoute {
   Component: React.FC<any>;
@@ -85,10 +82,8 @@ const JDbookingHost: React.FC<IProps> = ({
   const currentHouse = getCurrentHouse(houses);
   // TODO 여기서 스키마 대기
   // 언어변수를 치환
-  BookingLang.overrideLangPack({
-    kr: krFn(L_PRODUCT),
-    en: en
-  });
+
+  langVarChange(currentHouse?.tags || []);
 
   const memoAlertModal = useModal(false);
   const applyedProduct = currentHouse?.product;

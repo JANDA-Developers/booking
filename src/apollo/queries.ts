@@ -107,6 +107,7 @@ export const F_HOUSE = gql`
     houseType
     status
     publicKey
+    houseNum
     createdAt
     updatedAt
     tags {
@@ -165,8 +166,11 @@ export const F_HOUSE_CONFIG = gql`
       enable
       period
     }
+    options {
+      key
+      value
+    }
     bookingConfig {
-        
       bookOnlySingleDay 
       newBookingMark {
         enable
@@ -590,6 +594,7 @@ export const GET_HOUSE_SPECIFICATION = gql`
         name
         houseType
         status
+        houseNum
         product {
           ...Fproduct
           productType {
@@ -767,6 +772,7 @@ export const GET_HOUSE = gql`
         _id
         name
         houseType
+        houseNum
         smsInfo {
           _id
         }
@@ -2129,6 +2135,7 @@ export const GET_HOUSE_FOR_PUBLIC = gql`
       house {
         phoneNumber
         name
+        houseNum
         location {
           address
           addressDetail

@@ -16,7 +16,7 @@ export let L_DEFAULT: TVar = {
     CO: "체크아웃"
 }
 
-export const L_PRODUCT: TVar = {
+export const L_STROE: TVar = {
     BT: "상품타입",
     B: "상품",
     SB: "방문",
@@ -28,4 +28,14 @@ export const L_PRODUCT: TVar = {
     H: "상점주",
     CI: "방문일",
     CO: "종료일"
+}
+
+export type TLangVarSet = {
+    default: TVar;
+    store: TVar;
+}
+
+export const LANG_VAR_SETS: TLangVarSet = {
+    default: L_DEFAULT,
+    store: L_STROE
 }

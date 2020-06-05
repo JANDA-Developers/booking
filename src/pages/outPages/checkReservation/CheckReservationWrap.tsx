@@ -19,6 +19,7 @@ import CheckReservation from "./CheckReservation";
 import JDmodal from "../../../atoms/modal/Modal";
 import { useModal, LANG } from "../../../hooks/hook";
 import CompleteCircle from "../../../components/completeCircle/CompleteCircle";
+import { langVarChange } from "../../../utils/langVarChange";
 export interface ISetBookingInfo
   extends React.Dispatch<React.SetStateAction<any>> { }
 
@@ -48,13 +49,14 @@ const CheckReservationWrap: React.FC<IProps> = ({
     }
   );
 
-
   if (completed)
     comeplteModalHook.openModal();
 
   const publicHouseInfo =
     queryDataFormater(houseData, "GetHouseForPublic", "house", undefined) ||
     undefined;
+
+  langVarChange(publicHouseInfo?.tags || []);
 
   return (
     <div>

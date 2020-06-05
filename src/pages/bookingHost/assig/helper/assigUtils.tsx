@@ -697,7 +697,6 @@ export function getAssigUtils(
 
     // 모달안에 넣어줄 새로만들 부킹정보
     const createParam: GB_booking = {
-      __typename: "Booking",
       ...DEFAULT_BOOKING,
       _id: s4(),
       checkIn: createItems[0].start,

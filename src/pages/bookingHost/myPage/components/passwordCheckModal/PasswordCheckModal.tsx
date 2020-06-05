@@ -19,22 +19,18 @@ const PasswordCheckModal: React.FC<Iprops> = ({
   const passwordHook = useInput("");
 
   const validate = () => {
-    if (!passwordHook.isValid) {
-      toast.warn(LANG("not_a_valid_password"));
-      return false;
-    }
     return true;
   };
 
   return (
-    <JDmodal {...modalHook}>
-      <h6>{LANG("change_profile")}</h6>
+    <JDmodal head={{
+      title: LANG("change_profile")
+    }} {...modalHook}>
       <div>
         <InputText
           id="ChangeUserProfilePWInput"
           {...passwordHook}
           type="password"
-          validation={isPassword}
           label={LANG("password")}
         />
       </div>

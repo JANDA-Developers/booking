@@ -1,0 +1,9 @@
+@import "~Styles";
+
+.roomTypeModal {
+    &__slider {
+        border-radius: 5px;
+        border: 1px solid $outborder-color; 
+        max-height: 300px;
+    }
+}

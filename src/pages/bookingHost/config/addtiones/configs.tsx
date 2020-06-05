@@ -4,6 +4,7 @@ import SystemDescription from "./systemConfig";
 import AssigTimelineRoomTypeTab from "./assigTimelineRoomTypeTab";
 import { LANG } from "../../../../hooks/hook";
 import ReservationConfig from "./ReservationConfig";
+import { InfoSetting } from "./InfoSetting";
 
 export const configBlocks: IAddition[] = [
   // {
@@ -39,7 +40,7 @@ export const configBlocks: IAddition[] = [
     name: LANG("resv_page_info_editer"),
     updateAt: "2019-07-01",
     detailDescription: (prop: IAddtionProp) => (
-      <AssigTimelineRoomTypeTab {...prop} />
+      <InfoSetting {...prop} />
     )
   },
 

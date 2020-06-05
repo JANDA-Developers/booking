@@ -62,6 +62,9 @@ import { IBookerInfo, IReservationHooks } from "./declation";
 import { Redirect } from "react-router-dom";
 import { TCardRegistInfo } from "../../../components/cardModal/declare";
 import moment from "moment";
+import { toast } from "@janda-com/front";
+import { getOptionsObj } from "./helper";
+import JDtypho from "../../../atoms/typho/Typho";
 
 class GetAllAvailRoomQu extends Query<getAllRoomTypeForBooker> { }
 export interface ISetBookingInfo
@@ -101,8 +104,10 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
   if (!publicHouseInfo?.bookingPayInfo.payMethods) return <div />;
   const { bookingPayInfo, houseConfig } = publicHouseInfo;
   const { payMethods } = bookingPayInfo;
-  const { bookingConfig } = houseConfig;
-  const { bookOnlySingleDay } = bookingConfig;
+  const { bookingConfig, options: optArray } = houseConfig;
+  const { bookOnlySingleDay, maxStayDate } = bookingConfig;
+
+  const customMsgs = getOptionsObj(optArray);
 
   if (isEmpty(payMethods))
     return (
@@ -168,7 +173,11 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
   useEffect(() => {
     setRoomSelectInfo([]);
     priceHook.onChange(0);
+    const { from, to } = dayPickerHook;
     setBookerInfo(defaultBookingInfo);
+    if (from && to && maxStayDate)
+      if (moment(to).diff(from, "d") > maxStayDate)
+        toast.warn(LANG("max_range_book_day_is")(maxStayDate))
   }, [dayPickerHook.to, dayPickerHook.from]);
 
   // Iframe 높이조절
@@ -460,19 +469,24 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
             />
           )}
         </div>
+        <JDtypho>
+          {customMsgs.ResvCautionMsg}
+        </JDtypho>
       </div>
       {/* 호스트예약일떄 */}
-      {context && (
-        <BookingModalWrap
-          makeBookingCallBack={result => {
-            if (result !== "error") {
-              reservationModalHook && reservationModalHook.closeModal();
-            }
-          }}
-          context={context}
-          modalHook={bookingModalHook}
-        />
-      )}
+      <div className="JDreservation__wrap">
+        {context && (
+          <BookingModalWrap
+            makeBookingCallBack={result => {
+              if (result !== "error") {
+                reservationModalHook && reservationModalHook.closeModal();
+              }
+            }}
+            context={context}
+            modalHook={bookingModalHook}
+          />
+        )}
+      </div>
       {/* 게스트예약일떄 카드 정보를 입력 할수있는 창 */}
       <PayMentModal
         publicHouseInfo={publicHouseInfo}

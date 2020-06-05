@@ -5,8 +5,7 @@ import SelectBox from "../../../../atoms/forms/selectBox/SelectBox";
 import InputText from "../../../../atoms/forms/inputText/InputText";
 import Button from "../../../../atoms/button/Button";
 import JDLabel from "../../../../atoms/label/JDLabel";
-import TagInput, { Ttag } from "../../../../atoms/tagInput/TagInput";
-import ImageUploader from "../../../../atoms/imageUploader/ImageUploader";
+import "./RoomTypeModal.scss";
 import {
   MAX_PEOPLE_COUNT_OP_FN,
   ROOM_GENDER_OP,
@@ -28,7 +27,8 @@ import { DEFAULT_ROOMTYPE } from "../../../../types/defaults";
 import { toast } from "react-toastify";
 import { toNumber } from "../../../../utils/utils";
 import ModalEndSection from "../../../../atoms/modal/components/ModalEndSection";
-import { JDalign, JDlabel } from "@janda-com/front";
+import { JDalign, JDlabel, JDslider, JDfileManager, JDFileManagerModal, useFilesManager, JDslide } from "@janda-com/front";
+import PhotoSlider from "../../../../components/photoSlider/PhotoSlider";
 
 interface IProps {
   context: IContext;
@@ -40,6 +40,9 @@ interface IProps {
 const RoomTypeModal: React.FC<IProps> = ({ modalHook, loading, onSubmit }) => {
   const { info } = modalHook;
   const { roomType, mode } = info;
+  const fileManagerModalHook = useModal();
+  const fileManagerHook = useFilesManager([], "fileManager" + roomType?._id || "_create");
+  const localImgUrls = fileManagerHook.localFiles.map(file => file.base64);
   const [data, setData] = useState(roomType || DEFAULT_ROOMTYPE);
   const {
     img,
@@ -99,6 +102,7 @@ const RoomTypeModal: React.FC<IProps> = ({ modalHook, loading, onSubmit }) => {
         title: LANG("room_type_config")
       }}
       fullInMobile
+      className="roomTypeModal"
       overlayClassName="Overlay"
       center={false} // 이거 제거 필요
       id="RoomTypeModal"
@@ -159,11 +163,8 @@ const RoomTypeModal: React.FC<IProps> = ({ modalHook, loading, onSubmit }) => {
             </div>
             <div className="flex-grid__col flex-grid__col--vertical col--full-12 col--lg-12 col--md-12">
               <JDLabel txt={LANG("roomPic")} />
-              <ImageUploader
-                id="RoomTypeImgUploader"
-                {...roomImageHook}
-                minHeight="200px"
-              />
+              <JDfileManager uploaderHook={fileManagerHook} />
+              {/* <PhotoSlider className="roomTypeModal__slider" images={[...fileManagerHook.urls, ...localImgUrls]} onClick={() => { fileManagerModalHook.openModal() }} /> */}
             </div>
             <div className="flex-grid__col col--full-6 col--lg-6 col--md-12">
               <InputText
@@ -226,6 +227,7 @@ const RoomTypeModal: React.FC<IProps> = ({ modalHook, loading, onSubmit }) => {
               }}
             />
           </ModalEndSection>
+          <JDFileManagerModal modalHook={fileManagerModalHook} uploaderHook={fileManagerHook} />
           <PriceWarnModal modalHook={priceWarnModal} />
         </Fragment>
       )}

@@ -12,6 +12,19 @@
 
   &__roomSelectWraps {
     flex-direction: column;
+
+    .JDbox {
+      &:not(:last-child) {
+        border-bottom: 1px solid $grey-level5;
+        border-radius:  0px!important;
+      } 
+      &:first-child:not(:last-child) {
+        border-radius:  5px 5px 0px 0px!important;
+      } 
+      &:last-child:not(:first-child) {
+        border-radius:  0px 0px 5px 5px!important;
+      } 
+    }
   }
 
   &__statusBadgesWrap {

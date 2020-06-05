@@ -18,6 +18,7 @@ import client from '../../../apollo/apolloClient';
 import Reservation from './Reservation';
 import { onCompletedMessage, queryDataFormater } from '../../../utils/utils';
 import Preloader from '../../../atoms/preloader/Preloader';
+import { langVarChange } from '../../../utils/langVarChange';
 
 export interface IReservationWrapProps {
 	publicKey?: string;
@@ -44,6 +45,8 @@ const ReservationWrap: React.FC<IReservationWrapProps & RouteComponentProps<any>
 	});
 
 	const publicHouseInfo = queryDataFormater(data, 'GetHouseForPublic', 'house', undefined) || undefined;
+
+	langVarChange(publicHouseInfo?.tags || []);
 
 	// 스타트부킹(게스트)
 	const [makeBookingForPublicMu, { loading: makeBookingLoading }] = useMutation<

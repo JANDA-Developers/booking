@@ -23,7 +23,8 @@ import {
   singleUpload_SingleUpload_jdFile,
   getGuests_GetGuests_guests_GuestRoom_blockOption,
   getGuests_GetGuests_guests,
-  getGuests_GetBlocks_blocks
+  getGuests_GetBlocks_blocks,
+  getHouseForPublic_GetHouseForPublic_house_houseConfig_options
 } from "./api";
 import { IselectedOption as ISelectO } from "../atoms/forms/selectBox/SelectBox";
 import { PricingType, TMarginSize } from "./enum";
@@ -68,6 +69,14 @@ export interface IBlock extends getGuests_GetBlocks_blocks { }
 export interface IBlockOp
   extends getGuests_GetGuests_guests_GuestRoom_blockOption { }
 export type HomapgeOp = getAllHomepageOptions_GetAllHomepageOptions_homepageOptions;
+
+export interface IHouseOptions extends getHouseForPublic_GetHouseForPublic_house_houseConfig_options { }
+export type TOptionsObj = {
+  ResvCautionMsg?: string
+  ResvCompeleteMsg?: string
+  PayPrecaution?: string
+  CheckMsg?: string
+}
 export interface IPageInfo {
   currentPage: number;
   totalPage: number;

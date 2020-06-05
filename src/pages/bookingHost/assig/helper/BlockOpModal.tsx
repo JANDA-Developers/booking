@@ -63,7 +63,7 @@ const BlockOpModal: React.FC<IProps> = ({
     <JDmodal visibleOverflow className="assig__blockOpModal" {...blockOpModal}>
       <div className="blockOpMenu" id="blockOpMenu">
         <div>
-          <h6>{LANG("block_highlights")}}</h6>
+          <h6>{LANG("block_highlights")}</h6>
           <JDcolorPicker
             label={LANG("apply_color")}
             colorHook={colorPickerHook}

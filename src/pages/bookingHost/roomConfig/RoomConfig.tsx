@@ -35,9 +35,9 @@ import { RoomConfigSubmitData } from "../../../components/bookingModal/declarati
 import Swapping from "../../../utils/swapping";
 import selectOpCreater from "../../../utils/selectOptionCreater";
 import JDselect from "../../../atoms/forms/selectBox/SelectBox";
-import JDtypho from "../../../atoms/typho/Typho";
 import TagModal, { TModalInfo } from "../../../components/tagModal/TagModal";
 import { TChangeTags } from "./RoomConfigWrap";
+import { JDtypho } from "@janda-com/front";
 
 interface IProps {
   context: IContext;
@@ -388,10 +388,11 @@ const RoomConfig: React.FC<IProps> = ({
                         zIndex: data.updateCreateData.length + 10 - index
                       }}
                     >
-                      <JDtypho hover mr="normal" color="grey" onClick={() => {
+                      <JDtypho hover mr="normal" color="grey1" onClick={() => {
                         tagModalHook.openModal({
                           defaultTags: tags || [],
-                          roomTypeId: _id
+                          roomTypeId: _id,
+                          roomTypeName: name
                         });
                       }}>
                         TAGS
@@ -457,7 +458,7 @@ const RoomConfig: React.FC<IProps> = ({
                             head: {
                               title: <div>
                                 <JDtypho size="h6" mb="normal">{LANG("create_room_modal_title")(name)}</JDtypho>
-                                <div>{LANG("create_room_modal_desc")}</div>
+                                <JDtypho size="small">{LANG("create_room_modal_desc")}</JDtypho>
                               </div>
                             }
                           },
@@ -490,7 +491,7 @@ const RoomConfig: React.FC<IProps> = ({
         modalHook={tagModalHook} modalProp={{
           head: {
             element: <div>
-              <JDtypho size="h6" mb="normal">{LANG("tag_modal_title")}</JDtypho>
+              <JDtypho size="h6" mb="normal">{LANG("tag_modal_title")(tagModalHook.info.roomTypeName)}</JDtypho>
               {LANG("tag_modal_title_desc")}</div>
           }
         }} />

@@ -383,9 +383,6 @@ export enum GetSmsTarget {
   EXSIST_INFO = "EXSIST_INFO"
 }
 
-
-
-
 //= =============================================================
 // START 프론트 키정의
 //= =============================================================
@@ -394,4 +391,13 @@ export enum RoomTypeKey {
   RoomTypeCategory = "RoomTypeCategory"
 }
 
+export enum HouseOptionsKey {
+  ResvCautionMsg = "ResvCautionMsg",
+  ResvCompeleteMsg = "ResvCompeleteMsg",
+  PayPrecaution = "PayPrecaution",
+  CheckMsg = "CheckMsg",
+}
 
+export enum HouseTags {
+  LangSet = "LangSet"
+}

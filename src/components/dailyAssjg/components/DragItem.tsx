@@ -29,7 +29,7 @@ interface IProps {
   place: number;
 }
 
-interface IWrapProp extends IDiv {}
+interface IWrapProp extends IDiv { }
 
 const Wrap = React.forwardRef<HTMLDivElement, IWrapProp>(
   ({ children, className, ...props }, ref) => {
@@ -129,7 +129,7 @@ const DragItem: React.FC<IProps> = ({ item, place, room, roomType }) => {
               // @ts-ignore
               item.gender
             }
-            darkImg={item.checkIn}
+            darkImg={checkInInfo.isIn}
             breakfast={breakfast}
             isUnpaid={isUnpaid}
             memo={memo || ""}
