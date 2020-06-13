@@ -38,16 +38,16 @@ const UserProfile: React.FC<Iprops> = ({ context, userInfo }) => {
 	const userData = userInfo;
 	const { phoneNumber, email, name, profileImg, bankAccountInfo } = userData;
 
-	const [ updateProfileMu, { loading } ] = useMutation<updateMyProfile, updateMyProfileVariables>(UPDATE_MYPROFILE, {
-		refetchQueries: [ { query: GET_USER_INFO } ],
+	const [updateProfileMu, { loading }] = useMutation<updateMyProfile, updateMyProfileVariables>(UPDATE_MYPROFILE, {
+		refetchQueries: [{ query: GET_USER_INFO }],
 		onCompleted: ({ UpdateMyProfile }: any) => {
 			onCompletedMessage(UpdateMyProfile, LANG('update_profile'), LANG('update_profile_fail'));
 		},
 		client
 	});
 
-	const [ accountInfo, setAccountInfo ] = useState(
-		omitDeep(bankAccountInfo, [ '__typename' ]) || {
+	const [accountInfo, setAccountInfo] = useState(
+		omitDeep(bankAccountInfo, ['__typename']) || {
 			bankName: '',
 			accountNum: '',
 			accountHolder: ''
@@ -204,7 +204,7 @@ const UserProfile: React.FC<Iprops> = ({ context, userInfo }) => {
 				<CardHeader desc={LANG('mypage_houses_desc')} title={LANG('created_house')} />
 				<CardSection>
 					{/* 숙소 목록들 */}
-					{<JDpreloader loading={loading} />}
+					{<JDpreloader floating loading={loading} />}
 					<div className="flex-grid myPage__myHouses">
 						{houses &&
 							houses.map((house, index) => {

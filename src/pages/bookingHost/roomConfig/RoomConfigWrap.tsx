@@ -5,9 +5,16 @@ import {
   getAllRoomType,
   getAllRoomTypeVariables,
   saveRoomTypes,
-  saveRoomTypesVariables
+  saveRoomTypesVariables,
+  changeRoomTypeTags,
+  changeRoomTypeTagsVariables,
+  TagInput
 } from "../../../types/api";
-import { GET_ALL_ROOMTYPES, SAVE_ROOMTYPES } from "../../../apollo/queries";
+import {
+  GET_ALL_ROOMTYPES,
+  SAVE_ROOMTYPES,
+  CHANGE_ROOM_TYPE_TAGS
+} from "../../../apollo/queries";
 import {
   ErrProtecter,
   queryDataFormater,
@@ -21,7 +28,6 @@ import { useQuery, useMutation } from "@apollo/react-hooks";
 import { RoomConfigSubmitData } from "../../../components/bookingModal/declaration";
 import Preloader from "../../../atoms/preloader/Preloader";
 import { getOperationName } from "apollo-utilities";
-import { arraySum } from "../../../utils/elses";
 import { LANG } from "../../../hooks/hook";
 
 interface IProps {
@@ -29,6 +35,12 @@ interface IProps {
 }
 
 let LastKey = "";
+
+export type TChangeTags = (
+  roomTypeId: string,
+  upsertTags: TagInput[],
+  removeKeys: string[]
+) => void;
 
 const RoomConfigWrap: React.FC<IProps> = ({ context }) => {
   const { house } = context;
@@ -42,13 +54,38 @@ const RoomConfigWrap: React.FC<IProps> = ({ context }) => {
     variables: { houseId: house._id }
   });
 
+  const refetchQueries = [getOperationName(GET_ALL_ROOMTYPES) || ""];
+
+  const [
+    changeRoomTypeTagsMu,
+    { loading: changeRoomTypeTagsLoading }
+  ] = useMutation<changeRoomTypeTags, changeRoomTypeTagsVariables>(
+    CHANGE_ROOM_TYPE_TAGS,
+    {
+      client,
+      notifyOnNetworkStatusChange: true,
+      refetchQueries,
+      awaitRefetchQueries: true
+    }
+  );
+
+  const [changeRoomTypeMu, { loading: addRoomTypeLoading }] = useMutation<
+    changeRoomTypeTags,
+    changeRoomTypeTagsVariables
+  >(SAVE_ROOMTYPES, {
+    client,
+    notifyOnNetworkStatusChange: true,
+    refetchQueries,
+    awaitRefetchQueries: true
+  });
+
   const [saveRoomsMu, { loading: saveRoomsLoading }] = useMutation<
     saveRoomTypes,
     saveRoomTypesVariables
   >(SAVE_ROOMTYPES, {
     client,
     notifyOnNetworkStatusChange: true,
-    refetchQueries: [getOperationName(GET_ALL_ROOMTYPES) || ""],
+    refetchQueries,
     awaitRefetchQueries: true,
     onCompleted: ({ SaveRoomTypes }) => {
       onCompletedMessage(
@@ -56,14 +93,42 @@ const RoomConfigWrap: React.FC<IProps> = ({ context }) => {
         LANG("save_room_done"),
         LANG("save_room_failed")
       );
+
+      if (SaveRoomTypes.ok) {
+        sessionStorage.clear();
+      }
     }
   });
 
   const roomTypesData =
     queryDataFormater(roomData, "GetAllRoomType", "roomTypes", []) || [];
 
+  const handleChangTags: TChangeTags = (
+    roomTypeId: string,
+    upsertTags: TagInput[],
+    removeKeys: string[]
+  ) => {
+    console.log("upsertTags");
+    console.log(upsertTags);
+    changeRoomTypeTagsMu({
+      variables: {
+        upsertTags,
+        removeKeys,
+        roomTypeId
+      }
+    });
+  };
+
   const handleSubmit = (data: RoomConfigSubmitData) => {
     const upsertDatas = [...data.updateCreateDatas];
+
+    upsertDatas.forEach(ud => {
+      // @ts-ignore
+      delete ud["uploadImg"];
+    });
+
+    console.log("upsertDatas");
+    console.log(upsertDatas);
 
     saveRoomsMu({
       variables: {
@@ -89,6 +154,7 @@ const RoomConfigWrap: React.FC<IProps> = ({ context }) => {
         onSubmit={handleSubmit}
         context={context}
         loading={loading}
+        handleChangTags={handleChangTags}
         saveRoomsLoading={saveRoomsLoading}
         defaultData={{
           defaultAddTemp: undefined,

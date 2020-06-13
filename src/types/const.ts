@@ -218,8 +218,8 @@ export let HOUSE_STATUS_OP = [
 ];
 
 export let CHECK_IN_OUT_OP = [
-  { value: true, label: "In" },
-  { value: false, label: "Out" }
+  { value: true, label: "체크인" },
+  { value: false, label: "체크아웃" }
 ];
 
 export let GENDER_OP = [

@@ -16,7 +16,6 @@ export const getTargetsWithBillKey = (context: IContext): IPayTaget[] => {
     .filter(v => v.product);
 
   const billKeyWithHouse = exsistProductInfoes.map(v => ({
-    houseName: v.houseName,
     billKey: v.product!.billKey,
     ...v
   }));

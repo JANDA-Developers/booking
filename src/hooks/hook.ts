@@ -12,13 +12,10 @@ import Axios from "axios";
 import { IselectedOption } from "../atoms/forms/selectBox/SelectBox";
 import { IHolidaysByApi, JdFile } from "../types/interface";
 import moment from "moment";
-import {
-  muResult,
-  onCompletedMessage,
-  instanceOfA,
-} from "../utils/utils";
-import { JDlang as originJDlang } from "../langs/JDlang";
-import { TLanguageShort } from "../types/enum";
+import { muResult, onCompletedMessage, instanceOfA } from "../utils/utils";
+import { lang } from "../langs/JDlang";
+// 경로 취합용
+export let LANG = lang;
 import { useMutation } from "@apollo/react-hooks";
 import { UPLOAD_FILE } from "../apollo/queries";
 import client from "../apollo/apolloClient";
@@ -165,8 +162,6 @@ const useImageUploader = (
     if (muResult(result, "SingleUpload")) setFileView(result);
   };
 
-
-
   //  이벤트 객체 => uploadImg(파일객체);
   const onChangeFile = async (event: React.ChangeEvent<HTMLInputElement>) => {
     event.persist();
@@ -177,8 +172,8 @@ const useImageUploader = (
 
     if (!validity || !files || files.length !== 1 || !files[0]) {
       seTUploading(false);
-      return
-    };
+      return;
+    }
 
     const file = files[0];
     const isVideo = file.type.includes("video");
@@ -544,26 +539,6 @@ function useModal<T = any>(
   };
 }
 
-export let CURRENT_LANG: TLanguageShort = "kr";
-
-// 언어가 결합된 LANG 함수
-export let LANG: (key: string, key2?: string) => any = key => {
-  return;
-};
-
-const useLang = (defaultLang: TLanguageShort) => {
-  const [currentLang, setCurrentLang] = useState(defaultLang);
-
-  const changeLang = (lang: TLanguageShort) => {
-    CURRENT_LANG = lang;
-    setCurrentLang(lang);
-  };
-
-  LANG = originJDlang.bind(originJDlang, currentLang);
-
-  return { currentLang, changeLang, JDlang: LANG };
-};
-
 const getKoreaSpecificDayHook = (
   years: string[]
 ): {
@@ -581,9 +556,9 @@ const getKoreaSpecificDayHook = (
           "https://apis.data.go.kr/B090041/openapi/service/SpcdeInfoService/getRestDeInfo";
         const queryParams = `?${encodeURIComponent("ServiceKey")}=${
           process.env.REACT_APP_API_SPECIFIC_DAY_KEY
-          }&${encodeURIComponent("solYear")}=${encodeURIComponent(
-            year
-          )}&${encodeURIComponent("solMonth")}=${encodeURIComponent(`0${i}`)}`;
+        }&${encodeURIComponent("solYear")}=${encodeURIComponent(
+          year
+        )}&${encodeURIComponent("solMonth")}=${encodeURIComponent(`0${i}`)}`;
 
         try {
           const { data } = await Axios(url + queryParams);
@@ -679,7 +654,6 @@ export {
   useRange,
   useDebounce,
   useDrawer,
-  useLang,
   useImageUploader,
   useShouldSave,
   useColorPicker,

@@ -7,6 +7,8 @@ import { LANG } from "../../../hooks/hook";
 import JDselect from "../../../atoms/forms/selectBox/SelectBox";
 import { PAYMETHOD_FOR_HOST_OP, PAYMENT_STATUS_OP } from "../../../types/const";
 import { autoComma, toNumber } from "../../../utils/utils";
+import { enumToOption } from "@janda-com/front";
+import { PayMethod } from "../../../types/enum";
 
 interface IProps {
   responseStyle: any;
@@ -15,14 +17,14 @@ interface IProps {
 
 const PaymentInfo: React.FC<IProps> = ({
   bookingModalContext,
-  responseStyle,
+  responseStyle
 }) => {
   const {
     priceHook,
     payMethodHook,
     paymentStatusHook,
     placeHolederPrice,
-    isDesktopUp,
+    isDesktopUp
   } = bookingModalContext;
   return (
     <Align {...responseStyle}>
@@ -46,7 +48,7 @@ const PaymentInfo: React.FC<IProps> = ({
           mr={"no"}
           {...payMethodHook}
           menuPlacement="top"
-          options={PAYMETHOD_FOR_HOST_OP}
+          options={enumToOption(LANG, "PayMethod", PayMethod)}
           label={LANG("method_of_payment")}
         />
       </div>

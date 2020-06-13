@@ -5,8 +5,9 @@ import {
 } from "./helper";
 import { LANG } from "../../hooks/hook";
 import { muResult, toNumber } from "../../utils/utils";
-import { AutoSendWhen } from "../../types/enum";
+import { AutoSendWhen, PaymentStatus } from "../../types/enum";
 import { isPhone } from "../../utils/inputValidations";
+import { toast } from "react-toastify";
 
 export const getHandler = (
   bookingModalContext: IBookingModalContext,
@@ -23,20 +24,19 @@ export const getHandler = (
     bookingStatusHook,
     payMethodHook,
     breakfast,
-    refundFn,
     makeBookingMu,
     bookingModalHook,
-    refundAmt,
     sendSmsModalHook,
     bookingData,
-    totalPrice,
     updateBookingMu,
+    cancelBookingMu,
     confirmModalHook,
+    refundModalHook,
     funnelStatusHook
   } = bookingModalContext;
 
-  const { payment, bookingNum } = bookingData;
-  const { tid } = payment;
+  const { payment } = bookingData;
+  const { refundedPrice, status, totalPrice } = payment;
 
   // 예약삭제 여부를 물어보는 버튼 컬백함수
   const deleteModalCallBackFn = (confirm: boolean) => {
@@ -94,6 +94,17 @@ export const getHandler = (
     }
   };
 
+  const handleCancelBtnClick = () => {
+    if (status === PaymentStatus.CANCELED || status === PaymentStatus.NOT_YET) {
+      toast.error(LANG("can_not_refund"));
+      return;
+    } else if (refundedPrice || 0 >= totalPrice) {
+      toast.error(LANG("already_refund_all"));
+      return;
+    }
+    refundModalHook.openModal();
+  };
+
   // 예약수정 버튼 핸들
   const handleUpdateBtnClick = () => {
     if (!bookingModalValidate(bookingModalContext)) return;
@@ -121,27 +132,23 @@ export const getHandler = (
     bookingModalHook.closeModal();
   };
 
-  const handleRefundBtn = () => {
-    if (!tid) return;
-    refundFn({
-      param: {
-        bookingNum,
-        refundInfo: {
-          cancelAmt: refundAmt,
-          cancelMsg: "HOST-CANCEL",
-          isPartialCancel: refundAmt === totalPrice,
-          tid
+  const handleRefund = (amt: any) => {
+    cancelBookingMu({
+      variables: {
+        param: {
+          bookingNum: bookingData.bookingNum
         }
       }
     });
   };
 
   return {
-    handleRefundBtn,
     deleteModalCallBackFn,
     makeBooking,
     handleUpdateBtnClick,
     handleCreateBtnClick,
-    handleDeletBtnClick
+    handleCancelBtnClick,
+    handleDeletBtnClick,
+    handleRefund
   };
 };

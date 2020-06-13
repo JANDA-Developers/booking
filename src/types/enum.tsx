@@ -7,6 +7,11 @@ export enum UserReqeustType {
   HOMEPAGE = "HOMEPAGE"
 }
 
+export type HouseInfoTagsKeys =
+  | "COMPLETE_MESSAGE"
+  | "CHECK_MESSAGE"
+  | "PAY_PRECAUTION";
+
 export enum UserRequestStatusValue {
   COMPLETED = "COMPLETED",
   PENDING = "PENDING",
@@ -374,13 +379,36 @@ export enum PayTarget {
   SMS = "SMS"
 }
 
-//= =============================================================
-// START global options
-//= =============================================================
-
 export enum GetSmsTarget {
   TODAY_STAY = "TODAY_STAY",
   TODAY_CHECKIN = "TODAY_CHECKIN",
   TOMORROW_CHECKIN = "TOMORROW_CHECKIN",
   EXSIST_INFO = "EXSIST_INFO"
+}
+
+//= =============================================================
+// START 프론트 키정의
+//= =============================================================
+
+export enum RoomTypeKey {
+  RoomTypeCategory = "RoomTypeCategory"
+}
+
+export enum RoomTypeTagsKey {
+  Category = "Category"
+}
+export enum HouseOptionsKey {
+  ResvCautionMsg = "ResvCautionMsg",
+  ResvCompeleteMsg = "ResvCompeleteMsg",
+  PayPrecaution = "PayPrecaution",
+  CheckMsg = "CheckMsg"
+}
+
+export enum HouseTags {
+  LangSet = "LangSet"
+}
+
+export enum ExtraRoomTypeConfig {
+  ExtraDescrib = "ExtraDescrib",
+  Detail = "Detail"
 }

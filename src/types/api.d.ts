@@ -91,18 +91,11 @@ export interface getSpecification_GetHouse_house_product {
   productType: getSpecification_GetHouse_house_product_productType;
 }
 
-export interface getSpecification_GetHouse_house_user_profileImg_tags {
-  __typename: "JdTag";
-  Key: string;
-  Value: string;
-}
-
 export interface getSpecification_GetHouse_house_user_profileImg {
   __typename: "JdFile";
   url: any;
   filename: string;
   mimeType: string;
-  tags: getSpecification_GetHouse_house_user_profileImg_tags[] | null;
 }
 
 export interface getSpecification_GetHouse_house_user_bankAccountInfo {
@@ -142,7 +135,7 @@ export interface getSpecification_GetHouse_house_user {
   userRole: UserRole;
   createdAt: any;
   updatedAt: any | null;
-  paymentInfos: getSpecification_GetHouse_house_user_paymentInfos[] | null;
+  paymentInfos: getSpecification_GetHouse_house_user_paymentInfos[];
 }
 
 export interface getSpecification_GetHouse_house_HM {
@@ -246,20 +239,6 @@ export interface getSmsHistoryVariables {
 // GraphQL query operation: getRoomTypeById
 // ====================================================
 
-export interface getRoomTypeById_GetRoomTypeById_roomType_img_tags {
-  __typename: "JdTag";
-  Key: string;
-  Value: string;
-}
-
-export interface getRoomTypeById_GetRoomTypeById_roomType_img {
-  __typename: "JdFile";
-  url: any;
-  filename: string;
-  mimeType: string;
-  tags: getRoomTypeById_GetRoomTypeById_roomType_img_tags[] | null;
-}
-
 export interface getRoomTypeById_GetRoomTypeById_roomType {
   __typename: "RoomType";
   _id: string;
@@ -267,9 +246,11 @@ export interface getRoomTypeById_GetRoomTypeById_roomType {
   pricingType: PricingType;
   peopleCount: number;
   peopleCountMax: number;
-  index: number;
   roomGender: RoomGender;
-  img: getRoomTypeById_GetRoomTypeById_roomType_img | null;
+  /**
+   * 이미지 Urls
+   */
+  images: string[] | null;
   description: string | null;
   /**
    * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
@@ -387,18 +368,11 @@ export interface getAllProductTypes {
 // GraphQL query operation: getMyProfile
 // ====================================================
 
-export interface getMyProfile_GetMyProfile_user_profileImg_tags {
-  __typename: "JdTag";
-  Key: string;
-  Value: string;
-}
-
 export interface getMyProfile_GetMyProfile_user_profileImg {
   __typename: "JdFile";
   url: any;
   filename: string;
   mimeType: string;
-  tags: getMyProfile_GetMyProfile_user_profileImg_tags[] | null;
 }
 
 export interface getMyProfile_GetMyProfile_user_bankAccountInfo {
@@ -406,6 +380,18 @@ export interface getMyProfile_GetMyProfile_user_bankAccountInfo {
   bankName: string;
   accountNum: string;
   accountHolder: string;
+}
+
+export interface getMyProfile_GetMyProfile_user_houses_tags {
+  __typename: "Tag";
+  /**
+   * '::'을 구분자로 사용하여 subKey를 입력할 수 있다. (subKey의 subKey도 가능) - ex) category::atmosphere
+   */
+  key: string;
+  /**
+   * 여기는 무조건 String만 들어감
+   */
+  value: string;
 }
 
 export interface getMyProfile_GetMyProfile_user_houses_bookingPayInfo_bankAccountInfo {
@@ -439,6 +425,18 @@ export interface getMyProfile_GetMyProfile_user_houses_houseConfig_pollingPeriod
   period: number;
 }
 
+export interface getMyProfile_GetMyProfile_user_houses_houseConfig_options {
+  __typename: "Tag";
+  /**
+   * '::'을 구분자로 사용하여 subKey를 입력할 수 있다. (subKey의 subKey도 가능) - ex) category::atmosphere
+   */
+  key: string;
+  /**
+   * 여기는 무조건 String만 들어감
+   */
+  value: string;
+}
+
 export interface getMyProfile_GetMyProfile_user_houses_houseConfig_bookingConfig_newBookingMark {
   __typename: "NewBookingMark";
   enable: boolean | null;
@@ -453,6 +451,10 @@ export interface getMyProfile_GetMyProfile_user_houses_houseConfig_bookingConfig
 
 export interface getMyProfile_GetMyProfile_user_houses_houseConfig_bookingConfig {
   __typename: "BookingConfig";
+  /**
+   * 무조건 하루만 예약하게
+   */
+  bookOnlySingleDay: boolean | null;
   newBookingMark: getMyProfile_GetMyProfile_user_houses_houseConfig_bookingConfig_newBookingMark | null;
   collectingInfoFromGuest: getMyProfile_GetMyProfile_user_houses_houseConfig_bookingConfig_collectingInfoFromGuest | null;
 }
@@ -466,6 +468,7 @@ export interface getMyProfile_GetMyProfile_user_houses_houseConfig {
   __typename: "HouseConfig";
   assigTimeline: getMyProfile_GetMyProfile_user_houses_houseConfig_assigTimeline;
   pollingPeriod: getMyProfile_GetMyProfile_user_houses_houseConfig_pollingPeriod;
+  options: getMyProfile_GetMyProfile_user_houses_houseConfig_options[];
   bookingConfig: getMyProfile_GetMyProfile_user_houses_houseConfig_bookingConfig;
   baseConfig: getMyProfile_GetMyProfile_user_houses_houseConfig_baseConfig;
 }
@@ -610,9 +613,11 @@ export interface getMyProfile_GetMyProfile_user_houses {
   name: string;
   houseType: HouseType;
   status: HouseStatus | null;
+  houseNum: string;
   publicKey: string | null;
   createdAt: any;
   updatedAt: any | null;
+  tags: getMyProfile_GetMyProfile_user_houses_tags[];
   bookingPayInfo: getMyProfile_GetMyProfile_user_houses_bookingPayInfo;
   houseConfig: getMyProfile_GetMyProfile_user_houses_houseConfig;
   smsInfo: getMyProfile_GetMyProfile_user_houses_smsInfo;
@@ -652,7 +657,7 @@ export interface getMyProfile_GetMyProfile_user {
   createdAt: any;
   updatedAt: any | null;
   houses: getMyProfile_GetMyProfile_user_houses[];
-  paymentInfos: getMyProfile_GetMyProfile_user_paymentInfos[] | null;
+  paymentInfos: getMyProfile_GetMyProfile_user_paymentInfos[];
 }
 
 export interface getMyProfile_GetMyProfile {
@@ -676,18 +681,11 @@ export interface getMyProfile {
 // GraphQL query operation: getHousesForSU
 // ====================================================
 
-export interface getHousesForSU_GetHousesForSU_result_houses_user_profileImg_tags {
-  __typename: "JdTag";
-  Key: string;
-  Value: string;
-}
-
 export interface getHousesForSU_GetHousesForSU_result_houses_user_profileImg {
   __typename: "JdFile";
   url: any;
   filename: string;
   mimeType: string;
-  tags: getHousesForSU_GetHousesForSU_result_houses_user_profileImg_tags[] | null;
 }
 
 export interface getHousesForSU_GetHousesForSU_result_houses_user {
@@ -807,23 +805,33 @@ export interface emailSignInVariables {
 // GraphQL query operation: getHouse
 // ====================================================
 
+export interface getHouse_GetHouse_house_tags {
+  __typename: "Tag";
+  /**
+   * '::'을 구분자로 사용하여 subKey를 입력할 수 있다. (subKey의 subKey도 가능) - ex) category::atmosphere
+   */
+  key: string;
+  /**
+   * 여기는 무조건 String만 들어감
+   */
+  value: string;
+}
+
 export interface getHouse_GetHouse_house_smsInfo {
   __typename: "SmsInfo";
   _id: string;
 }
 
-export interface getHouse_GetHouse_house_roomTypes_img_tags {
-  __typename: "JdTag";
-  Key: string;
-  Value: string;
-}
-
-export interface getHouse_GetHouse_house_roomTypes_img {
-  __typename: "JdFile";
-  url: any;
-  filename: string;
-  mimeType: string;
-  tags: getHouse_GetHouse_house_roomTypes_img_tags[] | null;
+export interface getHouse_GetHouse_house_roomTypes_tags {
+  __typename: "Tag";
+  /**
+   * '::'을 구분자로 사용하여 subKey를 입력할 수 있다. (subKey의 subKey도 가능) - ex) category::atmosphere
+   */
+  key: string;
+  /**
+   * 여기는 무조건 String만 들어감
+   */
+  value: string;
 }
 
 export interface getHouse_GetHouse_house_roomTypes_rooms {
@@ -839,10 +847,12 @@ export interface getHouse_GetHouse_house_roomTypes {
   pricingType: PricingType;
   peopleCount: number;
   peopleCountMax: number;
-  index: number;
   roomCount: number;
   roomGender: RoomGender;
-  img: getHouse_GetHouse_house_roomTypes_img | null;
+  /**
+   * 이미지 Urls
+   */
+  images: string[] | null;
   description: string | null;
   /**
    * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
@@ -850,6 +860,8 @@ export interface getHouse_GetHouse_house_roomTypes {
   defaultPrice: number | null;
   createdAt: any;
   updatedAt: any | null;
+  hashTags: string[];
+  tags: getHouse_GetHouse_house_roomTypes_tags[];
   rooms: getHouse_GetHouse_house_roomTypes_rooms[];
 }
 
@@ -887,14 +899,17 @@ export interface getHouse_GetHouse_house {
   _id: string;
   name: string;
   houseType: HouseType;
+  status: HouseStatus | null;
+  houseNum: string;
+  publicKey: string | null;
+  createdAt: any;
+  updatedAt: any | null;
+  tags: getHouse_GetHouse_house_tags[];
   smsInfo: getHouse_GetHouse_house_smsInfo;
   roomTypes: getHouse_GetHouse_house_roomTypes[] | null;
   product: getHouse_GetHouse_house_product | null;
   location: getHouse_GetHouse_house_location;
   HM: getHouse_GetHouse_house_HM | null;
-  publicKey: string | null;
-  createdAt: any;
-  updatedAt: any | null;
 }
 
 export interface getHouse_GetHouse {
@@ -921,18 +936,16 @@ export interface getHouseVariables {
 // GraphQL query operation: dailyPriceGetPrice
 // ====================================================
 
-export interface dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_img_tags {
-  __typename: "JdTag";
-  Key: string;
-  Value: string;
-}
-
-export interface dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_img {
-  __typename: "JdFile";
-  url: any;
-  filename: string;
-  mimeType: string;
-  tags: dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_img_tags[] | null;
+export interface dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_tags {
+  __typename: "Tag";
+  /**
+   * '::'을 구분자로 사용하여 subKey를 입력할 수 있다. (subKey의 subKey도 가능) - ex) category::atmosphere
+   */
+  key: string;
+  /**
+   * 여기는 무조건 String만 들어감
+   */
+  value: string;
 }
 
 export interface dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_roomType {
@@ -942,10 +955,12 @@ export interface dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_roo
   pricingType: PricingType;
   peopleCount: number;
   peopleCountMax: number;
-  index: number;
   roomCount: number;
   roomGender: RoomGender;
-  img: dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_img | null;
+  /**
+   * 이미지 Urls
+   */
+  images: string[] | null;
   description: string | null;
   /**
    * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
@@ -953,6 +968,8 @@ export interface dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_roo
   defaultPrice: number | null;
   createdAt: any;
   updatedAt: any | null;
+  hashTags: string[];
+  tags: dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_tags[];
 }
 
 export interface dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_datePrices {
@@ -978,7 +995,6 @@ export interface dailyPriceGetPrice_GetAllRoomType_roomTypes {
   __typename: "RoomType";
   _id: string;
   name: string;
-  index: number;
   description: string | null;
 }
 
@@ -1034,18 +1050,16 @@ export interface dailyPriceGetPriceVariables {
 // GraphQL query operation: getAllRoomTypeForBooker
 // ====================================================
 
-export interface getAllRoomTypeForBooker_GetAllRoomTypeForBooker_roomTypes_img_tags {
-  __typename: "JdTag";
-  Key: string;
-  Value: string;
-}
-
-export interface getAllRoomTypeForBooker_GetAllRoomTypeForBooker_roomTypes_img {
-  __typename: "JdFile";
-  url: any;
-  filename: string;
-  mimeType: string;
-  tags: getAllRoomTypeForBooker_GetAllRoomTypeForBooker_roomTypes_img_tags[] | null;
+export interface getAllRoomTypeForBooker_GetAllRoomTypeForBooker_roomTypes_tags {
+  __typename: "Tag";
+  /**
+   * '::'을 구분자로 사용하여 subKey를 입력할 수 있다. (subKey의 subKey도 가능) - ex) category::atmosphere
+   */
+  key: string;
+  /**
+   * 여기는 무조건 String만 들어감
+   */
+  value: string;
 }
 
 export interface getAllRoomTypeForBooker_GetAllRoomTypeForBooker_roomTypes_rooms {
@@ -1058,20 +1072,24 @@ export interface getAllRoomTypeForBooker_GetAllRoomTypeForBooker_roomTypes {
   __typename: "RoomType";
   _id: string;
   name: string;
-  index: number;
-  description: string | null;
   pricingType: PricingType;
   peopleCount: number;
   peopleCountMax: number;
-  roomGender: RoomGender;
   roomCount: number;
-  createdAt: any;
+  roomGender: RoomGender;
+  /**
+   * 이미지 Urls
+   */
+  images: string[] | null;
+  description: string | null;
   /**
    * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
    */
   defaultPrice: number | null;
+  createdAt: any;
   updatedAt: any | null;
-  img: getAllRoomTypeForBooker_GetAllRoomTypeForBooker_roomTypes_img | null;
+  hashTags: string[];
+  tags: getAllRoomTypeForBooker_GetAllRoomTypeForBooker_roomTypes_tags[];
   rooms: getAllRoomTypeForBooker_GetAllRoomTypeForBooker_roomTypes_rooms[];
 }
 
@@ -1098,18 +1116,16 @@ export interface getAllRoomTypeForBooker {
 // GraphQL query operation: getAllRoomType
 // ====================================================
 
-export interface getAllRoomType_GetAllRoomType_roomTypes_img_tags {
-  __typename: "JdTag";
-  Key: string;
-  Value: string;
-}
-
-export interface getAllRoomType_GetAllRoomType_roomTypes_img {
-  __typename: "JdFile";
-  url: any;
-  filename: string;
-  mimeType: string;
-  tags: getAllRoomType_GetAllRoomType_roomTypes_img_tags[] | null;
+export interface getAllRoomType_GetAllRoomType_roomTypes_tags {
+  __typename: "Tag";
+  /**
+   * '::'을 구분자로 사용하여 subKey를 입력할 수 있다. (subKey의 subKey도 가능) - ex) category::atmosphere
+   */
+  key: string;
+  /**
+   * 여기는 무조건 String만 들어감
+   */
+  value: string;
 }
 
 export interface getAllRoomType_GetAllRoomType_roomTypes_rooms {
@@ -1122,20 +1138,24 @@ export interface getAllRoomType_GetAllRoomType_roomTypes {
   __typename: "RoomType";
   _id: string;
   name: string;
-  index: number;
-  description: string | null;
   pricingType: PricingType;
   peopleCount: number;
   peopleCountMax: number;
-  roomGender: RoomGender;
   roomCount: number;
-  createdAt: any;
+  roomGender: RoomGender;
+  /**
+   * 이미지 Urls
+   */
+  images: string[] | null;
+  description: string | null;
   /**
    * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
    */
   defaultPrice: number | null;
+  createdAt: any;
   updatedAt: any | null;
-  img: getAllRoomType_GetAllRoomType_roomTypes_img | null;
+  hashTags: string[];
+  tags: getAllRoomType_GetAllRoomType_roomTypes_tags[];
   rooms: getAllRoomType_GetAllRoomType_roomTypes_rooms[];
 }
 
@@ -1166,18 +1186,16 @@ export interface getAllRoomTypeVariables {
 // GraphQL query operation: findBooking
 // ====================================================
 
-export interface findBooking_FindBooking_bookings_roomTypes_img_tags {
-  __typename: "JdTag";
-  Key: string;
-  Value: string;
-}
-
-export interface findBooking_FindBooking_bookings_roomTypes_img {
-  __typename: "JdFile";
-  url: any;
-  filename: string;
-  mimeType: string;
-  tags: findBooking_FindBooking_bookings_roomTypes_img_tags[] | null;
+export interface findBooking_FindBooking_bookings_roomTypes_tags {
+  __typename: "Tag";
+  /**
+   * '::'을 구분자로 사용하여 subKey를 입력할 수 있다. (subKey의 subKey도 가능) - ex) category::atmosphere
+   */
+  key: string;
+  /**
+   * 여기는 무조건 String만 들어감
+   */
+  value: string;
 }
 
 export interface findBooking_FindBooking_bookings_roomTypes {
@@ -1187,10 +1205,12 @@ export interface findBooking_FindBooking_bookings_roomTypes {
   pricingType: PricingType;
   peopleCount: number;
   peopleCountMax: number;
-  index: number;
   roomCount: number;
   roomGender: RoomGender;
-  img: findBooking_FindBooking_bookings_roomTypes_img | null;
+  /**
+   * 이미지 Urls
+   */
+  images: string[] | null;
   description: string | null;
   /**
    * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
@@ -1198,6 +1218,8 @@ export interface findBooking_FindBooking_bookings_roomTypes {
   defaultPrice: number | null;
   createdAt: any;
   updatedAt: any | null;
+  hashTags: string[];
+  tags: findBooking_FindBooking_bookings_roomTypes_tags[];
 }
 
 export interface findBooking_FindBooking_bookings_checkInInfo {
@@ -1240,7 +1262,6 @@ export interface findBooking_FindBooking_bookings_guests_roomType {
   __typename: "RoomType";
   _id: string;
   name: string;
-  index: number;
   description: string | null;
 }
 
@@ -1306,21 +1327,160 @@ export interface findBookingVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: findBookings
+// ====================================================
+
+export interface findBookings_FindBookings_data_roomTypes_tags {
+  __typename: "Tag";
+  /**
+   * '::'을 구분자로 사용하여 subKey를 입력할 수 있다. (subKey의 subKey도 가능) - ex) category::atmosphere
+   */
+  key: string;
+  /**
+   * 여기는 무조건 String만 들어감
+   */
+  value: string;
+}
+
+export interface findBookings_FindBookings_data_roomTypes {
+  __typename: "RoomType";
+  _id: string;
+  name: string;
+  pricingType: PricingType;
+  peopleCount: number;
+  peopleCountMax: number;
+  roomCount: number;
+  roomGender: RoomGender;
+  /**
+   * 이미지 Urls
+   */
+  images: string[] | null;
+  description: string | null;
+  /**
+   * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
+   */
+  defaultPrice: number | null;
+  createdAt: any;
+  updatedAt: any | null;
+  hashTags: string[];
+  tags: findBookings_FindBookings_data_roomTypes_tags[];
+}
+
+export interface findBookings_FindBookings_data_checkInInfo {
+  __typename: "CheckInInfo";
+  isIn: boolean;
+  checkInDateTime: any | null;
+}
+
+export interface findBookings_FindBookings_data_payment_cardInfo {
+  __typename: "PaymentInfo";
+  authDate: any;
+  billKey: string;
+  cardName: string;
+  cardNo: string;
+  cardCl: number;
+  card: Card | null;
+  cardCode: number;
+  cardNoHashed: string | null;
+  isLive: boolean;
+}
+
+export interface findBookings_FindBookings_data_payment {
+  __typename: "Payment";
+  /**
+   * 단발성 결제인지, 정기결제인지 확인 => ONE_TIME, SUBSCRIPTION
+   */
+  type: PaymentType;
+  payMethod: PayMethod;
+  totalPrice: number;
+  goodsVat: number | null;
+  supplyAmt: number | null;
+  status: PaymentStatus;
+  paymentResultParam: any | null;
+  refundedPrice: number | null;
+  tid: string | null;
+  cardInfo: findBookings_FindBookings_data_payment_cardInfo | null;
+}
+
+export interface findBookings_FindBookings_data_guests_roomType {
+  __typename: "RoomType";
+  _id: string;
+  name: string;
+  description: string | null;
+}
+
+export interface findBookings_FindBookings_data_guests {
+  __typename: "GuestDomitory" | "GuestRoom";
+  _id: string;
+  pricingType: PricingType;
+  checkIn: any;
+  checkOut: any;
+  /**
+   * roomType 은 처음 예약하고나서 절대로 변경되지 않음.
+   */
+  roomType: findBookings_FindBookings_data_guests_roomType;
+}
+
+export interface findBookings_FindBookings_data {
+  __typename: "Booking";
+  _id: string;
+  roomTypes: findBookings_FindBookings_data_roomTypes[] | null;
+  paidByNice: boolean | null;
+  isNew: boolean;
+  name: any;
+  bookingNum: string;
+  password: string | null;
+  breakfast: boolean | null;
+  phoneNumber: any;
+  email: any | null;
+  checkInInfo: findBookings_FindBookings_data_checkInInfo;
+  memo: string | null;
+  agreePrivacyPolicy: boolean;
+  checkIn: any;
+  checkOut: any;
+  payment: findBookings_FindBookings_data_payment;
+  funnels: Funnels | null;
+  status: BookingStatus;
+  createdAt: any;
+  updatedAt: any | null;
+  isConfirm: boolean;
+  guests: findBookings_FindBookings_data_guests[] | null;
+}
+
+export interface findBookings_FindBookings {
+  __typename: "FindBookingsResponse";
+  ok: boolean;
+  error: string | null;
+  data: findBookings_FindBookings_data[] | null;
+}
+
+export interface findBookings {
+  FindBookings: findBookings_FindBookings;
+}
+
+export interface findBookingsVariables {
+  param: FindBookingsInput;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL query operation: findBookingForBooker
 // ====================================================
 
-export interface findBookingForBooker_FindBookingForBooker_bookings_roomTypes_img_tags {
-  __typename: "JdTag";
-  Key: string;
-  Value: string;
-}
-
-export interface findBookingForBooker_FindBookingForBooker_bookings_roomTypes_img {
-  __typename: "JdFile";
-  url: any;
-  filename: string;
-  mimeType: string;
-  tags: findBookingForBooker_FindBookingForBooker_bookings_roomTypes_img_tags[] | null;
+export interface findBookingForBooker_FindBookingForBooker_bookings_roomTypes_tags {
+  __typename: "Tag";
+  /**
+   * '::'을 구분자로 사용하여 subKey를 입력할 수 있다. (subKey의 subKey도 가능) - ex) category::atmosphere
+   */
+  key: string;
+  /**
+   * 여기는 무조건 String만 들어감
+   */
+  value: string;
 }
 
 export interface findBookingForBooker_FindBookingForBooker_bookings_roomTypes {
@@ -1330,10 +1490,12 @@ export interface findBookingForBooker_FindBookingForBooker_bookings_roomTypes {
   pricingType: PricingType;
   peopleCount: number;
   peopleCountMax: number;
-  index: number;
   roomCount: number;
   roomGender: RoomGender;
-  img: findBookingForBooker_FindBookingForBooker_bookings_roomTypes_img | null;
+  /**
+   * 이미지 Urls
+   */
+  images: string[] | null;
   description: string | null;
   /**
    * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
@@ -1341,6 +1503,8 @@ export interface findBookingForBooker_FindBookingForBooker_bookings_roomTypes {
   defaultPrice: number | null;
   createdAt: any;
   updatedAt: any | null;
+  hashTags: string[];
+  tags: findBookingForBooker_FindBookingForBooker_bookings_roomTypes_tags[];
 }
 
 export interface findBookingForBooker_FindBookingForBooker_bookings_checkInInfo {
@@ -1383,7 +1547,6 @@ export interface findBookingForBooker_FindBookingForBooker_bookings_guests_roomT
   __typename: "RoomType";
   _id: string;
   name: string;
-  index: number;
   description: string | null;
 }
 
@@ -1451,18 +1614,16 @@ export interface findBookingForBookerVariables {
 // GraphQL query operation: getRoomTypeDatePrices
 // ====================================================
 
-export interface getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_img_tags {
-  __typename: "JdTag";
-  Key: string;
-  Value: string;
-}
-
-export interface getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_img {
-  __typename: "JdFile";
-  url: any;
-  filename: string;
-  mimeType: string;
-  tags: getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_img_tags[] | null;
+export interface getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_tags {
+  __typename: "Tag";
+  /**
+   * '::'을 구분자로 사용하여 subKey를 입력할 수 있다. (subKey의 subKey도 가능) - ex) category::atmosphere
+   */
+  key: string;
+  /**
+   * 여기는 무조건 String만 들어감
+   */
+  value: string;
 }
 
 export interface getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_roomType {
@@ -1472,10 +1633,12 @@ export interface getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_
   pricingType: PricingType;
   peopleCount: number;
   peopleCountMax: number;
-  index: number;
   roomCount: number;
   roomGender: RoomGender;
-  img: getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_img | null;
+  /**
+   * 이미지 Urls
+   */
+  images: string[] | null;
   description: string | null;
   /**
    * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
@@ -1483,6 +1646,8 @@ export interface getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_
   defaultPrice: number | null;
   createdAt: any;
   updatedAt: any | null;
+  hashTags: string[];
+  tags: getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_tags[];
 }
 
 export interface getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_datePrices {
@@ -1576,18 +1741,16 @@ export interface getGuests_GetGuests_guests_GuestDomitory_roomType {
   _id: string;
 }
 
-export interface getGuests_GetGuests_guests_GuestDomitory_booking_roomTypes_img_tags {
-  __typename: "JdTag";
-  Key: string;
-  Value: string;
-}
-
-export interface getGuests_GetGuests_guests_GuestDomitory_booking_roomTypes_img {
-  __typename: "JdFile";
-  url: any;
-  filename: string;
-  mimeType: string;
-  tags: getGuests_GetGuests_guests_GuestDomitory_booking_roomTypes_img_tags[] | null;
+export interface getGuests_GetGuests_guests_GuestDomitory_booking_roomTypes_tags {
+  __typename: "Tag";
+  /**
+   * '::'을 구분자로 사용하여 subKey를 입력할 수 있다. (subKey의 subKey도 가능) - ex) category::atmosphere
+   */
+  key: string;
+  /**
+   * 여기는 무조건 String만 들어감
+   */
+  value: string;
 }
 
 export interface getGuests_GetGuests_guests_GuestDomitory_booking_roomTypes {
@@ -1597,10 +1760,12 @@ export interface getGuests_GetGuests_guests_GuestDomitory_booking_roomTypes {
   pricingType: PricingType;
   peopleCount: number;
   peopleCountMax: number;
-  index: number;
   roomCount: number;
   roomGender: RoomGender;
-  img: getGuests_GetGuests_guests_GuestDomitory_booking_roomTypes_img | null;
+  /**
+   * 이미지 Urls
+   */
+  images: string[] | null;
   description: string | null;
   /**
    * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
@@ -1608,6 +1773,8 @@ export interface getGuests_GetGuests_guests_GuestDomitory_booking_roomTypes {
   defaultPrice: number | null;
   createdAt: any;
   updatedAt: any | null;
+  hashTags: string[];
+  tags: getGuests_GetGuests_guests_GuestDomitory_booking_roomTypes_tags[];
 }
 
 export interface getGuests_GetGuests_guests_GuestDomitory_booking_checkInInfo {
@@ -1710,18 +1877,16 @@ export interface getGuests_GetGuests_guests_GuestRoom_room {
   name: string;
 }
 
-export interface getGuests_GetGuests_guests_GuestRoom_booking_roomTypes_img_tags {
-  __typename: "JdTag";
-  Key: string;
-  Value: string;
-}
-
-export interface getGuests_GetGuests_guests_GuestRoom_booking_roomTypes_img {
-  __typename: "JdFile";
-  url: any;
-  filename: string;
-  mimeType: string;
-  tags: getGuests_GetGuests_guests_GuestRoom_booking_roomTypes_img_tags[] | null;
+export interface getGuests_GetGuests_guests_GuestRoom_booking_roomTypes_tags {
+  __typename: "Tag";
+  /**
+   * '::'을 구분자로 사용하여 subKey를 입력할 수 있다. (subKey의 subKey도 가능) - ex) category::atmosphere
+   */
+  key: string;
+  /**
+   * 여기는 무조건 String만 들어감
+   */
+  value: string;
 }
 
 export interface getGuests_GetGuests_guests_GuestRoom_booking_roomTypes {
@@ -1731,10 +1896,12 @@ export interface getGuests_GetGuests_guests_GuestRoom_booking_roomTypes {
   pricingType: PricingType;
   peopleCount: number;
   peopleCountMax: number;
-  index: number;
   roomCount: number;
   roomGender: RoomGender;
-  img: getGuests_GetGuests_guests_GuestRoom_booking_roomTypes_img | null;
+  /**
+   * 이미지 Urls
+   */
+  images: string[] | null;
   description: string | null;
   /**
    * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
@@ -1742,6 +1909,8 @@ export interface getGuests_GetGuests_guests_GuestRoom_booking_roomTypes {
   defaultPrice: number | null;
   createdAt: any;
   updatedAt: any | null;
+  hashTags: string[];
+  tags: getGuests_GetGuests_guests_GuestRoom_booking_roomTypes_tags[];
 }
 
 export interface getGuests_GetGuests_guests_GuestRoom_booking_checkInInfo {
@@ -1890,7 +2059,6 @@ export interface getAllRoomTypePrice_GetAllRoomType_roomTypes {
   __typename: "RoomType";
   _id: string;
   name: string;
-  index: number;
   description: string | null;
 }
 
@@ -1944,18 +2112,11 @@ export interface getAllRoomTypePriceVariables {
 // GraphQL query operation: getUserForSU
 // ====================================================
 
-export interface getUserForSU_GetUserForSU_user_profileImg_tags {
-  __typename: "JdTag";
-  Key: string;
-  Value: string;
-}
-
 export interface getUserForSU_GetUserForSU_user_profileImg {
   __typename: "JdFile";
   url: any;
   filename: string;
   mimeType: string;
-  tags: getUserForSU_GetUserForSU_user_profileImg_tags[] | null;
 }
 
 export interface getUserForSU_GetUserForSU_user_bankAccountInfo {
@@ -1963,6 +2124,18 @@ export interface getUserForSU_GetUserForSU_user_bankAccountInfo {
   bankName: string;
   accountNum: string;
   accountHolder: string;
+}
+
+export interface getUserForSU_GetUserForSU_user_houses_tags {
+  __typename: "Tag";
+  /**
+   * '::'을 구분자로 사용하여 subKey를 입력할 수 있다. (subKey의 subKey도 가능) - ex) category::atmosphere
+   */
+  key: string;
+  /**
+   * 여기는 무조건 String만 들어감
+   */
+  value: string;
 }
 
 export interface getUserForSU_GetUserForSU_user_houses_bookingPayInfo_bankAccountInfo {
@@ -1996,6 +2169,18 @@ export interface getUserForSU_GetUserForSU_user_houses_houseConfig_pollingPeriod
   period: number;
 }
 
+export interface getUserForSU_GetUserForSU_user_houses_houseConfig_options {
+  __typename: "Tag";
+  /**
+   * '::'을 구분자로 사용하여 subKey를 입력할 수 있다. (subKey의 subKey도 가능) - ex) category::atmosphere
+   */
+  key: string;
+  /**
+   * 여기는 무조건 String만 들어감
+   */
+  value: string;
+}
+
 export interface getUserForSU_GetUserForSU_user_houses_houseConfig_bookingConfig_newBookingMark {
   __typename: "NewBookingMark";
   enable: boolean | null;
@@ -2010,6 +2195,10 @@ export interface getUserForSU_GetUserForSU_user_houses_houseConfig_bookingConfig
 
 export interface getUserForSU_GetUserForSU_user_houses_houseConfig_bookingConfig {
   __typename: "BookingConfig";
+  /**
+   * 무조건 하루만 예약하게
+   */
+  bookOnlySingleDay: boolean | null;
   newBookingMark: getUserForSU_GetUserForSU_user_houses_houseConfig_bookingConfig_newBookingMark | null;
   collectingInfoFromGuest: getUserForSU_GetUserForSU_user_houses_houseConfig_bookingConfig_collectingInfoFromGuest | null;
 }
@@ -2023,6 +2212,7 @@ export interface getUserForSU_GetUserForSU_user_houses_houseConfig {
   __typename: "HouseConfig";
   assigTimeline: getUserForSU_GetUserForSU_user_houses_houseConfig_assigTimeline;
   pollingPeriod: getUserForSU_GetUserForSU_user_houses_houseConfig_pollingPeriod;
+  options: getUserForSU_GetUserForSU_user_houses_houseConfig_options[];
   bookingConfig: getUserForSU_GetUserForSU_user_houses_houseConfig_bookingConfig;
   baseConfig: getUserForSU_GetUserForSU_user_houses_houseConfig_baseConfig;
 }
@@ -2167,9 +2357,11 @@ export interface getUserForSU_GetUserForSU_user_houses {
   name: string;
   houseType: HouseType;
   status: HouseStatus | null;
+  houseNum: string;
   publicKey: string | null;
   createdAt: any;
   updatedAt: any | null;
+  tags: getUserForSU_GetUserForSU_user_houses_tags[];
   bookingPayInfo: getUserForSU_GetUserForSU_user_houses_bookingPayInfo;
   houseConfig: getUserForSU_GetUserForSU_user_houses_houseConfig;
   smsInfo: getUserForSU_GetUserForSU_user_houses_smsInfo;
@@ -2209,7 +2401,7 @@ export interface getUserForSU_GetUserForSU_user {
   createdAt: any;
   updatedAt: any | null;
   houses: getUserForSU_GetUserForSU_user_houses[];
-  paymentInfos: getUserForSU_GetUserForSU_user_paymentInfos[] | null;
+  paymentInfos: getUserForSU_GetUserForSU_user_paymentInfos[];
 }
 
 export interface getUserForSU_GetUserForSU {
@@ -2403,18 +2595,16 @@ export interface getFileTxtVariables {
 // GraphQL query operation: getBookingForPublic
 // ====================================================
 
-export interface getBookingForPublic_GetBookingForPublic_booking_roomTypes_img_tags {
-  __typename: "JdTag";
-  Key: string;
-  Value: string;
-}
-
-export interface getBookingForPublic_GetBookingForPublic_booking_roomTypes_img {
-  __typename: "JdFile";
-  url: any;
-  filename: string;
-  mimeType: string;
-  tags: getBookingForPublic_GetBookingForPublic_booking_roomTypes_img_tags[] | null;
+export interface getBookingForPublic_GetBookingForPublic_booking_roomTypes_tags {
+  __typename: "Tag";
+  /**
+   * '::'을 구분자로 사용하여 subKey를 입력할 수 있다. (subKey의 subKey도 가능) - ex) category::atmosphere
+   */
+  key: string;
+  /**
+   * 여기는 무조건 String만 들어감
+   */
+  value: string;
 }
 
 export interface getBookingForPublic_GetBookingForPublic_booking_roomTypes {
@@ -2424,10 +2614,12 @@ export interface getBookingForPublic_GetBookingForPublic_booking_roomTypes {
   pricingType: PricingType;
   peopleCount: number;
   peopleCountMax: number;
-  index: number;
   roomCount: number;
   roomGender: RoomGender;
-  img: getBookingForPublic_GetBookingForPublic_booking_roomTypes_img | null;
+  /**
+   * 이미지 Urls
+   */
+  images: string[] | null;
   description: string | null;
   /**
    * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
@@ -2435,6 +2627,8 @@ export interface getBookingForPublic_GetBookingForPublic_booking_roomTypes {
   defaultPrice: number | null;
   createdAt: any;
   updatedAt: any | null;
+  hashTags: string[];
+  tags: getBookingForPublic_GetBookingForPublic_booking_roomTypes_tags[];
 }
 
 export interface getBookingForPublic_GetBookingForPublic_booking_checkInInfo {
@@ -2695,18 +2889,16 @@ export interface getCheckInsVariables {
 // GraphQL query operation: getBookings
 // ====================================================
 
-export interface getBookings_GetBookings_result_bookings_roomTypes_img_tags {
-  __typename: "JdTag";
-  Key: string;
-  Value: string;
-}
-
-export interface getBookings_GetBookings_result_bookings_roomTypes_img {
-  __typename: "JdFile";
-  url: any;
-  filename: string;
-  mimeType: string;
-  tags: getBookings_GetBookings_result_bookings_roomTypes_img_tags[] | null;
+export interface getBookings_GetBookings_result_bookings_roomTypes_tags {
+  __typename: "Tag";
+  /**
+   * '::'을 구분자로 사용하여 subKey를 입력할 수 있다. (subKey의 subKey도 가능) - ex) category::atmosphere
+   */
+  key: string;
+  /**
+   * 여기는 무조건 String만 들어감
+   */
+  value: string;
 }
 
 export interface getBookings_GetBookings_result_bookings_roomTypes {
@@ -2716,10 +2908,12 @@ export interface getBookings_GetBookings_result_bookings_roomTypes {
   pricingType: PricingType;
   peopleCount: number;
   peopleCountMax: number;
-  index: number;
   roomCount: number;
   roomGender: RoomGender;
-  img: getBookings_GetBookings_result_bookings_roomTypes_img | null;
+  /**
+   * 이미지 Urls
+   */
+  images: string[] | null;
   description: string | null;
   /**
    * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
@@ -2727,6 +2921,8 @@ export interface getBookings_GetBookings_result_bookings_roomTypes {
   defaultPrice: number | null;
   createdAt: any;
   updatedAt: any | null;
+  hashTags: string[];
+  tags: getBookings_GetBookings_result_bookings_roomTypes_tags[];
 }
 
 export interface getBookings_GetBookings_result_bookings_checkInInfo {
@@ -2876,18 +3072,16 @@ export interface getBookingsVariables {
 // GraphQL query operation: getBooking
 // ====================================================
 
-export interface getBooking_GetBooking_booking_roomTypes_img_tags {
-  __typename: "JdTag";
-  Key: string;
-  Value: string;
-}
-
-export interface getBooking_GetBooking_booking_roomTypes_img {
-  __typename: "JdFile";
-  url: any;
-  filename: string;
-  mimeType: string;
-  tags: getBooking_GetBooking_booking_roomTypes_img_tags[] | null;
+export interface getBooking_GetBooking_booking_roomTypes_tags {
+  __typename: "Tag";
+  /**
+   * '::'을 구분자로 사용하여 subKey를 입력할 수 있다. (subKey의 subKey도 가능) - ex) category::atmosphere
+   */
+  key: string;
+  /**
+   * 여기는 무조건 String만 들어감
+   */
+  value: string;
 }
 
 export interface getBooking_GetBooking_booking_roomTypes {
@@ -2897,10 +3091,12 @@ export interface getBooking_GetBooking_booking_roomTypes {
   pricingType: PricingType;
   peopleCount: number;
   peopleCountMax: number;
-  index: number;
   roomCount: number;
   roomGender: RoomGender;
-  img: getBooking_GetBooking_booking_roomTypes_img | null;
+  /**
+   * 이미지 Urls
+   */
+  images: string[] | null;
   description: string | null;
   /**
    * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
@@ -2908,6 +3104,8 @@ export interface getBooking_GetBooking_booking_roomTypes {
   defaultPrice: number | null;
   createdAt: any;
   updatedAt: any | null;
+  hashTags: string[];
+  tags: getBooking_GetBooking_booking_roomTypes_tags[];
 }
 
 export interface getBooking_GetBooking_booking_checkInInfo {
@@ -3040,11 +3238,14 @@ export interface getBooking_GetBooking {
 }
 
 export interface getBooking {
+  /**
+   * payload: BookingId(ObjectId 타입으로 변환 가능한 String) 또는 BookingNum(String) 입력
+   */
   GetBooking: getBooking_GetBooking;
 }
 
 export interface getBookingVariables {
-  param: GetBookingInput;
+  payload: string;
 }
 
 /* tslint:disable */
@@ -3158,7 +3359,6 @@ export interface getAllSeasonTable_GetAllRoomType_roomTypes {
   __typename: "RoomType";
   _id: string;
   name: string;
-  index: number;
   description: string | null;
   /**
    * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
@@ -3226,6 +3426,33 @@ export interface getAllSeasonTable {
 
 export interface getAllSeasonTableVariables {
   houseId: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: addHouseConfigOptions
+// ====================================================
+
+export interface addHouseConfigOptions_AddHouseConfigOptions {
+  __typename: "AddHouseConfigOptionsResponse";
+  ok: boolean;
+  error: string | null;
+}
+
+export interface addHouseConfigOptions {
+  /**
+   * house.houseConfig.options 태그 추가
+   */
+  AddHouseConfigOptions: addHouseConfigOptions_AddHouseConfigOptions;
+}
+
+export interface addHouseConfigOptionsVariables {
+  houseId: string;
+  options: TagInput[];
 }
 
 /* tslint:disable */
@@ -3302,6 +3529,9 @@ export interface makeBookingForPublic_MakeBookingForPublic {
 }
 
 export interface makeBookingForPublic {
+  /**
+   * madeByHost: false
+   */
   MakeBookingForPublic: makeBookingForPublic_MakeBookingForPublic;
 }
 
@@ -3339,6 +3569,9 @@ export interface makeBooking_MakeBooking {
 }
 
 export interface makeBooking {
+  /**
+   * madeByHost: true
+   */
   MakeBooking: makeBooking_MakeBooking;
 }
 
@@ -3668,8 +3901,8 @@ export interface getUserRequests_GetUserRequests_result_userRequests_status {
 
 export interface getUserRequests_GetUserRequests_result_userRequests_homepageInfo_options {
   __typename: "HomepageOption";
-  price: number;
   key: HomepageOptionKey;
+  price: number;
 }
 
 export interface getUserRequests_GetUserRequests_result_userRequests_homepageInfo {
@@ -3744,6 +3977,56 @@ export interface deleteBlockVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: cancelBookings
+// ====================================================
+
+export interface cancelBookings_CancelBookings {
+  __typename: "CancelBookingsResponse";
+  ok: boolean;
+  error: string | null;
+}
+
+export interface cancelBookings {
+  CancelBookings: cancelBookings_CancelBookings;
+}
+
+export interface cancelBookingsVariables {
+  cancelParams?: CancelBookingInput[] | null;
+  cancelMessage?: string | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: cancelBooking
+// ====================================================
+
+export interface cancelBooking_CancelBooking {
+  __typename: "CancelBookingResponse";
+  ok: boolean;
+  error: string | null;
+}
+
+export interface cancelBooking {
+  /**
+   * 예약 취소. 환불하는거 아님. 예약 상태에만 관여함. & 환불에 관련된 파라미터를 만들어냄
+   */
+  CancelBooking: cancelBooking_CancelBooking;
+}
+
+export interface cancelBookingVariables {
+  param: CancelBookingInput;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: createBlock
 // ====================================================
 
@@ -3781,6 +4064,47 @@ export interface createBlockVariables {
   houseId: string;
   roomId: string;
   bedIndex: number;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: createBlocks
+// ====================================================
+
+export interface createBlocks_CreateBlocks_data_room {
+  __typename: "Room";
+  _id: string;
+  name: string;
+}
+
+export interface createBlocks_CreateBlocks_data {
+  __typename: "Block";
+  _id: string;
+  bedIndex: number;
+  checkIn: any;
+  checkOut: any;
+  createdAt: any;
+  updatedAt: any | null;
+  room: createBlocks_CreateBlocks_data_room;
+}
+
+export interface createBlocks_CreateBlocks {
+  __typename: "CreateBlocksResponse";
+  ok: boolean;
+  error: string | null;
+  data: createBlocks_CreateBlocks_data[] | null;
+}
+
+export interface createBlocks {
+  CreateBlocks: createBlocks_CreateBlocks;
+}
+
+export interface createBlocksVariables {
+  param: CreateBlocksInput;
 }
 
 /* tslint:disable */
@@ -4286,6 +4610,55 @@ export interface getHouseForPublic_GetHouseForPublic_house_location {
   addressDetail: string | null;
 }
 
+export interface getHouseForPublic_GetHouseForPublic_house_tags {
+  __typename: "Tag";
+  /**
+   * '::'을 구분자로 사용하여 subKey를 입력할 수 있다. (subKey의 subKey도 가능) - ex) category::atmosphere
+   */
+  key: string;
+  /**
+   * 여기는 무조건 String만 들어감
+   */
+  value: string;
+}
+
+export interface getHouseForPublic_GetHouseForPublic_house_houseConfig_bookingConfig_collectingInfoFromGuest {
+  __typename: "CollectingInfoFromGuest";
+  email: boolean | null;
+  country: boolean | null;
+}
+
+export interface getHouseForPublic_GetHouseForPublic_house_houseConfig_bookingConfig {
+  __typename: "BookingConfig";
+  /**
+   * 최대 연박 가능일수: 1~180
+   */
+  maxStayDate: number;
+  collectingInfoFromGuest: getHouseForPublic_GetHouseForPublic_house_houseConfig_bookingConfig_collectingInfoFromGuest | null;
+  /**
+   * 무조건 하루만 예약하게
+   */
+  bookOnlySingleDay: boolean | null;
+}
+
+export interface getHouseForPublic_GetHouseForPublic_house_houseConfig_options {
+  __typename: "Tag";
+  /**
+   * '::'을 구분자로 사용하여 subKey를 입력할 수 있다. (subKey의 subKey도 가능) - ex) category::atmosphere
+   */
+  key: string;
+  /**
+   * 여기는 무조건 String만 들어감
+   */
+  value: string;
+}
+
+export interface getHouseForPublic_GetHouseForPublic_house_houseConfig {
+  __typename: "HouseConfig";
+  bookingConfig: getHouseForPublic_GetHouseForPublic_house_houseConfig_bookingConfig;
+  options: getHouseForPublic_GetHouseForPublic_house_houseConfig_options[];
+}
+
 export interface getHouseForPublic_GetHouseForPublic_house_bookingPayInfo_bankAccountInfo {
   __typename: "BankAccountInfo";
   bankName: string;
@@ -4304,6 +4677,8 @@ export interface getHouseForPublic_GetHouseForPublic_house {
   phoneNumber: any | null;
   name: string;
   location: getHouseForPublic_GetHouseForPublic_house_location;
+  tags: getHouseForPublic_GetHouseForPublic_house_tags[];
+  houseConfig: getHouseForPublic_GetHouseForPublic_house_houseConfig;
   bookingPayInfo: getHouseForPublic_GetHouseForPublic_house_bookingPayInfo;
 }
 
@@ -4591,18 +4966,16 @@ export interface getRoomTypeInfo_GetRoomTypeById {
   roomType: getRoomTypeInfo_GetRoomTypeById_roomType | null;
 }
 
-export interface getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_img_tags {
-  __typename: "JdTag";
-  Key: string;
-  Value: string;
-}
-
-export interface getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_img {
-  __typename: "JdFile";
-  url: any;
-  filename: string;
-  mimeType: string;
-  tags: getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_img_tags[] | null;
+export interface getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_tags {
+  __typename: "Tag";
+  /**
+   * '::'을 구분자로 사용하여 subKey를 입력할 수 있다. (subKey의 subKey도 가능) - ex) category::atmosphere
+   */
+  key: string;
+  /**
+   * 여기는 무조건 String만 들어감
+   */
+  value: string;
 }
 
 export interface getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices_roomType {
@@ -4612,10 +4985,12 @@ export interface getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices_roomTy
   pricingType: PricingType;
   peopleCount: number;
   peopleCountMax: number;
-  index: number;
   roomCount: number;
   roomGender: RoomGender;
-  img: getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_img | null;
+  /**
+   * 이미지 Urls
+   */
+  images: string[] | null;
   description: string | null;
   /**
    * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
@@ -4623,6 +4998,8 @@ export interface getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices_roomTy
   defaultPrice: number | null;
   createdAt: any;
   updatedAt: any | null;
+  hashTags: string[];
+  tags: getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_tags[];
 }
 
 export interface getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices_datePrices {
@@ -4913,24 +5290,11 @@ export interface updateSenderVariables {
 // GraphQL query operation: getHM
 // ====================================================
 
-export interface getHM_GetHM_HM_backgroundImg_tags {
-  __typename: "JdTag";
-  Key: string;
-  Value: string;
-}
-
 export interface getHM_GetHM_HM_backgroundImg {
   __typename: "JdFile";
   url: any;
   filename: string;
   mimeType: string;
-  tags: getHM_GetHM_HM_backgroundImg_tags[] | null;
-}
-
-export interface getHM_GetHM_HM_profileImg_tags {
-  __typename: "JdTag";
-  Key: string;
-  Value: string;
 }
 
 export interface getHM_GetHM_HM_profileImg {
@@ -4938,13 +5302,6 @@ export interface getHM_GetHM_HM_profileImg {
   url: any;
   filename: string;
   mimeType: string;
-  tags: getHM_GetHM_HM_profileImg_tags[] | null;
-}
-
-export interface getHM_GetHM_HM_menus_img_tags {
-  __typename: "JdTag";
-  Key: string;
-  Value: string;
 }
 
 export interface getHM_GetHM_HM_menus_img {
@@ -4952,7 +5309,6 @@ export interface getHM_GetHM_HM_menus_img {
   url: any;
   filename: string;
   mimeType: string;
-  tags: getHM_GetHM_HM_menus_img_tags[] | null;
 }
 
 export interface getHM_GetHM_HM_menus {
@@ -5025,24 +5381,11 @@ export interface getHMVariables {
 // GraphQL query operation: getHMforPublic
 // ====================================================
 
-export interface getHMforPublic_GetHMforPublic_HM_backgroundImg_tags {
-  __typename: "JdTag";
-  Key: string;
-  Value: string;
-}
-
 export interface getHMforPublic_GetHMforPublic_HM_backgroundImg {
   __typename: "JdFile";
   url: any;
   filename: string;
   mimeType: string;
-  tags: getHMforPublic_GetHMforPublic_HM_backgroundImg_tags[] | null;
-}
-
-export interface getHMforPublic_GetHMforPublic_HM_profileImg_tags {
-  __typename: "JdTag";
-  Key: string;
-  Value: string;
 }
 
 export interface getHMforPublic_GetHMforPublic_HM_profileImg {
@@ -5050,13 +5393,6 @@ export interface getHMforPublic_GetHMforPublic_HM_profileImg {
   url: any;
   filename: string;
   mimeType: string;
-  tags: getHMforPublic_GetHMforPublic_HM_profileImg_tags[] | null;
-}
-
-export interface getHMforPublic_GetHMforPublic_HM_menus_img_tags {
-  __typename: "JdTag";
-  Key: string;
-  Value: string;
 }
 
 export interface getHMforPublic_GetHMforPublic_HM_menus_img {
@@ -5064,7 +5400,6 @@ export interface getHMforPublic_GetHMforPublic_HM_menus_img {
   url: any;
   filename: string;
   mimeType: string;
-  tags: getHMforPublic_GetHMforPublic_HM_menus_img_tags[] | null;
 }
 
 export interface getHMforPublic_GetHMforPublic_HM_menus {
@@ -5190,6 +5525,92 @@ export interface getMemosVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL mutation operation: changeRoomTypeTags
+// ====================================================
+
+export interface changeRoomTypeTags_AddRoomTypeTags {
+  __typename: "AddRoomTypeTagsResponse";
+  ok: boolean;
+  error: string | null;
+}
+
+export interface changeRoomTypeTags_RemoveRoomTypeTags {
+  __typename: "RemoveRoomTypeTagsResponse";
+  ok: boolean;
+  error: string | null;
+}
+
+export interface changeRoomTypeTags {
+  /**
+   * 태그 추가. house에 중복되는 tagKey 가 있으면 덮어씀
+   */
+  AddRoomTypeTags: changeRoomTypeTags_AddRoomTypeTags;
+  RemoveRoomTypeTags: changeRoomTypeTags_RemoveRoomTypeTags;
+}
+
+export interface changeRoomTypeTagsVariables {
+  roomTypeId: string;
+  upsertTags: TagInput[];
+  removeKeys: string[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: addRoomTypeTags
+// ====================================================
+
+export interface addRoomTypeTags_AddRoomTypeTags {
+  __typename: "AddRoomTypeTagsResponse";
+  ok: boolean;
+  error: string | null;
+}
+
+export interface addRoomTypeTags {
+  /**
+   * 태그 추가. house에 중복되는 tagKey 가 있으면 덮어씀
+   */
+  AddRoomTypeTags: addRoomTypeTags_AddRoomTypeTags;
+}
+
+export interface addRoomTypeTagsVariables {
+  roomTypeId: string;
+  tags: TagInput[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: removeRoomTypeTags
+// ====================================================
+
+export interface removeRoomTypeTags_RemoveRoomTypeTags {
+  __typename: "RemoveRoomTypeTagsResponse";
+  ok: boolean;
+  error: string | null;
+}
+
+export interface removeRoomTypeTags {
+  RemoveRoomTypeTags: removeRoomTypeTags_RemoveRoomTypeTags;
+}
+
+export interface removeRoomTypeTagsVariables {
+  roomTypeId: string;
+  tagKeys: string[];
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL mutation operation: updateMemo
 // ====================================================
 
@@ -5305,18 +5726,11 @@ export interface getNotisVariables {
 // GraphQL mutation operation: singleUpload
 // ====================================================
 
-export interface singleUpload_SingleUpload_jdFile_tags {
-  __typename: "JdTag";
-  Key: string;
-  Value: string;
-}
-
 export interface singleUpload_SingleUpload_jdFile {
   __typename: "JdFile";
   url: any;
   filename: string;
   mimeType: string;
-  tags: singleUpload_SingleUpload_jdFile_tags[] | null;
 }
 
 export interface singleUpload_SingleUpload {
@@ -5589,6 +6003,9 @@ export interface getPayHistory_GetPayHistory_result_payHistories {
   __typename: "PayHistory";
   _id: string;
   userId: string;
+  /**
+   * 항목 (deprecated)
+   */
   target: PayTarget;
   payload: string;
   goodsCnt: number;
@@ -5598,6 +6015,9 @@ export interface getPayHistory_GetPayHistory_result_payHistories {
   tid: string;
   payMethod: PayMethod;
   amt: number;
+  /**
+   * 결제 결과.
+   */
   status: getPayHistory_GetPayHistory_result_payHistories_status;
   cancelStatus: getPayHistory_GetPayHistory_result_payHistories_cancelStatus | null;
   createdAt: any;
@@ -5664,6 +6084,9 @@ export interface refundBooking_CancelBooking {
 }
 
 export interface refundBooking {
+  /**
+   * 예약 취소. 환불하는거 아님. 예약 상태에만 관여함. & 환불에 관련된 파라미터를 만들어냄
+   */
   CancelBooking: refundBooking_CancelBooking;
 }
 
@@ -5758,11 +6181,155 @@ export interface saveRoomTypes_SaveRoomTypes {
 }
 
 export interface saveRoomTypes {
+  /**
+   * rooms => 덮어쓰는 방식임. 아무것도 안들어오면 다 지워버림...(20200609) => upsert 방식으로 수정 요망
+   */
   SaveRoomTypes: saveRoomTypes_SaveRoomTypes;
 }
 
 export interface saveRoomTypesVariables {
   param: SaveRoomTypesInput;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: searchBooking
+// ====================================================
+
+export interface searchBooking_SearchBooking_data_roomTypes_tags {
+  __typename: "Tag";
+  /**
+   * '::'을 구분자로 사용하여 subKey를 입력할 수 있다. (subKey의 subKey도 가능) - ex) category::atmosphere
+   */
+  key: string;
+  /**
+   * 여기는 무조건 String만 들어감
+   */
+  value: string;
+}
+
+export interface searchBooking_SearchBooking_data_roomTypes {
+  __typename: "RoomType";
+  _id: string;
+  name: string;
+  pricingType: PricingType;
+  peopleCount: number;
+  peopleCountMax: number;
+  roomCount: number;
+  roomGender: RoomGender;
+  /**
+   * 이미지 Urls
+   */
+  images: string[] | null;
+  description: string | null;
+  /**
+   * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
+   */
+  defaultPrice: number | null;
+  createdAt: any;
+  updatedAt: any | null;
+  hashTags: string[];
+  tags: searchBooking_SearchBooking_data_roomTypes_tags[];
+}
+
+export interface searchBooking_SearchBooking_data_checkInInfo {
+  __typename: "CheckInInfo";
+  isIn: boolean;
+  checkInDateTime: any | null;
+}
+
+export interface searchBooking_SearchBooking_data_payment_cardInfo {
+  __typename: "PaymentInfo";
+  authDate: any;
+  billKey: string;
+  cardName: string;
+  cardNo: string;
+  cardCl: number;
+  card: Card | null;
+  cardCode: number;
+  cardNoHashed: string | null;
+  isLive: boolean;
+}
+
+export interface searchBooking_SearchBooking_data_payment {
+  __typename: "Payment";
+  /**
+   * 단발성 결제인지, 정기결제인지 확인 => ONE_TIME, SUBSCRIPTION
+   */
+  type: PaymentType;
+  payMethod: PayMethod;
+  totalPrice: number;
+  goodsVat: number | null;
+  supplyAmt: number | null;
+  status: PaymentStatus;
+  paymentResultParam: any | null;
+  refundedPrice: number | null;
+  tid: string | null;
+  cardInfo: searchBooking_SearchBooking_data_payment_cardInfo | null;
+}
+
+export interface searchBooking_SearchBooking_data_guests_roomType {
+  __typename: "RoomType";
+  _id: string;
+  name: string;
+  description: string | null;
+}
+
+export interface searchBooking_SearchBooking_data_guests {
+  __typename: "GuestDomitory" | "GuestRoom";
+  _id: string;
+  pricingType: PricingType;
+  checkIn: any;
+  checkOut: any;
+  /**
+   * roomType 은 처음 예약하고나서 절대로 변경되지 않음.
+   */
+  roomType: searchBooking_SearchBooking_data_guests_roomType;
+}
+
+export interface searchBooking_SearchBooking_data {
+  __typename: "Booking";
+  _id: string;
+  roomTypes: searchBooking_SearchBooking_data_roomTypes[] | null;
+  paidByNice: boolean | null;
+  isNew: boolean;
+  name: any;
+  bookingNum: string;
+  password: string | null;
+  breakfast: boolean | null;
+  phoneNumber: any;
+  email: any | null;
+  checkInInfo: searchBooking_SearchBooking_data_checkInInfo;
+  memo: string | null;
+  agreePrivacyPolicy: boolean;
+  checkIn: any;
+  checkOut: any;
+  payment: searchBooking_SearchBooking_data_payment;
+  funnels: Funnels | null;
+  status: BookingStatus;
+  createdAt: any;
+  updatedAt: any | null;
+  isConfirm: boolean;
+  guests: searchBooking_SearchBooking_data_guests[] | null;
+}
+
+export interface searchBooking_SearchBooking {
+  __typename: "SearchBookingResponse";
+  ok: boolean;
+  error: string | null;
+  data: searchBooking_SearchBooking_data | null;
+}
+
+export interface searchBooking {
+  SearchBooking: searchBooking_SearchBooking;
+}
+
+export interface searchBookingVariables {
+  bookingNum: string;
 }
 
 /* tslint:disable */
@@ -5815,8 +6382,8 @@ export interface Fhomepage {
 
 export interface FhomepageRequest_options {
   __typename: "HomepageOption";
-  price: number;
   key: HomepageOptionKey;
+  price: number;
 }
 
 export interface FhomepageRequest {
@@ -5884,18 +6451,11 @@ export interface FbankAccountInfo {
 // GraphQL fragment: Fimg
 // ====================================================
 
-export interface Fimg_tags {
-  __typename: "JdTag";
-  Key: string;
-  Value: string;
-}
-
 export interface Fimg {
   __typename: "JdFile";
   url: any;
   filename: string;
   mimeType: string;
-  tags: Fimg_tags[] | null;
 }
 
 /* tslint:disable */
@@ -5949,15 +6509,29 @@ export interface FNoti {
 // GraphQL fragment: Fhouse
 // ====================================================
 
+export interface Fhouse_tags {
+  __typename: "Tag";
+  /**
+   * '::'을 구분자로 사용하여 subKey를 입력할 수 있다. (subKey의 subKey도 가능) - ex) category::atmosphere
+   */
+  key: string;
+  /**
+   * 여기는 무조건 String만 들어감
+   */
+  value: string;
+}
+
 export interface Fhouse {
   __typename: "House";
   _id: string;
   name: string;
   houseType: HouseType;
   status: HouseStatus | null;
+  houseNum: string;
   publicKey: string | null;
   createdAt: any;
   updatedAt: any | null;
+  tags: Fhouse_tags[];
 }
 
 /* tslint:disable */
@@ -5969,24 +6543,11 @@ export interface Fhouse {
 // GraphQL fragment: FHM
 // ====================================================
 
-export interface FHM_backgroundImg_tags {
-  __typename: "JdTag";
-  Key: string;
-  Value: string;
-}
-
 export interface FHM_backgroundImg {
   __typename: "JdFile";
   url: any;
   filename: string;
   mimeType: string;
-  tags: FHM_backgroundImg_tags[] | null;
-}
-
-export interface FHM_profileImg_tags {
-  __typename: "JdTag";
-  Key: string;
-  Value: string;
 }
 
 export interface FHM_profileImg {
@@ -5994,7 +6555,6 @@ export interface FHM_profileImg {
   url: any;
   filename: string;
   mimeType: string;
-  tags: FHM_profileImg_tags[] | null;
 }
 
 export interface FHM {
@@ -6022,18 +6582,11 @@ export interface FHM {
 // GraphQL fragment: FHMmenu
 // ====================================================
 
-export interface FHMmenu_img_tags {
-  __typename: "JdTag";
-  Key: string;
-  Value: string;
-}
-
 export interface FHMmenu_img {
   __typename: "JdFile";
   url: any;
   filename: string;
   mimeType: string;
-  tags: FHMmenu_img_tags[] | null;
 }
 
 export interface FHMmenu {
@@ -6080,6 +6633,18 @@ export interface FhouseConfig_pollingPeriod {
   period: number;
 }
 
+export interface FhouseConfig_options {
+  __typename: "Tag";
+  /**
+   * '::'을 구분자로 사용하여 subKey를 입력할 수 있다. (subKey의 subKey도 가능) - ex) category::atmosphere
+   */
+  key: string;
+  /**
+   * 여기는 무조건 String만 들어감
+   */
+  value: string;
+}
+
 export interface FhouseConfig_bookingConfig_newBookingMark {
   __typename: "NewBookingMark";
   enable: boolean | null;
@@ -6094,6 +6659,10 @@ export interface FhouseConfig_bookingConfig_collectingInfoFromGuest {
 
 export interface FhouseConfig_bookingConfig {
   __typename: "BookingConfig";
+  /**
+   * 무조건 하루만 예약하게
+   */
+  bookOnlySingleDay: boolean | null;
   newBookingMark: FhouseConfig_bookingConfig_newBookingMark | null;
   collectingInfoFromGuest: FhouseConfig_bookingConfig_collectingInfoFromGuest | null;
 }
@@ -6107,6 +6676,7 @@ export interface FhouseConfig {
   __typename: "HouseConfig";
   assigTimeline: FhouseConfig_assigTimeline;
   pollingPeriod: FhouseConfig_pollingPeriod;
+  options: FhouseConfig_options[];
   bookingConfig: FhouseConfig_bookingConfig;
   baseConfig: FhouseConfig_baseConfig;
 }
@@ -6392,18 +6962,16 @@ export interface FsmsHistory {
 // GraphQL fragment: FroomType
 // ====================================================
 
-export interface FroomType_img_tags {
-  __typename: "JdTag";
-  Key: string;
-  Value: string;
-}
-
-export interface FroomType_img {
-  __typename: "JdFile";
-  url: any;
-  filename: string;
-  mimeType: string;
-  tags: FroomType_img_tags[] | null;
+export interface FroomType_tags {
+  __typename: "Tag";
+  /**
+   * '::'을 구분자로 사용하여 subKey를 입력할 수 있다. (subKey의 subKey도 가능) - ex) category::atmosphere
+   */
+  key: string;
+  /**
+   * 여기는 무조건 String만 들어감
+   */
+  value: string;
 }
 
 export interface FroomType {
@@ -6413,10 +6981,12 @@ export interface FroomType {
   pricingType: PricingType;
   peopleCount: number;
   peopleCountMax: number;
-  index: number;
   roomCount: number;
   roomGender: RoomGender;
-  img: FroomType_img | null;
+  /**
+   * 이미지 Urls
+   */
+  images: string[] | null;
   description: string | null;
   /**
    * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
@@ -6424,6 +6994,8 @@ export interface FroomType {
   defaultPrice: number | null;
   createdAt: any;
   updatedAt: any | null;
+  hashTags: string[];
+  tags: FroomType_tags[];
 }
 
 /* tslint:disable */
@@ -6603,18 +7175,11 @@ export interface FguestRoom {
 // GraphQL fragment: Fuser
 // ====================================================
 
-export interface Fuser_profileImg_tags {
-  __typename: "JdTag";
-  Key: string;
-  Value: string;
-}
-
 export interface Fuser_profileImg {
   __typename: "JdFile";
   url: any;
   filename: string;
   mimeType: string;
-  tags: Fuser_profileImg_tags[] | null;
 }
 
 export interface Fuser_bankAccountInfo {
@@ -6695,18 +7260,16 @@ export interface FcardInfo {
 // GraphQL fragment: FsharedGetAllRoomType
 // ====================================================
 
-export interface FsharedGetAllRoomType_roomTypes_img_tags {
-  __typename: "JdTag";
-  Key: string;
-  Value: string;
-}
-
-export interface FsharedGetAllRoomType_roomTypes_img {
-  __typename: "JdFile";
-  url: any;
-  filename: string;
-  mimeType: string;
-  tags: FsharedGetAllRoomType_roomTypes_img_tags[] | null;
+export interface FsharedGetAllRoomType_roomTypes_tags {
+  __typename: "Tag";
+  /**
+   * '::'을 구분자로 사용하여 subKey를 입력할 수 있다. (subKey의 subKey도 가능) - ex) category::atmosphere
+   */
+  key: string;
+  /**
+   * 여기는 무조건 String만 들어감
+   */
+  value: string;
 }
 
 export interface FsharedGetAllRoomType_roomTypes_rooms {
@@ -6719,20 +7282,24 @@ export interface FsharedGetAllRoomType_roomTypes {
   __typename: "RoomType";
   _id: string;
   name: string;
-  index: number;
-  description: string | null;
   pricingType: PricingType;
   peopleCount: number;
   peopleCountMax: number;
-  roomGender: RoomGender;
   roomCount: number;
-  createdAt: any;
+  roomGender: RoomGender;
+  /**
+   * 이미지 Urls
+   */
+  images: string[] | null;
+  description: string | null;
   /**
    * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
    */
   defaultPrice: number | null;
+  createdAt: any;
   updatedAt: any | null;
-  img: FsharedGetAllRoomType_roomTypes_img | null;
+  hashTags: string[];
+  tags: FsharedGetAllRoomType_roomTypes_tags[];
   rooms: FsharedGetAllRoomType_roomTypes_rooms[];
 }
 
@@ -6752,18 +7319,16 @@ export interface FsharedGetAllRoomType {
 // GraphQL fragment: Fbooking
 // ====================================================
 
-export interface Fbooking_roomTypes_img_tags {
-  __typename: "JdTag";
-  Key: string;
-  Value: string;
-}
-
-export interface Fbooking_roomTypes_img {
-  __typename: "JdFile";
-  url: any;
-  filename: string;
-  mimeType: string;
-  tags: Fbooking_roomTypes_img_tags[] | null;
+export interface Fbooking_roomTypes_tags {
+  __typename: "Tag";
+  /**
+   * '::'을 구분자로 사용하여 subKey를 입력할 수 있다. (subKey의 subKey도 가능) - ex) category::atmosphere
+   */
+  key: string;
+  /**
+   * 여기는 무조건 String만 들어감
+   */
+  value: string;
 }
 
 export interface Fbooking_roomTypes {
@@ -6773,10 +7338,12 @@ export interface Fbooking_roomTypes {
   pricingType: PricingType;
   peopleCount: number;
   peopleCountMax: number;
-  index: number;
   roomCount: number;
   roomGender: RoomGender;
-  img: Fbooking_roomTypes_img | null;
+  /**
+   * 이미지 Urls
+   */
+  images: string[] | null;
   description: string | null;
   /**
    * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
@@ -6784,6 +7351,8 @@ export interface Fbooking_roomTypes {
   defaultPrice: number | null;
   createdAt: any;
   updatedAt: any | null;
+  hashTags: string[];
+  tags: Fbooking_roomTypes_tags[];
 }
 
 export interface Fbooking_checkInInfo {
@@ -6856,18 +7425,11 @@ export interface Fbooking {
 // GraphQL fragment: Fcontext
 // ====================================================
 
-export interface Fcontext_profileImg_tags {
-  __typename: "JdTag";
-  Key: string;
-  Value: string;
-}
-
 export interface Fcontext_profileImg {
   __typename: "JdFile";
   url: any;
   filename: string;
   mimeType: string;
-  tags: Fcontext_profileImg_tags[] | null;
 }
 
 export interface Fcontext_bankAccountInfo {
@@ -6875,6 +7437,18 @@ export interface Fcontext_bankAccountInfo {
   bankName: string;
   accountNum: string;
   accountHolder: string;
+}
+
+export interface Fcontext_houses_tags {
+  __typename: "Tag";
+  /**
+   * '::'을 구분자로 사용하여 subKey를 입력할 수 있다. (subKey의 subKey도 가능) - ex) category::atmosphere
+   */
+  key: string;
+  /**
+   * 여기는 무조건 String만 들어감
+   */
+  value: string;
 }
 
 export interface Fcontext_houses_bookingPayInfo_bankAccountInfo {
@@ -6908,6 +7482,18 @@ export interface Fcontext_houses_houseConfig_pollingPeriod {
   period: number;
 }
 
+export interface Fcontext_houses_houseConfig_options {
+  __typename: "Tag";
+  /**
+   * '::'을 구분자로 사용하여 subKey를 입력할 수 있다. (subKey의 subKey도 가능) - ex) category::atmosphere
+   */
+  key: string;
+  /**
+   * 여기는 무조건 String만 들어감
+   */
+  value: string;
+}
+
 export interface Fcontext_houses_houseConfig_bookingConfig_newBookingMark {
   __typename: "NewBookingMark";
   enable: boolean | null;
@@ -6922,6 +7508,10 @@ export interface Fcontext_houses_houseConfig_bookingConfig_collectingInfoFromGue
 
 export interface Fcontext_houses_houseConfig_bookingConfig {
   __typename: "BookingConfig";
+  /**
+   * 무조건 하루만 예약하게
+   */
+  bookOnlySingleDay: boolean | null;
   newBookingMark: Fcontext_houses_houseConfig_bookingConfig_newBookingMark | null;
   collectingInfoFromGuest: Fcontext_houses_houseConfig_bookingConfig_collectingInfoFromGuest | null;
 }
@@ -6935,6 +7525,7 @@ export interface Fcontext_houses_houseConfig {
   __typename: "HouseConfig";
   assigTimeline: Fcontext_houses_houseConfig_assigTimeline;
   pollingPeriod: Fcontext_houses_houseConfig_pollingPeriod;
+  options: Fcontext_houses_houseConfig_options[];
   bookingConfig: Fcontext_houses_houseConfig_bookingConfig;
   baseConfig: Fcontext_houses_houseConfig_baseConfig;
 }
@@ -7079,9 +7670,11 @@ export interface Fcontext_houses {
   name: string;
   houseType: HouseType;
   status: HouseStatus | null;
+  houseNum: string;
   publicKey: string | null;
   createdAt: any;
   updatedAt: any | null;
+  tags: Fcontext_houses_tags[];
   bookingPayInfo: Fcontext_houses_bookingPayInfo;
   houseConfig: Fcontext_houses_houseConfig;
   smsInfo: Fcontext_houses_smsInfo;
@@ -7121,7 +7714,7 @@ export interface Fcontext {
   createdAt: any;
   updatedAt: any | null;
   houses: Fcontext_houses[];
-  paymentInfos: Fcontext_paymentInfos[] | null;
+  paymentInfos: Fcontext_paymentInfos[];
 }
 
 /* tslint:disable */
@@ -7133,18 +7726,16 @@ export interface Fcontext {
 // GraphQL fragment: FroomTypePriceResult
 // ====================================================
 
-export interface FroomTypePriceResult_roomTypeDatePrices_roomType_img_tags {
-  __typename: "JdTag";
-  Key: string;
-  Value: string;
-}
-
-export interface FroomTypePriceResult_roomTypeDatePrices_roomType_img {
-  __typename: "JdFile";
-  url: any;
-  filename: string;
-  mimeType: string;
-  tags: FroomTypePriceResult_roomTypeDatePrices_roomType_img_tags[] | null;
+export interface FroomTypePriceResult_roomTypeDatePrices_roomType_tags {
+  __typename: "Tag";
+  /**
+   * '::'을 구분자로 사용하여 subKey를 입력할 수 있다. (subKey의 subKey도 가능) - ex) category::atmosphere
+   */
+  key: string;
+  /**
+   * 여기는 무조건 String만 들어감
+   */
+  value: string;
 }
 
 export interface FroomTypePriceResult_roomTypeDatePrices_roomType {
@@ -7154,10 +7745,12 @@ export interface FroomTypePriceResult_roomTypeDatePrices_roomType {
   pricingType: PricingType;
   peopleCount: number;
   peopleCountMax: number;
-  index: number;
   roomCount: number;
   roomGender: RoomGender;
-  img: FroomTypePriceResult_roomTypeDatePrices_roomType_img | null;
+  /**
+   * 이미지 Urls
+   */
+  images: string[] | null;
   description: string | null;
   /**
    * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
@@ -7165,6 +7758,8 @@ export interface FroomTypePriceResult_roomTypeDatePrices_roomType {
   defaultPrice: number | null;
   createdAt: any;
   updatedAt: any | null;
+  hashTags: string[];
+  tags: FroomTypePriceResult_roomTypeDatePrices_roomType_tags[];
 }
 
 export interface FroomTypePriceResult_roomTypeDatePrices_datePrices {
@@ -7409,6 +8004,22 @@ export enum PayCancelResultCode {
   REFUNDED = "REFUNDED",
 }
 
+/**
+ * target의 영향을 받음.
+ */
+export enum PayHistoryType {
+  PURCHASE = "PURCHASE",
+  SALES = "SALES",
+}
+
+export enum PayItem {
+  BOOKING = "BOOKING",
+  EMAIL = "EMAIL",
+  HOMEPAGE = "HOMEPAGE",
+  SMS = "SMS",
+  USAGE_PLAN = "USAGE_PLAN",
+}
+
 export enum PayMethod {
   BANK_TRANSFER = "BANK_TRANSFER",
   BILL = "BILL",
@@ -7519,7 +8130,13 @@ export interface BankAccountInfoInput {
 }
 
 export interface BaseConfigInput {
-  pricingTypes: PricingType[];
+  pricingTypes?: PricingType[] | null;
+  lang?: string | null;
+}
+
+export interface BlockInput {
+  roomId: string;
+  bedIndex?: number | null;
 }
 
 export interface BlockOptionInput {
@@ -7529,11 +8146,12 @@ export interface BlockOptionInput {
 export interface BookingConfigInput {
   newBookingMark?: NewBookingMarkInput | null;
   collectingInfoFromGuest?: CollectingInfoFromGuestInput | null;
+  maxStayDate?: number | null;
 }
 
 export interface CancelBookingInput {
   bookingNum: string;
-  refundInfo?: PayCancelInput | null;
+  cancelMessage?: string | null;
 }
 
 export interface CheckInInput {
@@ -7557,6 +8175,13 @@ export interface CreateBillKeyInput {
   expYear: string;
   expMonth: string;
   idNo: string;
+}
+
+export interface CreateBlocksInput {
+  houseId: string;
+  checkIn: any;
+  checkOut: any;
+  blocks: BlockInput[];
 }
 
 export interface CreateHomepageInput {
@@ -7649,16 +8274,16 @@ export interface EmailSignUpInput {
   timezone?: string | null;
 }
 
+export interface FindBookingsInput {
+  houseId: string;
+  payload: string;
+}
+
 export interface GetBookingForPublicInput {
   bookingNum?: string | null;
   name?: string | null;
   phoneNumber?: string | null;
   password?: string | null;
-}
-
-export interface GetBookingInput {
-  bookingId?: string | null;
-  bookingNum?: string | null;
 }
 
 export interface GetBookingsFilterInput {
@@ -7692,24 +8317,15 @@ export interface GetHousesForSUInput {
   paging: OffsetPagingInput;
 }
 
-export interface GetPayHistoryFilterInput {
-  houseId?: string | null;
-  target?: PayTarget | null;
-  payload?: string | null;
-  payResult?: boolean | null;
-  isCanceled?: boolean | null;
-  period?: PeriodInput | null;
-}
-
 export interface GetPayHistoryInput {
   paging: OffsetPagingInput;
-  filter: GetPayHistoryFilterInput;
+  filter: PayHistorySearchFilter;
   sort?: any[] | null;
 }
 
 export interface GetReplacedMessageInput {
   bookingNum?: string | null;
-  bookingParam?: StartBookingBookerInput | null;
+  bookingParam?: MakeBookingBookerInput | null;
   smsTemplateId: string;
 }
 
@@ -7863,6 +8479,18 @@ export interface PayCancelProductInput {
   decreasePeriod: number;
 }
 
+/**
+ * 기본적으로 UserId로 필터링이 필수 포함되어 있음.
+ */
+export interface PayHistorySearchFilter {
+  period: PeriodInput;
+  houseId?: string | null;
+  targets?: PayTarget[] | null;
+  items?: PayItem[] | null;
+  isCalculated?: boolean | null;
+  type?: PayHistoryType | null;
+}
+
 export interface PeriodInput {
   start: any;
   end: any;
@@ -7945,24 +8573,14 @@ export interface SmsTemplateInput {
   smsSendCase?: SmsAutoSendInput | null;
 }
 
-/**
- * hosueId는 token에 의해서 불러와지는걸로
- */
-export interface StartBookingBookerInput {
-  name: any;
-  phoneNumber?: any | null;
-  password: string;
-  memo: string;
-  email?: string | null;
-  agreePrivacyPolicy: boolean;
-  funnels?: Funnels | null;
-  nationality?: string | null;
-  breakfast?: boolean | null;
-}
-
 export interface StayDateInput {
   checkIn: any;
   checkOut: any;
+}
+
+export interface TagInput {
+  key: string;
+  value: string;
 }
 
 export interface TermsOfBookingInput {
@@ -8098,6 +8716,9 @@ export interface UpsertRoomTypeInput {
   peopleCount?: number | null;
   peopleCountMax?: number | null;
   img?: JdFileInput | null;
+  images?: any[] | null;
+  deleteImages?: string[] | null;
+  hashTags?: string[] | null;
   defaultPrice?: number | null;
   description?: string | null;
   rooms?: RoomInput[] | null;

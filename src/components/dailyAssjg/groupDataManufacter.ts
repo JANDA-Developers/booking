@@ -24,6 +24,7 @@ export const groupDataManufacturer = (
   return (
     roomTypeDatas?.map(roomTypeData => {
       const { pricingType, name, peopleCountMax, _id } = roomTypeData;
+      const isDomi = pricingType === PricingType.DOMITORY;
       const value = {
         _id,
         name,
@@ -33,7 +34,7 @@ export const groupDataManufacturer = (
           return {
             _id: room._id,
             name: room.name,
-            places: Array(peopleCountMax)
+            places: Array(isDomi ? peopleCountMax : 1)
               .fill(null)
               .map(() => {
                 return {

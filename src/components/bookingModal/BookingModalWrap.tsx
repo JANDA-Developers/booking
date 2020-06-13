@@ -11,8 +11,6 @@ import {
   deleteBooking,
   deleteBookingVariables,
   makeBooking,
-  refundBooking,
-  refundBookingVariables,
   makeBookingVariables,
   getRoomTypeDatePrices,
   getRoomTypeDatePricesVariables
@@ -32,13 +30,15 @@ import {
   MAKE_BOOKING,
   GET_ROOM_TYPES_DATE_PRICE,
   REFUND_BOOKING,
-  GET_ALL_GUEST_AND_BLOCK
+  GET_ALL_GUEST_AND_BLOCK,
+  CANCLE_BOOKING
 } from "../../apollo/queries";
 import client from "../../apollo/apolloClient";
 import { getOperationName } from "apollo-utilities";
 import { DEFAULT_BOOKING } from "../../types/defaults";
 import { totalPriceGetAveragePrice } from "../../utils/booking";
 import { IBookingModalWrapProps } from "./declaration";
+import { cancelBooking, cancelBookingVariables } from "../../types/api";
 import moment from "moment";
 import PreloaderModal from "../../atoms/preloaderModal/PreloaderModal";
 import { useMutation } from "@apollo/react-hooks";
@@ -61,40 +61,34 @@ const BookingModalWrap: React.FC<IBookingModalWrapProps> = ({
   ...props
 }) => {
   const { house } = context;
-  const [refundMu, { data, loading: cancelLoading }] = useMutation<
-    refundBooking,
-    refundBookingVariables
-  >(REFUND_BOOKING, {
+
+  const refetchQueries = [
+    getOperationName(GET_BOOKINGS) || "",
+    getOperationName(GET_ALL_GUEST_AND_BLOCK) || ""
+  ];
+
+  const [cancelBookingMu, { loading: cancelBookingLoading }] = useMutation<
+    cancelBooking,
+    cancelBookingVariables
+  >(CANCLE_BOOKING, {
     client,
+    refetchQueries,
+    ignoreResults: true,
     onCompleted: ({ CancelBooking }) => {
       onCompletedMessage(
         CancelBooking,
-        LANG("refund_complete"),
-        LANG("refund_fail")
+        LANG("refund_complete_message"),
+        LANG("refund_complete_fail")
       );
     }
   });
-
-  const refundFn = (variables: refundBookingVariables) => {
-    const { bookingNum, refundInfo } = variables.param;
-    refundMu({
-      variables: {
-        param: {
-          bookingNum,
-          refundInfo
-        }
-      }
-    });
-  };
 
   return (
     <GetBookingQuery
       query={GET_BOOKING}
       skip={isEmpty(modalHook.info) || modalHook.info.createParam !== undefined}
       variables={{
-        param: {
-          bookingId: modalHook.info.bookingId || ""
-        }
+        payload: modalHook.info.bookingId || ""
       }}
     >
       {({ data: bookingData, loading: getBooking_loading }) => {
@@ -161,10 +155,7 @@ const BookingModalWrap: React.FC<IBookingModalWrapProps> = ({
               );
               return (
                 <UpdateBookingMu
-                  refetchQueries={[
-                    getOperationName(GET_BOOKINGS) || "",
-                    getOperationName(GET_ALL_GUEST_AND_BLOCK) || ""
-                  ]}
+                  refetchQueries={refetchQueries}
                   mutation={UPDATE_BOOKING}
                   onCompleted={({ UpdateBooking }) => {
                     onCompletedMessage(
@@ -196,17 +187,12 @@ const BookingModalWrap: React.FC<IBookingModalWrapProps> = ({
                             modalHook.info.makeBookingCallBack(MakeBooking);
                         }
                       }}
-                      refetchQueries={[
-                        getOperationName(GET_ALL_GUEST_AND_BLOCK) || ""
-                      ]}
+                      refetchQueries={refetchQueries}
                     >
                       {(makeBookingMu, { loading: makeBookingLoading }) => (
                         <DeleteBookingMu
                           mutation={DELETE_BOOKING}
-                          refetchQueries={[
-                            getOperationName(GET_BOOKINGS) || "",
-                            getOperationName(GET_ALL_GUEST_AND_BLOCK) || ""
-                          ]}
+                          refetchQueries={refetchQueries}
                           awaitRefetchQueries
                           onCompleted={({ DeleteBooking }) => {
                             onCompletedMessage(
@@ -238,7 +224,7 @@ const BookingModalWrap: React.FC<IBookingModalWrapProps> = ({
                                     context={context}
                                     loading={totalLoading}
                                     modalHook={modalHook}
-                                    refundFn={refundFn}
+                                    cancelBookingMu={cancelBookingMu}
                                     makeBookingMu={makeBookingMu}
                                     updateBookingMu={updateBookingMu}
                                     deleteBookingMu={deleteBookingMu}

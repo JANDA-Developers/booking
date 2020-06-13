@@ -9,7 +9,8 @@ import {
 } from "../../../../../utils/utils";
 import {
   getRoomTypeInfo,
-  getRoomTypeInfoVariables
+  getRoomTypeInfoVariables,
+  getHouseForPublic_GetHouseForPublic_house_houseConfig
 } from "../../../../../types/api";
 import { GET_ROOM_TYPE_INFO } from "../../../../../apollo/queries";
 import client from "../../../../../apollo/apolloClient";
@@ -20,6 +21,7 @@ import { Gender } from "../../../../../types/enum";
 import { useQuery } from "@apollo/react-hooks";
 import { IReservationHooks } from "../../declation";
 import { PortalPreloader } from "../../../../../utils/portalElement";
+import moment from "moment";
 
 export interface IGuestCount {
   male: number;
@@ -35,6 +37,7 @@ interface IProps {
   lastCard: boolean;
   isHost?: boolean;
   houseId?: string;
+  houseConfigInfo: getHouseForPublic_GetHouseForPublic_house_houseConfig;
 }
 
 // 하우스 아이디를 우선 Props를 통해서 받아야함
@@ -44,8 +47,12 @@ const RoomTypeCardWrap: React.SFC<IProps> = ({
   roomTypeData,
   lastCard,
   houseId,
-  isHost
+  isHost,
+  houseConfigInfo
 }) => {
+  const {bookingConfig:{
+    bookOnlySingleDay
+  }} = houseConfigInfo;
   const { dayPickerHook } = reservationHooks;
   const [guestCountValue, setGuestCount] = useState<IGuestCount>({
     male: 0,
@@ -54,7 +61,16 @@ const RoomTypeCardWrap: React.SFC<IProps> = ({
     initGender: Gender.MALE
   });
   const checkIn = to4YMMDD(dayPickerHook.from);
-  const checkOut = to4YMMDD(dayPickerHook.to);
+  let checkOut:string = "";
+  
+  if(dayPickerHook.to) {
+    if(bookOnlySingleDay){
+      checkOut = to4YMMDD(moment(dayPickerHook.to).add(1,"d"));
+    } else {
+      checkOut = to4YMMDD(dayPickerHook.to);
+    }
+  }
+
   const initMale = guestCountValue.initGender === Gender.MALE;
   const initCount = initMale ? guestCountValue.male : guestCountValue.female;
 

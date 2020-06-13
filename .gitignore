@@ -96,6 +96,8 @@ src/pages/document/pics/
 *.code-workspace
 src/schema.graphql
 src/types/graph.d.ts
+*.svg
+*.png
 dist
 .env.production
 server/src/schema.graphql

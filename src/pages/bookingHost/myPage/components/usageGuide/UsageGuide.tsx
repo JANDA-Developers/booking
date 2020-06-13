@@ -8,6 +8,7 @@ import Doc, { DocSection, DocHeader } from "../../../../../components/doc/Doc";
 import { IContext } from "../../../BookingHostRouter";
 import { DEFAULT_PRODUCT } from "../../../../../types/defaults";
 import "./UsageGuide.scss";
+import { currentLang } from "../../../../../langs/JDlang";
 
 interface IProps {
   context: IContext;
@@ -24,7 +25,7 @@ const UsageGuide: React.FC<IProps> = ({ context }) => {
         responseImg
         type=".png"
         className="usageGuide__topPhoto"
-        lang={context.langHook.currentLang}
+        lang={currentLang}
         src={IMG_REPO + `booking_app/describe/service_usage1`}
       />
       <Doc>

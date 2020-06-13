@@ -9,6 +9,8 @@ import { FUNNELS_OP } from "../../../types/const";
 import { IModalSMSinfo } from "../../smsModal/SendSmsModal";
 import { toast } from "react-toastify";
 import { isPhoneWeek } from "../../../utils/inputValidations";
+import { enumToOption } from "@janda-com/front";
+import { Funnels } from "../../../types/enum";
 
 interface IProps {
   responseStyle: any;
@@ -75,7 +77,7 @@ const BookerInfo: React.FC<IProps> = ({
           menuPlacement="top"
           mr={"no"}
           {...funnelStatusHook}
-          options={FUNNELS_OP}
+          options={enumToOption(LANG, "Funnels", Funnels)}
           label={LANG("funnels")}
         />
       </div>

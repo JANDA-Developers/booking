@@ -4,7 +4,6 @@ import { ReactTooltip } from "../../atoms/tooltipList/TooltipList";
 import { ErrProtecter, isEmpty } from "../../utils/utils";
 import { IDiv } from "../../types/interface";
 import GuestSearchInputWrap from "../guestSearchInput/GuestSearchInputWrap";
-import windowSize from "react-window-size";
 import { WindowSize } from "../../types/enum";
 import { IContext } from "../../pages/bookingHost/BookingHostRouter";
 import MobileHeaderComponent from "./components/MobileHeaderComponent";
@@ -12,6 +11,7 @@ import PcHeaderComponent from "./components/PcHeaderComponent";
 import SharedHeaderComponent from "./components/SharedHeaderComponent";
 import Logo from "./components/Logo";
 import HeaderMenu from "./components/HeaderMenu";
+import { useWindowSize } from "@janda-com/front";
 
 type ITempProps = IDiv & {
   context: IContext;
@@ -21,7 +21,8 @@ type ITempProps = IDiv & {
 
 type IProps = ITempProps;
 
-const Header: React.FC<IProps> = ({ context, logOutMutation, windowWidth }) => {
+const Header: React.FC<IProps> = ({ context, logOutMutation }) => {
+  const { width: windowWidth, height } = useWindowSize();
   const { house } = context;
   const doneHouseInit = !isEmpty(house);
   const isPhabletDown = windowWidth < WindowSize.TABLET;
@@ -51,11 +52,11 @@ const Header: React.FC<IProps> = ({ context, logOutMutation, windowWidth }) => {
         {isPhabletDown ? (
           <MobileHeaderComponent context={context} />
         ) : (
-          <PcHeaderComponent context={context} />
-        )}
+            <PcHeaderComponent context={context} />
+          )}
       </div>
     </div>
   );
 };
 
-export default windowSize<IProps>(ErrProtecter<any>(Header));
+export default Header;

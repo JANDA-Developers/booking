@@ -8,7 +8,7 @@ import {
 } from "../../../types/api";
 import DragItem, { IDragItemProp } from "./DragItem";
 import classNames from "classnames";
-import { instanceOfA, s4 } from "../../../utils/utils";
+import { instanceOfA, s4, isEmpty } from "../../../utils/utils";
 import { TDailyGroup } from "../groupDataManufacter";
 
 export type TRoom = {
@@ -70,6 +70,7 @@ export const DragBoxPlace: React.FC<IDragBoxPlace> = ({
     "dailyAssig__place--canAssigAndOver": isOver
   });
 
+
   return (
     <div className={classes} ref={drop}>
       <DragItem
@@ -90,12 +91,6 @@ export default React.memo(
     const noItem = !item1 && !item2;
     false;
 
-    if (room.name === "123") {
-      console.log("item1");
-      console.log(item1);
-      console.log("item2");
-      console.log(item2);
-    }
     if (noItem) return true;
 
     // 작업중

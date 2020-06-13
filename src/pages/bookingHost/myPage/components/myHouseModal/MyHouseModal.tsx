@@ -62,7 +62,7 @@ const MyHouseModal: React.FC<IProps> = ({ modalHook, house, loading }) => {
     {
       label: LANG("date_of_creation"),
       Component: () => (
-        <div>{moment(house!.createdAt).format(DateFormat.WITH_TIME)}}</div>
+        <div>{moment(house!.createdAt).format(DateFormat.WITH_TIME)}</div>
       )
     },
     {
@@ -73,6 +73,34 @@ const MyHouseModal: React.FC<IProps> = ({ modalHook, house, loading }) => {
       label: LANG("room"),
       Component: () => <div>{roomCountRoom}</div>
     },
+    // {
+    //   label: LANG("reservation_page_new"),
+    //   Component: () => (
+    //     <span>
+    //       <JDIcon
+    //         onClick={e => {
+    //           copytoClipboard(
+    //             insideRedirect(`outpage/reservation2/${house.houseNum}/host`)
+    //           );
+    //         }}
+    //         tooltip={LANG("copy_reservation_page_URL")}
+    //         size={"small"}
+    //         icon={"copyFile"}
+    //         hover={true}
+    //       />
+    //       {/* 예약 페이지로 이동 */}
+    //       <JDIcon
+    //         onClick={e => {
+    //           setRedirect(`outpage/reservation2/${house.houseNum}/host`);
+    //         }}
+    //         tooltip={LANG("move_reservation_page")}
+    //         size={"small"}
+    //         icon={"arrowTo"}
+    //         hover={true}
+    //       />
+    //     </span>
+    //   )
+    // },
     {
       label: LANG("reservation_page_URL"),
       Component: () => (

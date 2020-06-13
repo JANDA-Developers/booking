@@ -205,6 +205,8 @@ html .header {
 
   // 셀렉트박스 조정
   &__selectHouse {
+    border-radius: $standard-border-radius;
+    
     margin-bottom: 0;
     margin: 0;
     width: 0.4rem * 24;

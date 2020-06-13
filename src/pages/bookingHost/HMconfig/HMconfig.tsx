@@ -44,6 +44,7 @@ import PageHeader from "../../../components/pageHeader/PageHeader";
 import PageBody from "../../../components/pageBody/PageBody";
 import Menus from "./component/Menus";
 import CardHeader from "../../../atoms/cards/components/CardHeader";
+import { JDalign } from "@janda-com/front";
 
 interface IProps {
   context: IContext;
@@ -258,6 +259,13 @@ const HMconfig: React.FC<IProps> = ({
               </div>
             </Card>
           </div>
+          <JDalign style={{
+            flex: 0
+          }} hide={isPhabeltDown}>
+            <MockUp frame="JDmocUp">
+              <HMcomponent {...sharedProps} />
+            </MockUp>
+          </JDalign>
           {/* 미리보기 */}
           <JDmodal {...prevModalHook}>
             <div className="HMconfig__preview flex-grid__col col--md-12">

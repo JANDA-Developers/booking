@@ -1,5 +1,4 @@
 import React from "react";
-import { IUseModal } from "@janda-com/front";
 import { useMutation } from "@apollo/react-hooks";
 import {
   completePasswordReset,
@@ -13,11 +12,11 @@ import {
   COMPLETE_PASSWORD_RESETE
 } from "../../../apollo/queries";
 import client from "../../../apollo/apolloClient";
-import { LANG } from "../../../hooks/hook";
+import { LANG, IUseModal } from "../../../hooks/hook";
 import PasswordChangeModal from "./PasswordChangeModal";
 import { onCompletedMessage } from "../../../utils/utils";
 interface Iprops {
-  modalHook: IUseModal;
+  modalHook: IUseModal<any>;
 }
 
 // 로그인 안되어 있을때

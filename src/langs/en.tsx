@@ -5,6 +5,7 @@ import TextButton from '../atoms/textButton/TextButton';
 import JDlist from '../atoms/list/List';
 import PhotoFrame from '../atoms/photoFrame/PhotoFrame';
 import { autoComma } from '../utils/utils';
+import { JDalign, JDtypho } from '@janda-com/front';
 
 export const en = {
 	Apply: 'Apply',
@@ -371,7 +372,7 @@ export const en = {
 	paymethod: 'payment method',
 	pension: 'pension',
 	person_unit: 'people',
-	personnel: 'person/room',
+	personnel: (onlyRoom?: boolean) => `${onlyRoom || 'person/'}room`,
 	phoneNum_is_not_valid: 'Not a valid name.',
 	phoneNumber: 'phone number',
 	phone_authenticate: 'Authenticating your phone',
@@ -1159,7 +1160,214 @@ If you change the current status on the [My Page> Periodic Payment Management] p
 		`${autoComma(productTypePrice)} / Month (Free trial for 14 days after it, you can cancel)`,
 	house_init_done_fisrt: 'welcome. You have created your hostel.',
 	house_init_done: 'The accommodation has been added.',
-	house_init_failed: 'Failed to create accommodation Please inquire separately.'
+	house_init_failed: 'Failed to create accommodation Please inquire separately.',
+	drag_failed_msg: "선택된 구간은 사용 할 수 없습니다.",
+	room_index: "방순서",
+	index_unit: "번",
+	user_request_create: "유저 요청 생성 완료",
+	user_request_failed: "유저 요청 생성 실패",
+	HomepageOptions: {
+		CS_PAGE: "CS페이지",
+		CUSTOM_DESIGN: "커스텀 디자인",
+		CUSTOM_DEV: "커스텀 개발",
+		INSTA_PAGE: "인스타 여동 페이지",
+		NOTI_PAGE: "알림 페이지",
+		PHOTO_PAGE: "사진 페이지",
+		PRICE_PAGE: "가격 페이지",
+		RESV_API: "예약 API",
+		RESV_PAGE: "예약 페이지",
+		ROOM_INFO_PAGE: "방 정보 페이지"
+	},
+	add: "추가",
+	request_domain: "신청 도메인",
+	site_name: "사이트명",
+	request_urls: "신청 URLS",
+	manage_name: "관리자명",
+	else_fill: "기타사항",
+	sum_price: "합계금액",
+	homepage_request_info1: "맞춤제작을 원하시면 채널톡으로 문의 부탁드립니다.",
+	homepage_request_info2:
+		"보통 홈페이지 작업기간은 신청일로부터 +3일 정도 소요되며 완료시 안내를 드립니다.",
+	there_is_no_selected_card: "선택된 카드가 없습니다.",
+	card_name: "카드명",
+	connected_house: "연결된 하우스",
+	request_date: "신청일자",
+	request_design: "신청 디자인",
+	homepage_is_processing: "홈페이지 생성중 입니다.",
+	cannot_move_item_now: "배정 잠금 상태입니다.",
+	assig_lock: "배정잠금",
+	Validation: (fillCount: number) => {
+		if (fillCount === 0) {
+			return "아주약함";
+		}
+		if (fillCount === 1) {
+			return "약함";
+		}
+		if (fillCount === 2) {
+			return "사용가능";
+		}
+		if (fillCount === 3) {
+			return "안전";
+		}
+	},
+	it_is_wrong_number: "잘못된 전화번호입니다.",
+	auth_complete: "인증완료",
+	auth_failed: "인증실패",
+	save_room_done: "방저장 완료",
+	save_room_failed: "방저장 실패",
+	resv_search: "예약검색",
+	how_search: "검색방법",
+	search_helper: (
+		<JDlist
+			style={{
+				paddingTop: "1rem"
+			}}
+			marginBottom="long"
+			contents={[
+				"날짜로 검색가능 EX) 2020-04-02",
+				"전화번호로 검색가능",
+				"이름으로 검색가능"
+			]}
+		/>
+	),
+	room_type_config: "룸타입 설정",
+	edit: "편집",
+	summaryEdit: "보기 요약편집",
+	summaryCreateEdit: (
+		<JDalign flex>
+			<JDtypho mr="small">생성</JDtypho>요약편집
+		</JDalign>
+	),
+	Summary: {
+		name: "이름",
+		phoneNumber: "전화번호",
+		checkInOut: "체크인/아웃",
+		funnel: "유입경로",
+		memo: "메모",
+		payMethod: "결제방법",
+		phone: "전화번호",
+		resvDate: "예약일",
+		roomSelectInfo: "방정보",
+		bookingStatus: "예약상태",
+		breakfast: "조삭",
+		paymentStatus: "결제수단"
+	},
+	your_conifg_is_saved: "설정이 저장되었습니다.",
+	save_failed: "저장이 실패했습니다.",
+	plz_insert_required: "필수 설정을 포함해주세요.",
+	sir: (name: string) => `${name}님`,
+	password_rewrite_error: "패스워드 확인과 일치하지 않습니다.",
+	email_sended: "이메일 전송완료",
+	email_sended_failed: "이메일 전송실패",
+	static_list: (
+		<JDlist
+			linePoint="·"
+			contents={[
+				"매출은 숙박일 기준으로 생성됩니다.",
+				"통계는 통계날자의 범위안에서 단위별로 보여집니다."
+			]}
+		/>
+	),
+	today_mark: "오늘 마크",
+	cursor_mark: "커서 마크",
+	zoom_range: "확대 범위",
+	adress_search: "주소검색",
+	pay_stopped: "결제중단",
+	janda_price_policy: "잔다 요금제",
+	janda33: [
+		<JDtypho component="span">시간제 공간 예약 시스템</JDtypho>,
+		"공유공간 예약",
+		"온라인 티켓 판매",
+		<span>
+			AI 자동 문자 서비스 <JDtypho color="point">*사용량 만큼 청구</JDtypho>
+		</span>,
+		"통합 전자 결제 솔루션 탑재",
+		"수익 수수료 없음",
+		"매출 수수료 없음"
+	],
+	janda55: [
+		"숙소운영 및 예약관리 솔루션",
+		<span>
+			국내·외{" "}
+			<JDtypho component={"span"} color="point">
+				OTA 예약채널 연동
+		</JDtypho>
+		</span>,
+		<span>
+			다국어{" "}
+			<JDtypho component={"span"} color="point">
+				AI 무인 솔루션
+		</JDtypho>
+		</span>,
+		<span>
+			직접 꾸미는
+		<JDtypho component={"span"} color="point">
+				반응형 홈페이지
+		</JDtypho>
+		</span>,
+		<span>
+			AI 자동 문자 서비스{" "}
+			<JDtypho component="span" color="point">
+				*사용량 만큼 청구
+		</JDtypho>
+		</span>,
+		<span>통합 전자 결제 솔루션 탑재</span>,
+		<span>성수기 걱정없는 트래픽 제공</span>,
+		<span>수익 수수료 없음</span>,
+		<span>매출 수수료 없음</span>
+	],
+	janda110: [
+		"호텔운영 및 예약관리 솔루션",
+		<span>
+			국내·외
+		<JDtypho component={"span"} color="point">
+				OTA 예약채널 연동
+		</JDtypho>
+		</span>,
+		<span>
+			다국어
+		<JDtypho component={"span"} color="point">
+				AI 무인 솔루션
+		</JDtypho>
+		</span>,
+		<span>
+			IOT 객실관리 시스템
+		<JDtypho component={"span"} color="point">
+				연동(별도문의)
+		</JDtypho>
+		</span>,
+		<span>
+			직접 꾸미는
+		<JDtypho component={"span"} color="point">
+				프리미엄 홈페이지
+		</JDtypho>
+		</span>,
+		<span>
+			AI 자동 문자 서비스
+		<JDtypho component={"span"} color="point">
+				*사용량 만큼 청구
+		</JDtypho>
+		</span>,
+		<span>통합 전자 결제 솔루션 탑재</span>,
+		<span>성수기 걱정없는 트래픽 제공</span>,
+		<span>수익 수수료 없음</span>,
+		<span>매출 수수료 없음</span>
+	],
+	jandaGold: [
+		"홈페이지 맞춤 디자인 제작",
+		"홈페이지 맞춤 기능 제작",
+		<JDtypho color="point">타사 상품과의 연동</JDtypho>,
+		<span>기본 제공 범위 이외의 요청사항</span>
+	],
+	price_policy_detail: "요금표 자세히보기",
+	roomType_card_unit: "원/일",
+	insert_tag: "태그입력",
+	// 이건 예약페이지에 관한 텍스트 수정이다.
+	// 부킹에 있어도 될것같다.
+	resv_page_info_editer: "예약페이지 안내 설정",
+	resv_page_info_editer_desc: "고객이 예약하면서 지켜야 할 주의사항 및 예약완료 안내메세지, 환불정책 등",
+	resv_complete_msg: "예약완료 메세지",
+	check_point_msg: "예약 확인 페이지 메세지"
 };
 
 export default en;

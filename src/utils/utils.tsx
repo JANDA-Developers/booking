@@ -46,6 +46,7 @@ import JDscrollTo from "./scrollTo";
 import targetBlink from "./targetBlink";
 import mergeObject from "./mergeObject";
 import jsonString from "./jsonString";
+import getOptionsObj from "./houseOptionObj";
 import getGenderIcon from "./getGenderIcon";
 import isLast from "./isLast";
 import getRoomCountFromHouse from "./getRoomCountFromHouse";
@@ -59,6 +60,7 @@ const JDutils = {
   targetBlink,
   isEmpty,
   isEmail,
+  getOptionsObj,
   isPhone,
   isUrl,
   isName,
@@ -136,6 +138,7 @@ export {
   applyDaysToArr,
   randomIntFromInterval,
   arrToApplyDays,
+  getOptionsObj,
   targetBlink,
   autoComma,
   numberStr,

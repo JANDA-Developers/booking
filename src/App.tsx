@@ -10,29 +10,28 @@ import OutPageRouter from "./pages/outPages/OutPageRouter";
 import NoMatch from "./pages/noMatch/NoMatch";
 import BookingHostRouter from "./pages/bookingHost/BookingHostRouter";
 import JDtoast from "./atoms/toast/Toast";
-import "./lib/wave/wave"; // 웨이브 이펙트
-import "./lib/wave/wave.scss";
-import { useLang, LANG } from "./hooks/hook";
+import { LANG } from "./hooks/hook";
 import { globalLanguageSetting } from "./utils/globalLagnSet";
 import $ from "jquery";
 import { toast } from "react-toastify";
 import { FAVI_URL } from "./types/const";
 import LoadBalancer from "./pages/loadBalancer/LoadBalancer";
-import { getFromUrl } from "./utils/utils";
 import Tracker from "./Tracker";
 import JDtypho from "./atoms/typho/Typho";
+import { useLang } from "@janda-com/lang";
+import "./lib/wave/wave"; // [TODO 점검] 웨이브 이펙트
+import "./lib/wave/wave.scss";
 import "./App.scss";
+import { BookingLang } from "./langs/JDlang";
 
 const { version } = require("../package.json");
 
 sessionStorage.setItem("app-version", version || "");
 
 function App() {
-  const ln = getFromUrl("ln");
-  const langHook = useLang(
-    ln || (localStorage.getItem("LastLang") as any) || "kr"
-  );
+  const lang = useLang(BookingLang);
 
+  // TODO 이제 이건 필요 없을듯 ?
   globalLanguageSetting();
 
   useEffect(() => {
@@ -80,7 +79,7 @@ function App() {
                   key={`router${path}`}
                   path={path}
                   // @ts-ignore
-                  render={() => <BookingHostRouter langHook={langHook} />}
+                  render={() => <BookingHostRouter />}
                 />
               ))}
               <Route component={NoMatch} />
