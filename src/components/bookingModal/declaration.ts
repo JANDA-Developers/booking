@@ -17,7 +17,9 @@ import {
   deleteBooking,
   updateBooking,
   makeBooking,
-  refundBookingVariables
+  refundBookingVariables,
+  cancelBookingVariables,
+  cancelBooking
 } from "../../types/api";
 import {
   Gender,
@@ -35,6 +37,7 @@ import {
 import { IContext } from "../../pages/bookingHost/BookingHostRouter";
 import { IModalSMSinfo } from "../smsModal/SendSmsModal";
 import { MutationFn } from "react-apollo";
+import { IMu } from "@janda-com/front/build/types/interface";
 
 export interface RoomConfigSubmitData {
   updateCreateDatas: UpsertRoomTypeInput[];
@@ -65,8 +68,7 @@ export interface IBookingModalContext {
   bookingModalHook: IUseModal<IBookingModalProp>;
   bookingStatusHook: IUseSelect<BookingStatus>;
   resvDateHook: IUseDayPicker;
-  refundAmt: number;
-  refundFn: (variables: refundBookingVariables) => void;
+  refundModalHook: IUseModal;
   paymentStatusHook: IUseSelect<PaymentStatus>;
   bookingNameHook: TUseInput<any>;
   roomSelectInfo: IRoomSelectInfo[];
@@ -75,6 +77,7 @@ export interface IBookingModalContext {
   isDesktopUp: boolean;
   confirmModalHook: IUseModal<any>;
   payMethodHook: IUseSelect<PayMethod>;
+  cancelBookingMu: IMu<cancelBooking, cancelBookingVariables>;
   makeBookingMu: MutationFn<makeBooking, makeBookingVariables>;
   updateBookingMu: MutationFn<updateBooking, updateBookingVariables>;
   deleteBookingMu: MutationFn<deleteBooking, deleteBookingVariables>;

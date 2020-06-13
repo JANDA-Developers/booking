@@ -4,13 +4,12 @@ import ConfigBlock from "./components/ConfigBlock";
 import { configBlocks } from "./addtiones/configs";
 import Card from "../../../atoms/cards/Card";
 import "./Config.scss";
-import Sticky from "react-sticky-el";
 import { MutationFn } from "react-apollo";
 import {
   updateHouseConfig,
-  updateHouseConfigVariables
+  updateHouseConfigVariables,
+  UpdateHouseConfigParams
 } from "../../../types/api";
-import { IHouse, IHouseConfigFull } from "../../../types/interface";
 import { IContext } from "../../bookingHost/BookingHostRouter";
 import { LANG } from "../../../hooks/hook";
 
@@ -24,7 +23,19 @@ interface IProps {
 
 // AdditionMoudle 클릭시 변경
 const Config: React.FC<IProps> = ({ updateHouseConfigMu, context }) => {
+  const { house: { _id: houseId } } = context;
+
   const [additionIndex, setAdditionIndex] = useState<null | number>(null);
+
+  const updateFn = (param: UpdateHouseConfigParams) => {
+    return updateHouseConfigMu({
+      variables: {
+        houseId,
+        UpdateHouseConfigParams: param
+      }
+    })
+  }
+
   return (
     <div id="Config" className="container config">
       <div className="flex-grid docs-section">
@@ -53,14 +64,14 @@ const Config: React.FC<IProps> = ({ updateHouseConfigMu, context }) => {
                 <h5>{LANG("select_the_desired_setting_item")}</h5>
               </div>
             ) : (
-              <div>
-                <h5>{configBlocks[additionIndex].name}</h5>
-                {configBlocks[additionIndex].detailDescription({
-                  updateHouseConfigMu,
-                  context
-                })}
-              </div>
-            )}
+                <div>
+                  <h5>{configBlocks[additionIndex].name}</h5>
+                  {configBlocks[additionIndex].detailDescription({
+                    updateFn,
+                    context
+                  })}
+                </div>
+              )}
           </Card>
         </div>
       </div>

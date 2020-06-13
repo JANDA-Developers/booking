@@ -1,19 +1,19 @@
 import React from "react";
-import {IRoomType} from "../../types/interface";
+import { IRoomType } from "../../types/interface";
 import JDIcon from "../../atoms/icons/Icons";
-import {getGenderIcon} from "../../utils/utils";
-import {LANG} from "../../hooks/hook";
+import { getGenderIcon } from "../../utils/utils";
+import { LANG } from "../../hooks/hook";
 interface Iprops {
   roomType: IRoomType;
 }
 
-const RoomTypeInfo: React.FC<Iprops> = ({roomType}) => {
+const RoomTypeInfo: React.FC<Iprops> = ({ roomType }) => {
   return (
     <div className="roomConfig__iconsWrap">
       <div>
         <JDIcon
           labelSize="large"
-          tooltip={LANG("personnel")}
+          tooltip={LANG("personnel")()}
           label={`${roomType.peopleCount}`}
           icon="persons"
         />

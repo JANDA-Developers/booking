@@ -1,8 +1,9 @@
 import React from "react";
 import JDIcon from "../../../atoms/icons/Icons";
 import JDtypho from "../../typho/Typho";
+import { TElements } from "../../../types/interface";
 export type IPropsModalHeadProps = {
-  title?: string;
+  title?: TElements;
   closeFn?: () => any;
 };
 

@@ -16,6 +16,7 @@
   border: 1px solid $grey-opacity1;
   @extend %JDscrollbar;
   overflow-x: hidden !important;
+  overflow-y: auto!important;
   &__roomTypeName {
     word-break: break-all;
     @include response($tablet) {

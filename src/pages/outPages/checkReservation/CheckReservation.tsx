@@ -1,178 +1,123 @@
 import React, { useState, useEffect } from "react";
 import CheckTable from "./CheckTable";
-import { toast } from "react-toastify";
 import {
   getBookingForPublic_GetBookingForPublic_booking,
   getBookingForPublicVariables,
   getBookingForPublic,
-  getHouseForPublic_GetHouseForPublic_house
+  getHouseForPublic_GetHouseForPublic_house,
+  searchBooking,
+  searchBookingVariables,
+  searchBooking_SearchBooking_data
 } from "../../../types/api";
-import InputText from "../../../atoms/forms/inputText/InputText";
 import Button from "../../../atoms/button/Button";
-import { ApolloQueryResult } from "apollo-client";
 import { LANG } from "../../../hooks/hook";
-import CardRecipt from "../../../docs/print/CreditCardReceipt";
+import { NumForm } from "./component/NumForm";
+import { InfoForm, TSearchInput } from "./component/InfoForm";
+import client from "../../../apollo/apolloClient";
 import {
-  getRoomSelectInfo,
-  getRoomSelectString
-} from "../../../utils/typeChanger";
-import { openForPrint } from "../../../utils/openForPrint";
+  SEARCH_BOOKING,
+  GET_BOOKING_FOR_PUBLIC
+} from "../../../apollo/queries";
+import { printRecipt } from "../../../utils/printRecipt";
+import { onCompletedMessage } from "@janda-com/front";
+import JDtypho from "../../../atoms/typho/Typho";
+import { DEFAULT_HOUSE_CONFIG } from "../../../types/defaults";
+import { getOptionsObj } from "../../../utils/utils";
 
 interface Iprops {
-  loading: boolean;
   houseData?: getHouseForPublic_GetHouseForPublic_house;
-  data: getBookingForPublic_GetBookingForPublic_booking | null | undefined;
-  refetch: (
-    variables?: getBookingForPublicVariables | undefined
-  ) => Promise<ApolloQueryResult<getBookingForPublic>>;
 }
 
-const CheckReservation: React.FC<Iprops> = ({
-  data,
-  refetch,
-  loading,
-  houseData
-}) => {
-  const { name, password, phoneNumber } = data || {
-    name: "",
-    password: "",
-    phoneNumber: ""
-  };
+const CheckReservation: React.FC<Iprops> = ({ houseData }) => {
+  const { options } = houseData?.houseConfig || DEFAULT_HOUSE_CONFIG;
+  const [data, setData] = useState<
+    | searchBooking_SearchBooking_data
+    | getBookingForPublic_GetBookingForPublic_booking
+  >();
 
-  const updateInput = {
-    name,
-    password: password || "",
-    phoneNumber
-  };
+  const { CheckMsg } = getOptionsObj(options);
 
-  const [searchInfo, setSearchInfo] = useState(updateInput);
+  const [mode, setMode] = useState<"byNum" | "byInfo">("byNum");
 
-  useEffect(() => {
-    setSearchInfo(updateInput);
-  }, []);
-
-  const printRecipt = (
-    data: getBookingForPublic_GetBookingForPublic_booking
-  ) => {
-    if (!houseData) return;
-    const {
-      location: { address, addressDetail },
-      name: houseName,
-      phoneNumber: houseContact
-    } = houseData;
-    const { name, payment, bookingNum, roomTypes, guests } = data;
-    const {
-      payMethod,
-      status,
-      totalPrice,
-      type,
-      goodsVat,
-      supplyAmt,
-      cardInfo
-    } = payment;
-    if (!cardInfo) return;
-    const { cardName, cardNo, authDate } = cardInfo;
-    if (!roomTypes) return;
-    const selectInfoes = getRoomSelectInfo(guests, roomTypes);
-    const stringBookInfo = getRoomSelectString(selectInfoes);
-
-    const markUp = CardRecipt({
-      resvInfo: {
-        bookingNum: bookingNum,
-        bookerName: name,
-        bookInfo: stringBookInfo
-      },
-      payInfo: {
-        payMethod,
-        payStatus: status,
-        payDate: authDate,
-        cardName,
-        cardNumber: cardNo,
-        price: totalPrice,
-        TAX: supplyAmt,
-        VAT: goodsVat
-      },
-      hostInfo: {
-        address: address + addressDetail,
-        houseName: houseName,
-        bNumber: "",
-        hostName: "",
-        houseContact,
-        hompage: ""
+  const handleInfoSearch = async (prop: TSearchInput) => {
+    const { name, password, phoneNumber } = prop;
+    const result = await client.query<
+      getBookingForPublic,
+      getBookingForPublicVariables
+    >({
+      query: GET_BOOKING_FOR_PUBLIC,
+      variables: {
+        param: {
+          name,
+          password,
+          phoneNumber
+        },
+        skip: false
       }
     });
 
-    openForPrint(markUp);
+    const { GetBookingForPublic } = result.data;
+    const { booking } = GetBookingForPublic;
+
+    onCompletedMessage(
+      GetBookingForPublic,
+      LANG("reference_success"),
+      LANG("reference_fail")
+    );
+
+    if (booking) setData(booking);
   };
 
-  const validater = () => {
-    if (!searchInfo.name) {
-      toast.warn(LANG("input_your_name_please"));
-      return false;
-    }
-    if (!searchInfo.phoneNumber) {
-      toast.warn(LANG("please_enter_your_phone_number"));
-      return false;
-    }
-    if (!searchInfo.password) {
-      toast.warn("input_your_password_please");
-      return false;
-    }
-    return true;
+  const handleNumSearch = async (bn: string) => {
+    const result = await client.query<searchBooking, searchBookingVariables>({
+      query: SEARCH_BOOKING,
+      variables: {
+        bookingNum: bn
+      }
+    });
+    const { SearchBooking } = result.data;
+    onCompletedMessage(
+      SearchBooking,
+      LANG("reference_success"),
+      LANG("reference_fail")
+    );
+    const { data } = SearchBooking;
+    if (data) setData(data);
   };
+
+  const isNumMode = mode === "byNum";
 
   return (
     <div id="JDreservation" className="JDreservation">
       <h6>{LANG("reservation_information")}</h6>
-      <div className="flex-grid-grow">
-        <InputText
-          onChange={value => setSearchInfo({ ...searchInfo, name: value })}
-          value={searchInfo.name}
-          label={LANG("name")}
-        />
-        <InputText
-          onChange={value =>
-            setSearchInfo({ ...searchInfo, phoneNumber: value })
-          }
-          hyphen
-          value={searchInfo.phoneNumber}
-          label={LANG("contact")}
-        />
-        <InputText
-          onChange={value => setSearchInfo({ ...searchInfo, password: value })}
-          label={LANG("password")}
-          value={searchInfo.password}
-          type="password"
-        />
-      </div>
-      <div className="JDtext-align-center">
-        <Button
-          onClick={() => {
-            if (validater()) {
-              refetch({
-                param: {
-                  bookingNum: undefined,
-                  name: searchInfo.name,
-                  password: searchInfo.password,
-                  phoneNumber: searchInfo.phoneNumber
-                },
-                skip: loading
-              });
-            }
-          }}
-          label={LANG("reservation_lookup")}
-        />
-      </div>
+      <Button
+        onClick={() => {
+          setMode("byNum");
+        }}
+        thema={isNumMode ? "primary" : undefined}
+        label="예약번호로 검색"
+      />
+      <Button
+        onClick={() => {
+          setMode("byInfo");
+        }}
+        thema={isNumMode ? undefined : "primary"}
+        label="예약정보로 검색"
+      />
+      {isNumMode ? (
+        <NumForm handleSearch={handleNumSearch} />
+      ) : (
+        <InfoForm onSearch={handleInfoSearch} />
+      )}
+
       <h6>{LANG("reservation_confirm")}</h6>
-      {/* {data?.payment.cardInfo && (
-        <Button
-          onClick={() => {
-            if (data) printRecipt(data);
-          }}
-          label={LANG("bill_print")}
-        />
-      )} */}
       <CheckTable tableData={data ? [data] : undefined} />
+      {CheckMsg && (
+        <div>
+          <JDtypho weight={600}>예약확인 안내</JDtypho>
+          <JDtypho size="small">{CheckMsg}</JDtypho>
+        </div>
+      )}
     </div>
   );
 };

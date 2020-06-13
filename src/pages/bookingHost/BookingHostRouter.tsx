@@ -1,6 +1,6 @@
 /* eslint-disable react/forbid-prop-types */
 import React, { Fragment, useEffect, useState } from "react";
-import { JDlang } from "../../langs/JDlang";
+import { lang as JDlang, BookingLang } from "../../langs/JDlang";
 import { Route, Switch, RouteComponentProps } from "react-router-dom";
 import { graphql, compose } from "react-apollo";
 import { Helmet } from "react-helmet";
@@ -39,16 +39,16 @@ import {
 } from "../../types/api";
 import { setCookie } from "../../utils/cookies";
 import getCurrentHouse from "../../utils/getLastSelectHouse";
-import { useModal, useSideNav, LANG } from "../../hooks/hook";
+import { useModal } from "../../hooks/hook";
 import MemoAlertModal from "../../components/Memo/component/MemoAlertModal";
 // @ts-ignore
 import browserDetect from "../../utils/browserDetect";
 import SideNav from "../../components/sideNav/SideNav";
 import Expired from "../bookingHost/expire/Expired";
-// import { AddtionalConfigModal } from "../../components/else/AdditionalConfigModal";
 import { greet, houseConfigSetting } from "./helper";
 import SmsInfo from "./smsInfo/SmsInfo";
 import CreateHouseWrap from "./createHouse/CreateHouseWrap";
+import { langVarChange } from "../../utils/langVarChange";
 
 interface JDRoute {
   Component: React.FC<any>;
@@ -65,32 +65,26 @@ export interface IContext extends RouteComponentProps<any> {
   applyedProduct: getMyProfile_GetMyProfile_user_houses_product | undefined;
   houses: IHouse[];
   JDlang: (key: string) => any;
-  langHook: {
-    currentLang: TLanguageShort;
-    changeLang: (lang: TLanguageShort) => void;
-    JDlang: (key: string) => any;
-  };
 }
 
 interface IProps {
   GetUserInfo: any;
   selectedHouse: any;
   IsLoggedIn: any;
-  langHook: {
-    currentLang: TLanguageShort;
-    changeLang: (lang: TLanguageShort) => void;
-    JDlang: (key: string) => any;
-  };
 }
 
 const JDbookingHost: React.FC<IProps> = ({
   GetUserInfo: { GetMyProfile: { user = DEFAULT_USER } = {}, loading } = {},
-  langHook
 }) => {
   const isLogIn = user !== DEFAULT_USER;
   const isLoading: boolean = loading;
   const houses: IHouse[] = user.houses || [];
   const currentHouse = getCurrentHouse(houses);
+  // TODO 여기서 스키마 대기
+  // 언어변수를 치환
+
+  langVarChange(currentHouse?.tags || []);
+
   const memoAlertModal = useModal(false);
   const applyedProduct = currentHouse?.product;
   const { userRole } = user;
@@ -123,8 +117,7 @@ const JDbookingHost: React.FC<IProps> = ({
     house: currentHouse,
     houseConfig,
     applyedProduct,
-    houses,
-    langHook
+    houses
   };
 
   const bookingHostClassNames = classnames("bookingHost", undefined, {

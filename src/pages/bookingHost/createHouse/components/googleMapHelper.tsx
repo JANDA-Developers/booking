@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import { GoogleApiWrapper, ProvidedProps } from "google-maps-react";
+import { GoogleApiWrapper, IProvidedProps } from "google-maps-react";
 import Preloader from "../../../../atoms/preloader/Preloader";
 export const geoCode = async (address: string) => {
   const URL = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.REACT_APP_API_MAP_KEY}&language=ko&region=KO`;
@@ -52,7 +52,7 @@ export const loadMap = (lat: number, lng: number, mapRef: any, google: any) => {
   return new maps.Map(mapNode, mapConfig);
 };
 
-export const getLocationFromMap = async (map: google.maps.Map) => {
+export const getLocationFromMap = async (map: any) => {
   const newCenter = map.getCenter();
   const lat = newCenter.lat();
   const lng = newCenter.lng();
@@ -74,7 +74,7 @@ export type TLocation = {
 // 인풋서치 이후에 구글맵 위치를 변환
 export const changeMapBySearch = async (
   value: string | null,
-  map: google.maps.Map | null,
+  map: any | null,
   location: TLocation,
   callBack: (location: TLocation) => void
 ) => {
@@ -95,7 +95,7 @@ export const changeMapBySearch = async (
 };
 
 function JDgoogleMapWraper<T>(
-  Component: React.FC<T & ProvidedProps>
+  Component: React.FC<T & IProvidedProps>
 ): React.ComponentType<any> {
   return GoogleApiWrapper({
     apiKey: process.env.REACT_APP_API_MAP_KEY || "",

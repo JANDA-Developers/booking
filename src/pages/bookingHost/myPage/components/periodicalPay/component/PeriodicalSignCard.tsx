@@ -87,8 +87,8 @@ const PeriodicalSignCard: React.FC<Iprops & WindowSizeProps> = ({ context, windo
 										mode="border"
 										onClick={() => {
 											cardModalHook.openModal({
-												mode: 'changePer',
-												productIds: [ productId ]
+												mode: 'all',
+												productIds: [productId]
 											});
 										}}
 										label={LANG('creadit_card_change')}

@@ -8,6 +8,8 @@ import {
 } from "../../../types/enum";
 import { LANGUAGE_LIST } from "../../../types/const";
 import { IUseModal, LANG } from "../../../hooks/hook";
+import { BookingLang } from "../../../langs/JDlang";
+const { changeLang, currentLang } = BookingLang;
 
 interface Iprops {
   context: IContext;
@@ -15,10 +17,9 @@ interface Iprops {
 }
 
 const LangSelectModal: React.FC<Iprops> = ({ context, modalHook }) => {
+  const { } = context;
   const enableLangs = ["KOREAN", "ENGLISH"];
-  const {
-    langHook: { currentLang, changeLang }
-  } = context;
+
   return (
     <JDmodal
       head={{
@@ -29,10 +30,11 @@ const LangSelectModal: React.FC<Iprops> = ({ context, modalHook }) => {
       <div className="JDflex JDstandard-margin-bottom-minus">
         <LangList
           onClickLng={lang => {
-            localStorage.setItem("LastLang", LANG(LanguageResverseShort[lang]));
+            localStorage.setItem("LastLang", LanguageResverseShort[lang]);
             changeLang(LanguageResverseShort[lang]);
+            location.reload();
           }}
-          // @ts-ignorec
+          // @ts-ignore
           hilightLangs={[LanguageShortResverse[currentLang]]}
           hideList={LANGUAGE_LIST.filter(lang => !enableLangs.includes(lang))}
         />

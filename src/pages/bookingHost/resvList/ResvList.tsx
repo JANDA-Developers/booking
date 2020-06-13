@@ -15,7 +15,9 @@ import {
   updateBooking,
   getBookings,
   getBookingsVariables,
-  GetBookingsFilterInput
+  GetBookingsFilterInput,
+  cancelBookingsVariables,
+  cancelBookings
 } from "../../../types/api";
 import autoHyphen from "../../../utils/autoFormat";
 import { JDtoastModal } from "../../../atoms/modal/Modal";
@@ -52,6 +54,8 @@ import { GET_BOOKINGS } from "../../../apollo/queries";
 import { JDSelectableJDtable } from "../../../atoms/table/SelectTable";
 import { IModalSMSinfo } from "../../../components/smsModal/SendSmsModal";
 import JDtypho from "../../../atoms/typho/Typho";
+import RefundModal from "../../../components/refundModal/RefundModal";
+import { IMu } from "@janda-com/front/build/types/interface";
 
 interface IProps {
   pageInfo: IPageInfo;
@@ -64,12 +68,14 @@ interface IProps {
   setPage(page: number): void;
   deleteBookingMu: MutationFn<deleteBooking, deleteBookingVariables>;
   updateBookingMu: MutationFn<updateBooking, updateBookingVariables>;
+  cancelBookingMu: IMu<cancelBookings, cancelBookingsVariables>;
 }
 
 const ResvList: React.SFC<IProps> = ({
   pageInfo,
   bookingsData,
   loading,
+  cancelBookingMu,
   updateBookingMu,
   deleteBookingMu,
   setPage,
@@ -92,6 +98,7 @@ const ResvList: React.SFC<IProps> = ({
   const { checkedIds, setCheckedIds } = checkBoxTableHook;
   const bookingModalHook = useModal(false);
   const alertModalHook = useModal(false);
+  const refundModalHook = useModal(false);
   const sendSmsModalHook = useModal<IModalSMSinfo>(false);
   const excelModal = useModal<IExcelModalInfo>(false);
 
@@ -99,6 +106,9 @@ const ResvList: React.SFC<IProps> = ({
     alertModalHook.openModal({
       txt: `${LANG("nextResv")}${checkedIds.length}${LANG("checkDelete")}`
     });
+  };
+
+  const handleCancelBookingBtnClick = () => {
   };
 
   const handleCancleBookingBtnClick = () => {
@@ -234,8 +244,8 @@ const ResvList: React.SFC<IProps> = ({
                         )}
                       </Fragment>
                     ) : (
-                      <span>{roomCount}</span>
-                    )}
+                        <span>{roomCount}</span>
+                      )}
                   </span>
                 );
               })()}
@@ -264,21 +274,26 @@ const ResvList: React.SFC<IProps> = ({
         </div>
       ),
       accessor: "payment",
-      Cell: ({ original }) => (
-        <div>
-          <span>
-            {autoComma(original.payment.totalPrice)}
-            {LANG("money_unit")}
-          </span>
-          <br />
-          <span
-            className={`resvList__paymentStatus ${original.payment.status ===
-              PaymentStatus.NOT_YET && "resvList__paymentStatus--notYet"}`}
-          >
-            {LANG("PaymentStatus", original.payment.status)}
-          </span>
-        </div>
-      )
+      Cell: ({ original }) => {
+        const { totalPrice, refundedPrice, status } = original.payment
+        const isUnPaid = status === PaymentStatus.NOT_YET;
+        return (
+          <div>
+            <span>
+              {autoComma(totalPrice)}
+              {LANG("money_unit")}
+              {refundedPrice ? <JDtypho mb="no" size="small" color="error" >
+                {"(-" + autoComma(refundedPrice) + ")"}
+              </JDtypho> : undefined}
+            </span>
+            <div
+              className={`resvList__paymentStatus ${isUnPaid && "resvList__paymentStatus--notYet"}`}
+            >
+              {LANG("PaymentStatus", status)}
+            </div>
+          </div>
+        )
+      }
     },
     {
       Header: LANG("memo"),
@@ -389,15 +404,15 @@ const ResvList: React.SFC<IProps> = ({
                 }: TExcelGetDataProp) => {
                   const filter: GetBookingsFilterInput | undefined = date
                     ? {
-                        houseId,
-                        stayDate: {
-                          checkIn: to4YMMDD(date.from),
-                          checkOut: to4YMMDD(date.to)
-                        }
+                      houseId,
+                      stayDate: {
+                        checkIn: to4YMMDD(date.from),
+                        checkOut: to4YMMDD(date.to)
                       }
+                    }
                     : {
-                        houseId
-                      };
+                      houseId
+                    };
 
                   const { data, loading } = await client.query<
                     getBookings,
@@ -463,22 +478,30 @@ const ResvList: React.SFC<IProps> = ({
               thema="error"
               label={LANG("delete_booking")}
             />
+            {/* <Button
+              mode={IS_MOBILE ? "iconButton" : undefined}
+              icon={IS_MOBILE ? "icon" : undefined}
+              onClick={handleCancelBookingBtnClick}
+              size="small"
+              thema="black"
+              label={LANG("refund_cancel")}
+            /> */}
           </div>
           {networkStatus === 1 && loading ? (
             <div className="resvList__table--skeleton" />
           ) : (
-            <JDSelectableJDtable
-              {...ReactTableDefault}
-              {...checkBoxTableHook}
-              // 아래 숫자는 요청하는 쿼리와 같아야합니다.
-              defaultPageSize={20}
-              isCheckable
-              align="center"
-              data={bookingsData}
-              columns={TableColumns}
-              keyField="_id"
-            />
-          )}
+              <JDSelectableJDtable
+                {...ReactTableDefault}
+                {...checkBoxTableHook}
+                // 아래 숫자는 요청하는 쿼리와 같아야합니다.
+                defaultPageSize={20}
+                isCheckable
+                align="center"
+                data={bookingsData}
+                columns={TableColumns}
+                keyField="_id"
+              />
+            )}
           <JDPagination
             setPage={setPage}
             pageInfo={pageInfo}
@@ -498,6 +521,30 @@ const ResvList: React.SFC<IProps> = ({
           />
           <SendSMSmodalWrap modalHook={sendSmsModalHook} context={context} />
         </PageBody>
+        <RefundModal isMulti modalHook={refundModalHook}
+          onRefunds={(refundInfos) => {
+            cancelBookingMu({
+              variables: {
+                cancelParams: refundInfos.map(infop => ({
+                  bookingNum: infop.id,
+                  cancelMessage: "",
+                  refundAmount: infop.amt
+                }))
+              }
+            })
+
+          }} refundTargets={
+            checkedIds.map(id => {
+              const targetBooking = bookingsData.find(b => b._id === id);
+              if (!targetBooking) throw Error("Refund ID Invalid");
+              const { _id, payment: { totalPrice }, name, bookingNum } = targetBooking;
+              return ({
+                id: bookingNum,
+                max: totalPrice,
+                name,
+              })
+            })
+          } />
         <ExcelModal modalHook={excelModal} />
       </div>
     </Fragment>

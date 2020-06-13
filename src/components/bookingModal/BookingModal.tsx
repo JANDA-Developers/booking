@@ -15,7 +15,7 @@ import { PaymentStatus, WindowSize } from "../../types/enum";
 import { BOOKING_STATUS_OP, CHECK_IN_OUT_OP } from "../../types/const";
 import "./BookingModal.scss";
 import { IBookingModalInfo } from "./declare";
-import { GB_booking, BookingModalMode } from "../../types/interface";
+import { GB_booking, BookingModalMode, IMu } from "../../types/interface";
 import { MutationFn } from "react-apollo";
 import {
   updateBooking,
@@ -25,7 +25,9 @@ import {
   makeBooking,
   makeBookingVariables,
   Funnels,
-  refundBookingVariables
+  refundBookingVariables,
+  cancelBooking,
+  cancelBookingVariables
 } from "../../types/api";
 import SendSMSmodalWrap from "../smsModal/SendSmsModalWrap";
 import { IContext } from "../../pages/bookingHost/BookingHostRouter";
@@ -49,7 +51,7 @@ import ResvInfo from "./components/ResvInfo";
 import { getHandler } from "./getHandler";
 import SummaryInfo from "./components/SummaryInfo";
 import JDtypho from "../../atoms/typho/Typho";
-import { JDmodal } from "@janda-com/front";
+import { JDmodal, useWindowSize } from "@janda-com/front";
 
 interface IProps {
   modalHook: IUseModal<IBookingModalProp>;
@@ -59,7 +61,7 @@ interface IProps {
   updateBookingMu: MutationFn<updateBooking, updateBookingVariables>;
   deleteBookingMu: MutationFn<deleteBooking, deleteBookingVariables>;
   makeBookingLoading: boolean;
-  refundFn: (variables: refundBookingVariables) => void;
+  cancelBookingMu: IMu<cancelBooking, cancelBookingVariables>;
   context: IContext;
   loading: boolean;
   mode?: BookingModalMode;
@@ -72,7 +74,7 @@ const bookingModalInfo: IBookingModalInfo | null = bookingModalTemp
   ? JSON.parse(bookingModalTemp)
   : null;
 
-const BookingModal: React.FC<IProps & WindowSizeProps> = ({
+const BookingModal: React.FC<IProps> = ({
   modalHook,
   bookingData,
   updateBookingMu,
@@ -82,10 +84,10 @@ const BookingModal: React.FC<IProps & WindowSizeProps> = ({
   placeHolederPrice,
   loading,
   context,
-  refundFn,
-  windowWidth,
+  cancelBookingMu,
   mode
 }) => {
+  const { width: windowWidth } = useWindowSize();
   const isCreateMode = mode === "CREATE" || mode === "CREATE_ASSIG";
   const {
     _id: bookingId,
@@ -93,6 +95,7 @@ const BookingModal: React.FC<IProps & WindowSizeProps> = ({
     memo,
     payment,
     phoneNumber,
+    bookingNum,
     status: bookingStatus,
     checkIn,
     checkOut,
@@ -104,7 +107,6 @@ const BookingModal: React.FC<IProps & WindowSizeProps> = ({
   } = bookingData;
   const refundModalHook = useModal(false);
   const { payMethod, status: paymentStatus, totalPrice, tid } = payment;
-  const [refundAmt, setRefundAmt] = useState<number>(totalPrice);
   const { house } = context;
   const { _id: houseId } = house;
   const checkInOutHook = useSelect(
@@ -185,10 +187,11 @@ const BookingModal: React.FC<IProps & WindowSizeProps> = ({
     paymentStatusHook,
     deleteBookingMu,
     bookingData,
-    refundAmt,
+    refundModalHook,
     confirmModalHook,
     makeBookingMu,
     updateBookingMu,
+    cancelBookingMu,
     bookingNameHook,
     bookingPhoneHook,
     isCreateMode,
@@ -197,7 +200,6 @@ const BookingModal: React.FC<IProps & WindowSizeProps> = ({
     funnelStatusHook,
     priceHook,
     roomSelectInfo,
-    refundFn,
     bookingModalHook: modalHook,
     placeHolederPrice,
     checkInOutHook,
@@ -235,8 +237,9 @@ const BookingModal: React.FC<IProps & WindowSizeProps> = ({
     deleteModalCallBackFn,
     handleCreateBtnClick,
     handleDeletBtnClick,
-    handleRefundBtn,
-    handleUpdateBtnClick
+    handleCancelBtnClick,
+    handleUpdateBtnClick,
+    handleRefund
   } = getHandler(bookingModalContext, smsModalInfoTemp);
 
   return (
@@ -272,14 +275,30 @@ const BookingModal: React.FC<IProps & WindowSizeProps> = ({
             thema="error"
             onClick={handleDeletBtnClick}
           />
+          {/* <Button
+            id="BookingModalRefundBtn"
+            mode="flat"
+            size="small"
+            label={LANG("refund_cancel")}
+            disabled={isCreateMode}
+            thema="black"
+            onClick={handleCancelBtnClick}
+          /> */}
         </div>
       }
       head={{
-        element: isCreateMode ? <JDtypho size="h6">예약생성하기</JDtypho> :  <JDtypho size="h6">
-          <Align flex={{}}>
-          <JDtypho  weight={600} color="primary" mr="small">{LANG("sir")(name)}</JDtypho> 
-          예약정보</Align>
+        element: isCreateMode ? (
+          <JDtypho size="h6">예약생성하기</JDtypho>
+        ) : (
+          <JDtypho size="h6">
+            <Align flex={{}}>
+              <JDtypho weight={600} color="primary" mr="small">
+                {LANG("sir")(name)}
+              </JDtypho>
+              예약정보
+            </Align>
           </JDtypho>
+        )
       }}
       onAfterClose={() => {
         modalHook.info.onCloseModal?.();
@@ -292,12 +311,12 @@ const BookingModal: React.FC<IProps & WindowSizeProps> = ({
     >
       {isDesktopUp ? (
         <Align
-        className={`JDz-index-1`}
+          className={`JDz-index-1`}
           flex={{
             wrap: true,
             oneone: true
           }}
-        >
+      >
           <Fragment>
             <BookerInfo {...sharedProp} smsModalInfoTemp={smsModalInfoTemp} />
             <PaymentInfo {...sharedProp} />
@@ -321,7 +340,7 @@ const BookingModal: React.FC<IProps & WindowSizeProps> = ({
             <Tab>기타</Tab>
           </TabList>
           <TabPanel>
-            <SummaryInfo {...sharedProp}  />
+            <SummaryInfo {...sharedProp} />
           </TabPanel>
           <TabPanel>
             <BookerInfo {...sharedProp} smsModalInfoTemp={smsModalInfoTemp} />
@@ -341,9 +360,14 @@ const BookingModal: React.FC<IProps & WindowSizeProps> = ({
         </JDtabs>
       )}
       <RefundModal
-        onRefundClick={handleRefundBtn}
-        setRefundAmt={setRefundAmt}
-        refundAmt={refundAmt}
+        refundTargets={[
+          {
+            id: bookingId,
+            max: totalPrice,
+            name
+          }
+        ]}
+        onRefund={handleRefund}
         modalHook={refundModalHook}
       />
       <SendSMSmodalWrap
@@ -360,7 +384,7 @@ const BookingModal: React.FC<IProps & WindowSizeProps> = ({
   );
 };
 
-export default windowSize(BookingModal);
+export default BookingModal;
 
 // ℹ️ 배정달력 예약생성 플로우
 // 배정 달력 선택정보 -> 예약정보로 변환(Booking) -> 배정정보로 변환(Guest 하나당 배정정보) -> (예약정보 및 방배정) 정보로 변환

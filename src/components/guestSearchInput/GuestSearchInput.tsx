@@ -1,9 +1,18 @@
-import React, { Fragment, useState } from "react";
+import React, {
+  Fragment,
+  useState,
+  useCallback,
+  useMemo,
+  useEffect
+} from "react";
 import _ from "lodash";
 import {
   getBookings_GetBookings_result_bookings,
   getBookings,
-  getBookingsVariables
+  getBookingsVariables,
+  findBookings_FindBookings_data,
+  findBookings,
+  findBookingsVariables
 } from "../../types/api";
 import BookingModalWrap from "../bookingModal/BookingModalWrap";
 import { useModal, LANG } from "../../hooks/hook";
@@ -20,15 +29,14 @@ import JDIcon from "../../atoms/icons/Icons";
 import JDtypho from "../../atoms/typho/Typho";
 import Align from "../../atoms/align/Align";
 import isMobile from "is-mobile";
-import { useSubScribeNotification } from "./notificationSystem";
 
 interface IProps {
   loading: boolean;
   context: IContext;
   refetch: (
-    variables?: getBookingsVariables
-  ) => Promise<ApolloQueryResult<getBookings>>;
-  bookings: getBookings_GetBookings_result_bookings[];
+    variables?: findBookingsVariables | undefined
+  ) => Promise<ApolloQueryResult<findBookings>>;
+  bookings: findBookings_FindBookings_data[];
 }
 
 const GuestSearchInput: React.FC<IProps> = ({
@@ -37,6 +45,7 @@ const GuestSearchInput: React.FC<IProps> = ({
   context,
   loading
 }) => {
+  const [data, setData] = useState<ISearchViewData[]>([]);
   const { house } = context;
   let houseId = "";
   houseId = house?._id || "";
@@ -50,10 +59,6 @@ const GuestSearchInput: React.FC<IProps> = ({
       bookingId: id
     });
   };
-
-  // useSubScribeNotification(item => {
-  //   if (item.house._id === houseId) openBookingModal(item._id);
-  // }, context);
 
   const unHilightTarget = () => {
     $(".assigItem--searched").removeClass("assigItem--searched");
@@ -93,7 +98,7 @@ const GuestSearchInput: React.FC<IProps> = ({
   };
 
   const BookingsDataManufacter = (
-    bookings: getBookings_GetBookings_result_bookings[]
+    bookings: findBookings_FindBookings_data[]
   ): ISearchViewData[] => {
     return bookings.map(booking => ({
       id: booking._id,
@@ -105,17 +110,10 @@ const GuestSearchInput: React.FC<IProps> = ({
 
   const dataRefetcher = _.throttle(
     (value: string) => {
-      const searchFilter = searchFilterCreater(value);
       refetch({
         param: {
-          paging: {
-            count: 10,
-            selectedPage: 1
-          },
-          filter: {
-            houseId,
-            ...searchFilter
-          }
+          houseId,
+          payload: value
         }
       });
     },
@@ -142,9 +140,17 @@ const GuestSearchInput: React.FC<IProps> = ({
     }
   };
 
+  useEffect(() => {
+    if (!loading) {
+      const dataList = BookingsDataManufacter(bookings);
+      setData(dataList);
+    }
+  }, [bookings]);
+
   return (
     <div id="JDBookingSearcher">
       <JDsearchInput
+        loading={loading}
         head={<JDtypho weight={600}>{LANG("resv_search")}</JDtypho>}
         inputProp={{
           mb: "no",
@@ -161,7 +167,7 @@ const GuestSearchInput: React.FC<IProps> = ({
         id="JDBookingSearcher"
         onSearchChange={handleTypeChange}
         searchValue={onTypeValue}
-        dataList={BookingsDataManufacter(bookings)}
+        dataList={data}
         foot={
           <Align
             flex={{

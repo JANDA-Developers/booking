@@ -15,6 +15,7 @@ import selectOpCreater from "../../../../../utils/selectOptionCreater";
 import JDbadge from "../../../../../atoms/badge/Badge";
 import { IReservationHooks } from "../../declation";
 import $ from "jquery";
+import JDtypho from "../../../../../atoms/typho/Typho";
 const optionZero = 1;
 
 interface IProps {
@@ -58,6 +59,9 @@ const RoomTypeCard: React.SFC<IProps> = ({
     male: false,
     count: false
   });
+
+  console.log("roomTypeData");
+  console.log(roomTypeData);
 
   const classes = classNames("roomTypeCard", className, {
     "roomTypeCard--last": lastCard
@@ -206,16 +210,16 @@ const RoomTypeCard: React.SFC<IProps> = ({
   // 방배경사진
   const roomStyle = {
     // TODO :사진정보 여기에
-    backgroundImage: `url(${roomTypeData.img?.url ||
+    backgroundImage: `url(${roomTypeData.images?.[0] ||
       "https://s3.ap-northeast-2.amazonaws.com/booking.stayjanda.files/infographic/noimg.png"})`
   };
 
-   // Iframe 높이조절
-   useLayoutEffect(() => {
+  // Iframe 높이조절
+  useLayoutEffect(() => {
     const theHeight = $("#JDreservation").height() || 1000;
-    const changeHeight = ()=> {
+    const changeHeight = () => {
       window.parent.postMessage({ height: theHeight }, "*");
-    }
+    };
     changeHeight();
   });
 
@@ -232,9 +236,7 @@ const RoomTypeCard: React.SFC<IProps> = ({
         <div className="flex-grid__col col--grow-2 roomTypeCard__middleSection">
           <div className="roomTypeCard__middleTopSection">
             <h6 className="roomTypeCard__roomTypeTitle">
-              <div>
-              {roomTypeData.name}{" "}
-              </div>
+              <div>{roomTypeData.name} </div>
               {totalCan === 0 && (
                 <JDbadge thema="error">{LANG("fullRoom")}</JDbadge>
               )}
@@ -293,7 +295,12 @@ const RoomTypeCard: React.SFC<IProps> = ({
         </div>
         <div className="flex-grid__col col--grow-1 roomTypeCard__lastSection">
           <div className="roomTypeCard__lastTopSection">
-            <span className="roomTypeCard__price">{autoComma(truePrice)}</span>
+            <span className="roomTypeCard__price">
+              {autoComma(truePrice)}{" "}
+              <JDtypho component={"span"} size="small">
+                {LANG("roomType_card_unit")}
+              </JDtypho>
+            </span>
           </div>
           <Button
             onClick={handleRoomSelectClick}
@@ -304,12 +311,17 @@ const RoomTypeCard: React.SFC<IProps> = ({
           />
         </div>
       </div>
-      <JDmodal head={{
-        title: "방 이미지"
-      }} fullInMobile className="roomImgPop" {...roomImgModalHook}>
+      <JDmodal
+        head={{
+          title: "방 이미지"
+        }}
+        fullInMobile
+        className="roomImgPop"
+        {...roomImgModalHook}
+      >
         <img
           className="roomImgPop__img"
-          src={roomTypeData.img?.url || ""}
+          src={roomTypeData.images?.[0] || ""}
           alt="방 이미지"
         />
         <div className="roomImgPop__description">

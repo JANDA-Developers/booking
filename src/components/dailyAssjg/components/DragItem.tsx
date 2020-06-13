@@ -29,7 +29,7 @@ interface IProps {
   place: number;
 }
 
-interface IWrapProp extends IDiv {}
+interface IWrapProp extends IDiv { }
 
 const Wrap = React.forwardRef<HTMLDivElement, IWrapProp>(
   ({ children, className, ...props }, ref) => {
@@ -56,6 +56,7 @@ const DragItem: React.FC<IProps> = ({ item, place, room, roomType }) => {
     ReactTooltip.rebuild();
   });
 
+
   if (!item) {
     const placeInfo: TPlaceInfo = {
       roomTypeId: roomType._id,
@@ -81,6 +82,8 @@ const DragItem: React.FC<IProps> = ({ item, place, room, roomType }) => {
   const [, drag] = useDrag({
     item
   });
+
+
 
   const isBlock = !instanceOfA<IG & IDragItemProp>(item, "booking");
 
@@ -126,7 +129,7 @@ const DragItem: React.FC<IProps> = ({ item, place, room, roomType }) => {
               // @ts-ignore
               item.gender
             }
-            darkImg={item.checkIn}
+            darkImg={checkInInfo.isIn}
             breakfast={breakfast}
             isUnpaid={isUnpaid}
             memo={memo || ""}

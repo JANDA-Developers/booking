@@ -14,7 +14,7 @@ interface Iprops {
 }
 
 const FindEmailModalWrap: React.FC<Iprops> = ({ context, modalHook }) => {
-	const [ findMyEmailMu, { loading: findMyEmailLoading } ] = useMutation<
+	const [findMyEmailMu, { loading: findMyEmailLoading }] = useMutation<
 		findMyEmail,
 		findMyEmailVariables
 	>(FIND_MY_EMAIL, {

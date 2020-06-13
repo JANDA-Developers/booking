@@ -40,7 +40,8 @@ interface Iprops extends ICardModalPropShareWrap {
   context: IContext;
   createMu: IMu<registerBillKey, registerBillKeyVariables>;
   deleteMu: IMu<unregisterBillKey, unregisterBillKeyVariables>;
-  pChangeMu: IMu<updateProductBillInfo,updateProductBillInfoVariables>;
+  pChangeMu: IMu<updateProductBillInfo, updateProductBillInfoVariables>;
+  loading: boolean;
 }
 
 const CardModal: React.FC<Iprops> = ({
@@ -48,7 +49,8 @@ const CardModal: React.FC<Iprops> = ({
   createMu,
   pChangeMu,
   deleteMu,
-  modalHook
+  modalHook,
+  loading
 }) => {
   const { mode, onSubmit, unPadding } = modalHook.info;
   const { user } = context;
@@ -91,19 +93,19 @@ const CardModal: React.FC<Iprops> = ({
     });
   };
 
-  const pChangeFn = (billKey:string) => {
-    if(!modalHook.info.productIds) {
+  const pChangeFn = (billKey: string) => {
+    if (!modalHook.info.productIds) {
       throw Error("mode 가 periodicalChange 일경우 productIds를 모달 Info에 전달해야합니다.");
     }
     pChangeMu({
-      variables:{
-        param:{
+      variables: {
+        param: {
           billKey,
           productIds: modalHook.info.productIds
         }
       }
     })
-    
+
   }
 
   const handleDeleteBtn = (billKey: string) => {
@@ -168,7 +170,7 @@ const CardModal: React.FC<Iprops> = ({
   const payTargets = getTargetsWithBillKey(context);
 
   return (
-    <JDmodal id="CardModal" className="cardModal" {...modalHook}>
+    <JDmodal loading={loading} id="CardModal" className="cardModal" {...modalHook}>
       <div
         id="CardViewr"
         className={`CardViewer ${unPadding && "CardViewer--unPadding"}`}
@@ -258,19 +260,19 @@ const CardModal: React.FC<Iprops> = ({
                 </FormRow>
               </FormBox>
             ) : (
-              <FormBox>
-                <FormHeader />
-                <FormCell label={LANG("card_name")}>
-                  <InputText value={selecteCard?.cardName} />
-                </FormCell>
-                <FormCell label={LANG("card_number")}>
-                  <InputText card value={selecteCard?.cardNo} />
-                </FormCell>
-                <FormCell label={LANG("regi_date")}>
-                  <InputText value={moment(selecteCard?.authDate).format("YYYY-MM-DD")} />
-                </FormCell>
-              </FormBox>
-            )}
+                <FormBox>
+                  <FormHeader />
+                  <FormCell label={LANG("card_name")}>
+                    <InputText value={selecteCard?.cardName} />
+                  </FormCell>
+                  <FormCell label={LANG("card_number")}>
+                    <InputText card value={selecteCard?.cardNo} />
+                  </FormCell>
+                  <FormCell label={LANG("regi_date")}>
+                    <InputText value={moment(selecteCard?.authDate).format("YYYY-MM-DD")} />
+                  </FormCell>
+                </FormBox>
+              )}
 
             {isCreatable && (
               <Fragment>
@@ -280,7 +282,7 @@ const CardModal: React.FC<Iprops> = ({
                   </div>
                   <TextButton
                     id="CardModalSubmit"
-                    onClick={() => {}}
+                    onClick={() => { }}
                     color="primary"
                     className="JDstandard-margin0"
                     anchor
@@ -301,7 +303,7 @@ const CardModal: React.FC<Iprops> = ({
             )}
           </div>
           <Fragment>
-            { !periodicalPayMode && mode !== "modify" && !isCreatable && (
+            {!periodicalPayMode && mode !== "modify" && !isCreatable && (
               <Button
                 onClick={() => {
                   handleSubmit();
@@ -313,7 +315,7 @@ const CardModal: React.FC<Iprops> = ({
                 label={LANG("select_this_card")}
               />
             )}
-            { !periodicalPayMode && isCreatable && (
+            {!periodicalPayMode && isCreatable && (
               <Button
                 id="CardModal__CardRegistBtn"
                 onClick={() => {

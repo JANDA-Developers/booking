@@ -14,14 +14,16 @@ import {
   deleteGuestsVariables,
   deleteBlock,
   deleteBlockVariables,
-  createBlock,
-  createBlockVariables,
   updateBlockOption,
   updateBlockOptionVariables,
   getAllRoomType,
   getAllRoomTypeVariables,
   getGuestsVariables,
-  getGuests
+  getGuests,
+  createBlocks,
+  createBlocksVariables,
+  createBlock,
+  createBlockVariables
 } from "../../../types/api";
 import { useDayPicker, LANG } from "../../../hooks/hook";
 import {
@@ -40,7 +42,8 @@ import {
   DELETE_BOOKING,
   UPDATE_BLOCK_OPTION,
   GET_ALL_GUEST_AND_BLOCK,
-  GET_ALL_ROOMTYPES
+  GET_ALL_ROOMTYPES,
+  CREATE_BLOCKS
 } from "../../../apollo/queries";
 import AssigTimeline from "./AssigTimeline";
 import { to4YMMDD } from "../../../utils/setMidNight";
@@ -56,6 +59,7 @@ import { IContext } from "../BookingHostRouter";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import client from "../../../apollo/apolloClient";
 import { IRoomType } from "../../../types/interface";
+import { currentLang } from "../../../langs/JDlang";
 
 moment.tz.setDefault("UTC");
 
@@ -178,7 +182,6 @@ const AssigTimelineWrap: React.FC<IProps & IWrapProp> = ({
       );
     }
   });
-
   // 생성 요청
   const [createBlockMu, { loading: createBlockLoading }] = useMutation<
     createBlock,
@@ -189,6 +192,22 @@ const AssigTimelineWrap: React.FC<IProps & IWrapProp> = ({
     onCompleted: ({ CreateBlock }) => {
       onCompletedMessage(
         CreateBlock,
+        LANG("block_room_completed"),
+        LANG("block_room_failed")
+      );
+    }
+  });
+
+  // 생성 요청
+  const [createBlocksMu, { loading: createBlocksLoading }] = useMutation<
+    createBlocks,
+    createBlocksVariables
+  >(CREATE_BLOCKS, {
+    client,
+    ignoreResults: true,
+    onCompleted: ({ CreateBlocks }) => {
+      onCompletedMessage(
+        CreateBlocks,
         LANG("block_room_completed"),
         LANG("block_room_failed")
       );
@@ -248,6 +267,7 @@ const AssigTimelineWrap: React.FC<IProps & IWrapProp> = ({
   const totalMuLoading =
     updateBlockLoading ||
     createBlockLoading ||
+    createBlocksLoading ||
     deleteBlockLoading ||
     deleteGuestLoading ||
     deleteBookingLoading ||
@@ -257,6 +277,7 @@ const AssigTimelineWrap: React.FC<IProps & IWrapProp> = ({
   const mutationLoadings: IAssigMutationLoading = {
     updateBlockLoading,
     createBlockLoading,
+    createBlocksLoading,
     deleteBlockLoading,
     deleteGuestLoading,
     deleteBookingLoading,
@@ -268,6 +289,7 @@ const AssigTimelineWrap: React.FC<IProps & IWrapProp> = ({
     updateBookingMu,
     deleteBookingMu,
     deleteGuestsMu: deleteGuestMu,
+    createBlocksMu,
     createBlockMu,
     deleteBlockMu,
     updateBlockOpMu,
@@ -309,7 +331,7 @@ const AssigTimelineWrap: React.FC<IProps & IWrapProp> = ({
 
 //  퍼포먼스 이유로 존재하는 상위컴포넌트
 const HiderAssigTimelineWrap: React.FC<IProps> = ({ context, ...prop }) => {
-  const { house, langHook } = context;
+  const { house } = context;
 
   const { data: roomData, loading: roomTypeLoading } = useQuery<
     getAllRoomType,
@@ -325,7 +347,7 @@ const HiderAssigTimelineWrap: React.FC<IProps> = ({ context, ...prop }) => {
     queryDataFormater(roomData, "GetAllRoomType", "roomTypes", []) || []; // 원본데이터
   const formatedRoomData = roomDataManufacturer(roomTypesData); // 타임라인을 위해 가공된 데이터
 
-  moment.lang(langHook.currentLang);
+  moment.locale(currentLang);
 
   return (
     <AssigTimelineWrap

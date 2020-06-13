@@ -1,5 +1,5 @@
 import React, { Fragment, useMemo } from "react";
-import { onCompletedMessage } from "../../utils/utils";
+import { onCompletedMessage, isEmpty } from "../../utils/utils";
 import {
   allocateGuestToRoom,
   allocateGuestToRoomVariables,
@@ -18,7 +18,9 @@ import {
   getGuests_GetBlocks_blocks,
   getGuests_GetGuests_guests,
   getGuests,
-  getGuestsVariables
+  getGuestsVariables,
+  createBlocks,
+  createBlocksVariables
 } from "../../types/api";
 import client from "../../apollo/apolloClient";
 import {
@@ -29,7 +31,8 @@ import {
   DELETE_BLOCK,
   DELETE_BOOKING,
   UPDATE_BOOKING,
-  GET_ALL_GUEST_AND_BLOCK
+  GET_ALL_GUEST_AND_BLOCK,
+  CREATE_BLOCKS
 } from "../../apollo/queries";
 import { queryDataFormater } from "../../utils/utils";
 import { useDayPicker, IUseDayPicker, LANG } from "../../hooks/hook";
@@ -152,7 +155,7 @@ const DailyAssigWrap: React.FC<IDailyWrapWrapProp & WrapProp> = ({
   const [createBlockMu, { loading: createBlockLoading }] = useMutation<
     createBlock,
     createBlockVariables
-  >(CREATE_BLOCK, {
+  >(CREATE_BLOCKS, {
     client,
     refetchQueries: refetch,
     ignoreResults: true,
@@ -229,9 +232,15 @@ const DailyAssigWrap: React.FC<IDailyWrapWrapProp & WrapProp> = ({
   roomTypesData.forEach(rt => {
     rt.rooms.forEach(r => {
       const targets = itemDatas.filter(item => item.room?._id === r._id);
+      if (!isEmpty(targets)) {
+        console.log("targets");
+        console.log(targets);
+        console.log("r");
+        console.log(r);
+      }
       r.places.forEach((p, i) => {
         // @ts-ignore
-        const target = targets.find(item => item.bedIndex === i);
+        const target = targets.find(item => (item.bedIndex || 0) === i);
         p.item = target || null;
       });
     });

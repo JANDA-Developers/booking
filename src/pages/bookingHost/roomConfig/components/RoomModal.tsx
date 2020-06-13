@@ -24,7 +24,7 @@ interface IProps {
 
 const RoomModal: React.FC<IProps> = ({ modalHook, onSubmit }) => {
   const { info } = modalHook;
-  const { mode, room, roomType } = info;
+  const { mode, room, roomType, modalProp } = info;
   const isCreateMode = mode === "create";
   const [data, setData] = useState<IRoom[]>([room || DEFAULT_ROOMTYPE_ROOM]);
   const countOp = selectOpCreater({
@@ -86,6 +86,7 @@ const RoomModal: React.FC<IProps> = ({ modalHook, onSubmit }) => {
           maxWidth: "800px"
         }
       }}
+      {...modalProp}
     >
       <div className="flex-grid">
         <div className="flex-grid__col col--full-12 col--lg-12 col--md-12">
@@ -97,7 +98,7 @@ const RoomModal: React.FC<IProps> = ({ modalHook, onSubmit }) => {
                 }}
                 value={data[0].name}
                 id="RoomName"
-                label={"RoomNumber"}
+                label={LANG("roomNumber")}
                 validation={utils.isMaxOver}
                 max={10}
               />
@@ -159,7 +160,7 @@ const RoomModal: React.FC<IProps> = ({ modalHook, onSubmit }) => {
         <Button
           id="RoomDeleteBtn"
           mode="flat"
-          thema="primary"
+          thema="error"
           label={LANG("do_delete")}
           size="small"
           disabled={isCreateMode}

@@ -1,0 +1,31 @@
+@import "~Styles";
+
+html {
+  overflow: hidden;
+}
+
+.reservation2 {
+  overflow: hidden;
+
+  &__wrap {
+    padding-top: space(3);
+  }
+
+  &__config {
+    position: absolute;
+    width: space(8);
+    height: space(8);
+    right: 1.52rem;
+    bottom: 1.5rem;
+    cursor: pointer;
+    @extend %z-depth-3;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    &:hover {
+      background-color: $grey-level0;
+    }
+  }
+}

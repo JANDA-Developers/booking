@@ -5,12 +5,13 @@ import { useQuery } from "@apollo/react-hooks";
 import {
   getBookingForPublic,
   getBookingForPublicVariables,
-  getHouseForPublic
+  getHouseForPublic,
 } from "../../../types/api";
 import { queryDataFormater, onCompletedMessage } from "../../../utils/utils";
 import {
   GET_BOOKING_FOR_PUBLIC,
-  GET_HOUSE_FOR_PUBLIC
+  GET_HOUSE_FOR_PUBLIC,
+  SEARCH_BOOKING
 } from "../../../apollo/queries";
 import { RouteComponentProps } from "react-router-dom";
 import client from "../../../apollo/apolloClient";
@@ -18,27 +19,27 @@ import CheckReservation from "./CheckReservation";
 import JDmodal from "../../../atoms/modal/Modal";
 import { useModal, LANG } from "../../../hooks/hook";
 import CompleteCircle from "../../../components/completeCircle/CompleteCircle";
+import { langVarChange } from "../../../utils/langVarChange";
 export interface ISetBookingInfo
-  extends React.Dispatch<React.SetStateAction<any>> {}
+  extends React.Dispatch<React.SetStateAction<any>> { }
 
 export interface ICheckParams {
   publickey: string;
   name: string;
   phoneNumber: string;
   password: string;
+  completed?: string;
 }
 
-interface IProps extends RouteComponentProps<ICheckParams> {}
+interface IProps extends RouteComponentProps<ICheckParams> { }
 
 const CheckReservationWrap: React.FC<IProps> = ({
   match: {
-    params: { password, name, phoneNumber, publickey }
+    params: { password, name, phoneNumber, publickey, completed }
   }
 }) => {
   sessionStorage.setItem("hpk", publickey);
-  const infoExist = !name && !password && !phoneNumber;
   const comeplteModalHook = useModal(false);
-  const isFirstSender = useState(true);
 
   const { data: houseData } = useQuery<getHouseForPublic>(
     GET_HOUSE_FOR_PUBLIC,
@@ -48,54 +49,20 @@ const CheckReservationWrap: React.FC<IProps> = ({
     }
   );
 
-  const { data, refetch, loading } = useQuery<
-    getBookingForPublic,
-    getBookingForPublicVariables
-  >(GET_BOOKING_FOR_PUBLIC, {
-    client: client,
-    fetchPolicy: "network-only",
-    variables: {
-      param: {
-        name,
-        password,
-        phoneNumber
-      },
-      skip: !infoExist
-    },
-    onCompleted: ({ GetBookingForPublic }) => {
-      onCompletedMessage(
-        GetBookingForPublic,
-        LANG("reference_success"),
-        LANG("reference_fail")
-      );
-    }
-  });
-
-  const booking = queryDataFormater(
-    data,
-    "GetBookingForPublic",
-    "booking",
-    undefined
-  );
-
-  // 예약완료 메세지 모달 오픈
-  if (booking && infoExist && isFirstSender[0]) {
+  if (completed)
     comeplteModalHook.openModal();
-    isFirstSender[1](false);
-  }
 
   const publicHouseInfo =
     queryDataFormater(houseData, "GetHouseForPublic", "house", undefined) ||
     undefined;
+
+  langVarChange(publicHouseInfo?.tags || []);
 
   return (
     <div>
       {/* 예약확인 관련된 뷰 */}
       <CheckReservation
         houseData={publicHouseInfo}
-        refetch={refetch}
-        data={booking}
-        loading={loading}
       />
       <JDmodal center {...comeplteModalHook}>
         <div>

@@ -54,7 +54,7 @@ const BaseConfig: React.FC<IProps> = ({ updateHouseConfigMu, context }) => {
   return (
     <div className="additionDetail">
       <div className="docs-section__box">
-        <span>{LANG("reservation_setting")}}</span>
+        <span>{LANG("reservation_setting")}</span>
         <div className="additionDetail__titleTopRight">
           <Button
             onClick={() => {

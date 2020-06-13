@@ -1,18 +1,15 @@
-import React, {FunctionComponent} from "react";
+import React from "react";
 import EerrorProtect from "../../../../utils/errProtect";
-import {MutationFn} from "react-apollo";
 import {
   updateHouseConfig,
-  updateHouseConfigVariables
+  UpdateHouseConfigParams
 } from "../../../../types/api";
-import {IHouse} from "../../../../types/interface";
-import {IContext} from "../../../bookingHost/BookingHostRouter";
+import { IContext } from "../../../bookingHost/BookingHostRouter";
+import { FetchResult } from "apollo-link";
 
 export interface IAddtionProp {
-  updateHouseConfigMu: MutationFn<
-    updateHouseConfig,
-    updateHouseConfigVariables
-  >;
+  updateFn: (param: UpdateHouseConfigParams) =>
+    Promise<void | FetchResult<updateHouseConfig, Record<string, any>, Record<string, any>>>;
   context: IContext;
 }
 
@@ -34,16 +31,16 @@ const ConfigBlock: React.FC<IProps> = ({
   setAdditionIndex,
   index
 }) => (
-  <div
-    onClick={() => {
-      setAdditionIndex(index);
-    }}
-    className="configBlock"
-  >
-    <h6 className="configBlock__title">{addtionInfo.name}</h6>
-    <span className="configBlock__descrition">{addtionInfo.description}</span>
-    <span className="configBlock__updateAt">{addtionInfo.updateAt}</span>
-  </div>
-);
+    <div
+      onClick={() => {
+        setAdditionIndex(index);
+      }}
+      className="configBlock"
+    >
+      <h6 className="configBlock__title">{addtionInfo.name}</h6>
+      <span className="configBlock__descrition">{addtionInfo.description}</span>
+      <span className="configBlock__updateAt">{addtionInfo.updateAt}</span>
+    </div>
+  );
 
 export default EerrorProtect(ConfigBlock);

@@ -5,9 +5,10 @@ import { LANG } from "../../../../hooks/hook";
 import { muResult } from "../../../../utils/utils";
 import JDbox from "../../../../atoms/box/JDbox";
 import { IMG_REPO } from "../../../../types/const";
+import { JDdoc } from "@janda-com/front";
 
 const AssigTimelineRoomTabs: React.FC<IAddtionProp> = ({
-  updateHouseConfigMu,
+  updateFn,
   context
 }) => {
   const { houseConfig, house } = context;
@@ -18,40 +19,37 @@ const AssigTimelineRoomTabs: React.FC<IAddtionProp> = ({
 
   return (
     <div className="additionDetail">
-      <div className="docs-section__box">
-        <span>{LANG("Use_room_specific_tabs")}</span>
-      </div>
-      <div className="additionDetail__titleTopRight">
-        <JDswitch
-          key={
-            use ? "AssigTimelineRoomTabs__true" : "AssigTimelineRoomTabs__false"
-          }
-          checked={use}
-          onChange={async flag => {
-            setUse(flag);
-            const result = await updateHouseConfigMu({
-              variables: {
-                houseId: house._id,
-                UpdateHouseConfigParams: {
-                  assigTimeline: {
-                    roomTypeTabEnable: flag
-                  }
-                }
-              }
-            });
-            // 에러처리
-            if (!muResult(result, "UpdateHouseConfig")) {
-              setUse(!flag);
+      <JDdoc>
+        <div className="docs-section__box">
+          <span>{LANG("Use_room_specific_tabs")}</span>
+        </div>
+        <div className="additionDetail__titleTopRight">
+          <JDswitch
+            key={
+              use ? "AssigTimelineRoomTabs__true" : "AssigTimelineRoomTabs__false"
             }
-          }}
-          label={LANG("use")}
+            checked={use}
+            onChange={async flag => {
+              setUse(flag);
+              const result = await updateFn({
+                assigTimeline: {
+                  roomTypeTabEnable: flag
+                }
+              });
+              // 에러처리
+              if (!muResult(result, "UpdateHouseConfig")) {
+                setUse(!flag);
+              }
+            }}
+            label={LANG("use")}
+          />
+        </div>
+        <JDbox
+          mode="photoFrame"
+          photo={`${IMG_REPO}booking_app/describe/roomTypeTap.gif`}
         />
-      </div>
-      <JDbox
-        mode="photoFrame"
-        photo={`${IMG_REPO}booking_app/describe/roomTypeTap.gif`}
-      />
-      <div />
+        <div />
+      </JDdoc>
     </div>
   );
 };
