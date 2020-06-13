@@ -1,6 +1,6 @@
 // superTiny => tiny => small => normal => large => huge => largest;
 @function space($number) {
-	@return ($number * 0.4rem);
+  @return ($number * 0.4rem);
 }
 
 // ⭐️ Style Rule
@@ -100,7 +100,12 @@ $outborder-color: $grey-level2 !default; //화면 가장자리에 붙어있는 b
 $placeholder-color: $outborder-color !default;
 
 $grey-text-color: $grey-level5 !default;
-$curtain-color: rgba(0, 0, 0, 0.78) !default; // 사이드 네비와 모달의 화면 가림색
+$curtain-color: rgba(
+  0,
+  0,
+  0,
+  0.78
+) !default; // 사이드 네비와 모달의 화면 가림색
 
 // 📖 ---- 표준 단위
 $doc-section-space: space(12) !default;
@@ -431,8 +436,8 @@ $AT-mobile-assigGroup-roomType-width: 2.25rem !default;
 
 $AT-mobile-assigGroup-room-width: 2.25rem !default;
 $assigItem-selected-linked-border-thick: 1px !default;
-$assigItem-selected-linked-border: $assigItem-selected-linked-border-thick solid $assigItem-selected-border-color
-	!default;
+$assigItem-selected-linked-border: $assigItem-selected-linked-border-thick solid
+  $assigItem-selected-border-color !default;
 $assigItem-padding: 0.4rem !default;
 // 22 badge 뱃지
 // ANCHOR badge Badge=========================================================================

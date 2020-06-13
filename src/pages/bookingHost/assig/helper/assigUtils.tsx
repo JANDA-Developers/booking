@@ -97,6 +97,7 @@ export function getAssigUtils(
   {
     allocateMu,
     createBlockMu,
+    createBlocksMu,
     deleteBlockMu,
     deleteBookingMu,
     updateBookingMu,
@@ -602,26 +603,27 @@ export function getAssigUtils(
 
     let i = 0;
 
-    for (let groupId of groupIds) {
-      const targetGroup = getGroupById(groupId);
-      const result = await createBlockMu({
-        variables: {
+    const result = await createBlocksMu({
+      variables: {
+        param: {
           checkIn: start,
           checkOut: end,
           houseId: houseId,
-          roomId: targetGroup.roomId,
-          bedIndex: targetGroup.bedIndex
+          blocks: tempNewBlocks.map(block => ({
+            roomId: block.roomId,
+            bedIndex: block.bedIndex
+          }))
         }
-      });
-
-      const block = muResult(result, "CreateBlock", "block");
-
-      if (!block) {
-        setGuestValue(guestValueOriginCopy);
-      } else {
       }
-      i++;
+    });
+
+    const block = muResult(result, "CreateBlocks", "data");
+
+    if (!block) {
+      setGuestValue(guestValueOriginCopy);
+    } else {
     }
+
     startPolling();
     refetch();
   };

@@ -31,7 +31,9 @@ import {
   makeBooking_MakeBooking,
   getGuestsVariables,
   getGuests,
-  getBooking_GetBooking_booking_guests
+  getBooking_GetBooking_booking_guests,
+  createBlocks,
+  createBlocksVariables
 } from "../../../../types/api";
 import { IUseModal } from "../../../../hooks/hook";
 import { MouseEvent } from "react";
@@ -190,6 +192,7 @@ export type TGetBookingIdByGuestId = (guestId: string) => string;
 export type IAssigMutationLoading = {
   updateBlockLoading: boolean;
   createBlockLoading: boolean;
+  createBlocksLoading: boolean;
   deleteBlockLoading: boolean;
   deleteGuestLoading: boolean;
   deleteBookingLoading: boolean;
@@ -304,6 +307,11 @@ export interface IAssigDataControl {
       | MutationFunctionOptions<createBlock, createBlockVariables>
       | undefined
   ) => Promise<ExecutionResult<createBlock>>;
+  createBlocksMu: (
+    options?:
+      | MutationFunctionOptions<createBlocks, createBlocksVariables>
+      | undefined
+  ) => Promise<ExecutionResult<createBlocks>>;
   updateBlockOpMu: (
     options?:
       | MutationFunctionOptions<updateBlockOption, updateBlockOptionVariables>

@@ -1,128 +1,121 @@
-@import '~Styles';
-@import './components/roomTypeCard.scss';
+@import "~Styles";
+@import "./components/roomTypeCard.scss";
 
-$flex-grid--column-margin: .8%;
-
+$flex-grid--column-margin: 0.8%;
 
 #outdated {
-    display:none!important;
+  display: none !important;
 }
 
 #JDreservation {
-    padding: 0.4rem;
-    box-sizing: border-box;
-    padding-bottom: $standard-margin-bottom;
-    
-    // 😆 어떻게 그리드 시스템을 오버라이드 하는지 보여줌
-    //  $flex-grid--column-margin: .8% 
-    
-    .flex-grid {
-        @include grid-system-all();
+  padding: 0.4rem;
+  box-sizing: border-box;
+  padding-bottom: $standard-margin-bottom;
+
+  // 😆 어떻게 그리드 시스템을 오버라이드 하는지 보여줌
+  //  $flex-grid--column-margin: .8%
+
+  .flex-grid {
+    @include grid-system-all();
+  }
+
+  @include response($tablet) {
+    .JDreservation__topDayPicker {
+      .DayPicker {
+        border: none;
+      }
+    }
+  }
+
+  .JDreservation {
+    &__card {
+      @include response($tablet) {
+        padding: 0;
+      }
     }
 
-    @include response($tablet) {
-        .JDreservation__topDayPicker {
-            .DayPicker {
-                border:none;
-            }
-        }
+    &__mobileRoomSearcherWrap {
+      background-image: url("https://res.cloudinary.com/stayjanda-com/image/upload/v1554029858/qweqweqwe.jpg");
+      background-size: cover;
+      background-position: center center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 85vh;
     }
 
-    .JDreservation {
-        &__card {
-            @include response($tablet)  {
-                padding:0;
-            }
-        }
-        
-        &__mobileRoomSearcherWrap {
-            background-image:url("https://res.cloudinary.com/stayjanda-com/image/upload/v1554029858/qweqweqwe.jpg");
-            background-size: cover;
-            background-position: center center;
-            display:flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 85vh;
-        }
-
-        &__cardMessage {
-            height: 0.25rem * 4 * 11;
-            display:flex;
-            justify-content: center;
-            align-items: center;
-            border: 2px dashed $grey-level1;
-            color: $grey-level1;
-        }
-
-        &__dayPickerCard {
-            position: sticky;
-            top: 0;
-            border-radius:$standard-border-radius;
-            height: calc(100% - #{$card-padding * 2});
-
-            @include response ($tabletUp, $null) {
-                height: auto;
-                position: static;
-            }
-        }
-        
-        &__sectionTitle {
-            text-align: center;
-
-            @include response($mobile) {
-                display: none;
-            }
-        }
-
+    &__cardMessage {
+      height: 0.25rem * 4 * 11;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border: 2px dashed $grey-level1;
+      color: $grey-level1;
     }
 
-    
+    &__dayPickerCard {
+      position: sticky;
+      top: 0;
+      border-radius: $standard-border-radius;
+      margin-bottom: space(2);
+      padding: space(1);
+      height: calc(100% - #{$card-padding * 2});
 
-    .JDselectInfo {
-        .JDtable {
-
-        }
+      @include response($tabletUp, $null) {
+        height: auto;
+        position: static;
+      }
     }
-    
+
+    &__sectionTitle {
+      text-align: center;
+
+      @include response($mobile) {
+        display: none;
+      }
+    }
+  }
+
+  .JDselectInfo {
+    .JDtable {
+    }
+  }
 }
 
 .paymentModal {
-    &__JDbox {
-        max-width:300px;
-        text-align: center;
-        color: $html-color;
-    }
+  &__JDbox {
+    max-width: 300px;
+    text-align: center;
+    color: $html-color;
+  }
 }
 
-
-
 .roomImgPop {
-    &__img {
-        margin-bottom: $standard-margin-bottom;   
-        max-width: 100%;
-    }
+  &__img {
+    margin-bottom: $standard-margin-bottom;
+    max-width: 100%;
+  }
 }
 
 .bookerInfoBox {
-    &__agreePolicyBox {
-        display:flex;
-        justify-content: space-between;
-        align-items: center;
-    }
+  &__agreePolicyBox {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 }
 
 html .ReactModalPortal {
-    .agreePrivacyPolicy {
-        padding: $standard-small-space;
-    }
+  .agreePrivacyPolicy {
+    padding: $standard-small-space;
+  }
 }
 
-
 .inIframe {
-    .JDreservation__card-grid {
-        padding-bottom:0.5rem;
-    }
-    .JDreservation__roomSelect-grid {
-        padding-bottom:0.5rem;
-    }
+  .JDreservation__card-grid {
+    padding-bottom: 0.5rem;
+  }
+  .JDreservation__roomSelect-grid {
+    padding-bottom: 0.5rem;
+  }
 }

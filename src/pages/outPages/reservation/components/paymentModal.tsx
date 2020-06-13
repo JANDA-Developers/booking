@@ -15,6 +15,8 @@ import Vtable, { ColumnCells } from "../../../../atoms/vtable/Vtable";
 import { getHouseForPublic_GetHouseForPublic_house } from "../../../../types/api";
 import { toNumber } from "../../../../utils/utils";
 import ModalEndSection from "../../../../atoms/modal/components/ModalEndSection";
+import { TOptionsObj } from "../../../../types/interface";
+import JDtypho from "../../../../atoms/typho/Typho";
 
 interface IProps {
   className?: string;
@@ -23,6 +25,7 @@ interface IProps {
   bookingCompleteFn(): void;
   reservationHooks: IReservationHooks;
   publicHouseInfo?: getHouseForPublic_GetHouseForPublic_house;
+  customMsgs: TOptionsObj;
 }
 
 const PayMentModal: React.FC<IProps> = ({
@@ -31,7 +34,8 @@ const PayMentModal: React.FC<IProps> = ({
   reservationHooks,
   bookingCompleteFn,
   createLoading,
-  publicHouseInfo
+  publicHouseInfo,
+  customMsgs
 }) => {
   if (!publicHouseInfo?.bookingPayInfo) return <div />;
   const { bankAccountInfo, payMethods } = publicHouseInfo.bookingPayInfo;
@@ -106,12 +110,14 @@ const PayMentModal: React.FC<IProps> = ({
 
   return (
     <JDmodal
+      fullInMobile
       minWidth={"320px"}
       loading={createLoading}
       className={classes}
       {...modalHook}
       head={{
-        title: step === "bookerInput" ? LANG("booker_info") : LANG("payment_info")
+        title:
+          step === "bookerInput" ? LANG("booker_info") : LANG("payment_info")
       }}
     >
       {
@@ -123,6 +129,27 @@ const PayMentModal: React.FC<IProps> = ({
                 setBookerInfo={setBookerInfo}
               />
               <ModalEndSection>
+                {customMsgs.PayPrecaution && (
+                  <div
+                    style={{
+                      maxWidth: "400px"
+                    }}
+                  >
+                    <JDtypho mb="superTiny" weight={600} size="small">
+                      결제전 주의사항
+                    </JDtypho>
+                    <JDtypho
+                      mb="small"
+                      style={{
+                        whiteSpace: "pre-line",
+                        wordBreak: "keep-all"
+                      }}
+                      size="small"
+                    >
+                      {customMsgs.PayPrecaution}
+                    </JDtypho>
+                  </div>
+                )}
                 <Button
                   flat
                   id="FinishBookerInfoFillUpBtn"

@@ -1,7 +1,7 @@
-import LangModule from '@janda-com/lang';
 import { krFn } from "./kr";
 import en from "./en";
 import { getFromUrl } from '../utils/utils';
+import LangModule from '@janda-com/lang';
 
 export const JDlangsSet = {
   kr: krFn(),

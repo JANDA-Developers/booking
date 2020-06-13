@@ -7,7 +7,10 @@ export enum UserReqeustType {
   HOMEPAGE = "HOMEPAGE"
 }
 
-export type HouseInfoTagsKeys = "COMPLETE_MESSAGE" | "CHECK_MESSAGE" | "PAY_PRECAUTION"
+export type HouseInfoTagsKeys =
+  | "COMPLETE_MESSAGE"
+  | "CHECK_MESSAGE"
+  | "PAY_PRECAUTION";
 
 export enum UserRequestStatusValue {
   COMPLETED = "COMPLETED",
@@ -391,13 +394,21 @@ export enum RoomTypeKey {
   RoomTypeCategory = "RoomTypeCategory"
 }
 
+export enum RoomTypeTagsKey {
+  Category = "Category"
+}
 export enum HouseOptionsKey {
   ResvCautionMsg = "ResvCautionMsg",
   ResvCompeleteMsg = "ResvCompeleteMsg",
   PayPrecaution = "PayPrecaution",
-  CheckMsg = "CheckMsg",
+  CheckMsg = "CheckMsg"
 }
 
 export enum HouseTags {
   LangSet = "LangSet"
+}
+
+export enum ExtraRoomTypeConfig {
+  ExtraDescrib = "ExtraDescrib",
+  Detail = "Detail"
 }

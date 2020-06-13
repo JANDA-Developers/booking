@@ -31,25 +31,26 @@ import { PricingType, TMarginSize } from "./enum";
 import { MutationFunctionOptions } from "@apollo/react-common";
 import { ExecutionResult } from "graphql";
 import { IBookingModalProp } from "../components/bookingModal/declaration";
-export interface JdFile extends singleUpload_SingleUpload_jdFile { }
-export interface IProductType extends getAllProductTypes_GetAllProductTypes_productTypes { }
+export interface JdFile extends singleUpload_SingleUpload_jdFile {}
+export interface IProductType
+  extends getAllProductTypes_GetAllProductTypes_productTypes {}
 export interface GASt_RoomType
-  extends getAllSeasonTable_GetAllRoomType_roomTypes { }
-export interface GB_booking extends getBooking_GetBooking_booking { }
-export interface IProduct extends getHouse_GetHouse_house_product { }
-export interface IUser extends getMyProfile_GetMyProfile_user { }
-export interface IHouse extends getMyProfile_GetMyProfile_user_houses { }
+  extends getAllSeasonTable_GetAllRoomType_roomTypes {}
+export interface GB_booking extends getBooking_GetBooking_booking {}
+export interface IProduct extends getHouse_GetHouse_house_product {}
+export interface IUser extends getMyProfile_GetMyProfile_user {}
+export interface IHouse extends getMyProfile_GetMyProfile_user_houses {}
 export interface IPayHistroy
-  extends getPayHistory_GetPayHistory_result_payHistories { }
+  extends getPayHistory_GetPayHistory_result_payHistories {}
 export interface IHouseConfig
-  extends getMyProfile_GetMyProfile_user_houses_houseConfig { }
-export interface IInput extends React.HTMLAttributes<HTMLInputElement> { }
-export interface IDiv extends React.HTMLAttributes<HTMLDivElement> { }
-export interface ISpan extends React.HTMLAttributes<HTMLSpanElement> { }
-export interface IUl extends React.HTMLAttributes<HTMLUListElement> { }
-export interface IRoomType extends getAllRoomType_GetAllRoomType_roomType { }
-export interface IBooking extends getBookings_GetBookings_result_bookings { }
-export interface IRoom extends getAllRoomType_GetAllRoomType_roomTypes_rooms { }
+  extends getMyProfile_GetMyProfile_user_houses_houseConfig {}
+export interface IInput extends React.HTMLAttributes<HTMLInputElement> {}
+export interface IDiv extends React.HTMLAttributes<HTMLDivElement> {}
+export interface ISpan extends React.HTMLAttributes<HTMLSpanElement> {}
+export interface IUl extends React.HTMLAttributes<HTMLUListElement> {}
+export interface IRoomType extends getAllRoomType_GetAllRoomType_roomType {}
+export interface IBooking extends getBookings_GetBookings_result_bookings {}
+export interface IRoom extends getAllRoomType_GetAllRoomType_roomTypes_rooms {}
 export type TRef = React.MutableRefObject<any>;
 export type TPayinfoes = getMyProfile_GetMyProfile_user_paymentInfos;
 export type TBillInfo = registerBillKey_RegisterBillKey_billInfo;
@@ -60,23 +61,23 @@ export type TRoomCapacity = getRoomTypeInfo_GetRoomTypeById_roomType_capacity_Ca
 export type TDomitoryCapacity = getRoomTypeInfo_GetRoomTypeById_roomType_capacity_CapacityRoomTypeDomitory;
 export type ISmsH = getSmsHistory_GetSmsHistory_result_smsHistories;
 export type TElements = string | JSX.Element | JSX.Element[] | string[];
-export interface IBillInfo extends registerBillKey_RegisterBillKey_billInfo { };
+export interface IBillInfo extends registerBillKey_RegisterBillKey_billInfo {}
 export type TMuFn<m, mv> = (
   options?: MutationFunctionOptions<m, mv> | undefined
 ) => Promise<ExecutionResult<m>>;
-export interface ISeason extends getAllSeasonTable_GetAllSeason_seasons { }
-export interface IBlock extends getGuests_GetBlocks_blocks { }
+export interface ISeason extends getAllSeasonTable_GetAllSeason_seasons {}
+export interface IBlock extends getGuests_GetBlocks_blocks {}
 export interface IBlockOp
-  extends getGuests_GetGuests_guests_GuestRoom_blockOption { }
+  extends getGuests_GetGuests_guests_GuestRoom_blockOption {}
 export type HomapgeOp = getAllHomepageOptions_GetAllHomepageOptions_homepageOptions;
-
-export interface IHouseOptions extends getHouseForPublic_GetHouseForPublic_house_houseConfig_options { }
+export interface IHouseOptions
+  extends getHouseForPublic_GetHouseForPublic_house_houseConfig_options {}
 export type TOptionsObj = {
-  ResvCautionMsg?: string
-  ResvCompeleteMsg?: string
-  PayPrecaution?: string
-  CheckMsg?: string
-}
+  ResvCautionMsg?: string;
+  ResvCompeleteMsg?: string;
+  PayPrecaution?: string;
+  CheckMsg?: string;
+};
 export interface IPageInfo {
   currentPage: number;
   totalPage: number;
@@ -108,7 +109,7 @@ export type TSendSmsKey = {
   PAYMETHOD: string;
   PAYMENTSTATUS: string;
   HM: string;
-}
+};
 
 export type BookingModalMode = "READ_ONLY" | "CREATE" | "CREATE_ASSIG";
 export interface ISelectHouse {
@@ -118,7 +119,6 @@ export interface ISelectHouse {
 export interface ISelectHouseVariables {
   selectedHouse: ISelectO | null;
 }
-
 
 export interface ILocationInput {
   address: string;
@@ -211,7 +211,7 @@ export interface IHouseConfigFull extends IHouseConfig {
       enable: false;
       newGuestTime: number;
     };
-    bookOnlySingleDay: false,
+    bookOnlySingleDay: false;
     collectingInfoFromGuest: {
       __typename: "CollectingInfoFromGuest";
       email: false;
@@ -252,7 +252,7 @@ export interface IProductTypeDec {
   disable?: boolean | undefined;
 }
 
-type TJDBorderRadius = "round" | "noraml"
+type TJDBorderRadius = "round" | "noraml";
 // 일부만 시험적용중
 // 추후에 모든 아톰에 적용할에정
 export interface JDatomExtentionSet {
@@ -277,4 +277,4 @@ export type THOMEPAGE = {
   sumnail: string;
   url: string;
   price: number;
-}
+};

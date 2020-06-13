@@ -25,39 +25,50 @@ import optionFineder from "../../../../utils/optionFinder";
 import { IRoomTypeModalInfo, TMode } from "../declation";
 import { DEFAULT_ROOMTYPE } from "../../../../types/defaults";
 import { toast } from "react-toastify";
-import { toNumber } from "../../../../utils/utils";
+import { toNumber, isEmpty } from "../../../../utils/utils";
 import ModalEndSection from "../../../../atoms/modal/components/ModalEndSection";
-import { JDalign, JDlabel, JDslider, JDfileManager, JDFileManagerModal, useFilesManager, JDslide } from "@janda-com/front";
-import PhotoSlider from "../../../../components/photoSlider/PhotoSlider";
+import { IRoomTypeModalSubmitData } from "../declation";
+import {
+  JDfileManager,
+  JDFileManagerModal,
+  useFilesManager,
+  JDlabel
+} from "@janda-com/front";
+import TagInput from "../../../../atoms/tagInput/TagInput";
+import JDtypho from "../../../../atoms/typho/Typho";
 
 interface IProps {
   context: IContext;
   modalHook: IUseModal<IRoomTypeModalInfo>;
   loading?: boolean;
-  onSubmit: (roomType: IRoomType, mode: TMode) => void;
+  onSubmit: (roomType: IRoomTypeModalSubmitData, mode: TMode) => void;
 }
 
 const RoomTypeModal: React.FC<IProps> = ({ modalHook, loading, onSubmit }) => {
   const { info } = modalHook;
   const { roomType, mode } = info;
   const fileManagerModalHook = useModal();
-  const fileManagerHook = useFilesManager([], "fileManager" + roomType?._id || "_create");
-  const localImgUrls = fileManagerHook.localFiles.map(file => file.base64);
-  const [data, setData] = useState(roomType || DEFAULT_ROOMTYPE);
+  const [data, setData] = useState<IRoomTypeModalSubmitData>(
+    roomType || DEFAULT_ROOMTYPE
+  );
   const {
-    img,
     name,
+    images,
     roomGender,
     defaultPrice,
     pricingType,
     peopleCountMax,
-    description
+    description,
+    hashTags
   } = data;
+
+  const [tags, setTags] = useState<string[]>(hashTags);
+  const fileManagerHook = useFilesManager(
+    images || [],
+    "fileManager" + roomType?._id || "_create"
+  );
   const isCreate = mode === "create";
   const priceWarnModal = useModal(false);
-  const roomImageHook = useImageUploader(img, undefined, file => {
-    set("img", file);
-  });
   const maxPeopleCountOp = MAX_PEOPLE_COUNT_OP_FN();
   const peopleCountMaxOp = optionFineder(maxPeopleCountOp, peopleCountMax);
   const pricingTypeOp = optionFineder(PRICING_TYPE_OP, pricingType);
@@ -70,26 +81,40 @@ const RoomTypeModal: React.FC<IProps> = ({ modalHook, loading, onSubmit }) => {
 
   const validation = () => {
     if (peopleCountMax < 1) {
-      toast.warn("please_input_max_people_count");
+      toast.warn(LANG("please_input_max_people_count"));
       return false;
     }
     if (!roomGender) {
-      toast.warn("please_select_room_gender");
+      toast.warn(LANG("please_select_room_gender"));
       return false;
     }
     if (!defaultPrice) {
-      toast.warn("please_enter_a_base_price");
+      toast.warn(LANG("please_enter_a_base_price"));
       return false;
     }
     if (!pricingTypeOp.value) {
-      toast.warn("please_select_room_type");
+      toast.warn(LANG("please_select_room_type"));
       return false;
     }
     if (!name) {
-      toast.warn("enter_room_type_name");
+      toast.warn(LANG("enter_room_type_name"));
       return false;
     }
     return true;
+  };
+
+  const handleSubmit = (mode: TMode) => {
+    const localFiles = fileManagerHook.localFiles;
+    const finalData = {
+      ...data,
+      hashTags: tags,
+      uploadImg: localFiles,
+      deleteImages: roomType?.images?.filter(
+        url => !fileManagerHook.urls.includes(url)
+      )
+    };
+    setData(finalData);
+    onSubmit(finalData, mode);
   };
 
   function set<T extends keyof IRoomType>(key: T, value: IRoomType[T]) {
@@ -164,7 +189,6 @@ const RoomTypeModal: React.FC<IProps> = ({ modalHook, loading, onSubmit }) => {
             <div className="flex-grid__col flex-grid__col--vertical col--full-12 col--lg-12 col--md-12">
               <JDLabel txt={LANG("roomPic")} />
               <JDfileManager uploaderHook={fileManagerHook} />
-              {/* <PhotoSlider className="roomTypeModal__slider" images={[...fileManagerHook.urls, ...localImgUrls]} onClick={() => { fileManagerModalHook.openModal() }} /> */}
             </div>
             <div className="flex-grid__col col--full-6 col--lg-6 col--md-12">
               <InputText
@@ -177,8 +201,9 @@ const RoomTypeModal: React.FC<IProps> = ({ modalHook, loading, onSubmit }) => {
                 label={LANG("room_type_desc")}
               />
             </div>
-            <div className="flex-grid__col col--full-6 col--lg-6 col--md-12">
+            <div className="flex-grid__col col--full-6 col--lg-6 col--md-6">
               <InputText
+                mr="no"
                 id="RoomTypeBasicPrice"
                 onChange={(val: any) => {
                   set("defaultPrice", toNumber(val));
@@ -191,7 +216,23 @@ const RoomTypeModal: React.FC<IProps> = ({ modalHook, loading, onSubmit }) => {
                 * {LANG("appliedby_default_in_periods_with_no_price_set")}
               </p>
             </div>
+            <div className="flex-grid__col col--full-6 col--lg-6 col--md-6">
+              <InputText
+                mr="no"
+                onChange={(val: any) => {
+                  set("defaultPrice", toNumber(val));
+                }}
+                comma
+                value={defaultPrice}
+                label={LANG("basic_room_price")}
+              />
+              <p className="JDsmall-text">
+                * {LANG("appliedby_default_in_periods_with_no_price_set")}
+              </p>
+            </div>
           </div>
+          <JDlabel txt={LANG("insert_tag")} />
+          <TagInput mb="large" tags={tags} setTags={setTags} />
           <ModalEndSection>
             <Button
               disabled={!isCreate}
@@ -201,7 +242,7 @@ const RoomTypeModal: React.FC<IProps> = ({ modalHook, loading, onSubmit }) => {
               label={LANG("do_create")}
               size="small"
               onClick={() => {
-                if (validation()) onSubmit(data, "create");
+                handleSubmit("create");
               }}
             />
             <Button
@@ -212,7 +253,7 @@ const RoomTypeModal: React.FC<IProps> = ({ modalHook, loading, onSubmit }) => {
               size="small"
               disabled={isCreate}
               onClick={() => {
-                if (validation()) onSubmit(data, "update");
+                handleSubmit("update");
               }}
             />
             <Button
@@ -223,11 +264,14 @@ const RoomTypeModal: React.FC<IProps> = ({ modalHook, loading, onSubmit }) => {
               size="small"
               disabled={isCreate}
               onClick={() => {
-                onSubmit(data, "delete");
+                handleSubmit("delete");
               }}
             />
           </ModalEndSection>
-          <JDFileManagerModal modalHook={fileManagerModalHook} uploaderHook={fileManagerHook} />
+          <JDFileManagerModal
+            modalHook={fileManagerModalHook}
+            uploaderHook={fileManagerHook}
+          />
           <PriceWarnModal modalHook={priceWarnModal} />
         </Fragment>
       )}
@@ -235,4 +279,8 @@ const RoomTypeModal: React.FC<IProps> = ({ modalHook, loading, onSubmit }) => {
   );
 };
 
-export default RoomTypeModal;
+export default React.memo(
+  RoomTypeModal,
+  (prevProp, nextProp) =>
+    prevProp.modalHook.isOpen === nextProp.modalHook.isOpen
+);

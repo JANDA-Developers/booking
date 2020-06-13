@@ -10,7 +10,6 @@ import React, {
 import { Link } from "react-router-dom";
 import "moment/locale/ko";
 import _ from "lodash";
-import { WindowSizeProps } from "react-window-size";
 import Timeline, {
   TimelineHeaders,
   SidebarHeader,
@@ -25,7 +24,6 @@ import {
   getCuttedItmes
 } from "./helper/outHelper";
 import $ from "jquery";
-import windowSize from "react-window-size";
 import Button from "../../../atoms/button/Button";
 import BookingModalWrap from "../../../components/bookingModal/BookingModalWrap";
 import { IUseDayPicker, useModal, LANG } from "../../../hooks/hook";
@@ -74,6 +72,7 @@ import AssigTimelineConfigModal from "./components/AssigTimelineConfigModal/Assi
 import getConfigStorage from "./helper/getStorage";
 import Preloader from "../../../atoms/preloader/Preloader";
 import { SIDE_IS_OPEN } from "../../../components/sideNav/SideNav";
+import { useWindowSize } from "@janda-com/front";
 
 interface IProps {
   context: IContext;
@@ -99,7 +98,7 @@ interface IProps {
   reloadTime: () => void;
 }
 
-const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
+const AssigTimeline: React.FC<IProps> = ({
   dayPickerHook,
   defaultProps,
   groupData,
@@ -108,8 +107,6 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
   deafultGuestsData,
   defaultTimeStart,
   defaultTimeEnd,
-  windowWidth,
-  windowHeight,
   roomTypesData,
   setDataTime,
   dataTime,
@@ -126,6 +123,7 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
     stopPolling,
     startPolling
   } = assigDataControl;
+  const { width: windowWidth, height: windowHeight } = useWindowSize();
   const { house, houseConfig } = context;
   const isFirstLoading = networkStatus === 1;
   const isLoading = networkStatus < 7;
@@ -659,4 +657,4 @@ const AssigTimeline: React.FC<IProps & WindowSizeProps> = ({
   );
 };
 
-export default windowSize<IProps>(AssigTimeline);
+export default AssigTimeline;

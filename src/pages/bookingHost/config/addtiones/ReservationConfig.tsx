@@ -7,19 +7,12 @@ import { IAddtionProp } from "../components/ConfigBlock";
 import { useCheckBox } from "@janda-com/front";
 import JDrange from "../../../../atoms/forms/range/Range";
 
-const ReservationConfig: React.FC<IAddtionProp> = ({
-  context,
-  updateFn
-}) => {
-
+const ReservationConfig: React.FC<IAddtionProp> = ({ context, updateFn }) => {
   const { houseConfig } = context;
   const { bookingConfig } = houseConfig;
   const { bookOnlySingleDay, maxStayDate } = bookingConfig;
   const singleDayHook = useCheckBox(!bookOnlySingleDay);
-  const [range, setRange] = useState<any>(
-    maxStayDate
-  );
-
+  const [range, setRange] = useState<any>(maxStayDate);
 
   const {
     bookingConfig: { collectingInfoFromGuest }
@@ -38,17 +31,14 @@ const ReservationConfig: React.FC<IAddtionProp> = ({
     setRange(value);
 
     updateFn({
-      bookingConfig: {
-      }
+      bookingConfig: {}
     });
   };
 
   const handleUpdateBtnClick = () => {
     if (vlidate()) {
       updateFn({
-        bookingConfig: {
-          bookOnlySingleDay: !singleDayHook.checked,
-        }
+        bookingConfig: {}
       });
     }
   };

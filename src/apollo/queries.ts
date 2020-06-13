@@ -32,8 +32,8 @@ const F_HOMEPAGE_REQUEST = gql`
     eamil
     design
     options {
-      price
       key
+      price
     }
     houseId
   }
@@ -67,10 +67,6 @@ export const F_IMG = gql`
     url
     filename
     mimeType
-    tags {
-      Key
-      Value
-    }
   }
 `;
 
@@ -106,8 +102,8 @@ export const F_HOUSE = gql`
     name
     houseType
     status
-    publicKey
     houseNum
+    publicKey
     createdAt
     updatedAt
     tags {
@@ -171,7 +167,7 @@ export const F_HOUSE_CONFIG = gql`
       value
     }
     bookingConfig {
-      bookOnlySingleDay 
+      bookOnlySingleDay
       newBookingMark {
         enable
         newGuestTime
@@ -315,23 +311,20 @@ export const F_ROOMTYPE = gql`
     pricingType
     peopleCount
     peopleCountMax
-    index
     roomCount
     roomGender
-    img {
-      ...Fimg
-    }
+    images
     description
     defaultPrice
     createdAt
     updatedAt
     roomGender
+    hashTags
     tags {
       key
       value
     }
   }
-  ${F_IMG}
 `;
 
 //  방에대한 정보 프레임
@@ -488,7 +481,6 @@ const sharedGetAllRoomType = gql`
     }
   }
   ${F_ROOMTYPE}
-  ${F_IMG}
 `;
 
 // 예약에 관한 정보프레임
@@ -594,7 +586,6 @@ export const GET_HOUSE_SPECIFICATION = gql`
         name
         houseType
         status
-        houseNum
         product {
           ...Fproduct
           productType {
@@ -653,11 +644,8 @@ export const GET_ROOMTYPE_BY_ID = gql`
         pricingType
         peopleCount
         peopleCountMax
-        index
         roomGender
-        img {
-          ...Fimg
-        }
+        images
         description
         defaultPrice
         createdAt
@@ -769,10 +757,7 @@ export const GET_HOUSE = gql`
       ok
       error
       house {
-        _id
-        name
-        houseType
-        houseNum
+        ...Fhouse
         smsInfo {
           _id
         }
@@ -796,12 +781,10 @@ export const GET_HOUSE = gql`
         HM {
           publicKey
         }
-        publicKey
-        createdAt
-        updatedAt
       }
     }
   }
+  ${F_HOUSE}
   ${F_ROOMTYPE}
   ${F_ROOM}
 `;
@@ -833,7 +816,6 @@ export const PRICE_TIMELINE_GET_PRICE = gql`
       roomTypes {
         _id
         name
-        index
         description
       }
     }
@@ -900,13 +882,35 @@ export const FIND_BOOKING = gql`
           roomType {
             _id
             name
-            index
             description
           }
         }
       }
     }
   }
+`;
+
+// 예약 ::예약정보로 예약찾기 (호스트용)
+export const FIND_BOOKINGS = gql`
+  query findBookings($param: FindBookingsInput!) {
+    FindBookings(param: $param) {
+      ok
+      error
+      data {
+        ...Fbooking
+        guests {
+          ...Fguest
+          roomType {
+            _id
+            name
+            description
+          }
+        }
+      }
+    }
+  }
+  ${F_BOOKING}
+  ${F_GUEST}
 `;
 
 // 예약 ::예약정보로 예약찾기 (게스트용)
@@ -936,7 +940,6 @@ export const FIND_BOOKING_FOR_BOOKER = gql`
           roomType {
             _id
             name
-            index
             description
           }
         }
@@ -1102,7 +1105,6 @@ export const GET_ALL_ROOMTYPES_PRICE = gql`
       roomTypes {
         _id
         name
-        index
         description
       }
     }
@@ -1361,8 +1363,8 @@ export const GET_BOOKINGS = gql`
 
 // 예약 :: 아이디로서 예약을 조회
 export const GET_BOOKING = gql`
-  query getBooking($param: GetBookingInput!) {
-    GetBooking(param: $param) {
+  query getBooking($payload: String!) {
+    GetBooking(payload: $payload) {
       ok
       error
       booking {
@@ -1473,7 +1475,6 @@ export const GET_ALL_SEASON_TABLE = gql`
       roomTypes {
         _id
         name
-        index
         description
         defaultPrice
       }
@@ -1505,6 +1506,16 @@ export const GET_ALL_SEASON_TABLE = gql`
 
 // START 예약관련 ────────────────────────────────────────────────────────────────────────────────
 // 예약 :: 업데이트 예약
+
+export const ADD_HOUSE_CONFIG_OPTIONS = gql`
+  mutation addHouseConfigOptions($houseId: ID!, $options: [TagInput!]!) {
+    AddHouseConfigOptions(houseId: $houseId, options: $options) {
+      ok
+      error
+    }
+  }
+`;
+
 export const UPDATE_BOOKING = gql`
   mutation updateBooking(
     $bookingId: ID!
@@ -1768,18 +1779,13 @@ export const DELETE_BLOCK = gql`
   }
 `;
 
-// 취소S + 환불
+// 취소
 export const CANCLE_BOOKINGS = gql`
   mutation cancelBookings(
     $cancelParams: [CancelBookingInput!]
-    $refundRatio: Float
     $cancelMessage: String
-    ) {
-    CancelBookings(
-      cancelParams: $cancelParams
-      refundRatio: $refundRatio
-      cancelMessage: $cancelMessage
-      ) {
+  ) {
+    CancelBookings(cancelParams: $cancelParams, cancelMessage: $cancelMessage) {
       ok
       error
     }
@@ -1815,6 +1821,25 @@ export const CREATE_BLOCK = gql`
       ok
       error
       block {
+        ...Fblock
+        room {
+          ...Froom
+        }
+      }
+    }
+  }
+  ${F_BLOCK}
+  ${F_ROOM}
+  ${F_BLOCK}
+`;
+
+// 방배정 :: 방막기
+export const CREATE_BLOCKS = gql`
+  mutation createBlocks($param: CreateBlocksInput!) {
+    CreateBlocks(param: $param) {
+      ok
+      error
+      data {
         ...Fblock
         room {
           ...Froom
@@ -2135,7 +2160,6 @@ export const GET_HOUSE_FOR_PUBLIC = gql`
       house {
         phoneNumber
         name
-        houseNum
         location {
           address
           addressDetail
@@ -2462,10 +2486,13 @@ export const GET_MEMO = gql`
   ${F_MEMO}
 `;
 
-
 export const CHANGE_ROOM_TYPE_TAGS = gql`
-  mutation changeRoomTypeTags($roomTypeId: ID!, $newTags: [TagInput!]!, $removeKeys: [String!]!) {
-    AddRoomTypeTags(roomTypeId: $roomTypeId, tags: $newTags) {
+  mutation changeRoomTypeTags(
+    $roomTypeId: ID!
+    $upsertTags: [TagInput!]!
+    $removeKeys: [String!]!
+  ) {
+    AddRoomTypeTags(roomTypeId: $roomTypeId, tags: $upsertTags) {
       ok
       error
     }
@@ -2683,7 +2710,7 @@ export const DO_BILL_PAY_PRODUCT = gql`
   }
 `;
 
-// Defrecated 
+// Defrecated
 // CancelBooking을 사용하세요.
 export const REFUND_BOOKING = gql`
   mutation refundBooking($param: CancelBookingInput!) {
@@ -2734,23 +2761,22 @@ export const SAVE_ROOMTYPES = gql`
 
 export const SEARCH_BOOKING = gql`
   query searchBooking($bookingNum: String!) {
-    SearchBooking(bookingNum:$bookingNum) {
-    ok
-    error
-    data {
-      ...Fbooking
-      guests {
-        ...Fguest
-        roomType {
-          _id
-          name
-          index
-          description
+    SearchBooking(bookingNum: $bookingNum) {
+      ok
+      error
+      data {
+        ...Fbooking
+        guests {
+          ...Fguest
+          roomType {
+            _id
+            name
+            description
+          }
         }
       }
     }
   }
-}
   ${F_GUEST}
   ${F_BOOKING}
-`
+`;

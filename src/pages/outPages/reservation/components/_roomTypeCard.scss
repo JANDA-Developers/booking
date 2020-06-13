@@ -1,5 +1,9 @@
 $roomCardHeight: 0.25rem * 32;
 
+.roomType__wrap {
+  line-height: 1 !important;
+}
+
 .roomTypeCard {
   border-radius: $standard-border-radius;
   height: $roomCardHeight;
@@ -84,7 +88,7 @@ $roomCardHeight: 0.25rem * 32;
     flex-direction: row-reverse;
 
     .roomTypeCard__price {
-      display:flex;
+      display: flex;
       flex-direction: column;
       text-align: end;
       font-size: $typho-huge;

@@ -97,13 +97,13 @@ export const getHandler = (
   const handleCancelBtnClick = () => {
     if (status === PaymentStatus.CANCELED || status === PaymentStatus.NOT_YET) {
       toast.error(LANG("can_not_refund"));
-      return
+      return;
     } else if (refundedPrice || 0 >= totalPrice) {
       toast.error(LANG("already_refund_all"));
-      return
+      return;
     }
     refundModalHook.openModal();
-  }
+  };
 
   // 예약수정 버튼 핸들
   const handleUpdateBtnClick = () => {
@@ -136,13 +136,11 @@ export const getHandler = (
     cancelBookingMu({
       variables: {
         param: {
-          bookingNum: bookingData.bookingNum,
-          refundAmount: parseInt(amt)
+          bookingNum: bookingData.bookingNum
         }
       }
-    })
-  }
-
+    });
+  };
 
   return {
     deleteModalCallBackFn,

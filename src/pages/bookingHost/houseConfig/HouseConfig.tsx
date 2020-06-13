@@ -241,14 +241,6 @@ const HouseConfig: React.FC<IProps & IProvidedProps> = ({
               </div>
             </div>
           </CardSection>
-          <CardHeader title={"템프"} desc={"요거요거 바꿀수있음"} />
-          <CardSection>
-            <JDalign>
-              <InputText mr="no" label="예약완료 메세지" textarea />
-              <InputText mr="no" label="예약조회 페이지 메세지" textarea />
-              <InputText label="흠" textarea />
-            </JDalign>
-          </CardSection>
         </JDcard>
       </PageBody>
     </div>

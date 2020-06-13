@@ -5,9 +5,7 @@ import "./RoomConfig.scss";
 import _ from "lodash";
 // @ts-ignore
 import omitDeep from "omit-deep";
-import {
-  getAllRoomType_GetAllRoomType_roomTypes as IRoomType,
-} from "../../../types/api";
+import { getAllRoomType_GetAllRoomType_roomTypes as IRoomType } from "../../../types/api";
 import Preloader from "../../../atoms/preloader/Preloader";
 import { useModal, LANG } from "../../../hooks/hook";
 import Card from "../../../atoms/cards/Card";
@@ -37,7 +35,20 @@ import selectOpCreater from "../../../utils/selectOptionCreater";
 import JDselect from "../../../atoms/forms/selectBox/SelectBox";
 import TagModal, { TModalInfo } from "../../../components/tagModal/TagModal";
 import { TChangeTags } from "./RoomConfigWrap";
-import { JDtypho } from "@janda-com/front";
+import {
+  JDtypho,
+  dataURLtoFile,
+  JDicon,
+  JDmodal,
+  JDbutton,
+  useInput,
+  JDalign
+} from "@janda-com/front";
+import { InputText } from "@janda-com/front";
+import { ExtraRoomTypeConfig } from "../../../types/enum";
+import ExtraConfigModal, {
+  IExtraConfigProp
+} from "./components/ExtraConfigModal";
 
 interface IProps {
   context: IContext;
@@ -63,10 +74,11 @@ const RoomConfig: React.FC<IProps> = ({
   defaultData,
   handleChangTags
 }) => {
-  const tagModalHook = useModal<TModalInfo>(false);
+  const tagModalHook = useModal<IExtraConfigProp>(false);
   const { defaultAddTemp, roomTypesData } = defaultData;
   const roomTypeModalHook = useModal<IRoomTypeModalInfo>(false, {});
   const roomModalHook = useModal<IRoomModalInfo>(false, {});
+  const extraDescribtHook = useInput("");
 
   const defulatData = {
     original: roomTypesData,
@@ -140,14 +152,19 @@ const RoomConfig: React.FC<IProps> = ({
 
         delete RT._id;
         delete RT.__typename;
-        delete RT.index;
         delete RT.roomCount;
         delete RT.createdAt;
         delete RT.updatedAt;
-        if (RT.img) delete RT.img.__typename;
-        RT.img?.tags?.forEach(tag => {
-          delete tag.__typename;
-        });
+        delete RT.tags;
+
+        RT.images =
+          RT.uploadImg?.map(localFile =>
+            dataURLtoFile(localFile.base64, localFile.fileName)
+          ) || ([] as any);
+
+        console.log("RT.uploadImg");
+        console.log(RT.uploadImg);
+        delete RT.uploadImg;
 
         RT.rooms.forEach(r => {
           if (targetIsInOrigin) {
@@ -205,6 +222,8 @@ const RoomConfig: React.FC<IProps> = ({
     roomType: IRoomType,
     mode: TMode
   ) => {
+    console.log("roomTyproomTyproomTyp");
+    console.log(roomType);
     const { _id } = roomType;
     if (mode === "delete") await removeRoomType(_id);
     if (mode === "create") await createRoomType(roomType);
@@ -232,11 +251,12 @@ const RoomConfig: React.FC<IProps> = ({
     mode,
     index
   ) => {
-    const isInUpdate = !isEmpty(finder(roomType._id, ["update"]));
+    const { hashTags, _id: roomTypeId, name } = roomType;
+    const isInUpdate = !isEmpty(finder(roomTypeId, ["update"]));
     const originalCopy = $.extend(true, {}, roomType);
 
     if (index !== undefined && rooms[0]) {
-      await changeRoomIndex(roomType._id, rooms[0]._id, index);
+      await changeRoomIndex(roomTypeId, rooms[0]._id, index);
     }
 
     if (mode === "delete") {
@@ -356,7 +376,7 @@ const RoomConfig: React.FC<IProps> = ({
         </div>
         <Fragment>
           <div>
-            <Preloader size="large" noAnimation loading={loading} />
+            <Preloader floating noAnimation loading={loading} />
           </div>
           {/* 방타입 카드 출력 */}
           {isRoomTypeExist && noRoomTypeMessage}
@@ -365,7 +385,7 @@ const RoomConfig: React.FC<IProps> = ({
             return (
               <Card
                 id={`RoomTypeCard${_id}`}
-                key={_id}
+                key={`RoomTypeCard${_id}`}
                 className={`TRoomTypeCard JDstandard-space0 roomConfig__roomType roomConfig__roomType${_id}`}
               >
                 <div className="roomConfig__roomCardWrap">
@@ -375,9 +395,25 @@ const RoomConfig: React.FC<IProps> = ({
                       <h5 className="TRoomTypeName RoomTypeName JDstandard-space">
                         {name}
                       </h5>
-                      <Help
-                        icon="info"
-                        tooltip={<RoomTypeInfo roomType={roomType} />}
+                      <JDalign mr="small">
+                        <Help
+                          icon="info"
+                          tooltip={<RoomTypeInfo roomType={roomType} />}
+                        />
+                      </JDalign>
+                      <JDicon
+                        color="grey2"
+                        icon="gear"
+                        hover
+                        onClick={() => {
+                          tagModalHook.openModal({
+                            describ:
+                              tags.find(
+                                t => t.key === ExtraRoomTypeConfig.ExtraDescrib
+                              )?.value || "",
+                            roomTypeId: _id
+                          });
+                        }}
                       />
                     </div>
                     {/* Room Type Update Btn */}
@@ -388,16 +424,6 @@ const RoomConfig: React.FC<IProps> = ({
                         zIndex: data.updateCreateData.length + 10 - index
                       }}
                     >
-                      <JDtypho hover mr="normal" color="grey1" onClick={() => {
-                        tagModalHook.openModal({
-                          defaultTags: tags || [],
-                          roomTypeId: _id,
-                          roomTypeName: name
-                        });
-                      }}>
-                        TAGS
-                      </JDtypho>
-
                       <JDselect
                         autoSize
                         selectedOption={indexOp[index]}
@@ -456,10 +482,16 @@ const RoomConfig: React.FC<IProps> = ({
                           roomType,
                           modalProp: {
                             head: {
-                              title: <div>
-                                <JDtypho size="h6" mb="normal">{LANG("create_room_modal_title")(name)}</JDtypho>
-                                <JDtypho size="small">{LANG("create_room_modal_desc")}</JDtypho>
-                              </div>
+                              title: (
+                                <div>
+                                  <JDtypho size="h6" mb="normal">
+                                    {LANG("create_room_modal_title")(name)}
+                                  </JDtypho>
+                                  <JDtypho size="small">
+                                    {LANG("create_room_modal_desc")}
+                                  </JDtypho>
+                                </div>
+                              )
                             }
                           },
                           mode: "create"
@@ -475,6 +507,11 @@ const RoomConfig: React.FC<IProps> = ({
           })}
         </Fragment>
       </PageBody>
+      <ExtraConfigModal
+        key={tagModalHook.info.roomTypeId + "ExtraConfigModal"}
+        handleChangTags={handleChangTags}
+        tagModalHook={tagModalHook}
+      />
       <RoomTypeModal
         key={`${roomTypeModalHook.isOpen}`}
         onSubmit={handleRoomTypeModalSubmit}
@@ -487,14 +524,6 @@ const RoomConfig: React.FC<IProps> = ({
         modalHook={roomModalHook}
         onSubmit={handleSubmitRoomModal}
       />
-      <TagModal key={"TagModal" + tagModalHook.info.roomTypeId} callBackTagModify={(tags) => { }}
-        modalHook={tagModalHook} modalProp={{
-          head: {
-            element: <div>
-              <JDtypho size="h6" mb="normal">{LANG("tag_modal_title")(tagModalHook.info.roomTypeName)}</JDtypho>
-              {LANG("tag_modal_title_desc")}</div>
-          }
-        }} />
     </div>
   );
 };
@@ -504,9 +533,3 @@ const memoRoomConfig = React.memo(RoomConfig, (prev, next) => {
 });
 
 export default memoRoomConfig;
-
-
-
-
-
-

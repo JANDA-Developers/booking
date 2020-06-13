@@ -269,8 +269,7 @@ export const krFn = (Var = DefaultVar) => ({
     "새로운 예약이 있다면 새로운 예약을 화면에 새로고침 없이 나타냅니다.",
   if_tou_enable_auto_send_msg_msg_will_send_autoMetically:
     "자동 발신을 해두시면해당 메세지는 설정된 상황에 맞게 자동으로 발송됨니다.",
-  if_you_choose_wrong_size_product_to_house_service_can_be_stop:
-    `규모에 맞지 않는 ${Var.SS}를 선택하실 경우에 서비스가 중지 될수 있습니다.`,
+  if_you_choose_wrong_size_product_to_house_service_can_be_stop: `규모에 맞지 않는 ${Var.SS}를 선택하실 경우에 서비스가 중지 될수 있습니다.`,
   if_you_have_problems_with_computer_performance_and_frequent_screen_updates_try_setting_a_higher_pooling_frequency:
     "컴퓨터 성능 및 잦은 화면 업데이트에 문제가 있을경우 풀링주기를 높게 설정해보세요.",
   if_you_violate_the_accommodation_policy_your_personal_information_will_be_saved_with_the_violation:
@@ -292,8 +291,8 @@ export const krFn = (Var = DefaultVar) => ({
   layout_cost: `레이${Var.CO} 비용`,
   left_days: "남은일수",
   light_type_layout: `light 타입 레이${Var.CO}`,
-  logOut: `로그${Var.CO}`,
-  logOut_complete: `로그${Var.CO} 완료`,
+  logOut: `로그아웃`,
+  logOut_complete: `로그아웃 완료`,
   login: "로그인",
   login_complete: "로그인 완료",
   make_payment: "결제하기",
@@ -462,8 +461,7 @@ export const krFn = (Var = DefaultVar) => ({
   product_has_expired: "상품이 만료되었습니다.",
   product_memo: "상품 메모",
   product_price: "상품금액",
-  provides_a_tab_that_can_be_divided_by_status_in_the_assignment_calendar:
-    `배정달력에서 ${Var.B}태입별로 나누어볼수있는 탭을 제공`,
+  provides_a_tab_that_can_be_divided_by_status_in_the_assignment_calendar: `배정달력에서 ${Var.B}태입별로 나누어볼수있는 탭을 제공`,
   purpose_of_collection: "수집 목적",
   receiver: "수신자",
   release_service: "서비스 해제",
@@ -726,7 +724,8 @@ export const krFn = (Var = DefaultVar) => ({
   ),
   additionaly_setting_to_will_good_for_manage_ment: (
     <span>
-      추가로 다음과 같은 설정을 해두시면 <Mbr /> ${Var.SS}운영에 도움이 될거에요!
+      추가로 다음과 같은 설정을 해두시면 <Mbr /> ${Var.SS}운영에 도움이
+      될거에요!
     </span>
   ),
   default_setting_is_compelted: (
@@ -798,8 +797,7 @@ export const krFn = (Var = DefaultVar) => ({
   move_reservation_page: "예약페이지 이동",
   reservation_creation_complete_for_guest: "예약이 완료 되었습니다.",
   reservation_creation_fail_for_guest: "예약 생성 실패",
-  price_priority:
-    `*우선 적용순위: ${Var.BT} 기본가격 < 시즌기본가격 < 시즌 요일별가격 < 일별 가격`,
+  price_priority: `*우선 적용순위: ${Var.BT} 기본가격 < 시즌기본가격 < 시즌 요일별가격 < 일별 가격`,
   reference_fail: "조회실패",
   reference_success: "조회성공",
   funnels: "유입경로",
@@ -910,7 +908,8 @@ export const krFn = (Var = DefaultVar) => ({
     <span>
       AI 무인 솔루션은 {Var.G}가 쉽고 편하게 {Var.SS}를 이용할 수 있도록 안내
       페이지를 송신합니다. <br />
-      AI 무인 솔루션이 {Var.G}의 {Var.SS} 이용법을 설명하는 수고를 덜어 줄겁니다.
+      AI 무인 솔루션이 {Var.G}의 {Var.SS} 이용법을 설명하는 수고를 덜어
+      줄겁니다.
     </span>
   ),
   user_info: "회원정보",
@@ -959,7 +958,8 @@ export const krFn = (Var = DefaultVar) => ({
           2. 양식생성 화면에서 타이틀과, 메시지를 입력하시고 메시지화면에서 중간
           중간에 생성할
           <b>
-            {Var.SB}일자/{Var.SB}정보/예약자명/가격/결제방법/결제상태/AI 무인 솔루션URL
+            {Var.SB}일자/{Var.SB}정보/예약자명/가격/결제방법/결제상태/AI 무인
+            솔루션URL
           </b>
           문구를 아래에 <b>양식메시지</b>에서 클릭하시면 메시지 발송시에
           자동으로 정보가 입력됩니다.
@@ -975,9 +975,12 @@ export const krFn = (Var = DefaultVar) => ({
           선택하여 설정하고
         </div>,
         <div>
-          4. 발신대상을 <b>{Var.G}/${Var.H}/{Var.G}+${Var.H}</b> 별로 지정을 해주시고
-          우측에 <b>자동발신 활설화</b> 여부를 on / oFF 설정해주시면 언제든지
-          고객에게 알림 문자가 발송되게 설정됩니다
+          4. 발신대상을{" "}
+          <b>
+            {Var.G}/${Var.H}/{Var.G}+${Var.H}
+          </b>{" "}
+          별로 지정을 해주시고 우측에 <b>자동발신 활설화</b> 여부를 on / oFF
+          설정해주시면 언제든지 고객에게 알림 문자가 발송되게 설정됩니다
         </div>
       ]}
     />
@@ -1065,10 +1068,8 @@ export const krFn = (Var = DefaultVar) => ({
   else: "기타",
   check_init: "생성확인",
   timeline_config: "타임라인설정",
-  mypage_desc:
-    `정기결제에 대한 관리 및 생성한 ${Var.SS}와 유저 프로필을 확인할 수 있습니다.`,
-  room_config_desc:
-    `${Var.SS}를 운영하는데 필요한 ${Var.BT} 및 ${Var.B}을 생성 및 수정하세요.`,
+  mypage_desc: `정기결제에 대한 관리 및 생성한 ${Var.SS}와 유저 프로필을 확인할 수 있습니다.`,
+  room_config_desc: `${Var.SS}를 운영하는데 필요한 ${Var.BT} 및 ${Var.B}을 생성 및 수정하세요.`,
   HouseStatus: {
     DISALBE: "중지",
     WAIT: "대기",
@@ -1100,8 +1101,7 @@ export const krFn = (Var = DefaultVar) => ({
   prev_step: "이전단계",
   next_step: "다음단계",
   house_config: `${Var.SS}설정`,
-  house_config_desc:
-    `선택한 ${Var.SS}에대한 정보를 한눈에 관리가 가능합니다. 여기에서 입력되는 정보는 홈페이지와 e-mail 등등 여러가지로 발송됩니다.`,
+  house_config_desc: `선택한 ${Var.SS}에대한 정보를 한눈에 관리가 가능합니다. 여기에서 입력되는 정보는 홈페이지와 e-mail 등등 여러가지로 발송됩니다.`,
   basic_info: "기본정보",
   basic_info_desc: `${Var.SS}의 기본정보를 수정 하실 수 있습니다.`,
   deposit_info: "입금정보",
@@ -1199,7 +1199,8 @@ export const krFn = (Var = DefaultVar) => ({
     "정기결제 취소를 원하시면 [MYPAGE > 정기결제 관리 > 현재상태]를 변경하시면 정기결제가 되지 않습니다.",
   product_type_help_txt: () => (
     <span>
-      ${Var.B} 20개 이상은 JANDA-H (110,000/월) <br /> 그외 JANDA-G (55,000/월) 권장
+      ${Var.B} 20개 이상은 JANDA-H (110,000/월) <br /> 그외 JANDA-G (55,000/월)
+      권장
     </span>
   ),
   product_type_desc: (productTypePrice: number) =>
@@ -1411,14 +1412,16 @@ export const krFn = (Var = DefaultVar) => ({
   // 이건 예약페이지에 관한 텍스트 수정이다.
   // 부킹에 있어도 될것같다.
   resv_page_info_editer: "예약페이지 안내 설정",
-  resv_page_info_editer_desc: "고객이 예약하면서 지켜야 할 주의사항 및 예약완료 안내메세지, 환불정책 등",
+  resv_page_info_editer_desc:
+    "고객이 예약하면서 지켜야 할 주의사항 및 예약완료 안내메세지, 환불정책 등",
   resv_complete_msg: "예약완료 메세지",
   resv_caution_msg: "예약전 주의사항",
   check_point_msg: "예약 확인 페이지 메세지",
   pay_precaution: "결제 주의사항",
   refund_cancel: "환불취소",
   refund_modal_header: "환불조정하기",
-  refund_modal_header_desc: "카드결제를 통해서 들어온 예약일경우 JANDA측에서 해당금액만큼 환불을 진행합니다.",
+  refund_modal_header_desc:
+    "카드결제를 통해서 들어온 예약일경우 JANDA측에서 해당금액만큼 환불을 진행합니다.",
   max_refund: (amt: string) => `최대 금액 ${amt}원`,
   resv_showTable_start: "방문일",
   refund_modal_title: "환불/취소",
@@ -1428,7 +1431,8 @@ export const krFn = (Var = DefaultVar) => ({
   tag_chnage_done: "태그 변경완료",
   tag_modal_title: (roomTypeName: string) => `${roomTypeName} 태그 설정`,
   tag_modal_title_desc: "태그 설정을 통해 분류 검색이 가능합니다.",
-  create_room_modal_title: (roomTypeName: string) => `${Var.R}타입 ${roomTypeName}에 방추가`,
+  create_room_modal_title: (roomTypeName: string) =>
+    `${Var.R}타입 ${roomTypeName}에 방추가`,
   create_room_modal_desc: `${Var.R}번호와 갯수를 입력하면 해당 방번호로 부터 자동 네이밍 합니다.`,
   roomNumber: `${Var.R}번호`,
   update_room_modal_title: (roomName: string) => `${roomName}의 정보변경`,
@@ -1437,4 +1441,5 @@ export const krFn = (Var = DefaultVar) => ({
   can_not_refund_that_much: "환불 한도가 초과입니다.",
   max_range_book_day_is: (N: string) => `최대 연박 일수는 ${N}일 입니다.`,
   reservation_page_new: "새 예약페이지",
+  your_resv_code_is: (code: string) => `당신의 예약번호는 ${code} 입니다.`
 });

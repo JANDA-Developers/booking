@@ -31,7 +31,7 @@ const DailyAssigHigher: React.FC<IDailyWrapWrapProp> = ({
     }
   });
 
-  moment.lang(currentLang);
+  moment.locale(currentLang);
 
   const roomTypesData =
     queryDataFormater(roomData, "GetAllRoomType", "roomTypes", []) || []; // 원본데이터

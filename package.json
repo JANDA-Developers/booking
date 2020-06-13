@@ -1,6 +1,6 @@
 {
   "name": "client_dev",
-  "version": "1.3.7",
+  "version": "1.4.5",
   "description": "Janda Reservation Module for Development(client)",
   "main": "index.jsx",
   "author": "KMJ",
@@ -28,7 +28,7 @@
     "build-storybook": "build-storybook -s --watch public"
   },
   "dependencies": {
-    "@janda-com/front": "^2.0.21",
+    "@janda-com/front": "^2.0.25",
     "@janda-com/lang": "^1.0.3",
     "@janda-com/resv-module": "^1.0.4",
     "apollo": "^2.6.2",
@@ -70,7 +70,7 @@
     "prop-types": "^15.6.2",
     "randomcolor": "^0.5.4",
     "rc-menu": "^7.4.23",
-    "react": "^16.7.0",
+    "react": "^16.13.1",
     "react-addons-css-transition-group": "^15.6.2",
     "react-apollo": "^2.3.3",
     "react-app-polyfill": "^0.1.3",
@@ -84,7 +84,7 @@
     "react-dnd": "^10.0.2",
     "react-dnd-html5-backend": "^10.0.2",
     "react-dnd-touch-backend": "^10.0.2",
-    "react-dom": "^16.7.0",
+    "react-dom": "^16.13.1",
     "react-drag-list": "^1.1.0",
     "react-export-excel": "^0.5.3",
     "react-favicon": "^0.0.14",
@@ -105,10 +105,12 @@
     "react-toastify": "^4.5.2",
     "react-tooltip": "^3.9.2",
     "react-window-size": "^1.2.2",
-    "reactjs-tag-input": "^2.0.15",
     "resolve": "1.8.1",
     "whatwg-fetch": "^3.0.0",
-    "winston-transport-browserconsole": "^1.0.1"
+    "winston-transport-browserconsole": "^1.0.1",
+    "@apollo/react-hooks": "^3.1.3",
+    "@babel/core": "7.1.0",
+    "@babel/plugin-proposal-optional-chaining": "^7.7.5"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -123,9 +125,6 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "@apollo/react-hooks": "^3.1.3",
-    "@babel/core": "7.1.0",
-    "@babel/plugin-proposal-optional-chaining": "^7.7.5",
     "@storybook/addon-actions": "^5.3.14",
     "@storybook/addon-knobs": "^5.3.14",
     "@storybook/addon-links": "^5.3.14",
@@ -186,7 +185,7 @@
     "file-loader": "2.0.0",
     "find-unused-sass-variables": "^1.0.2",
     "fork-ts-checker-webpack-plugin-alt": "0.4.14",
-    "html-webpack-plugin": "4.0.0-alpha.2",
+    "html-webpack-plugin": "4.3.0",
     "jest": "24.9.0",
     "jest-pnp-resolver": "^1.2.1",
     "mini-css-extract-plugin": "0.4.3",
@@ -201,11 +200,11 @@
     "react-perf-devtool": "^3.1.8",
     "sass-loader": "^7.3.1",
     "style-loader": "0.23.0",
-    "terser-webpack-plugin": "1.1.0",
+    "terser-webpack-plugin": "3.0.3",
     "ts-jest": "^24.2.0",
     "typescript": "^3.3.4000",
     "url-loader": "1.1.1",
-    "webpack": "4.19.1",
+    "webpack": "4.43.0",
     "webpack-dev-server": "3.1.9",
     "webpack-manifest-plugin": "2.0.4",
     "workbox-webpack-plugin": "3.6.3"

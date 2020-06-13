@@ -43,7 +43,7 @@ export const roomDataManufacturer = (
 
       const sharedProps = {
         roomTypeId: roomTypeData._id,
-        roomTypeIndex: roomTypeData.index,
+        roomTypeIndex,
         stackItems: false,
         roomGender: roomTypeData.roomGender,
         roomType: roomTypeData,

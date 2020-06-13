@@ -11,8 +11,6 @@ import {
   deleteBooking,
   deleteBookingVariables,
   makeBooking,
-  refundBooking,
-  refundBookingVariables,
   makeBookingVariables,
   getRoomTypeDatePrices,
   getRoomTypeDatePricesVariables
@@ -45,14 +43,14 @@ import moment from "moment";
 import PreloaderModal from "../../atoms/preloaderModal/PreloaderModal";
 import { useMutation } from "@apollo/react-hooks";
 
-class UpdateBookingMu extends Mutation<updateBooking, updateBookingVariables> { }
-class CreatBookingMu extends Mutation<makeBooking, makeBookingVariables> { }
-class DeleteBookingMu extends Mutation<deleteBooking, deleteBookingVariables> { }
-class GetBookingQuery extends Query<getBooking, getBookingVariables> { }
+class UpdateBookingMu extends Mutation<updateBooking, updateBookingVariables> {}
+class CreatBookingMu extends Mutation<makeBooking, makeBookingVariables> {}
+class DeleteBookingMu extends Mutation<deleteBooking, deleteBookingVariables> {}
+class GetBookingQuery extends Query<getBooking, getBookingVariables> {}
 class GetPriceWithDate extends Query<
   getRoomTypeDatePrices,
   getRoomTypeDatePricesVariables
-  > { }
+> {}
 
 const BookingModalWrap: React.FC<IBookingModalWrapProps> = ({
   deleteBookingCallBack,
@@ -67,7 +65,7 @@ const BookingModalWrap: React.FC<IBookingModalWrapProps> = ({
   const refetchQueries = [
     getOperationName(GET_BOOKINGS) || "",
     getOperationName(GET_ALL_GUEST_AND_BLOCK) || ""
-  ]
+  ];
 
   const [cancelBookingMu, { loading: cancelBookingLoading }] = useMutation<
     cancelBooking,
@@ -90,9 +88,7 @@ const BookingModalWrap: React.FC<IBookingModalWrapProps> = ({
       query={GET_BOOKING}
       skip={isEmpty(modalHook.info) || modalHook.info.createParam !== undefined}
       variables={{
-        param: {
-          bookingId: modalHook.info.bookingId || ""
-        }
+        payload: modalHook.info.bookingId || ""
       }}
     >
       {({ data: bookingData, loading: getBooking_loading }) => {

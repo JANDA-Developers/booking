@@ -6,11 +6,7 @@
     "module": "esnext",
     "moduleResolution": "node",
     "jsx": "react",
-    "lib": [
-      "dom",
-      "es6",
-      "es2016"
-    ],
+    "lib": ["dom", "es6", "es2016"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -36,11 +32,10 @@
     "src/pages/outPages/print/CreditCardReceipt.js",
     "src/setup.js",
     "src/components/cardModal",
-    "src/components/bookingModal/stories/bookingModal.storiestsx", "src/components/guestSearchInput/siteDatats", "src/pages/bookingHost/product/SelectProductWraptsx", "src/pages/bookingHost/product/SelectProducttsx"
+    "src/components/bookingModal/stories/bookingModal.storiestsx",
+    "src/components/guestSearchInput/siteDatats",
+    "src/pages/bookingHost/product/SelectProductWraptsx",
+    "src/pages/bookingHost/product/SelectProducttsx"
   ],
-  "exclude": [
-    "node_modules",
-    "src/atoms/**/*",
-    "src/**/*.stories.tsx"
-  ]
+  "exclude": ["node_modules", "src/atoms/**/*", "src/**/*.stories.tsx"]
 }

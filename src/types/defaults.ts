@@ -52,20 +52,22 @@ export const DEFAULT_ROOMTYPE: IRoomType = {
   pricingType: PricingType.DOMITORY,
   peopleCount: 0,
   peopleCountMax: 0,
-  index: -1,
+  hashTags: [],
   rooms: [],
   roomCount: 0,
   roomGender: RoomGender.SEPARATELY,
   description: null,
   defaultPrice: null,
   updatedAt: null,
-  img: null,
+  images: [],
   createdAt: undefined,
-  tags: [{
-    __typename: "Tag",
-    key: "",
-    value: ""
-  }],
+  tags: [
+    {
+      __typename: "Tag",
+      key: "",
+      value: ""
+    }
+  ],
   _id: ""
 };
 
@@ -150,10 +152,10 @@ export const DEFAULT_SMS_INFO: getSmsInfo_GetSmsInfo_smsInfo = {
 };
 
 export const FAKE_MODAL_HOOK: IUseModal = {
-  closeModal: () => { },
+  closeModal: () => {},
   isOpen: true,
   info: {},
-  openModal: () => { }
+  openModal: () => {}
 };
 
 export const FAKE_CONTEXT: IContext = {
@@ -331,7 +333,6 @@ export const DEFAULT_GUEST: getBooking_GetBooking_booking_guests_GuestDomitory =
 export const DEFAULT_FILE: JdFile = {
   filename: "",
   mimeType: "",
-  tags: [],
   url: "",
   __typename: "JdFile"
 };
@@ -341,7 +342,7 @@ export const DEFAULT_USER: getMyProfile_GetMyProfile_user = {
   _id: "",
   createdAt: "",
   checkPrivacyPolicy: false,
-  paymentInfos: null,
+  paymentInfos: [],
   updatedAt: "",
   bankAccountInfo: null,
   name: "",

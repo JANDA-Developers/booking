@@ -8,9 +8,13 @@ import {
   saveRoomTypesVariables,
   changeRoomTypeTags,
   changeRoomTypeTagsVariables,
-  TagInput,
+  TagInput
 } from "../../../types/api";
-import { GET_ALL_ROOMTYPES, SAVE_ROOMTYPES } from "../../../apollo/queries";
+import {
+  GET_ALL_ROOMTYPES,
+  SAVE_ROOMTYPES,
+  CHANGE_ROOM_TYPE_TAGS
+} from "../../../apollo/queries";
 import {
   ErrProtecter,
   queryDataFormater,
@@ -32,7 +36,11 @@ interface IProps {
 
 let LastKey = "";
 
-export type TChangeTags = (roomTypeId: string, newTags: TagInput[], removeKeys: string[]) => void;
+export type TChangeTags = (
+  roomTypeId: string,
+  upsertTags: TagInput[],
+  removeKeys: string[]
+) => void;
 
 const RoomConfigWrap: React.FC<IProps> = ({ context }) => {
   const { house } = context;
@@ -46,8 +54,20 @@ const RoomConfigWrap: React.FC<IProps> = ({ context }) => {
     variables: { houseId: house._id }
   });
 
-
   const refetchQueries = [getOperationName(GET_ALL_ROOMTYPES) || ""];
+
+  const [
+    changeRoomTypeTagsMu,
+    { loading: changeRoomTypeTagsLoading }
+  ] = useMutation<changeRoomTypeTags, changeRoomTypeTagsVariables>(
+    CHANGE_ROOM_TYPE_TAGS,
+    {
+      client,
+      notifyOnNetworkStatusChange: true,
+      refetchQueries,
+      awaitRefetchQueries: true
+    }
+  );
 
   const [changeRoomTypeMu, { loading: addRoomTypeLoading }] = useMutation<
     changeRoomTypeTags,
@@ -73,24 +93,42 @@ const RoomConfigWrap: React.FC<IProps> = ({ context }) => {
         LANG("save_room_done"),
         LANG("save_room_failed")
       );
+
+      if (SaveRoomTypes.ok) {
+        sessionStorage.clear();
+      }
     }
   });
 
   const roomTypesData =
     queryDataFormater(roomData, "GetAllRoomType", "roomTypes", []) || [];
 
-  const handleChangTags: TChangeTags = (roomTypeId: string, newTags: TagInput[], removeKeys: string[]) => {
-    changeRoomTypeMu({
+  const handleChangTags: TChangeTags = (
+    roomTypeId: string,
+    upsertTags: TagInput[],
+    removeKeys: string[]
+  ) => {
+    console.log("upsertTags");
+    console.log(upsertTags);
+    changeRoomTypeTagsMu({
       variables: {
-        newTags,
+        upsertTags,
         removeKeys,
         roomTypeId
       }
-    })
-  }
+    });
+  };
 
   const handleSubmit = (data: RoomConfigSubmitData) => {
     const upsertDatas = [...data.updateCreateDatas];
+
+    upsertDatas.forEach(ud => {
+      // @ts-ignore
+      delete ud["uploadImg"];
+    });
+
+    console.log("upsertDatas");
+    console.log(upsertDatas);
 
     saveRoomsMu({
       variables: {

@@ -15,7 +15,7 @@ import { PayTarget } from "../../../../../types/enum";
 interface Iprops {
   context: IContext;
 }
-
+const end = new Date();
 const PeriodicalTableWrap: React.FC<Iprops> = ({ context }) => {
   const { house } = context;
   const { createdAt } = house;
@@ -28,9 +28,10 @@ const PeriodicalTableWrap: React.FC<Iprops> = ({ context }) => {
         param: {
           filter: {
             period: {
-              end: new Date(),
-              start: createdAt,
-            }
+              end: end,
+              start: createdAt
+            },
+            targets: [PayTarget.USAGE_PLAN]
           },
           paging: {
             selectedPage: page,
