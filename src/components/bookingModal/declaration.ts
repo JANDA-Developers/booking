@@ -19,7 +19,8 @@ import {
   makeBooking,
   refundBookingVariables,
   cancelBookingVariables,
-  cancelBooking
+  cancelBooking,
+  refundBooking
 } from "../../types/api";
 import {
   Gender,
@@ -77,6 +78,7 @@ export interface IBookingModalContext {
   isDesktopUp: boolean;
   confirmModalHook: IUseModal<any>;
   payMethodHook: IUseSelect<PayMethod>;
+  refundBookingMu: IMu<refundBooking, refundBookingVariables>;
   cancelBookingMu: IMu<cancelBooking, cancelBookingVariables>;
   makeBookingMu: MutationFn<makeBooking, makeBookingVariables>;
   updateBookingMu: MutationFn<updateBooking, updateBookingVariables>;

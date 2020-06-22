@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import InputText from "../../atoms/forms/inputText/InputText";
-import { LANG, IUseModal } from "../../hooks/hook";
+import { LANG, IUseModal, useInput } from "../../hooks/hook";
 import JDmodal from "../../atoms/modal/Modal";
 import ModalEndSection from "../../atoms/modal/components/ModalEndSection";
 import Button from "../../atoms/button/Button";
@@ -25,8 +25,9 @@ interface IProps {
   modalHook: IUseModal;
   refundTargets: TRefundTarget[];
   isMulti?: boolean;
-  onRefunds?: (refundInfo: TRefundInfo[]) => void;
-  onRefund?: (amt: number) => void;
+  onRefunds?: (refundInfo: TRefundInfo[],msg:string) => void;
+  onRefund?: (amt: number, msg:string) => void;
+  loading?: boolean;
 }
 
 const RefundModal: React.FC<IProps> = ({
@@ -34,8 +35,11 @@ const RefundModal: React.FC<IProps> = ({
   onRefund,
   onRefunds,
   isMulti,
+  loading,
   refundTargets
 }) => {
+
+  const refundMsgHook = useInput("");
   const [refundInfos, setRefundInfos] = useState<TRefundInfo[]>(refundTargets.map((t) => ({
     max: t.max,
     amt: t.max,
@@ -57,6 +61,7 @@ const RefundModal: React.FC<IProps> = ({
 
   return (
     <JDmodal
+      loading={loading}
       head={{
         title: <div>
           <h6>{LANG("refund_modal_title")}</h6>
@@ -70,26 +75,31 @@ const RefundModal: React.FC<IProps> = ({
           const { id, amt, max } = target;
           return <div>
             <JDtypho>{name}</JDtypho>
-            <JDalign mb="normal" style={{
+            <JDalign mb="normal"  style={{
               justifyContent: "end",
               alignItems: "flex-end"
             }} flex key={id}>
-              <InputText
-                mb="no"
-                comma
-                placeholder={`최대 금액 ${autoComma(max)}원`}
-                value={amt}
-                onChange={v => {
-                  target.amt = v;
-                  setRefundInfos([...refundInfos]);
-                }}
-                label={LANG("refund_price")}
-              />
+
+                <InputText
+                  mb="no"
+                  comma
+                  placeholder={`최대 금액 ${autoComma(max)}원`}
+                  value={amt}
+                  onChange={v => {
+                    target.amt = v;
+                    setRefundInfos([...refundInfos]);
+                  }}
+                  label={LANG("refund_price")}
+                />
               <JDbutton mb="no" onClick={() => {
                 target.amt = max;
                 setRefundInfos([...refundInfos]);
               }} mode="border" label={LANG("all_cost")} />
+              
             </JDalign>
+            <div>
+                <InputText label="환불사유" textarea {...refundMsgHook} />
+              </div>
           </div>
         })}
         <ModalEndSection>
@@ -101,9 +111,9 @@ const RefundModal: React.FC<IProps> = ({
             onClick={() => {
               if (validate()) {
                 if (!isMulti)
-                  onRefund && onRefund(refundInfos[0].amt);
+                  onRefund && onRefund(refundInfos[0].amt, refundMsgHook.value);
                 else
-                  onRefunds && onRefunds(refundInfos);
+                  onRefunds && onRefunds(refundInfos,refundMsgHook.value);
               }
             }}
           />

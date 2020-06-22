@@ -27,7 +27,8 @@ import {
   Funnels,
   refundBookingVariables,
   cancelBooking,
-  cancelBookingVariables
+  cancelBookingVariables,
+  refundBooking
 } from "../../types/api";
 import SendSMSmodalWrap from "../smsModal/SendSmsModalWrap";
 import { IContext } from "../../pages/bookingHost/BookingHostRouter";
@@ -61,6 +62,7 @@ interface IProps {
   updateBookingMu: MutationFn<updateBooking, updateBookingVariables>;
   deleteBookingMu: MutationFn<deleteBooking, deleteBookingVariables>;
   makeBookingLoading: boolean;
+  refundBookingMu: IMu<refundBooking, refundBookingVariables>;
   cancelBookingMu: IMu<cancelBooking, cancelBookingVariables>;
   context: IContext;
   loading: boolean;
@@ -80,6 +82,7 @@ const BookingModal: React.FC<IProps> = ({
   updateBookingMu,
   makeBookingMu,
   deleteBookingMu,
+  refundBookingMu,
   makeBookingLoading,
   placeHolederPrice,
   loading,
@@ -191,6 +194,7 @@ const BookingModal: React.FC<IProps> = ({
     confirmModalHook,
     makeBookingMu,
     updateBookingMu,
+    refundBookingMu,
     cancelBookingMu,
     bookingNameHook,
     bookingPhoneHook,
@@ -275,7 +279,7 @@ const BookingModal: React.FC<IProps> = ({
             thema="error"
             onClick={handleDeletBtnClick}
           />
-          {/* <Button
+          <Button
             id="BookingModalRefundBtn"
             mode="flat"
             size="small"
@@ -283,7 +287,7 @@ const BookingModal: React.FC<IProps> = ({
             disabled={isCreateMode}
             thema="black"
             onClick={handleCancelBtnClick}
-          /> */}
+          />
         </div>
       }
       head={{
@@ -360,6 +364,7 @@ const BookingModal: React.FC<IProps> = ({
         </JDtabs>
       )}
       <RefundModal
+        loading={loading}
         refundTargets={[
           {
             id: bookingId,

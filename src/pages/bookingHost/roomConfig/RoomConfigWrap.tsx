@@ -8,12 +8,15 @@ import {
   saveRoomTypesVariables,
   changeRoomTypeTags,
   changeRoomTypeTagsVariables,
-  TagInput
+  TagInput,
+  upsertRoomTypeOptionalItem,
+  upsertRoomTypeOptionalItemVariables
 } from "../../../types/api";
 import {
   GET_ALL_ROOMTYPES,
   SAVE_ROOMTYPES,
-  CHANGE_ROOM_TYPE_TAGS
+  CHANGE_ROOM_TYPE_TAGS,
+  USERT_ROOM_TYPE_OPTIONAL_ITEM
 } from "../../../apollo/queries";
 import {
   ErrProtecter,
@@ -69,10 +72,13 @@ const RoomConfigWrap: React.FC<IProps> = ({ context }) => {
     }
   );
 
-  const [changeRoomTypeMu, { loading: addRoomTypeLoading }] = useMutation<
-    changeRoomTypeTags,
-    changeRoomTypeTagsVariables
-  >(SAVE_ROOMTYPES, {
+  const [
+    upsertRoomTypeOptionsMu,
+    { loading: upsertRoomTypeOptionLoading }
+  ] = useMutation<
+    upsertRoomTypeOptionalItem,
+    upsertRoomTypeOptionalItemVariables
+  >(USERT_ROOM_TYPE_OPTIONAL_ITEM, {
     client,
     notifyOnNetworkStatusChange: true,
     refetchQueries,
@@ -108,8 +114,6 @@ const RoomConfigWrap: React.FC<IProps> = ({ context }) => {
     upsertTags: TagInput[],
     removeKeys: string[]
   ) => {
-    console.log("upsertTags");
-    console.log(upsertTags);
     changeRoomTypeTagsMu({
       variables: {
         upsertTags,
@@ -147,6 +151,18 @@ const RoomConfigWrap: React.FC<IProps> = ({ context }) => {
     if (loading) return LastKey;
     return key;
   }, [loading]);
+
+  const handleUpsertRoomTypeOptionalProduct = (
+    roomTypeId: string,
+    params: OptionalItemUpsertInput
+  ) => {
+    upsertRoomTypeOptionsMu({
+      variables: {
+        params,
+        roomTypeId
+      }
+    });
+  };
 
   return (
     <Fragment>

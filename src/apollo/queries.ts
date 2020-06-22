@@ -288,6 +288,18 @@ export const F_SMS_SENDER = gql`
   }
 `;
 
+export const F_OPTIONAL_ITEM = gql`
+  fragment Foptional on OptionalItem {
+    _id
+    label
+    type
+    price
+    maxCount
+    multiplyDate
+    description
+  }
+`;
+
 // sms History
 export const F_SMS_HISTORY = gql`
   fragment FsmsHistory on SmsHistory {
@@ -324,7 +336,11 @@ export const F_ROOMTYPE = gql`
       key
       value
     }
+    optionalItem {
+      ...Foptional
+    }
   }
+  ${F_OPTIONAL_ITEM}
 `;
 
 //  방에대한 정보 프레임
@@ -1543,6 +1559,29 @@ export const DELETE_GUEST = gql`
   }
 `;
 
+// 방타입 추가 옵션
+export const USERT_ROOM_TYPE_OPTIONAL_ITEM = gql`
+  mutation upsertRoomTypeOptionalItem(
+    $roomTypeId: ID!
+    $params: OptionalItemUpsertInput!
+  ) {
+    UpsertRoomTypeOptionalItem(roomTypeId: $roomTypeId, params: $params) {
+      ok
+      error
+    }
+  }
+`;
+
+// 방타입 추가 옵션 삭제
+export const DELETE_OPTIONAL_ITEM = gql`
+  mutation deleteOptionalItem($optionalItemId: ID!) {
+    DeleteOptionalItem(optionalItemId: $optionalItemId) {
+      ok
+      error
+    }
+  }
+`;
+
 // 예약 ::예약생성 (게스트용)
 export const MAKE_BOOKING_FOR_PUBLIC = gql`
   mutation makeBookingForPublic(
@@ -2709,12 +2748,19 @@ export const DO_BILL_PAY_PRODUCT = gql`
     }
   }
 `;
-
 // Defrecated
 // CancelBooking을 사용하세요.
 export const REFUND_BOOKING = gql`
-  mutation refundBooking($param: CancelBookingInput!) {
-    CancelBooking(param: $param) {
+  mutation refundBooking(
+    $bookingNum: String!
+    $amount: Float!
+    $cancelMessage: String!
+  ) {
+    RefundBooking(
+      bookingNum: $bookingNum
+      amount: $amount
+      cancelMessage: $cancelMessage
+    ) {
       ok
       error
     }

@@ -7,8 +7,6 @@ import "./DashBoard.scss";
 import { useModal, useDayPicker, LANG } from "../../../hooks/hook";
 import Button from "../../../atoms/button/Button";
 import { IContext } from "../../bookingHost/BookingHostRouter";
-import DaySalesWrap from "../../../components/shortStatisces/DaySalesWrap";
-import DayCheckInWrap from "../../../components/shortStatisces/DayCheckInWrap";
 import ReservationModal from "../../../components/reservationModala/ReservationModal";
 import JDIcon from "../../../atoms/icons/Icons";
 import TooltipList, {
@@ -45,7 +43,7 @@ const DashBoard: React.SFC<Iprops> = ({ context }) => {
   //   []
   // );
 
-  const MemoDailyAssigWrap = useMemo(() => {
+  const MemoDailyAssigWrap = house.name !== "광안리" ? useMemo(() => {
     return (
       <DailyAssigWrap
         onRederCallBack={() => {
@@ -57,7 +55,7 @@ const DashBoard: React.SFC<Iprops> = ({ context }) => {
         key={"" + dailyAssigDateHook.from}
       />
     );
-  }, [dailyAssigDateHook.from]);
+  }, [dailyAssigDateHook.from]) : <div/>;
 
   const onToogleCardClick = () => {
     localStorage.removeItem(DO_TUTO_KEY);

@@ -1657,7 +1657,7 @@
   resolved "https://registry.yarnpkg.com/@interactjs/types/-/types-1.9.19.tgz#f096eb395ca190995c083497c755b65be0a88677"
   integrity sha512-PcaY5MmQTH5eiI525d57eB+/OH6V7utU5FfkbjfvYdFV2dE8NXjYlKiXOy7G0/Y08PyXPhge60TFaYOMYqmIUQ==
 
-"@janda-com/front@^2.0.21", "@janda-com/front@^2.0.25":
+"@janda-com/front@^2.0.25":
   version "2.0.25"
   resolved "https://registry.yarnpkg.com/@janda-com/front/-/front-2.0.25.tgz#0f6a084d7327bec385d30d0d82b7887a7d6e7744"
   integrity sha512-yTEfLYoIQ7T4+14W4bb2Up8zGTrNhepgBzKZGLpG1WHoHkBE9pLjyLYYI1GUWHmCHEAl664QrO4x/kevj9mvSA==
@@ -1694,13 +1694,13 @@
   dependencies:
     "@types/node" "12.7.4"
 
-"@janda-com/resv-module@^1.0.4":
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/@janda-com/resv-module/-/resv-module-1.0.4.tgz#7e246fe4106867c646faa14ce5f22d5105a5a253"
-  integrity sha512-fmi2bZhydxUg1xnyIAWwdOcLyiGAvxqnKS2oAZIbNYv6AWj4a943Z76d5QDA2upgQR+AwRhJMk/bdl3TFKVQJA==
+"@janda-com/resv-module@^1.0.6":
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/@janda-com/resv-module/-/resv-module-1.0.6.tgz#0db3137d1d8574371b7a02420e6bee7d4f70bd7d"
+  integrity sha512-1+agZjacjb2X94DWrmk2tyto5AKcEbW08EI0iElz0WEAeG7f//yLuGc0t9ySsbO787QuKMkzMVpWVCzSS98Wpw==
   dependencies:
     "@babel/core" "7.8.4"
-    "@janda-com/front" "^2.0.21"
+    "@janda-com/front" "^2.0.25"
     "@svgr/webpack" "4.3.3"
     "@typescript-eslint/eslint-plugin" "^2.10.0"
     "@typescript-eslint/parser" "^2.10.0"

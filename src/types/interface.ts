@@ -24,13 +24,16 @@ import {
   getGuests_GetGuests_guests_GuestRoom_blockOption,
   getGuests_GetGuests_guests,
   getGuests_GetBlocks_blocks,
-  getHouseForPublic_GetHouseForPublic_house_houseConfig_options
+  getHouseForPublic_GetHouseForPublic_house_houseConfig_options,
+  getAllRoomTypeForBooker_GetAllRoomTypeForBooker_roomTypes_optionalItem
 } from "./api";
 import { IselectedOption as ISelectO } from "../atoms/forms/selectBox/SelectBox";
 import { PricingType, TMarginSize } from "./enum";
 import { MutationFunctionOptions } from "@apollo/react-common";
 import { ExecutionResult } from "graphql";
 import { IBookingModalProp } from "../components/bookingModal/declaration";
+export interface IRoomTypeOptional
+  extends getAllRoomTypeForBooker_GetAllRoomTypeForBooker_roomTypes_optionalItem {}
 export interface JdFile extends singleUpload_SingleUpload_jdFile {}
 export interface IProductType
   extends getAllProductTypes_GetAllProductTypes_productTypes {}

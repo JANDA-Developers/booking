@@ -834,6 +834,20 @@ export interface getHouse_GetHouse_house_roomTypes_tags {
   value: string;
 }
 
+export interface getHouse_GetHouse_house_roomTypes_optionalItem {
+  __typename: "OptionalItem";
+  _id: string;
+  label: string;
+  type: OptionalItemType;
+  price: number | null;
+  maxCount: number | null;
+  /**
+   * 날짜에 비례해서 곱해지는지... true, false
+   */
+  multiplyDate: boolean;
+  description: string | null;
+}
+
 export interface getHouse_GetHouse_house_roomTypes_rooms {
   __typename: "Room";
   _id: string;
@@ -862,6 +876,7 @@ export interface getHouse_GetHouse_house_roomTypes {
   updatedAt: any | null;
   hashTags: string[];
   tags: getHouse_GetHouse_house_roomTypes_tags[];
+  optionalItem: getHouse_GetHouse_house_roomTypes_optionalItem | null;
   rooms: getHouse_GetHouse_house_roomTypes_rooms[];
 }
 
@@ -948,6 +963,20 @@ export interface dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_roo
   value: string;
 }
 
+export interface dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_optionalItem {
+  __typename: "OptionalItem";
+  _id: string;
+  label: string;
+  type: OptionalItemType;
+  price: number | null;
+  maxCount: number | null;
+  /**
+   * 날짜에 비례해서 곱해지는지... true, false
+   */
+  multiplyDate: boolean;
+  description: string | null;
+}
+
 export interface dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_roomType {
   __typename: "RoomType";
   _id: string;
@@ -970,6 +999,7 @@ export interface dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_roo
   updatedAt: any | null;
   hashTags: string[];
   tags: dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_tags[];
+  optionalItem: dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_optionalItem | null;
 }
 
 export interface dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_datePrices {
@@ -1062,6 +1092,20 @@ export interface getAllRoomTypeForBooker_GetAllRoomTypeForBooker_roomTypes_tags 
   value: string;
 }
 
+export interface getAllRoomTypeForBooker_GetAllRoomTypeForBooker_roomTypes_optionalItem {
+  __typename: "OptionalItem";
+  _id: string;
+  label: string;
+  type: OptionalItemType;
+  price: number | null;
+  maxCount: number | null;
+  /**
+   * 날짜에 비례해서 곱해지는지... true, false
+   */
+  multiplyDate: boolean;
+  description: string | null;
+}
+
 export interface getAllRoomTypeForBooker_GetAllRoomTypeForBooker_roomTypes_rooms {
   __typename: "Room";
   _id: string;
@@ -1090,6 +1134,7 @@ export interface getAllRoomTypeForBooker_GetAllRoomTypeForBooker_roomTypes {
   updatedAt: any | null;
   hashTags: string[];
   tags: getAllRoomTypeForBooker_GetAllRoomTypeForBooker_roomTypes_tags[];
+  optionalItem: getAllRoomTypeForBooker_GetAllRoomTypeForBooker_roomTypes_optionalItem | null;
   rooms: getAllRoomTypeForBooker_GetAllRoomTypeForBooker_roomTypes_rooms[];
 }
 
@@ -1128,6 +1173,20 @@ export interface getAllRoomType_GetAllRoomType_roomTypes_tags {
   value: string;
 }
 
+export interface getAllRoomType_GetAllRoomType_roomTypes_optionalItem {
+  __typename: "OptionalItem";
+  _id: string;
+  label: string;
+  type: OptionalItemType;
+  price: number | null;
+  maxCount: number | null;
+  /**
+   * 날짜에 비례해서 곱해지는지... true, false
+   */
+  multiplyDate: boolean;
+  description: string | null;
+}
+
 export interface getAllRoomType_GetAllRoomType_roomTypes_rooms {
   __typename: "Room";
   _id: string;
@@ -1156,6 +1215,7 @@ export interface getAllRoomType_GetAllRoomType_roomTypes {
   updatedAt: any | null;
   hashTags: string[];
   tags: getAllRoomType_GetAllRoomType_roomTypes_tags[];
+  optionalItem: getAllRoomType_GetAllRoomType_roomTypes_optionalItem | null;
   rooms: getAllRoomType_GetAllRoomType_roomTypes_rooms[];
 }
 
@@ -1198,6 +1258,20 @@ export interface findBooking_FindBooking_bookings_roomTypes_tags {
   value: string;
 }
 
+export interface findBooking_FindBooking_bookings_roomTypes_optionalItem {
+  __typename: "OptionalItem";
+  _id: string;
+  label: string;
+  type: OptionalItemType;
+  price: number | null;
+  maxCount: number | null;
+  /**
+   * 날짜에 비례해서 곱해지는지... true, false
+   */
+  multiplyDate: boolean;
+  description: string | null;
+}
+
 export interface findBooking_FindBooking_bookings_roomTypes {
   __typename: "RoomType";
   _id: string;
@@ -1220,6 +1294,7 @@ export interface findBooking_FindBooking_bookings_roomTypes {
   updatedAt: any | null;
   hashTags: string[];
   tags: findBooking_FindBooking_bookings_roomTypes_tags[];
+  optionalItem: findBooking_FindBooking_bookings_roomTypes_optionalItem | null;
 }
 
 export interface findBooking_FindBooking_bookings_checkInInfo {
@@ -1342,6 +1417,20 @@ export interface findBookings_FindBookings_data_roomTypes_tags {
   value: string;
 }
 
+export interface findBookings_FindBookings_data_roomTypes_optionalItem {
+  __typename: "OptionalItem";
+  _id: string;
+  label: string;
+  type: OptionalItemType;
+  price: number | null;
+  maxCount: number | null;
+  /**
+   * 날짜에 비례해서 곱해지는지... true, false
+   */
+  multiplyDate: boolean;
+  description: string | null;
+}
+
 export interface findBookings_FindBookings_data_roomTypes {
   __typename: "RoomType";
   _id: string;
@@ -1364,6 +1453,7 @@ export interface findBookings_FindBookings_data_roomTypes {
   updatedAt: any | null;
   hashTags: string[];
   tags: findBookings_FindBookings_data_roomTypes_tags[];
+  optionalItem: findBookings_FindBookings_data_roomTypes_optionalItem | null;
 }
 
 export interface findBookings_FindBookings_data_checkInInfo {
@@ -1483,6 +1573,20 @@ export interface findBookingForBooker_FindBookingForBooker_bookings_roomTypes_ta
   value: string;
 }
 
+export interface findBookingForBooker_FindBookingForBooker_bookings_roomTypes_optionalItem {
+  __typename: "OptionalItem";
+  _id: string;
+  label: string;
+  type: OptionalItemType;
+  price: number | null;
+  maxCount: number | null;
+  /**
+   * 날짜에 비례해서 곱해지는지... true, false
+   */
+  multiplyDate: boolean;
+  description: string | null;
+}
+
 export interface findBookingForBooker_FindBookingForBooker_bookings_roomTypes {
   __typename: "RoomType";
   _id: string;
@@ -1505,6 +1609,7 @@ export interface findBookingForBooker_FindBookingForBooker_bookings_roomTypes {
   updatedAt: any | null;
   hashTags: string[];
   tags: findBookingForBooker_FindBookingForBooker_bookings_roomTypes_tags[];
+  optionalItem: findBookingForBooker_FindBookingForBooker_bookings_roomTypes_optionalItem | null;
 }
 
 export interface findBookingForBooker_FindBookingForBooker_bookings_checkInInfo {
@@ -1626,6 +1731,20 @@ export interface getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_
   value: string;
 }
 
+export interface getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_optionalItem {
+  __typename: "OptionalItem";
+  _id: string;
+  label: string;
+  type: OptionalItemType;
+  price: number | null;
+  maxCount: number | null;
+  /**
+   * 날짜에 비례해서 곱해지는지... true, false
+   */
+  multiplyDate: boolean;
+  description: string | null;
+}
+
 export interface getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_roomType {
   __typename: "RoomType";
   _id: string;
@@ -1648,6 +1767,7 @@ export interface getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_
   updatedAt: any | null;
   hashTags: string[];
   tags: getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_tags[];
+  optionalItem: getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_optionalItem | null;
 }
 
 export interface getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_datePrices {
@@ -1753,6 +1873,20 @@ export interface getGuests_GetGuests_guests_GuestDomitory_booking_roomTypes_tags
   value: string;
 }
 
+export interface getGuests_GetGuests_guests_GuestDomitory_booking_roomTypes_optionalItem {
+  __typename: "OptionalItem";
+  _id: string;
+  label: string;
+  type: OptionalItemType;
+  price: number | null;
+  maxCount: number | null;
+  /**
+   * 날짜에 비례해서 곱해지는지... true, false
+   */
+  multiplyDate: boolean;
+  description: string | null;
+}
+
 export interface getGuests_GetGuests_guests_GuestDomitory_booking_roomTypes {
   __typename: "RoomType";
   _id: string;
@@ -1775,6 +1909,7 @@ export interface getGuests_GetGuests_guests_GuestDomitory_booking_roomTypes {
   updatedAt: any | null;
   hashTags: string[];
   tags: getGuests_GetGuests_guests_GuestDomitory_booking_roomTypes_tags[];
+  optionalItem: getGuests_GetGuests_guests_GuestDomitory_booking_roomTypes_optionalItem | null;
 }
 
 export interface getGuests_GetGuests_guests_GuestDomitory_booking_checkInInfo {
@@ -1889,6 +2024,20 @@ export interface getGuests_GetGuests_guests_GuestRoom_booking_roomTypes_tags {
   value: string;
 }
 
+export interface getGuests_GetGuests_guests_GuestRoom_booking_roomTypes_optionalItem {
+  __typename: "OptionalItem";
+  _id: string;
+  label: string;
+  type: OptionalItemType;
+  price: number | null;
+  maxCount: number | null;
+  /**
+   * 날짜에 비례해서 곱해지는지... true, false
+   */
+  multiplyDate: boolean;
+  description: string | null;
+}
+
 export interface getGuests_GetGuests_guests_GuestRoom_booking_roomTypes {
   __typename: "RoomType";
   _id: string;
@@ -1911,6 +2060,7 @@ export interface getGuests_GetGuests_guests_GuestRoom_booking_roomTypes {
   updatedAt: any | null;
   hashTags: string[];
   tags: getGuests_GetGuests_guests_GuestRoom_booking_roomTypes_tags[];
+  optionalItem: getGuests_GetGuests_guests_GuestRoom_booking_roomTypes_optionalItem | null;
 }
 
 export interface getGuests_GetGuests_guests_GuestRoom_booking_checkInInfo {
@@ -2607,6 +2757,20 @@ export interface getBookingForPublic_GetBookingForPublic_booking_roomTypes_tags 
   value: string;
 }
 
+export interface getBookingForPublic_GetBookingForPublic_booking_roomTypes_optionalItem {
+  __typename: "OptionalItem";
+  _id: string;
+  label: string;
+  type: OptionalItemType;
+  price: number | null;
+  maxCount: number | null;
+  /**
+   * 날짜에 비례해서 곱해지는지... true, false
+   */
+  multiplyDate: boolean;
+  description: string | null;
+}
+
 export interface getBookingForPublic_GetBookingForPublic_booking_roomTypes {
   __typename: "RoomType";
   _id: string;
@@ -2629,6 +2793,7 @@ export interface getBookingForPublic_GetBookingForPublic_booking_roomTypes {
   updatedAt: any | null;
   hashTags: string[];
   tags: getBookingForPublic_GetBookingForPublic_booking_roomTypes_tags[];
+  optionalItem: getBookingForPublic_GetBookingForPublic_booking_roomTypes_optionalItem | null;
 }
 
 export interface getBookingForPublic_GetBookingForPublic_booking_checkInInfo {
@@ -2901,6 +3066,20 @@ export interface getBookings_GetBookings_result_bookings_roomTypes_tags {
   value: string;
 }
 
+export interface getBookings_GetBookings_result_bookings_roomTypes_optionalItem {
+  __typename: "OptionalItem";
+  _id: string;
+  label: string;
+  type: OptionalItemType;
+  price: number | null;
+  maxCount: number | null;
+  /**
+   * 날짜에 비례해서 곱해지는지... true, false
+   */
+  multiplyDate: boolean;
+  description: string | null;
+}
+
 export interface getBookings_GetBookings_result_bookings_roomTypes {
   __typename: "RoomType";
   _id: string;
@@ -2923,6 +3102,7 @@ export interface getBookings_GetBookings_result_bookings_roomTypes {
   updatedAt: any | null;
   hashTags: string[];
   tags: getBookings_GetBookings_result_bookings_roomTypes_tags[];
+  optionalItem: getBookings_GetBookings_result_bookings_roomTypes_optionalItem | null;
 }
 
 export interface getBookings_GetBookings_result_bookings_checkInInfo {
@@ -3084,6 +3264,20 @@ export interface getBooking_GetBooking_booking_roomTypes_tags {
   value: string;
 }
 
+export interface getBooking_GetBooking_booking_roomTypes_optionalItem {
+  __typename: "OptionalItem";
+  _id: string;
+  label: string;
+  type: OptionalItemType;
+  price: number | null;
+  maxCount: number | null;
+  /**
+   * 날짜에 비례해서 곱해지는지... true, false
+   */
+  multiplyDate: boolean;
+  description: string | null;
+}
+
 export interface getBooking_GetBooking_booking_roomTypes {
   __typename: "RoomType";
   _id: string;
@@ -3106,6 +3300,7 @@ export interface getBooking_GetBooking_booking_roomTypes {
   updatedAt: any | null;
   hashTags: string[];
   tags: getBooking_GetBooking_booking_roomTypes_tags[];
+  optionalItem: getBooking_GetBooking_booking_roomTypes_optionalItem | null;
 }
 
 export interface getBooking_GetBooking_booking_checkInInfo {
@@ -3501,6 +3696,53 @@ export interface deleteGuests {
 
 export interface deleteGuestsVariables {
   guestIds?: string[] | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: upsertRoomTypeOptionalItem
+// ====================================================
+
+export interface upsertRoomTypeOptionalItem_UpsertRoomTypeOptionalItem {
+  __typename: "UpsertRoomTypeOptionalItemResponse";
+  ok: boolean;
+  error: string | null;
+}
+
+export interface upsertRoomTypeOptionalItem {
+  UpsertRoomTypeOptionalItem: upsertRoomTypeOptionalItem_UpsertRoomTypeOptionalItem;
+}
+
+export interface upsertRoomTypeOptionalItemVariables {
+  roomTypeId: string;
+  params: OptionalItemUpsertInput;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL mutation operation: deleteOptionalItem
+// ====================================================
+
+export interface deleteOptionalItem_DeleteOptionalItem {
+  __typename: "DeleteOptionalItemResponse";
+  ok: boolean;
+  error: string | null;
+}
+
+export interface deleteOptionalItem {
+  DeleteOptionalItem: deleteOptionalItem_DeleteOptionalItem;
+}
+
+export interface deleteOptionalItemVariables {
+  optionalItemId: string;
 }
 
 /* tslint:disable */
@@ -4978,6 +5220,20 @@ export interface getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices_roomTy
   value: string;
 }
 
+export interface getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_optionalItem {
+  __typename: "OptionalItem";
+  _id: string;
+  label: string;
+  type: OptionalItemType;
+  price: number | null;
+  maxCount: number | null;
+  /**
+   * 날짜에 비례해서 곱해지는지... true, false
+   */
+  multiplyDate: boolean;
+  description: string | null;
+}
+
 export interface getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices_roomType {
   __typename: "RoomType";
   _id: string;
@@ -5000,6 +5256,7 @@ export interface getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices_roomTy
   updatedAt: any | null;
   hashTags: string[];
   tags: getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_tags[];
+  optionalItem: getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_optionalItem | null;
 }
 
 export interface getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices_datePrices {
@@ -6077,21 +6334,23 @@ export interface doBillPayProductVariables {
 // GraphQL mutation operation: refundBooking
 // ====================================================
 
-export interface refundBooking_CancelBooking {
-  __typename: "CancelBookingResponse";
+export interface refundBooking_RefundBooking {
+  __typename: "RefundBookingResponse";
   ok: boolean;
   error: string | null;
 }
 
 export interface refundBooking {
   /**
-   * 예약 취소. 환불하는거 아님. 예약 상태에만 관여함. & 환불에 관련된 파라미터를 만들어냄
+   * booking.payment.willRefundPrice 확인 후 금액만큼 입력해야함. payment.status === CANCELED이 아닌 예약도 환불이 가능함.(그냥 돈만 돌려주는형태)
    */
-  CancelBooking: refundBooking_CancelBooking;
+  RefundBooking: refundBooking_RefundBooking;
 }
 
 export interface refundBookingVariables {
-  param: CancelBookingInput;
+  bookingNum: string;
+  amount: number;
+  cancelMessage: string;
 }
 
 /* tslint:disable */
@@ -6212,6 +6471,20 @@ export interface searchBooking_SearchBooking_data_roomTypes_tags {
   value: string;
 }
 
+export interface searchBooking_SearchBooking_data_roomTypes_optionalItem {
+  __typename: "OptionalItem";
+  _id: string;
+  label: string;
+  type: OptionalItemType;
+  price: number | null;
+  maxCount: number | null;
+  /**
+   * 날짜에 비례해서 곱해지는지... true, false
+   */
+  multiplyDate: boolean;
+  description: string | null;
+}
+
 export interface searchBooking_SearchBooking_data_roomTypes {
   __typename: "RoomType";
   _id: string;
@@ -6234,6 +6507,7 @@ export interface searchBooking_SearchBooking_data_roomTypes {
   updatedAt: any | null;
   hashTags: string[];
   tags: searchBooking_SearchBooking_data_roomTypes_tags[];
+  optionalItem: searchBooking_SearchBooking_data_roomTypes_optionalItem | null;
 }
 
 export interface searchBooking_SearchBooking_data_checkInInfo {
@@ -6937,6 +7211,29 @@ export interface FsmsSender {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL fragment: Foptional
+// ====================================================
+
+export interface Foptional {
+  __typename: "OptionalItem";
+  _id: string;
+  label: string;
+  type: OptionalItemType;
+  price: number | null;
+  maxCount: number | null;
+  /**
+   * 날짜에 비례해서 곱해지는지... true, false
+   */
+  multiplyDate: boolean;
+  description: string | null;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL fragment: FsmsHistory
 // ====================================================
 
@@ -6974,6 +7271,20 @@ export interface FroomType_tags {
   value: string;
 }
 
+export interface FroomType_optionalItem {
+  __typename: "OptionalItem";
+  _id: string;
+  label: string;
+  type: OptionalItemType;
+  price: number | null;
+  maxCount: number | null;
+  /**
+   * 날짜에 비례해서 곱해지는지... true, false
+   */
+  multiplyDate: boolean;
+  description: string | null;
+}
+
 export interface FroomType {
   __typename: "RoomType";
   _id: string;
@@ -6996,6 +7307,7 @@ export interface FroomType {
   updatedAt: any | null;
   hashTags: string[];
   tags: FroomType_tags[];
+  optionalItem: FroomType_optionalItem | null;
 }
 
 /* tslint:disable */
@@ -7272,6 +7584,20 @@ export interface FsharedGetAllRoomType_roomTypes_tags {
   value: string;
 }
 
+export interface FsharedGetAllRoomType_roomTypes_optionalItem {
+  __typename: "OptionalItem";
+  _id: string;
+  label: string;
+  type: OptionalItemType;
+  price: number | null;
+  maxCount: number | null;
+  /**
+   * 날짜에 비례해서 곱해지는지... true, false
+   */
+  multiplyDate: boolean;
+  description: string | null;
+}
+
 export interface FsharedGetAllRoomType_roomTypes_rooms {
   __typename: "Room";
   _id: string;
@@ -7300,6 +7626,7 @@ export interface FsharedGetAllRoomType_roomTypes {
   updatedAt: any | null;
   hashTags: string[];
   tags: FsharedGetAllRoomType_roomTypes_tags[];
+  optionalItem: FsharedGetAllRoomType_roomTypes_optionalItem | null;
   rooms: FsharedGetAllRoomType_roomTypes_rooms[];
 }
 
@@ -7331,6 +7658,20 @@ export interface Fbooking_roomTypes_tags {
   value: string;
 }
 
+export interface Fbooking_roomTypes_optionalItem {
+  __typename: "OptionalItem";
+  _id: string;
+  label: string;
+  type: OptionalItemType;
+  price: number | null;
+  maxCount: number | null;
+  /**
+   * 날짜에 비례해서 곱해지는지... true, false
+   */
+  multiplyDate: boolean;
+  description: string | null;
+}
+
 export interface Fbooking_roomTypes {
   __typename: "RoomType";
   _id: string;
@@ -7353,6 +7694,7 @@ export interface Fbooking_roomTypes {
   updatedAt: any | null;
   hashTags: string[];
   tags: Fbooking_roomTypes_tags[];
+  optionalItem: Fbooking_roomTypes_optionalItem | null;
 }
 
 export interface Fbooking_checkInInfo {
@@ -7738,6 +8080,20 @@ export interface FroomTypePriceResult_roomTypeDatePrices_roomType_tags {
   value: string;
 }
 
+export interface FroomTypePriceResult_roomTypeDatePrices_roomType_optionalItem {
+  __typename: "OptionalItem";
+  _id: string;
+  label: string;
+  type: OptionalItemType;
+  price: number | null;
+  maxCount: number | null;
+  /**
+   * 날짜에 비례해서 곱해지는지... true, false
+   */
+  multiplyDate: boolean;
+  description: string | null;
+}
+
 export interface FroomTypePriceResult_roomTypeDatePrices_roomType {
   __typename: "RoomType";
   _id: string;
@@ -7760,6 +8116,7 @@ export interface FroomTypePriceResult_roomTypeDatePrices_roomType {
   updatedAt: any | null;
   hashTags: string[];
   tags: FroomTypePriceResult_roomTypeDatePrices_roomType_tags[];
+  optionalItem: FroomTypePriceResult_roomTypeDatePrices_roomType_optionalItem | null;
 }
 
 export interface FroomTypePriceResult_roomTypeDatePrices_datePrices {
@@ -7982,6 +8339,13 @@ export enum NotiType {
   NEW_BOOKING = "NEW_BOOKING",
   PRODUCT_EXPIRE = "PRODUCT_EXPIRE",
   TO_ALL = "TO_ALL",
+}
+
+export enum OptionalItemType {
+  CHECK = "CHECK",
+  GROUP = "GROUP",
+  INPUT = "INPUT",
+  RADIO = "RADIO",
 }
 
 /**
@@ -8464,6 +8828,16 @@ export interface NewBookingMarkInput {
 export interface OffsetPagingInput {
   selectedPage: number;
   count: number;
+}
+
+export interface OptionalItemUpsertInput {
+  _id?: string | null;
+  label?: string | null;
+  type?: OptionalItemType | null;
+  price?: number | null;
+  maxCount?: number | null;
+  multiplyDate?: boolean | null;
+  optionalItems?: OptionalItemUpsertInput[] | null;
 }
 
 export interface PayCancelInput {

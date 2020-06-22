@@ -30,6 +30,7 @@ export const getHandler = (
     bookingData,
     updateBookingMu,
     cancelBookingMu,
+    refundBookingMu,
     confirmModalHook,
     refundModalHook,
     funnelStatusHook
@@ -132,14 +133,24 @@ export const getHandler = (
     bookingModalHook.closeModal();
   };
 
-  const handleRefund = (amt: any) => {
-    cancelBookingMu({
+  const handleRefund = async (amt: any,msg:string) => {
+    const result = await cancelBookingMu({
       variables: {
         param: {
           bookingNum: bookingData.bookingNum
         }
       }
     });
+
+    if(result.data?.CancelBooking.ok) {
+      refundBookingMu({
+        variables:{
+          amount: amt,
+          bookingNum: bookingData.bookingNum,
+          cancelMessage: msg
+        }
+      })
+    }
   };
 
   return {
