@@ -61,7 +61,7 @@ export const bookingModalValidate = (
     return false;
   }
 
-  if (bookingPhoneHook.value && !bookingPhoneHook.isValid) {
+  if (!bookingPhoneHook.value) {
     toast.warn(LANG("it_is_wrong_number"));
     $("#BookerPhoneInput").focus();
     return false;

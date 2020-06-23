@@ -1,6 +1,10 @@
 {
   "name": "client_dev",
+<<<<<<< HEAD
   "version": "1.4.8",
+=======
+  "version": "1.4.7",
+>>>>>>> 버그픽스
   "description": "Janda Reservation Module for Development(client)",
   "main": "index.jsx",
   "author": "KMJ",
