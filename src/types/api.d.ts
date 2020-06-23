@@ -834,7 +834,7 @@ export interface getHouse_GetHouse_house_roomTypes_tags {
   value: string;
 }
 
-export interface getHouse_GetHouse_house_roomTypes_optionalItem {
+export interface getHouse_GetHouse_house_roomTypes_optionalItems {
   __typename: "OptionalItem";
   _id: string;
   label: string;
@@ -876,7 +876,7 @@ export interface getHouse_GetHouse_house_roomTypes {
   updatedAt: any | null;
   hashTags: string[];
   tags: getHouse_GetHouse_house_roomTypes_tags[];
-  optionalItem: getHouse_GetHouse_house_roomTypes_optionalItem | null;
+  optionalItems: getHouse_GetHouse_house_roomTypes_optionalItems[];
   rooms: getHouse_GetHouse_house_roomTypes_rooms[];
 }
 
@@ -963,7 +963,7 @@ export interface dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_roo
   value: string;
 }
 
-export interface dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_optionalItem {
+export interface dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_optionalItems {
   __typename: "OptionalItem";
   _id: string;
   label: string;
@@ -999,7 +999,7 @@ export interface dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_roo
   updatedAt: any | null;
   hashTags: string[];
   tags: dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_tags[];
-  optionalItem: dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_optionalItem | null;
+  optionalItems: dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_optionalItems[];
 }
 
 export interface dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_datePrices {
@@ -1092,7 +1092,7 @@ export interface getAllRoomTypeForBooker_GetAllRoomTypeForBooker_roomTypes_tags 
   value: string;
 }
 
-export interface getAllRoomTypeForBooker_GetAllRoomTypeForBooker_roomTypes_optionalItem {
+export interface getAllRoomTypeForBooker_GetAllRoomTypeForBooker_roomTypes_optionalItems {
   __typename: "OptionalItem";
   _id: string;
   label: string;
@@ -1134,7 +1134,7 @@ export interface getAllRoomTypeForBooker_GetAllRoomTypeForBooker_roomTypes {
   updatedAt: any | null;
   hashTags: string[];
   tags: getAllRoomTypeForBooker_GetAllRoomTypeForBooker_roomTypes_tags[];
-  optionalItem: getAllRoomTypeForBooker_GetAllRoomTypeForBooker_roomTypes_optionalItem | null;
+  optionalItems: getAllRoomTypeForBooker_GetAllRoomTypeForBooker_roomTypes_optionalItems[];
   rooms: getAllRoomTypeForBooker_GetAllRoomTypeForBooker_roomTypes_rooms[];
 }
 
@@ -1173,7 +1173,7 @@ export interface getAllRoomType_GetAllRoomType_roomTypes_tags {
   value: string;
 }
 
-export interface getAllRoomType_GetAllRoomType_roomTypes_optionalItem {
+export interface getAllRoomType_GetAllRoomType_roomTypes_optionalItems {
   __typename: "OptionalItem";
   _id: string;
   label: string;
@@ -1215,7 +1215,7 @@ export interface getAllRoomType_GetAllRoomType_roomTypes {
   updatedAt: any | null;
   hashTags: string[];
   tags: getAllRoomType_GetAllRoomType_roomTypes_tags[];
-  optionalItem: getAllRoomType_GetAllRoomType_roomTypes_optionalItem | null;
+  optionalItems: getAllRoomType_GetAllRoomType_roomTypes_optionalItems[];
   rooms: getAllRoomType_GetAllRoomType_roomTypes_rooms[];
 }
 
@@ -1258,7 +1258,7 @@ export interface findBooking_FindBooking_bookings_roomTypes_tags {
   value: string;
 }
 
-export interface findBooking_FindBooking_bookings_roomTypes_optionalItem {
+export interface findBooking_FindBooking_bookings_roomTypes_optionalItems {
   __typename: "OptionalItem";
   _id: string;
   label: string;
@@ -1294,7 +1294,7 @@ export interface findBooking_FindBooking_bookings_roomTypes {
   updatedAt: any | null;
   hashTags: string[];
   tags: findBooking_FindBooking_bookings_roomTypes_tags[];
-  optionalItem: findBooking_FindBooking_bookings_roomTypes_optionalItem | null;
+  optionalItems: findBooking_FindBooking_bookings_roomTypes_optionalItems[];
 }
 
 export interface findBooking_FindBooking_bookings_checkInInfo {
@@ -1417,7 +1417,7 @@ export interface findBookings_FindBookings_data_roomTypes_tags {
   value: string;
 }
 
-export interface findBookings_FindBookings_data_roomTypes_optionalItem {
+export interface findBookings_FindBookings_data_roomTypes_optionalItems {
   __typename: "OptionalItem";
   _id: string;
   label: string;
@@ -1453,7 +1453,7 @@ export interface findBookings_FindBookings_data_roomTypes {
   updatedAt: any | null;
   hashTags: string[];
   tags: findBookings_FindBookings_data_roomTypes_tags[];
-  optionalItem: findBookings_FindBookings_data_roomTypes_optionalItem | null;
+  optionalItems: findBookings_FindBookings_data_roomTypes_optionalItems[];
 }
 
 export interface findBookings_FindBookings_data_checkInInfo {
@@ -1573,7 +1573,7 @@ export interface findBookingForBooker_FindBookingForBooker_bookings_roomTypes_ta
   value: string;
 }
 
-export interface findBookingForBooker_FindBookingForBooker_bookings_roomTypes_optionalItem {
+export interface findBookingForBooker_FindBookingForBooker_bookings_roomTypes_optionalItems {
   __typename: "OptionalItem";
   _id: string;
   label: string;
@@ -1609,7 +1609,7 @@ export interface findBookingForBooker_FindBookingForBooker_bookings_roomTypes {
   updatedAt: any | null;
   hashTags: string[];
   tags: findBookingForBooker_FindBookingForBooker_bookings_roomTypes_tags[];
-  optionalItem: findBookingForBooker_FindBookingForBooker_bookings_roomTypes_optionalItem | null;
+  optionalItems: findBookingForBooker_FindBookingForBooker_bookings_roomTypes_optionalItems[];
 }
 
 export interface findBookingForBooker_FindBookingForBooker_bookings_checkInInfo {
@@ -1731,7 +1731,7 @@ export interface getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_
   value: string;
 }
 
-export interface getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_optionalItem {
+export interface getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_optionalItems {
   __typename: "OptionalItem";
   _id: string;
   label: string;
@@ -1767,7 +1767,7 @@ export interface getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_
   updatedAt: any | null;
   hashTags: string[];
   tags: getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_tags[];
-  optionalItem: getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_optionalItem | null;
+  optionalItems: getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_optionalItems[];
 }
 
 export interface getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_datePrices {
@@ -1873,7 +1873,7 @@ export interface getGuests_GetGuests_guests_GuestDomitory_booking_roomTypes_tags
   value: string;
 }
 
-export interface getGuests_GetGuests_guests_GuestDomitory_booking_roomTypes_optionalItem {
+export interface getGuests_GetGuests_guests_GuestDomitory_booking_roomTypes_optionalItems {
   __typename: "OptionalItem";
   _id: string;
   label: string;
@@ -1909,7 +1909,7 @@ export interface getGuests_GetGuests_guests_GuestDomitory_booking_roomTypes {
   updatedAt: any | null;
   hashTags: string[];
   tags: getGuests_GetGuests_guests_GuestDomitory_booking_roomTypes_tags[];
-  optionalItem: getGuests_GetGuests_guests_GuestDomitory_booking_roomTypes_optionalItem | null;
+  optionalItems: getGuests_GetGuests_guests_GuestDomitory_booking_roomTypes_optionalItems[];
 }
 
 export interface getGuests_GetGuests_guests_GuestDomitory_booking_checkInInfo {
@@ -2024,7 +2024,7 @@ export interface getGuests_GetGuests_guests_GuestRoom_booking_roomTypes_tags {
   value: string;
 }
 
-export interface getGuests_GetGuests_guests_GuestRoom_booking_roomTypes_optionalItem {
+export interface getGuests_GetGuests_guests_GuestRoom_booking_roomTypes_optionalItems {
   __typename: "OptionalItem";
   _id: string;
   label: string;
@@ -2060,7 +2060,7 @@ export interface getGuests_GetGuests_guests_GuestRoom_booking_roomTypes {
   updatedAt: any | null;
   hashTags: string[];
   tags: getGuests_GetGuests_guests_GuestRoom_booking_roomTypes_tags[];
-  optionalItem: getGuests_GetGuests_guests_GuestRoom_booking_roomTypes_optionalItem | null;
+  optionalItems: getGuests_GetGuests_guests_GuestRoom_booking_roomTypes_optionalItems[];
 }
 
 export interface getGuests_GetGuests_guests_GuestRoom_booking_checkInInfo {
@@ -2757,7 +2757,7 @@ export interface getBookingForPublic_GetBookingForPublic_booking_roomTypes_tags 
   value: string;
 }
 
-export interface getBookingForPublic_GetBookingForPublic_booking_roomTypes_optionalItem {
+export interface getBookingForPublic_GetBookingForPublic_booking_roomTypes_optionalItems {
   __typename: "OptionalItem";
   _id: string;
   label: string;
@@ -2793,7 +2793,7 @@ export interface getBookingForPublic_GetBookingForPublic_booking_roomTypes {
   updatedAt: any | null;
   hashTags: string[];
   tags: getBookingForPublic_GetBookingForPublic_booking_roomTypes_tags[];
-  optionalItem: getBookingForPublic_GetBookingForPublic_booking_roomTypes_optionalItem | null;
+  optionalItems: getBookingForPublic_GetBookingForPublic_booking_roomTypes_optionalItems[];
 }
 
 export interface getBookingForPublic_GetBookingForPublic_booking_checkInInfo {
@@ -3066,7 +3066,7 @@ export interface getBookings_GetBookings_result_bookings_roomTypes_tags {
   value: string;
 }
 
-export interface getBookings_GetBookings_result_bookings_roomTypes_optionalItem {
+export interface getBookings_GetBookings_result_bookings_roomTypes_optionalItems {
   __typename: "OptionalItem";
   _id: string;
   label: string;
@@ -3102,7 +3102,7 @@ export interface getBookings_GetBookings_result_bookings_roomTypes {
   updatedAt: any | null;
   hashTags: string[];
   tags: getBookings_GetBookings_result_bookings_roomTypes_tags[];
-  optionalItem: getBookings_GetBookings_result_bookings_roomTypes_optionalItem | null;
+  optionalItems: getBookings_GetBookings_result_bookings_roomTypes_optionalItems[];
 }
 
 export interface getBookings_GetBookings_result_bookings_checkInInfo {
@@ -3264,7 +3264,7 @@ export interface getBooking_GetBooking_booking_roomTypes_tags {
   value: string;
 }
 
-export interface getBooking_GetBooking_booking_roomTypes_optionalItem {
+export interface getBooking_GetBooking_booking_roomTypes_optionalItems {
   __typename: "OptionalItem";
   _id: string;
   label: string;
@@ -3300,7 +3300,7 @@ export interface getBooking_GetBooking_booking_roomTypes {
   updatedAt: any | null;
   hashTags: string[];
   tags: getBooking_GetBooking_booking_roomTypes_tags[];
-  optionalItem: getBooking_GetBooking_booking_roomTypes_optionalItem | null;
+  optionalItems: getBooking_GetBooking_booking_roomTypes_optionalItems[];
 }
 
 export interface getBooking_GetBooking_booking_checkInInfo {
@@ -5220,7 +5220,7 @@ export interface getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices_roomTy
   value: string;
 }
 
-export interface getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_optionalItem {
+export interface getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_optionalItems {
   __typename: "OptionalItem";
   _id: string;
   label: string;
@@ -5256,7 +5256,7 @@ export interface getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices_roomTy
   updatedAt: any | null;
   hashTags: string[];
   tags: getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_tags[];
-  optionalItem: getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_optionalItem | null;
+  optionalItems: getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_optionalItems[];
 }
 
 export interface getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices_datePrices {
@@ -6471,7 +6471,7 @@ export interface searchBooking_SearchBooking_data_roomTypes_tags {
   value: string;
 }
 
-export interface searchBooking_SearchBooking_data_roomTypes_optionalItem {
+export interface searchBooking_SearchBooking_data_roomTypes_optionalItems {
   __typename: "OptionalItem";
   _id: string;
   label: string;
@@ -6507,7 +6507,7 @@ export interface searchBooking_SearchBooking_data_roomTypes {
   updatedAt: any | null;
   hashTags: string[];
   tags: searchBooking_SearchBooking_data_roomTypes_tags[];
-  optionalItem: searchBooking_SearchBooking_data_roomTypes_optionalItem | null;
+  optionalItems: searchBooking_SearchBooking_data_roomTypes_optionalItems[];
 }
 
 export interface searchBooking_SearchBooking_data_checkInInfo {
@@ -7271,7 +7271,7 @@ export interface FroomType_tags {
   value: string;
 }
 
-export interface FroomType_optionalItem {
+export interface FroomType_optionalItems {
   __typename: "OptionalItem";
   _id: string;
   label: string;
@@ -7307,7 +7307,7 @@ export interface FroomType {
   updatedAt: any | null;
   hashTags: string[];
   tags: FroomType_tags[];
-  optionalItem: FroomType_optionalItem | null;
+  optionalItems: FroomType_optionalItems[];
 }
 
 /* tslint:disable */
@@ -7584,7 +7584,7 @@ export interface FsharedGetAllRoomType_roomTypes_tags {
   value: string;
 }
 
-export interface FsharedGetAllRoomType_roomTypes_optionalItem {
+export interface FsharedGetAllRoomType_roomTypes_optionalItems {
   __typename: "OptionalItem";
   _id: string;
   label: string;
@@ -7626,7 +7626,7 @@ export interface FsharedGetAllRoomType_roomTypes {
   updatedAt: any | null;
   hashTags: string[];
   tags: FsharedGetAllRoomType_roomTypes_tags[];
-  optionalItem: FsharedGetAllRoomType_roomTypes_optionalItem | null;
+  optionalItems: FsharedGetAllRoomType_roomTypes_optionalItems[];
   rooms: FsharedGetAllRoomType_roomTypes_rooms[];
 }
 
@@ -7658,7 +7658,7 @@ export interface Fbooking_roomTypes_tags {
   value: string;
 }
 
-export interface Fbooking_roomTypes_optionalItem {
+export interface Fbooking_roomTypes_optionalItems {
   __typename: "OptionalItem";
   _id: string;
   label: string;
@@ -7694,7 +7694,7 @@ export interface Fbooking_roomTypes {
   updatedAt: any | null;
   hashTags: string[];
   tags: Fbooking_roomTypes_tags[];
-  optionalItem: Fbooking_roomTypes_optionalItem | null;
+  optionalItems: Fbooking_roomTypes_optionalItems[];
 }
 
 export interface Fbooking_checkInInfo {
@@ -8080,7 +8080,7 @@ export interface FroomTypePriceResult_roomTypeDatePrices_roomType_tags {
   value: string;
 }
 
-export interface FroomTypePriceResult_roomTypeDatePrices_roomType_optionalItem {
+export interface FroomTypePriceResult_roomTypeDatePrices_roomType_optionalItems {
   __typename: "OptionalItem";
   _id: string;
   label: string;
@@ -8116,7 +8116,7 @@ export interface FroomTypePriceResult_roomTypeDatePrices_roomType {
   updatedAt: any | null;
   hashTags: string[];
   tags: FroomTypePriceResult_roomTypeDatePrices_roomType_tags[];
-  optionalItem: FroomTypePriceResult_roomTypeDatePrices_roomType_optionalItem | null;
+  optionalItems: FroomTypePriceResult_roomTypeDatePrices_roomType_optionalItems[];
 }
 
 export interface FroomTypePriceResult_roomTypeDatePrices_datePrices {

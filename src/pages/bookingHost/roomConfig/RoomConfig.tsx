@@ -5,7 +5,7 @@ import "./RoomConfig.scss";
 import _ from "lodash";
 // @ts-ignore
 import omitDeep from "omit-deep";
-import { getAllRoomType_GetAllRoomType_roomTypes as IRoomType } from "../../../types/api";
+import { getAllRoomType_GetAllRoomType_roomTypes as IRoomType, OptionalItemUpsertInput } from "../../../types/api";
 import Preloader from "../../../atoms/preloader/Preloader";
 import { useModal, LANG } from "../../../hooks/hook";
 import Card from "../../../atoms/cards/Card";
@@ -49,6 +49,7 @@ import { ExtraRoomTypeConfig } from "../../../types/enum";
 import ExtraConfigModal, {
   IExtraConfigProp
 } from "./components/ExtraConfigModal";
+import JDIcon from "../../../atoms/icons/Icons";
 
 interface IProps {
   context: IContext;
@@ -62,6 +63,7 @@ interface IProps {
   submitRef?: React.MutableRefObject<null>;
   isStart?: boolean;
   loading?: boolean;
+  handleOptionalProduct:  (roomTypeId: string, params: OptionalItemUpsertInput) => void
 }
 
 const RoomConfig: React.FC<IProps> = ({
@@ -72,8 +74,10 @@ const RoomConfig: React.FC<IProps> = ({
   saveRoomsLoading,
   isStart,
   defaultData,
-  handleChangTags
+  handleChangTags,
+  handleOptionalProduct
 }) => {
+  const optionalProductModal = useModal();
   const tagModalHook = useModal<IExtraConfigProp>(false);
   const { defaultAddTemp, roomTypesData } = defaultData;
   const roomTypeModalHook = useModal<IRoomTypeModalInfo>(false, {});
@@ -222,8 +226,6 @@ const RoomConfig: React.FC<IProps> = ({
     roomType: IRoomType,
     mode: TMode
   ) => {
-    console.log("roomTyproomTyproomTyp");
-    console.log(roomType);
     const { _id } = roomType;
     if (mode === "delete") await removeRoomType(_id);
     if (mode === "create") await createRoomType(roomType);
@@ -401,6 +403,12 @@ const RoomConfig: React.FC<IProps> = ({
                           tooltip={<RoomTypeInfo roomType={roomType} />}
                         />
                       </JDalign>
+                      <JDIcon
+                        icon="gift"
+                        hover
+                        onClick={() => {
+                        }}
+                      />
                       <JDicon
                         color="grey2"
                         icon="gear"
