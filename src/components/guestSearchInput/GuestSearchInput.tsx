@@ -7,9 +7,6 @@ import React, {
 } from "react";
 import _ from "lodash";
 import {
-  getBookings_GetBookings_result_bookings,
-  getBookings,
-  getBookingsVariables,
   findBookings_FindBookings_data,
   findBookings,
   findBookingsVariables
@@ -46,6 +43,10 @@ const GuestSearchInput: React.FC<IProps> = ({
   loading
 }) => {
   const [data, setData] = useState<ISearchViewData[]>([]);
+
+  console.log("data");
+  console.log(data);
+
   const { house } = context;
   let houseId = "";
   houseId = house?._id || "";
@@ -108,20 +109,14 @@ const GuestSearchInput: React.FC<IProps> = ({
     }));
   };
 
-  const dataRefetcher = _.throttle(
-    (value: string) => {
-      refetch({
-        param: {
-          houseId,
-          payload: value
-        }
-      });
-    },
-    500,
-    {
-      trailing: true
-    }
-  );
+  const dataRefetcher =  (value: string) => {
+    refetch({
+      param: {
+        houseId,
+        payload: value
+      }
+    });
+  }
 
   const handleTypeChange = (value: string = "") => {
     if (!value) unHilightTarget();
