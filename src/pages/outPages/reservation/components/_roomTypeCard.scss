@@ -5,7 +5,7 @@ $roomCardHeight: 0.25rem * 32;
 }
 
 .roomTypeCard {
-  border-radius: $standard-border-radius;
+  border-radius: $br1;
   height: $roomCardHeight;
   border: 1px solid $grey-level1;
   position: relative;
@@ -79,7 +79,7 @@ $roomCardHeight: 0.25rem * 32;
     @include response($mobile) {
       // bottom:$standard-small-space /2;
       // right:$standard-small-space /2;
-      border-radius: $standard-border-radius;
+      border-radius: $br1;
     }
   }
 

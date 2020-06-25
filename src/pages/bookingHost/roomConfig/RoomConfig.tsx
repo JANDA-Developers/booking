@@ -6,6 +6,7 @@ import _ from "lodash";
 // @ts-ignore
 import omitDeep from "omit-deep";
 import { getAllRoomType_GetAllRoomType_roomTypes as IRoomType, OptionalItemUpsertInput } from "../../../types/api";
+import { OptionalItemType } from "../../../types/enum";
 import Preloader from "../../../atoms/preloader/Preloader";
 import { useModal, LANG } from "../../../hooks/hook";
 import Card from "../../../atoms/cards/Card";
@@ -33,8 +34,9 @@ import { RoomConfigSubmitData } from "../../../components/bookingModal/declarati
 import Swapping from "../../../utils/swapping";
 import selectOpCreater from "../../../utils/selectOptionCreater";
 import JDselect from "../../../atoms/forms/selectBox/SelectBox";
+import OptionalProductModal, {IOptionModalInfo} from "./OptionalProductModal"
 import TagModal, { TModalInfo } from "../../../components/tagModal/TagModal";
-import { TChangeTags } from "./RoomConfigWrap";
+import { TChangeTags, THandleChangeOptionalProduct } from "./RoomConfigWrap";
 import {
   JDtypho,
   dataURLtoFile,
@@ -42,7 +44,8 @@ import {
   JDmodal,
   JDbutton,
   useInput,
-  JDalign
+  JDalign,
+  copytoClipboard
 } from "@janda-com/front";
 import { InputText } from "@janda-com/front";
 import { ExtraRoomTypeConfig } from "../../../types/enum";
@@ -63,7 +66,8 @@ interface IProps {
   submitRef?: React.MutableRefObject<null>;
   isStart?: boolean;
   loading?: boolean;
-  handleOptionalProduct:  (roomTypeId: string, params: OptionalItemUpsertInput) => void
+  handleOptionalProduct:  THandleChangeOptionalProduct
+  upsertRoomTypeOptionLoading: boolean;
 }
 
 const RoomConfig: React.FC<IProps> = ({
@@ -75,9 +79,10 @@ const RoomConfig: React.FC<IProps> = ({
   isStart,
   defaultData,
   handleChangTags,
-  handleOptionalProduct
+  handleOptionalProduct,
+  upsertRoomTypeOptionLoading
 }) => {
-  const optionalProductModal = useModal();
+  const optionalProductModalHook = useModal<IOptionModalInfo>();
   const tagModalHook = useModal<IExtraConfigProp>(false);
   const { defaultAddTemp, roomTypesData } = defaultData;
   const roomTypeModalHook = useModal<IRoomTypeModalInfo>(false, {});
@@ -160,6 +165,8 @@ const RoomConfig: React.FC<IProps> = ({
         delete RT.createdAt;
         delete RT.updatedAt;
         delete RT.tags;
+        delete RT.code;
+        delete RT.optionalItems;
 
         RT.images =
           RT.uploadImg?.map(localFile =>
@@ -383,7 +390,7 @@ const RoomConfig: React.FC<IProps> = ({
           {/* 방타입 카드 출력 */}
           {isRoomTypeExist && noRoomTypeMessage}
           {viewRoomTypeData.map((roomType, index) => {
-            const { _id, name, tags } = roomType;
+            const { _id, name, tags,optionalItems } = roomType;
             return (
               <Card
                 id={`RoomTypeCard${_id}`}
@@ -397,6 +404,13 @@ const RoomConfig: React.FC<IProps> = ({
                       <h5 className="TRoomTypeName RoomTypeName JDstandard-space">
                         {name}
                       </h5>
+                      <JDalign 
+                      style={{
+                        height: "min-content"
+                      }}
+                      flex={{
+                        vCenter:true
+                      }}>
                       <JDalign mr="small">
                         <Help
                           icon="info"
@@ -404,13 +418,21 @@ const RoomConfig: React.FC<IProps> = ({
                         />
                       </JDalign>
                       <JDIcon
+                      mr="small"
                         icon="gift"
+                        className="JDtextColor--grey2"
                         hover
                         onClick={() => {
+                          optionalProductModalHook.openModal({
+                            roomTypeId:  _id,
+                            defaultData: optionalItems || [],
+                            handleSave: handleOptionalProduct
+                          })
                         }}
                       />
                       <JDicon
                         color="grey2"
+                        mr="small"
                         icon="gear"
                         hover
                         onClick={() => {
@@ -423,6 +445,16 @@ const RoomConfig: React.FC<IProps> = ({
                           });
                         }}
                       />
+                      <JDicon
+                        color="grey2"
+                        icon="file"
+                        hover
+                        tooltip="상품코드 복사"
+                        onClick={() => {
+                          copytoClipboard(roomType.code)
+                        }}
+                      />
+                      </JDalign>
                     </div>
                     {/* Room Type Update Btn */}
                     <div
@@ -515,6 +547,7 @@ const RoomConfig: React.FC<IProps> = ({
           })}
         </Fragment>
       </PageBody>
+      <OptionalProductModal loading={upsertRoomTypeOptionLoading} modalHook={optionalProductModalHook} />
       <ExtraConfigModal
         key={tagModalHook.info.roomTypeId + "ExtraConfigModal"}
         handleChangTags={handleChangTags}

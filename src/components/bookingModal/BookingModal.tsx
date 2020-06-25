@@ -28,7 +28,9 @@ import {
   refundBookingVariables,
   cancelBooking,
   cancelBookingVariables,
-  refundBooking
+  refundBooking,
+  OptionalItemSubmittedUpsertInput,
+  RoomTypeOptionalItemSubmitInput
 } from "../../types/api";
 import SendSMSmodalWrap from "../smsModal/SendSmsModalWrap";
 import { IContext } from "../../pages/bookingHost/BookingHostRouter";
@@ -106,6 +108,7 @@ const BookingModal: React.FC<IProps> = ({
     name,
     funnels,
     guests,
+    optionalItemSubmitted,
     breakfast: breakfastDefault
   } = bookingData;
   const refundModalHook = useModal(false);
@@ -115,6 +118,10 @@ const BookingModal: React.FC<IProps> = ({
   const checkInOutHook = useSelect(
     optionFineder(CHECK_IN_OUT_OP, checkInInfo.isIn)
   );
+  const [optional, setOptional] = useState<RoomTypeOptionalItemSubmitInput[]>((optionalItemSubmitted || [])?.map(op => ({
+    items: op.items,
+    roomTypeId: op.roomType._id
+  })))
   const [breakfast, setBreakfast] = useState(breakfastDefault);
   const sendSmsModalHook = useModal<IModalSMSinfo>(false);
   const confirmModalHook = useModal(false);
@@ -218,6 +225,8 @@ const BookingModal: React.FC<IProps> = ({
     assigInfo,
     sendSmsModalHook,
     houseId,
+    optional,
+    setOptional,
     mode
   };
 
@@ -292,9 +301,9 @@ const BookingModal: React.FC<IProps> = ({
       }
       head={{
         element: isCreateMode ? (
-          <JDtypho size="h6">예약생성하기</JDtypho>
+          <JDtypho mb="no" size="h6">예약생성하기</JDtypho>
         ) : (
-          <JDtypho size="h6">
+          <JDtypho mb="no" size="h6">
             <Align flex={{}}>
               <JDtypho weight={600} color="primary" mr="small">
                 {LANG("sir")(name)}

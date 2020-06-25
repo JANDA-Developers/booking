@@ -193,7 +193,7 @@ const SmsTemplateModal: React.FC<Iprops> = ({
           <div className="JDz-index-1 flex-grid flex-grid--start">
             {/* props 로부터 받아서 쓸거임. onChange시에는 뮤테이션을 날리겠지. */}
             <JDselect
-              autoWidth
+              autoSize
               menuPlacement="top"
               id="AutoSendSelect"
               options={AUTO_SEND_OP}
@@ -202,7 +202,7 @@ const SmsTemplateModal: React.FC<Iprops> = ({
               label={LANG("auto_send")}
             />
             <JDselect
-              autoWidth
+              autoSize
               menuPlacement="top"
               id="SendTagetSelect"
               options={SMS_TARGET_OP}

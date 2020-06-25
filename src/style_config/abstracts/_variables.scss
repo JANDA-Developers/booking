@@ -122,7 +122,7 @@ $standard-margin-bottom: $standard-space !default;
 $standard-label-margin: $standard-tiny-space !default;
 // ⭐️ InputText, SelectBox 등등 대부분의 원소 구성요서 들의 세로 크기를 의미합니다.
 // 크기를 규격화 해서 한 라인으로 세울수 있도록 합니다.
-$standard-border-radius: 3px !default;
+$br1: 3px !default;
 $standard-line-height: 0.25rem * 10 !default;
 $standard-round-border-radius: $standard-line-height / 2 !default;
 $standard-input-outborder-color: $outborder-color !default;
@@ -205,9 +205,9 @@ $select-option-hover-bgcolor: $hover-effect-dark !default;
 $select-option-padding: 0rem $standard-small-space !default;
 $select-option-height: $standard-line-height !default;
 $select-padding: $input-padding !default;
-$select-radius: $standard-border-radius !default;
+$select-radius: $br1 !default;
 $select-disabled-color: $disabled-color !default;
-$select-menue-radius: $standard-border-radius !default;
+$select-menue-radius: $br1 !default;
 $select-background: transparent !default;
 $select-focus-border-color: $primary-color !default;
 $selcet-placeholder-color: $placeholder-color !default;
@@ -263,7 +263,7 @@ $daypicker-caption-margin-bottom: 1rem !default; // it must be a pixcel
 $daypicker-caption-height: $standard-line-height !default;
 $daypicker-day-transition: 0.2s !default;
 $daypicker-border: 1px solid $outborder-color !default;
-$daypicker-border-radius: $standard-border-radius !default;
+$daypicker-border-radius: $br1 !default;
 $daypicker-today-color: $green-color !default;
 $daypicker-insdie-padding: $standard-tiny-space !default;
 $daypicker-checkOut-bgColor: $orange-color !default;
@@ -279,7 +279,7 @@ $button-border: none !default;
 $button-height: $standard-line-height !default;
 $button-padding-side: $standard-space !default;
 $button-padding: 0 $button-padding-side !default;
-$button-radius: $standard-border-radius !default;
+$button-radius: $br1 !default;
 $buttons-space: $standard-small-space !default;
 $buttons-icon-margin: $icon-space !default;
 $button-letter-spacing: 0.5px !default;
@@ -313,7 +313,7 @@ $button-height: $standard-line-height !default;
 $modal-background-color: $curtain-color !default;
 $modal-content-padding: $standard-large-space !default;
 $modal-content-padding--wmd: $standard-space !default;
-$modal-border-radius: $standard-border-radius !default;
+$modal-border-radius: $br1 !default;
 $modal-section-padding: $standard-largest-space !default;
 $docs-section__padding: $standard-largest-space !default;
 
@@ -322,7 +322,7 @@ $docs-section__padding: $standard-largest-space !default;
 $searchInput-feedBack-color: $grey-level2;
 $searchInput-input-border: $input-border !default;
 $searchInput-border-color: $grey-level1 !default;
-$searchInput-border-radius: $standard-border-radius;
+$searchInput-border-radius: $br1;
 $searchInput-li-border-top: 1px dotted $searchInput-border-color !default;
 $searchInput-li-padding: $standard-tiny-space $standard-small-space !default;
 $searchInput-li-height: $standard-line-height !default;
@@ -356,7 +356,7 @@ $slider-dot-hover-bgColor: $grey-level4 !default;
 $slider-arrow-height: 2rem !default;
 // 11 Pagination 페이지네이션
 // ANCHOR paginiation Paginiation =========================================================================
-$pagination-li-radius: $standard-border-radius !default;
+$pagination-li-radius: $br1 !default;
 $pagination-li-height: 0.25rem * 9 !default;
 $pagination-li-padding: 1rem !default;
 $pagination-li-margin: 0.5rem !default;
@@ -387,12 +387,12 @@ $tabs-height: $standard-line-height !default;
 $tabs-margin-bottom: $standard-margin-bottom !default;
 $tabs-tab-padding: 0 !default;
 $tabs-tab-border-color: $grey-level1 !default;
-$tabs-tab-border-radious: $standard-border-radius !default;
+$tabs-tab-border-radious: $br1 !default;
 $tabs-tab-selected-color: $primary-color !default;
 $tabs-tab-selected-border-bottom: 2px solid $tabs-tab-selected-color !default;
 // 16 ToolTipList 툴팁리스트
 // ANCHOR tabs Tabs=========================================================================
-$tooltipList-border-radius: $standard-border-radius !default;
+$tooltipList-border-radius: $br1 !default;
 $tooltipList-background-color: white !default;
 // 17 Preloader 프리로더
 // ANCHOR preloader loading=========================================================================
@@ -402,14 +402,14 @@ $preloader-fill-color: $primary-color !default;
 // 18 Table 테이블
 // ANCHOR table Table=========================================================================
 $table-padding: $standard-small-space !default;
-$table-border-radius: $standard-border-radius !default;
+$table-border-radius: $br1 !default;
 $table-borders-color: $grey-level0 !default;
 $table-outborder-color: $outborder-color !default;
 $table-outborder: 1px solid $table-outborder-color !default;
-$table-radius: $standard-border-radius;
+$table-radius: $br1;
 // 19 imageUploader 이미지업로더
 // ANCHOR image Uploader=========================================================================
-$IUploader-border-radius: $standard-border-radius !default;
+$IUploader-border-radius: $br1 !default;
 $IUploader-border-color: $grey-level0 !default;
 $IUploader-border: 2px dashed $IUploader-border-color !default;
 // 20 colorPicker 컬러 칼라 컬러픽커
@@ -417,7 +417,7 @@ $IUploader-border: 2px dashed $IUploader-border-color !default;
 $colorPicker-padding: $standard-tiny-space !default;
 $colorPicker-height: $standard-line-height - ($colorPicker-padding * 2) !default;
 $colorPicker-width: 3rem !default;
-$colorPicker-radius: $standard-border-radius !default;
+$colorPicker-radius: $br1 !default;
 $colorPicker-outborder-color: $outborder-color !default;
 $colorPicker-bg: white !default;
 $colorPicker-border: 1px solid $colorPicker-outborder-color !default;

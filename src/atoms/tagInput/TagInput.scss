@@ -8,7 +8,7 @@
     height: $input-height;
     font-size: $input-font-size;
     border: 1px solid $outborder-color;
-    border-radius: $standard-border-radius;
+    border-radius: $br1;
 
     &__tags {
         .JDicon {
@@ -24,7 +24,7 @@
         height: space(4);
         padding: space(.5) space(1);
         margin-right:space(1);
-        border-radius: $standard-border-radius;
+        border-radius: $br1;
         background-color: $blue-opacity1;
         cursor: pointer;
         

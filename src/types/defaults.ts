@@ -10,7 +10,8 @@ import {
 	MemoType,
 	UserRole,
 	PaymentType,
-	Gender
+	Gender,
+	OptionalItemType
 } from './enum';
 import {
 	getSmsInfo_GetSmsInfo_smsInfo_smsTemplates,
@@ -43,6 +44,7 @@ export const DEFAULT_ROOMTYPE: IRoomType = {
 	peopleCountMax: 0,
 	hashTags: [],
 	rooms: [],
+	code: '',
 	roomCount: 0,
 	roomGender: RoomGender.SEPARATELY,
 	description: null,
@@ -101,7 +103,8 @@ export const DEFAULT_BOOKING: GB_booking = {
 		supplyAmt: 0,
 		tid: null,
 		type: PaymentType.ONE_TIME
-	}
+	},
+	optionalItemSubmitted: []
 };
 
 export const DEFAULT_ASSIG_GROUP: IAssigGroup = {
@@ -376,4 +379,15 @@ export const DEFAULT_BANK_INFO = {
 	bankName: '',
 	accountNum: '',
 	accountHolder: ''
+};
+
+export const DEFAULT_OPTION_ITEM = {
+	__typename: 'OptionalItem',
+	_id: '',
+	description: '',
+	label: '',
+	maxCount: 0,
+	multiplyDate: false,
+	price: 0,
+	type: OptionalItemType.INPUT
 };

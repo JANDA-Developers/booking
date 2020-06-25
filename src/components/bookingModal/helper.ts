@@ -103,7 +103,7 @@ export const makeSmsInfoParam = (
         if (selectedOption.value === PaymentStatus.COMPLETED) {
           return AutoSendWhen.WHEN_BOOKING_CREATED;
         } else if (selectedOption.value === PaymentStatus.NOT_YET) {
-          return AutoSendWhen.WHEN_BOOKING_CREATED_PAYMENT_NOT_YET;
+          return AutoSendWhen.WHRN_BOOKING_CREATED_BANK_TRANSFER
         }
       }
     })(),

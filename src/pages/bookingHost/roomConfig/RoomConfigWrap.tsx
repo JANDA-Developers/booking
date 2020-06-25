@@ -36,6 +36,11 @@ interface IProps {
 let LastKey = '';
 
 export type TChangeTags = (roomTypeId: string, upsertTags: TagInput[], removeKeys: string[]) => void;
+export type THandleChangeOptionalProduct = (
+	roomTypeId: string,
+	params: OptionalItemUpsertInput[],
+	deletes?: string[] | undefined
+) => void;
 
 const RoomConfigWrap: React.FC<IProps> = ({ context }) => {
 	const { house } = context;
@@ -65,7 +70,10 @@ const RoomConfigWrap: React.FC<IProps> = ({ context }) => {
 		client,
 		notifyOnNetworkStatusChange: true,
 		refetchQueries,
-		awaitRefetchQueries: true
+		awaitRefetchQueries: true,
+		onCompleted: ({ UpsertRoomTypeOptionalItem }) => {
+			onCompletedMessage(UpsertRoomTypeOptionalItem, LANG('change_complited'), LANG('change_failed'));
+		}
 	});
 
 	const [ saveRoomsMu, { loading: saveRoomsLoading } ] = useMutation<
@@ -129,10 +137,11 @@ const RoomConfigWrap: React.FC<IProps> = ({ context }) => {
 		[ loading ]
 	);
 
-	const handleOptionalProduct = (roomTypeId: string, params: OptionalItemUpsertInput) => {
+	const handleOptionalProduct = (roomTypeId: string, params: OptionalItemUpsertInput[], deletes?: string[]) => {
 		upsertRoomTypeOptionsMu({
 			variables: {
-				params,
+				upserts: params,
+				deletes: deletes,
 				roomTypeId
 			}
 		});
@@ -150,6 +159,7 @@ const RoomConfigWrap: React.FC<IProps> = ({ context }) => {
 					defaultAddTemp: undefined,
 					roomTypesData
 				}}
+				upsertRoomTypeOptionLoading={upsertRoomTypeOptionLoading}
 				handleOptionalProduct={handleOptionalProduct}
 				key={innerKey}
 			/>

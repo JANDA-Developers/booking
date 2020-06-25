@@ -202,6 +202,23 @@ export const F_PRODUCT_TYPE = gql`
 `;
 
 // 상품 관련 프레임
+export const F_OPTIONAL_SUBMITTED = gql`
+	fragment FoptionalItemSubmitted on RoomTypeOptionalItemSubmitted {
+		roomType {
+			_id
+			name
+		}
+		items {
+			itemId
+			itemLabel
+			parentLabel
+			price
+			count
+		}
+	}
+`;
+
+// 상품 관련 프레임
 export const F_PRODUCT = gql`
 	fragment Fproduct on Product {
 		_id
@@ -332,6 +349,7 @@ export const F_ROOMTYPE = gql`
     updatedAt
     roomGender
     hashTags
+    code
     tags {
       key
       value
@@ -534,11 +552,14 @@ export const F_BOOKING = gql`
     updatedAt
     isNew
     isConfirm
+    optionalItemSubmitted {
+      ...FoptionalItemSubmitted
+    }
   }
-  ${F_CARD_INFO}
   ${F_ROOMTYPE}
   ${F_PAYMENT}
   ${F_CARD_INFO}
+  ${F_OPTIONAL_SUBMITTED}
 `;
 
 // 기본정보를 모두 출력
@@ -1516,8 +1537,8 @@ export const DELETE_GUEST = gql`
 
 // 방타입 추가 옵션
 export const USERT_ROOM_TYPE_OPTIONAL_ITEM = gql`
-	mutation upsertRoomTypeOptionalItem($roomTypeId: ID!, $params: OptionalItemUpsertInput!) {
-		UpsertRoomTypeOptionalItem(roomTypeId: $roomTypeId, params: $params) {
+	mutation upsertRoomTypeOptionalItem($roomTypeId: ID!, $upserts: [OptionalItemUpsertInput!], $deletes: [ID!]) {
+		UpsertRoomTypeOptionalItem(roomTypeId: $roomTypeId, upserts: $upserts, deletes: $deletes) {
 			ok
 			error
 		}
@@ -1570,8 +1591,10 @@ export const MAKE_BOOKING = gql`
 		$paymentParams: MakeBookingPaymentInput!
 		$allocationParams: [AllocationInput!]
 		$forceToAllocate: Boolean
+		$optionalItemSubmit: [RoomTypeOptionalItemSubmitInput!]
 	) {
 		MakeBooking(
+			optionalItemSubmit: $optionalItemSubmit
 			houseId: $houseId
 			bookerParams: $bookerParams
 			checkInOut: $checkInOut

@@ -56,7 +56,7 @@ $flex-grid--column-margin: 0.8%;
     &__dayPickerCard {
       position: sticky;
       top: 0;
-      border-radius: $standard-border-radius;
+      border-radius: $br1;
       margin-bottom: space(2);
       padding: space(1);
       height: calc(100% - #{$card-padding * 2});

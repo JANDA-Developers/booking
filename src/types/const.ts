@@ -236,7 +236,11 @@ export let AUTO_SEND_OP = [
 		label: ''
 	},
 	{
-		value: AutoSendWhen.WHEN_BOOKING_CREATED_PAYMENT_NOT_YET,
+		value: AutoSendWhen.WHEN_BOOKING_CREATED_CARD,
+		label: ''
+	},
+	{
+		value: AutoSendWhen.WHRN_BOOKING_CREATED_BANK_TRANSFER,
 		label: ''
 	},
 	{
