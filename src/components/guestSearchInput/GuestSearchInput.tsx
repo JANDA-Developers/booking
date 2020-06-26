@@ -140,7 +140,7 @@ const GuestSearchInput: React.FC<IProps> = ({
       const dataList = BookingsDataManufacter(bookings);
       setData(dataList);
     }
-  }, [bookings]);
+  }, [loading]);
 
   return (
     <div id="JDBookingSearcher">
