@@ -141,7 +141,10 @@ const GuestSearchInput: React.FC<IProps> = ({
       setData(dataList);
     }
   }, [loading]);
+<<<<<<< HEAD
 
+=======
+>>>>>>> hotfix/버그픽스
 
   return (
     <div id="JDBookingSearcher">
