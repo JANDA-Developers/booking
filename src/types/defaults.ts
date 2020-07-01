@@ -28,6 +28,7 @@ import {
 import { IAssigItem, IAssigGroup, GuestTypeAdd } from '../pages/bookingHost/assig/components/assigIntrerface';
 import { TCardRegistInfo } from '../components/cardModal/declare';
 import { IContext } from '../pages/bookingHost/BookingHostRouter';
+import { IselectedOption } from '@janda-com/front/build/types/interface';
 export const ANY: any = {};
 
 export const DEFAULT_ROOMTYPE_ROOM: getAllRoomType_GetAllRoomType_roomTypes_rooms = {
@@ -391,3 +392,26 @@ export const DEFAULT_OPTION_ITEM = {
 	price: 0,
 	type: OptionalItemType.INPUT
 };
+
+export const PAGE_COUNT_SELECT: IselectedOption[] = [
+	{
+		label: '20개씩 보기',
+		value: 20
+	},
+	{
+		label: '40개씩 보기',
+		value: 40
+	},
+	{
+		label: '60개씩 보기',
+		value: 60
+	},
+	{
+		label: '80개씩 보기',
+		value: 80
+	},
+	{
+		label: '100개씩 보기',
+		value: 100
+	}
+];

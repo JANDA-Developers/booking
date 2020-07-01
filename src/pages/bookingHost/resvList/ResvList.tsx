@@ -1,8 +1,8 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import { ReactTableDefault, JDcolumn } from "../../../atoms/table/Table";
 import Button from "../../../atoms/button/Button";
 import JDIcon from "../../../atoms/icons/Icons";
-import { useModal, LANG, useCheckBoxTable } from "../../../hooks/hook";
+import { useModal, LANG, useCheckBoxTable, useSelect } from "../../../hooks/hook";
 import BookingModalWrap from "../../../components/bookingModal/BookingModalWrap";
 import { IPageInfo, IBooking, IRoomType } from "../../../types/interface";
 import JDbox from "../../../atoms/box/JDbox";
@@ -56,6 +56,8 @@ import { IModalSMSinfo } from "../../../components/smsModal/SendSmsModal";
 import JDtypho from "../../../atoms/typho/Typho";
 import RefundModal from "../../../components/refundModal/RefundModal";
 import { IMu } from "@janda-com/front/build/types/interface";
+import { isEmpty } from "lodash";
+import { JDselect, IUseSelect, JDalign } from "@janda-com/front";
 
 interface IProps {
   pageInfo: IPageInfo;
@@ -69,6 +71,7 @@ interface IProps {
   deleteBookingMu: MutationFn<deleteBooking, deleteBookingVariables>;
   updateBookingMu: MutationFn<updateBooking, updateBookingVariables>;
   cancelBookingMu: IMu<cancelBookings, cancelBookingsVariables>;
+  selectCountHook: IUseSelect<any>;
 }
 
 const ResvList: React.SFC<IProps> = ({
@@ -79,6 +82,7 @@ const ResvList: React.SFC<IProps> = ({
   updateBookingMu,
   deleteBookingMu,
   setPage,
+  selectCountHook,
   networkStatus,
   context
 }) => {
@@ -386,7 +390,9 @@ const ResvList: React.SFC<IProps> = ({
           title={LANG("bookingList")}
         />
         <PageBody>
-          <div>
+          <JDalign flex={{
+            wrap:true
+          }}>
             <Button
               mode={IS_MOBILE ? "iconButton" : undefined}
               icon={IS_MOBILE ? "download" : undefined}
@@ -478,6 +484,10 @@ const ResvList: React.SFC<IProps> = ({
               thema="error"
               label={LANG("delete_booking")}
             />
+            <JDselect
+              autoSize 
+              z={3}
+            {...selectCountHook} />
             {/* <Button
               mode={IS_MOBILE ? "iconButton" : undefined}
               icon={IS_MOBILE ? "icon" : undefined}
@@ -486,7 +496,7 @@ const ResvList: React.SFC<IProps> = ({
               thema="black"
               label={LANG("refund_cancel")}
             /> */}
-          </div>
+          </JDalign>
           {networkStatus === 1 && loading ? (
             <div className="resvList__table--skeleton" />
           ) : (
@@ -503,7 +513,12 @@ const ResvList: React.SFC<IProps> = ({
               />
             )}
           <JDPagination
-            setPage={setPage}
+            setPage={(prop)=> {
+              if(!isEmpty(checkedIds))
+              if(!confirm("페이지를 바꾸시면 선택 정보가 사라집니다.")) return;
+              setCheckedIds([]);
+              setPage(prop);
+            }}
             pageInfo={pageInfo}
             pageRangeDisplayed={1}
             marginPagesDisplayed={4}
