@@ -288,7 +288,13 @@ const RoomTypeCard: React.SFC<IProps> = ({
                 onChange={selectedOp =>
                   guestCountSelect(selectedOp.value, "room")
                 }
-                selectedOption={roomSeleteOption[guestCountValue.room]}
+                selectedOption={
+                  roomSeleteOption[guestCountValue.room].value === 0 ? {
+                  label: '선택',
+                  value: roomSeleteOption[guestCountValue.room].value
+                } : 
+                  roomSeleteOption[guestCountValue.room]
+                }
               />
             )}
           </div>
