@@ -1,6 +1,10 @@
 import React from 'react';
 import ResvModule from '@janda-com/resv-module';
 import { RouteComponentProps } from 'react-router-dom';
+<<<<<<< HEAD
+=======
+// import "@janda-com/resv-module/dist/rc_index.css"
+>>>>>>> 텍스트수정
 import PageHeader from '../../../components/pageHeader/PageHeader';
 import PageBody from '../../../components/pageBody/PageBody';
 import JDcolorPicker from '../../../atoms/colorPicker/ColorPicker';

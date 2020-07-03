@@ -504,7 +504,8 @@ const ResvList: React.SFC<IProps> = ({
                 {...ReactTableDefault}
                 {...checkBoxTableHook}
                 // 아래 숫자는 요청하는 쿼리와 같아야합니다.
-                defaultPageSize={20}
+                defaultPageSize={pageInfo.rowCount}
+                pageSize={pageInfo.rowCount}
                 isCheckable
                 align="center"
                 data={bookingsData}
