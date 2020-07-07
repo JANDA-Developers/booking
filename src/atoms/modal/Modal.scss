@@ -1,9 +1,11 @@
 @import "~Styles";
 $modal-padding: $standard-large-space !default;
 $modal-header-padding: $modal-padding;
+
 // ⚠️ JDmodal 로 수정할수없음
 .ReactModal {
   overflow-x: hidden !important;
+
   // 모달 장막
   &__Overlay {
     display: flex;
@@ -84,6 +86,7 @@ $modal-header-padding: $modal-padding;
   &--underHeader {
     z-index: $z-index-7;
     height: 100vh;
+
     .ReactModal__Content {
       top: 1.5rem;
       max-height: calc(88vh - #{$header-height});
@@ -91,8 +94,7 @@ $modal-header-padding: $modal-padding;
   }
 
   &--noAnimation {
-    .ReactModal__Content {
-    }
+    .ReactModal__Content {}
   }
 }
 
@@ -113,6 +115,14 @@ $modal-header-padding: $modal-padding;
   animation-delay: 300;
   animation-name: zoomIn;
 
+  &--paddingNo {
+    .JDmodal {
+      &__body {
+        padding: 0;
+      }
+    }
+  }
+
   &__body {
     padding: $modal-padding;
     padding-top: $standard-space;
@@ -125,15 +135,18 @@ $modal-header-padding: $modal-padding;
   }
 
   &__head {
+
     .JDtext-size-h6,
     .JDtypho--h6 {
       font-weight: 600;
     }
+
     padding: $modal-header-padding;
     padding-bottom: $standard-space;
     border-bottom: 1px solid $grey-level1;
-    padding-right: space(5) + $modal-header-padding;
+    padding-right: space(5)+$modal-header-padding;
   }
+
   &--loading {
     min-width: 0 !important;
     max-width: fit-content !important;
@@ -150,6 +163,7 @@ $modal-header-padding: $modal-padding;
 
   &--visibleOverflow {
     overflow: visible !important;
+
     @include response($tablet) {
       overflow: auto;
     }
@@ -163,6 +177,7 @@ $modal-header-padding: $modal-padding;
   // 엔드섹션
   &__endSection {
     padding-top: 0;
+
     &--confirm {
       padding: $modal-padding;
     }
@@ -171,15 +186,17 @@ $modal-header-padding: $modal-padding;
       position: absolute;
     }
 
-    bottom: 0 + $modal-padding;
+    bottom: 0+$modal-padding;
     left: $modal-padding;
     right: $modal-padding;
     padding-left: 0;
     padding-right: 0;
     padding-bottom: 0;
+
     .JDbtn {
       margin-bottom: 0;
     }
+
     h6 {
       margin-bottom: 0;
     }
@@ -189,6 +206,7 @@ $modal-header-padding: $modal-padding;
   .modal__section {
     padding-bottom: $modal-section-padding;
   }
+
   //❤ 이거 라이브러리에도 적용 업데이트
   &--fullInMobile {
     &.ReactModal__Content {

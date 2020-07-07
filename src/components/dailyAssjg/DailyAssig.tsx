@@ -27,11 +27,11 @@ import moment from "moment";
 import BlockTooltip from "./components/BlockTooltip";
 import { isEmpty } from "../../utils/utils";
 import ReadyItemTooltip from "../../pages/bookingHost/assig/components/tooltips/ReadyItemTooltip";
-import DayPickerModal from "../dayPickerModal/DayPickerModal";
 import { PortalPreloader } from "../../utils/portalElement";
 import { to4YMMDD } from "../../utils/setMidNight";
 import { checkIsFull } from "./helpert";
 import { TPlaceInfo } from "./components/DragItem";
+import { JDdayPickerModal } from "@janda-com/front";
 
 export interface IDailyAssigContext extends IDailyAssigProp {
   confirmModalHook: IUseModal<any>;
@@ -174,7 +174,7 @@ const DailyAssig: React.FC<IProps> = ({
             />
           )}
         />
-        <DayPickerModal
+        <JDdayPickerModal
           isRange={false}
           modalHook={dayPickerModalHook}
           {...dayPickerHook}

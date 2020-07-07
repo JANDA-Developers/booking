@@ -30,9 +30,9 @@ import reactWindowSize, { WindowSizeProps } from "react-window-size";
 import { IContext } from "../../bookingHost/BookingHostRouter";
 import PriceWarnModal from "../../../components/priceWarnModal.tsx/PriceWarnModal";
 import HeaderCellRender from "../assig/helper/HeaderCellRender";
-import DayPickerModal from "../../../components/dayPickerModal/DayPickerModal";
 import moment from "moment";
 import { SharedSideBarHeader } from "../../../atoms/timeline/components/SharedHeader";
+import { JDdayPickerModal } from "@janda-com/front";
 
 interface IProps {
   items: IItem[] | undefined;
@@ -305,7 +305,7 @@ const UpdateTimeline: React.FC<IProps & WindowSizeProps> = ({
                 </TimelineHeaders>
               </Timeline>
               <PriceWarnModal modalHook={priceWarnModalHook} />
-              <DayPickerModal
+              <JDdayPickerModal
                 modalHook={dayPickerModalHook}
                 isRange={false}
                 canSelectBeforeDay={true}
