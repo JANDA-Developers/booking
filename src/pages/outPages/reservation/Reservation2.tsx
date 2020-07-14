@@ -1,7 +1,8 @@
 import React from "react";
 import ResvModule from "@janda-com/resv-module";
+import ResvModuleLeisure from "@janda-com/resv-module--leisure";
 import { RouteComponentProps } from "react-router-dom";
-// import "@janda-com/resv-module/dist/rc_index.css"
+import "../../../../node_modules/@janda-com/resv-module/dist/RC.css";
 import PageHeader from "../../../components/pageHeader/PageHeader";
 import PageBody from "../../../components/pageBody/PageBody";
 import JDcolorPicker from "../../../atoms/colorPicker/ColorPicker";
@@ -16,9 +17,11 @@ interface ICheckParams {
   ishost: string;
 }
 
-interface IProp extends RouteComponentProps<ICheckParams> {}
+interface IProp extends RouteComponentProps<ICheckParams> {
+  leisure?: boolean;
+}
 
-export const Reservation2: React.FC<IProp> = ({ match }) => {
+export const Reservation2: React.FC<IProp> = ({ match, leisure }) => {
   const { params } = match;
   const { houseKey, ishost } = params;
   const colorPickerHook = useColorPicker("#999999");
@@ -91,6 +94,18 @@ export const Reservation2: React.FC<IProp> = ({ match }) => {
       </div>
     );
   }
+
+  if (leisure)
+    return (
+      <ResvModuleLeisure
+        ga_track={[
+          {
+            trackingId: "UA-171491715-1"
+          }
+        ]}
+        publickey={houseKey}
+      />
+    );
 
   return <ResvModule publickey={houseKey} />;
 };

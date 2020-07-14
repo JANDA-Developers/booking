@@ -89,7 +89,8 @@ const ResvListWrap: React.FC<IProps> = ({ context }) => {
         param: {
           filter: {
             stayDate: checkInOutRange,
-            houseId: house._id
+            houseId: house._id,
+            isCheckIn: checkInOutHook.selectedOption?.value
           },
           paging: {
             selectedPage: page,

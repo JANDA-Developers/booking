@@ -524,11 +524,16 @@ const ResvList: React.SFC<IProps> = ({
                 vCenter: true
               }}
             >
-              <JDbutton mode="border">{to4YMMDD(dayPickerHook.from)}</JDbutton>
+              <JDbutton mode="border">
+                {dayPickerHook.from ? to4YMMDD(dayPickerHook.from) : "날짜선택"}
+              </JDbutton>
               <JDtypho mb="normal" mr="normal">
                 ~
               </JDtypho>
-              <JDbutton mode="border">{to4YMMDD(dayPickerHook.to)}</JDbutton>
+              <JDbutton mode="border">
+                {" "}
+                {dayPickerHook.to ? to4YMMDD(dayPickerHook.to) : "날짜선택"}
+              </JDbutton>
             </JDalign>
           </JDalign>
 
@@ -605,7 +610,11 @@ const ResvList: React.SFC<IProps> = ({
         />
         <ExcelModal modalHook={excelModal} />
       </div>
-      <JDdayPickerModal {...dayPickerHook} modalHook={dayPickerModalHook} />
+      <JDdayPickerModal
+        canSelectBeforeDay
+        {...dayPickerHook}
+        modalHook={dayPickerModalHook}
+      />
     </Fragment>
   );
 };

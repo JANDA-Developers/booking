@@ -8996,6 +8996,7 @@ export interface GetBookingsFilterInput {
   roomTypeIds?: string[] | null;
   stayDate?: StayDateInput | null;
   createdAt?: StayDateInput | null;
+  isCheckIn?: boolean | null;
 }
 
 export interface GetBookingsInput {
