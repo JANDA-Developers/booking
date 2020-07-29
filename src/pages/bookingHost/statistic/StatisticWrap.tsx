@@ -5,12 +5,17 @@ import { useDayPicker, LANG } from "../../../hooks/hook";
 import { Query } from "react-apollo";
 import {
   getSalesStatistic,
-  getSalesStatisticVariables
+  getSalesStatisticVariables,
+  SalesStatisticsCalculationType
 } from "../../../types/api";
 import { GET_SALES_STATISTIC } from "../../../apollo/queries";
 import { SalesStatisticsUnit } from "../../../types/enum";
 import { queryDataFormater } from "../../../utils/utils";
 import { IContext } from "../../bookingHost/BookingHostRouter";
+import { useSelect } from "@janda-com/front/build/hooks/hook";
+import { enumToOption } from "@janda-com/front/build/utils/selectOptionCreater";
+import { IselectedOption } from "../../../atoms/forms/selectBox/SelectBox";
+import { PAYMENT_STATUS_OP2 } from "../../../types/const";
 
 interface IProps {
   context: IContext;
@@ -34,6 +39,26 @@ const StatisticWrap: React.FC<IProps> = ({ context }) => {
     unit: SalesStatisticsUnit.BY_DAY_OF_WEEK
   });
 
+  const SALES_STATIC_OPS: IselectedOption<
+    SalesStatisticsCalculationType
+  >[] = enumToOption(
+    LANG,
+    "SalesStatisticsCalculationType",
+    SalesStatisticsCalculationType
+  );
+
+
+  const PAY_METHOD_OPS: IselectedOption<> = enumToOption()
+
+  const paymentStatusHook = useSelect();
+
+  const payMethodHook = useSelect()
+
+  const dateTypeHook = useSelect<SalesStatisticsCalculationType>(
+    SALES_STATIC_OPS[0],
+    SALES_STATIC_OPS
+  );
+
   const queryDateHook = useDayPicker(
     new Date(),
     moment(new Date())
@@ -50,7 +75,9 @@ const StatisticWrap: React.FC<IProps> = ({ context }) => {
           unit: queryOp.unit,
           checkOut: queryDateHook.to,
           checkIn: queryDateHook.from,
-          houseId: house._id
+          houseId: house._id,
+          type: dateTypeHook.selectedOption?.value,
+          groupByPayMethod:
         }}
         query={GET_SALES_STATISTIC}
       >

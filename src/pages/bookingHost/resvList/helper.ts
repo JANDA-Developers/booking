@@ -4,6 +4,7 @@ import { IBooking } from "../../../types/interface";
 import { LANG } from "../../../hooks/hook";
 import { getRoomSelectInfo } from "../../../utils/typeChanger";
 import { arraySum } from "../../../utils/elses";
+import moment from "moment";
 
 export const resvDatasToExcel = (
   bookingsData?: IBooking[]
@@ -61,6 +62,12 @@ export const resvDatasToExcel = (
             return { value: booking[bookingKey]["totalPrice"].toString() };
           } else if (bookingKey === "paymentStatus") {
             return { value: booking["payment"]["status"] };
+          } else if (bookingKey === "createdAt") {
+            return {
+              value: moment(booking["createdAt"])
+                .local()
+                .format("YYYY-MM-DD hh:ss")
+            };
           }
           // @ts-ignore
           return { value: booking[bookingKey] };

@@ -29,7 +29,6 @@ const OutPageRouter: React.SFC<IProps> = ({ match, location }) => {
           path="/outpage/reservation/:publickey/:agencyId?"
           component={Reservation}
         />
-
         <Route
           path="/outpage/reservation2/:houseKey/:ishost?"
           component={(prop: any) => (

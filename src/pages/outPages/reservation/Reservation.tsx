@@ -42,7 +42,10 @@ import {
   Funnels,
   PayMethod
 } from "../../../types/enum";
-import { PAYMETHOD_FOR_BOOKER_OP } from "../../../types/const";
+import {
+  PAYMETHOD_FOR_BOOKER_OP,
+  PAYMENT_STATUS_OP2
+} from "../../../types/const";
 import { GET_ALL_ROOM_TYPE_FOR_BOOKER } from "../../../apollo/queries";
 import Preloader from "../../../atoms/preloader/Preloader";
 import { Helmet } from "react-helmet";
@@ -141,7 +144,6 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
     window.scrollTo(screen.width / 2, screen.height / 2);
   }, [bookingInfoModal.isOpen, rsevModalHook.isOpen]);
 
-  const payMethodHook = useSelect(filteredPayMethodOp[0]);
   const reservationHooks: IReservationHooks = {
     priceHook,
     cardInfoHook,

@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import { Query, Mutation } from "react-apollo";
 import ResvList from "./ResvList";
 import {
@@ -33,7 +33,12 @@ import { IContext } from "../../bookingHost/BookingHostRouter";
 import { useMutation } from "@apollo/react-hooks";
 import client from "../../../apollo/apolloClient";
 import { useSelect } from "@janda-com/front";
-import { CHECK_IN_OUT_OP2 } from "../../../types/const";
+import {
+  CHECK_IN_OUT_OP2,
+  PAYMENT_STATUS_OP,
+  PAYMENT_STATUS_OP2
+} from "../../../types/const";
+import { IselectedOption } from "@janda-com/front/build/types/interface";
 
 interface IProps {
   context: IContext;
@@ -49,6 +54,13 @@ const ResvListWrap: React.FC<IProps> = ({ context }) => {
   const selectCountHook = useSelect(PAGE_COUNT_SELECT[0], PAGE_COUNT_SELECT);
   const checkInOutHook = useSelect(CHECK_IN_OUT_OP2[0], CHECK_IN_OUT_OP2);
   const dayPickerHook = useDayPicker(null, null);
+  const paymentStatusHook = useSelect(
+    PAYMENT_STATUS_OP2[0],
+    PAYMENT_STATUS_OP2
+  );
+  const [filterRoomTypeOps, setFilterRoomTypeOps] = useState<IselectedOption[]>(
+    []
+  );
 
   const checkInOutRange =
     dayPickerHook.from && dayPickerHook.to
@@ -88,9 +100,13 @@ const ResvListWrap: React.FC<IProps> = ({ context }) => {
       variables={{
         param: {
           filter: {
+            roomTypeIds: (filterRoomTypeOps || []).map(op => op.value),
             stayDate: checkInOutRange,
             houseId: house._id,
-            isCheckIn: checkInOutHook.selectedOption?.value
+            isCheckIn: checkInOutHook.selectedOption?.value,
+            paymentStatuses: paymentStatusHook.selectedOption?.value
+              ? [paymentStatusHook.selectedOption?.value]
+              : undefined
           },
           paging: {
             selectedPage: page,
@@ -138,6 +154,7 @@ const ResvListWrap: React.FC<IProps> = ({ context }) => {
                       context={context}
                       checkInOutHook={checkInOutHook}
                       pageInfo={pageInfo || DEFAULT_PAGE_INFO}
+                      paymentStatusHook={paymentStatusHook}
                       bookingsData={data || []}
                       cancelBookingMu={cancelBookingMu}
                       deleteBookingMu={deleteBookingMu}
@@ -145,6 +162,8 @@ const ResvListWrap: React.FC<IProps> = ({ context }) => {
                       updateBookingLoading={updateBookingLoading}
                       deleteBookingLoading={deleteBookingLoading}
                       setPage={setPage}
+                      filterRoomTypeOps={filterRoomTypeOps}
+                      setFilterRoomTypeOps={setFilterRoomTypeOps}
                       selectCountHook={selectCountHook}
                       dayPickerHook={dayPickerHook}
                       networkStatus={networkStatus}

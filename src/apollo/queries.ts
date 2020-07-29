@@ -584,6 +584,7 @@ export const F_CONTEXT = gql`
       }
       roomTypes {
         _id
+        name
         roomCount
       }
       product {
@@ -1446,6 +1447,7 @@ export const GET_BOOKING = gql`
   ${F_BOOKING}
 `;
 
+// Deprecated
 export const GET_SALES_STATISTIC = gql`
   query getSalesStatistic(
     $houseId: ID!
@@ -1453,6 +1455,8 @@ export const GET_SALES_STATISTIC = gql`
     $checkOut: DateTime!
     $unit: SalesStatisticsUnit!
     $groupByPayMethod: Boolean
+    $filterByPaymethod: [PayMethod!]
+    $type: SalesStatisticsCalculationType
   ) {
     GetSalesStatistic(
       houseId: $houseId
@@ -1460,6 +1464,8 @@ export const GET_SALES_STATISTIC = gql`
       checkOut: $checkOut
       unit: $unit
       groupByPayMethod: $groupByPayMethod
+      filterByPaymethod: $filterByPaymethod
+      type: $type
     ) {
       ok
       error
@@ -1474,23 +1480,6 @@ export const GET_SALES_STATISTIC = gql`
         price
         payMethod
       }
-    }
-  }
-`;
-
-export const CHANGE_INDEX_FOR_ROOMTYPE = gql`
-  mutation changeIndexForRoomType(
-    $roomTypeId: ID!
-    $houseId: ID!
-    $index: Int!
-  ) {
-    ChangeIndexForRoomType(
-      roomTypeId: $roomTypeId
-      houseId: $houseId
-      index: $index
-    ) {
-      ok
-      error
     }
   }
 `;

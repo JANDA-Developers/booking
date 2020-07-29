@@ -112,6 +112,13 @@ export let PAYMENT_STATUS_OP = [
   // { value: PaymentStatus.CANCELED, label: "" }
 ];
 
+export let PAYMENT_STATUS_OP2 = [
+  { value: undefined, label: "전체보기" },
+  { value: PaymentStatus.COMPLETED, label: "" },
+  { value: PaymentStatus.NOT_YET, label: "" }
+  // { value: PaymentStatus.CANCELED, label: "" }
+];
+
 // 아직 통계선택들이 작업 안되어있음 View 만 사용중
 export let STATISTICS_OP = [{ value: "sales_statistics", label: "" }];
 

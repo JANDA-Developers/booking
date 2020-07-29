@@ -481,6 +481,7 @@ export interface getMyProfile_GetMyProfile_user_houses_smsInfo {
 export interface getMyProfile_GetMyProfile_user_houses_roomTypes {
   __typename: "RoomType";
   _id: string;
+  name: string;
   roomCount: number;
 }
 
@@ -2525,6 +2526,7 @@ export interface getUserForSU_GetUserForSU_user_houses_smsInfo {
 export interface getUserForSU_GetUserForSU_user_houses_roomTypes {
   __typename: "RoomType";
   _id: string;
+  name: string;
   roomCount: number;
 }
 
@@ -3731,31 +3733,8 @@ export interface getSalesStatisticVariables {
   checkOut: any;
   unit: SalesStatisticsUnit;
   groupByPayMethod?: boolean | null;
-}
-
-/* tslint:disable */
-/* eslint-disable */
-// @generated
-// This file was automatically generated and should not be edited.
-
-// ====================================================
-// GraphQL mutation operation: changeIndexForRoomType
-// ====================================================
-
-export interface changeIndexForRoomType_ChangeIndexForRoomType {
-  __typename: "ChangeIndexForRoomTypeResponse";
-  ok: boolean;
-  error: string | null;
-}
-
-export interface changeIndexForRoomType {
-  ChangeIndexForRoomType: changeIndexForRoomType_ChangeIndexForRoomType;
-}
-
-export interface changeIndexForRoomTypeVariables {
-  roomTypeId: string;
-  houseId: string;
-  index: number;
+  filterByPaymethod?: PayMethod[] | null;
+  type?: SalesStatisticsCalculationType | null;
 }
 
 /* tslint:disable */
@@ -8216,6 +8195,7 @@ export interface Fcontext_houses_smsInfo {
 export interface Fcontext_houses_roomTypes {
   __typename: "RoomType";
   _id: string;
+  name: string;
   roomCount: number;
 }
 
@@ -8770,6 +8750,11 @@ export enum RoomGender {
   SEPARATELY = "SEPARATELY",
 }
 
+export enum SalesStatisticsCalculationType {
+  BOOKING_AT = "BOOKING_AT",
+  CREATED_AT = "CREATED_AT",
+}
+
 export enum SalesStatisticsUnit {
   BY_DATE = "BY_DATE",
   BY_DAY_OF_WEEK = "BY_DAY_OF_WEEK",
@@ -8997,6 +8982,8 @@ export interface GetBookingsFilterInput {
   stayDate?: StayDateInput | null;
   createdAt?: StayDateInput | null;
   isCheckIn?: boolean | null;
+  paymentStatuses?: PaymentStatus[] | null;
+  payMethod?: PayMethod[] | null;
 }
 
 export interface GetBookingsInput {

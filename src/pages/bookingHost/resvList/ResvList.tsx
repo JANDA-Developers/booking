@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useMemo } from "react";
 import { ReactTableDefault, JDcolumn } from "../../../atoms/table/Table";
 import Button from "../../../atoms/button/Button";
 import JDIcon from "../../../atoms/icons/Icons";
@@ -60,7 +60,7 @@ import { JDSelectableJDtable } from "../../../atoms/table/SelectTable";
 import { IModalSMSinfo } from "../../../components/smsModal/SendSmsModal";
 import JDtypho from "../../../atoms/typho/Typho";
 import RefundModal from "../../../components/refundModal/RefundModal";
-import { IMu } from "@janda-com/front/build/types/interface";
+import { IMu, IselectedOption } from "@janda-com/front/build/types/interface";
 import { isEmpty } from "lodash";
 import {
   JDselect,
@@ -87,6 +87,11 @@ interface IProps {
   cancelBookingMu: IMu<cancelBookings, cancelBookingsVariables>;
   selectCountHook: IUseSelect<any>;
   checkInOutHook: IUseSelect<any>;
+  paymentStatusHook: IUseSelect<any>;
+  filterRoomTypeOps: IselectedOption<any>[];
+  setFilterRoomTypeOps: React.Dispatch<
+    React.SetStateAction<IselectedOption<any>[]>
+  >;
 }
 
 const ResvList: React.SFC<IProps> = ({
@@ -101,10 +106,13 @@ const ResvList: React.SFC<IProps> = ({
   selectCountHook,
   checkInOutHook,
   networkStatus,
+  paymentStatusHook,
+  filterRoomTypeOps,
+  setFilterRoomTypeOps,
   context
 }) => {
   const {
-    house: { _id: houseId },
+    house: { _id: houseId, roomTypes },
     houseConfig: {
       bookingConfig: {
         newBookingMark: { enable: newBookingMarkEnable }
@@ -123,6 +131,14 @@ const ResvList: React.SFC<IProps> = ({
   const refundModalHook = useModal(false);
   const sendSmsModalHook = useModal<IModalSMSinfo>(false);
   const excelModal = useModal<IExcelModalInfo>(false);
+  const roomTypeOptions = useMemo((): IselectedOption[] => {
+    return (
+      roomTypes?.map(rt => ({
+        value: rt._id,
+        label: rt.name
+      })) || []
+    );
+  }, []);
 
   const handleDeleteBookingBtnClick = () => {
     alertModalHook.openModal({
@@ -507,7 +523,18 @@ const ResvList: React.SFC<IProps> = ({
               thema="error"
               label={LANG("delete_booking")}
             />
+            <JDselect autoSize z={3} {...paymentStatusHook} />
             <JDselect autoSize z={3} {...selectCountHook} />
+            <JDselect
+              autoSize
+              z={3}
+              isMulti
+              onChanges={ops => {
+                setFilterRoomTypeOps(ops);
+              }}
+              selectedOptions={filterRoomTypeOps}
+              options={roomTypeOptions}
+            />
             <div
               style={{
                 width: "10rem"

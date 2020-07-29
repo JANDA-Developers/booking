@@ -57,6 +57,7 @@ const RoomTypeModal: React.FC<IProps> = ({ modalHook, loading, onSubmit }) => {
     roomGender,
     defaultPrice,
     pricingType,
+    peopleCount,
     peopleCountMax,
     description,
     hashTags
@@ -70,7 +71,7 @@ const RoomTypeModal: React.FC<IProps> = ({ modalHook, loading, onSubmit }) => {
   const isCreate = mode === "create";
   const priceWarnModal = useModal(false);
   const maxPeopleCountOp = MAX_PEOPLE_COUNT_OP_FN();
-  const peopleCountMaxOp = optionFineder(maxPeopleCountOp, peopleCountMax);
+  const peopleCountOp = optionFineder(maxPeopleCountOp, peopleCount);
   const pricingTypeOp = optionFineder(PRICING_TYPE_OP, pricingType);
   const roomGenderOp = optionFineder(ROOM_GENDER_OP, roomGender);
   const modalStyle = {
@@ -117,7 +118,12 @@ const RoomTypeModal: React.FC<IProps> = ({ modalHook, loading, onSubmit }) => {
     onSubmit(finalData, mode);
   };
 
+  // 이함수 호출 두번 동시에하니 업데이트가 안된다. 아..... 왜인지 알겠네...
   function set<T extends keyof IRoomType>(key: T, value: IRoomType[T]) {
+    if (key === "peopleCount") {
+      data["peopleCountMax"] = value;
+    }
+
     setData({ ...data, [key]: value });
   }
 
@@ -156,10 +162,9 @@ const RoomTypeModal: React.FC<IProps> = ({ modalHook, loading, onSubmit }) => {
                 disabled={false}
                 onChange={op => {
                   set("peopleCount", op.value);
-                  set("peopleCountMax", op.value);
                 }}
                 options={maxPeopleCountOp}
-                selectedOption={peopleCountMaxOp}
+                selectedOption={peopleCountOp}
               />
             </div>
             <div className="flex-grid__col JDz-index-3 col--full-6 col--lg-6 col--md-12">

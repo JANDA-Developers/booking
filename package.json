@@ -1,6 +1,6 @@
 {
   "name": "client_dev",
-  "version": "1.4.9",
+  "version": "1.4.10",
   "description": "Janda Reservation Module for Development(client)",
   "main": "index.jsx",
   "author": "KMJ",
@@ -25,6 +25,7 @@
     "codegen:b": "apollo codegen:generate src/types/api.d.ts --queries=src/apollo/queries.ts --addTypename --localSchemaFile=schema.json --target=typescript --outputFlat",
     "storybook": "start-storybook -p 9009 -s public",
     "upload": "7z a html.zip ./build/* && aws s3 cp html.zip s3://booking.storage.private/dev/booking/html.zip && rm html.zip",
+    "upload:program": "aws s3 sync ./build s3://program.space.stayjanda.cloud --acl public-read",
     "build-storybook": "build-storybook -s --watch public"
   },
   "dependencies": {
