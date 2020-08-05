@@ -1454,5 +1454,9 @@ export const krFn = (Var = DefaultVar) => ({
     RADIO: "RADIO"
   },
   option: "옵션",
-  check_in_or_out: "체크인 여부"
+  check_in_or_out: "체크인 여부",
+  SalesStatisticsCalculationType: {
+    BOOKING_AT: "방문일자",
+    CREATED_AT: "생성일자"
+  }
 });

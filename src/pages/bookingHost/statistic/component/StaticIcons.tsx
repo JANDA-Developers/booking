@@ -3,6 +3,8 @@ import { IGraphViewMode } from "../Statistic";
 import { IContext } from "../../../bookingHost/BookingHostRouter";
 import JDIcon from "../../../../atoms/icons/Icons";
 import { IconSize } from "../../../../types/enum";
+import { IUseSelect } from "@janda-com/front";
+import { SalesStatisticsCalculationType } from "../../../../types/api";
 
 interface Iprops {
   context: IContext;

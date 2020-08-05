@@ -8,7 +8,6 @@ import {
   useModal,
   IUseModal,
   useCheckBox,
-  useSelect,
   useInput,
   LANG
 } from "../../../hooks/hook";
@@ -66,7 +65,7 @@ import { IBookerInfo, IReservationHooks } from "./declation";
 import { Redirect } from "react-router-dom";
 import { TCardRegistInfo } from "../../../components/cardModal/declare";
 import moment from "moment";
-import { toast, JDtypho } from "@janda-com/front";
+import { toast, JDtypho, useSelect } from "@janda-com/front";
 
 class GetAllAvailRoomQu extends Query<getAllRoomTypeForBooker> {}
 export interface ISetBookingInfo
@@ -135,6 +134,10 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
   const bookingModalHook = useModal<IBookingModalProp>();
   const sendSmsHook = useCheckBox(!isHost);
   const priceHook = useInput(0);
+  const payMethodHook = useSelect(
+    PAYMETHOD_FOR_BOOKER_OP[0],
+    PAYMETHOD_FOR_BOOKER_OP
+  );
   const cardInfoHook = useState<TCardRegistInfo>(DEFAULT_CARD_INFO);
   const filteredPayMethodOp = PAYMETHOD_FOR_BOOKER_OP.filter(op =>
     payMethods.includes(op.value)

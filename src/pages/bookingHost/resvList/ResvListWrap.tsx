@@ -92,6 +92,7 @@ const ResvListWrap: React.FC<IProps> = ({ context }) => {
     pollingPeriod: { period }
   } = houseConfig;
 
+
   return (
     <GetBookingsQuery
       query={GET_BOOKINGS}
@@ -151,6 +152,7 @@ const ResvListWrap: React.FC<IProps> = ({ context }) => {
                 {(updateBookingMu, { loading: updateBookingLoading }) => (
                   <Fragment>
                     <ResvList
+                      key={house._id}
                       context={context}
                       checkInOutHook={checkInOutHook}
                       pageInfo={pageInfo || DEFAULT_PAGE_INFO}

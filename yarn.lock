@@ -1742,36 +1742,6 @@
   resolved "https://registry.yarnpkg.com/@interactjs/types/-/types-1.9.19.tgz#f096eb395ca190995c083497c755b65be0a88677"
   integrity sha512-PcaY5MmQTH5eiI525d57eB+/OH6V7utU5FfkbjfvYdFV2dE8NXjYlKiXOy7G0/Y08PyXPhge60TFaYOMYqmIUQ==
 
-"@janda-com/front@^2.0.25":
-  version "2.0.25"
-  resolved "https://registry.yarnpkg.com/@janda-com/front/-/front-2.0.25.tgz#0f6a084d7327bec385d30d0d82b7887a7d6e7744"
-  integrity sha512-yTEfLYoIQ7T4+14W4bb2Up8zGTrNhepgBzKZGLpG1WHoHkBE9pLjyLYYI1GUWHmCHEAl664QrO4x/kevj9mvSA==
-  dependencies:
-    "@apollo/react-common" "^3.1.3"
-    "@types/react-dom" "^16.9.4"
-    "@types/react-modal" "^3.10.5"
-    "@types/react-paginate" "^6.2.1"
-    "@types/react-select" "^3.0.10"
-    "@types/react-slick" "^0.23.4"
-    "@types/react-tabs" "^2.3.1"
-    "@types/react-toastify" "^4.1.0"
-    apollo-client "^2.6.8"
-    classnames "^2.2.6"
-    graphql "^14.6.0"
-    is-mobile "^2.2.1"
-    jquery "^3.4.1"
-    moment-timezone "^0.5.28"
-    react-docgen-typescript-loader "^3.7.1"
-    react-image-file-resizer "^0.2.1"
-    react-modal "^3.11.2"
-    react-paginate "^6.3.2"
-    react-slick "^0.25.2"
-    react-spring "^8.0.27"
-    react-tabs "^3.1.0"
-    react-toastify "^5.5.0"
-    react-tooltip "^4.2.6"
-    react-window-size "^1.2.2"
-
 "@janda-com/front@^2.0.34":
   version "2.0.34"
   resolved "https://registry.yarnpkg.com/@janda-com/front/-/front-2.0.34.tgz#a550a008e1a53d3f998e26de636b6dbcdb90636f"
@@ -1802,6 +1772,40 @@
     react-tooltip "^4.2.6"
     react-window-size "^1.2.2"
 
+"@janda-com/front@^2.1.5":
+  version "2.1.5"
+  resolved "https://registry.yarnpkg.com/@janda-com/front/-/front-2.1.5.tgz#29e2cc3068d08076e4b5b1a0c1e6d1ce1226ca04"
+  integrity sha512-FkBiDnDAqOfccVE+I3btFnSEXbIEmyz64NF03zVHqZVUbCaMga+meAY0ysJE1IBa6I1DH3fprRJajUFLpxFS4A==
+  dependencies:
+    "@apollo/react-common" "^3.1.3"
+    "@types/graphql" "^14.5.0"
+    "@types/react-dom" "^16.9.4"
+    "@types/react-helmet" "^6.0.0"
+    "@types/react-modal" "^3.10.5"
+    "@types/react-paginate" "^6.2.1"
+    "@types/react-select" "^3.0.10"
+    "@types/react-slick" "^0.23.4"
+    "@types/react-tabs" "^2.3.1"
+    "@types/react-toastify" "^4.1.0"
+    apollo-client "^2.6.8"
+    classnames "^2.2.6"
+    is-mobile "^2.2.1"
+    jquery "^3.4.1"
+    moment-timezone "^0.5.28"
+    randomcolor "^0.5.4"
+    react-color "^2.18.1"
+    react-docgen-typescript-loader "^3.7.1"
+    react-helmet "^6.1.0"
+    react-image-file-resizer "^0.2.1"
+    react-modal "^3.11.2"
+    react-paginate "^6.3.2"
+    react-slick "^0.25.2"
+    react-spring "^8.0.27"
+    react-tabs "^3.1.0"
+    react-toastify "^5.5.0"
+    react-tooltip "^4.2.6"
+    react-window-size "^1.2.2"
+
 "@janda-com/lang@^1.0.3":
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/@janda-com/lang/-/lang-1.0.3.tgz#a26d6f35aae95f792f7e7c43242a559c23d4f8e8"
@@ -1809,10 +1813,10 @@
   dependencies:
     "@types/node" "12.7.4"
 
-"@janda-com/resv-module--leisure@^1.0.1--leisure":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@janda-com/resv-module--leisure/-/resv-module--leisure-1.0.1.tgz#cdf89575f3689c09675a5ef1e5ff53aa8ff32923"
-  integrity sha512-PZ66fiHB/AM8ZF0bYOPpGyb6sTYJ+yWu4tIqylz226+n0o8fKGspCxsQ+SB6JFWMkTvyObjOUSNDWUspnbOFSw==
+"@janda-com/resv-module--leisure@^1.0.4--leisure":
+  version "1.0.4--leisure"
+  resolved "https://registry.yarnpkg.com/@janda-com/resv-module--leisure/-/resv-module--leisure-1.0.4--leisure.tgz#7c3c6d32c19578988cb7d7ed71a834f8cda67177"
+  integrity sha512-/RelGMM4Ko9dHg5m7YlSuMNX+BPtY2uei6u/vG6PfnvNrQbIh+PeJHB2PZNjmpMW0df1bRfzo7qoMxgH3RkLiQ==
   dependencies:
     "@babel/core" "7.8.4"
     "@janda-com/front" "^2.0.34"
@@ -2988,7 +2992,7 @@
   dependencies:
     google-maps-react "*"
 
-"@types/graphql@^14.0.7":
+"@types/graphql@^14.0.7", "@types/graphql@^14.5.0":
   version "14.5.0"
   resolved "https://registry.yarnpkg.com/@types/graphql/-/graphql-14.5.0.tgz#a545fb3bc8013a3547cf2f07f5e13a33642b75d6"
   integrity sha512-MOkzsEp1Jk5bXuAsHsUi6BVv0zCO+7/2PTiZMXWDSsMXvNU6w/PLMQT2vHn8hy2i0JqojPz1Sz6rsFjHtsU0lA==
@@ -3194,6 +3198,13 @@
   version "5.0.16"
   resolved "https://registry.yarnpkg.com/@types/react-helmet/-/react-helmet-5.0.16.tgz#dafac5f043665b880559285a27c71a69abd1f29e"
   integrity sha512-++KMqwodVBg75hT2ZT4jobvDPi6iPUl/Lhrn0nP1XTcmFLtccaDb4FTAxzrj3egL7WQYTDnpHuPj52FSFkJqzA==
+  dependencies:
+    "@types/react" "*"
+
+"@types/react-helmet@^6.0.0":
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/@types/react-helmet/-/react-helmet-6.0.0.tgz#5b74e44a12662ffb12d1c97ee702cf4e220958cf"
+  integrity sha512-NBMPAxgjpaMooXa51cU1BTgrX6T+hQbMiLm77JhBbfOzPQea3RB5rNpPOD5xGWHIVpGXHd59cltEzIq0qglGcQ==
   dependencies:
     "@types/react" "*"
 
@@ -14740,7 +14751,7 @@ react-clientside-effect@^1.2.2:
   dependencies:
     "@babel/runtime" "^7.0.0"
 
-react-color@^2.17.0:
+react-color@^2.17.0, react-color@^2.18.1:
   version "2.18.1"
   resolved "https://registry.yarnpkg.com/react-color/-/react-color-2.18.1.tgz#2cda8cc8e06a9e2c52ad391a30ddad31972472f4"
   integrity sha512-X5XpyJS6ncplZs74ak0JJoqPi+33Nzpv5RYWWxn17bslih+X7OlgmfpmGC1fNvdkK7/SGWYf1JJdn7D2n5gSuQ==
@@ -14965,7 +14976,7 @@ react-fast-compare@^2.0.2:
   resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-2.0.4.tgz#e84b4d455b0fec113e0402c329352715196f81f9"
   integrity sha512-suNP+J1VU1MWFKcyt7RtjiSWUjvidmQSlqu+eHslq+342xCbGTYmC0mEhPCOHxlW0CywylOC1u2DFAT+bv4dBw==
 
-react-fast-compare@^3.0.1:
+react-fast-compare@^3.0.1, react-fast-compare@^3.1.1:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/react-fast-compare/-/react-fast-compare-3.2.0.tgz#641a9da81b6a6320f270e89724fb45a0b39e43bb"
   integrity sha512-rtGImPZ0YyLrscKI9xTpV8psd6I8VAtjKCzQDlzyDvqJA8XOW78TXYQwNRNd8g8JZnDu8q9Fu/1v4HPAVwVdHA==
@@ -15012,6 +15023,16 @@ react-helmet@^5.2.0:
     prop-types "^15.5.4"
     react-fast-compare "^2.0.2"
     react-side-effect "^1.1.0"
+
+react-helmet@^6.1.0:
+  version "6.1.0"
+  resolved "https://registry.yarnpkg.com/react-helmet/-/react-helmet-6.1.0.tgz#a750d5165cb13cf213e44747502652e794468726"
+  integrity sha512-4uMzEY9nlDlgxr61NL3XbKRy1hEkXmKNXhjbAIOVw5vcFrsdYbH2FEwcNyWvWinl103nXgzYNlns9ca+8kFiWw==
+  dependencies:
+    object-assign "^4.1.1"
+    prop-types "^15.7.2"
+    react-fast-compare "^3.1.1"
+    react-side-effect "^2.1.0"
 
 react-hotkeys@2.0.0:
   version "2.0.0"
@@ -15263,6 +15284,11 @@ react-side-effect@^1.1.0:
   integrity sha512-v1ht1aHg5k/thv56DRcjw+WtojuuDHFUgGfc+bFHOWsF4ZK6C2V57DO0Or0GPsg6+LSTE0M6Ry/gfzhzSwbc5w==
   dependencies:
     shallowequal "^1.0.1"
+
+react-side-effect@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/react-side-effect/-/react-side-effect-2.1.0.tgz#1ce4a8b4445168c487ed24dab886421f74d380d3"
+  integrity sha512-IgmcegOSi5SNX+2Snh1vqmF0Vg/CbkycU9XZbOHJlZ6kMzTmi3yc254oB1WCkgA7OQtIAoLmcSFuHTc/tlcqXg==
 
 react-sizeme@^2.6.7:
   version "2.6.12"

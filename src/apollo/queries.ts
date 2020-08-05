@@ -650,6 +650,22 @@ export const GET_HOUSE_SPECIFICATION = gql`
   ${F_PRODUCT}
 `;
 
+// 하우스 설정 가져오기
+export const GET_HOUSE_TAGS = gql`
+  query getHouseTag {
+    GetHouseForPublic {
+      ok
+      error
+      house {
+        tags {
+          key
+          value
+        }
+      }
+    }
+  }
+`;
+
 // SMS :: 히스토리 가져오기
 export const GET_SMS_HISTORY = gql`
   query getSmsHistory($param: GetSmsHistoryInput!) {
@@ -2524,6 +2540,15 @@ export const GET_HOUSE_MENUAL_FOR_PUBLIC = gql`
 export const UPDATE_HM = gql`
   mutation updateHM($houseId: ID!, $updateParams: UpdateHMparams!) {
     UpdateHM(houseId: $houseId, updateParams: $updateParams) {
+      ok
+      error
+    }
+  }
+`;
+
+export const ADD_HOUSE_TAGS = gql`
+  mutation addHouseTags($tags: [TagInput!]!, $houseId: ID!) {
+    AddHouseTags(houseId: $houseId, tags:$tags) {
       ok
       error
     }

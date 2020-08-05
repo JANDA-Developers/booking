@@ -18,7 +18,7 @@ const OutPageRouter: React.SFC<IProps> = ({ match, location }) => {
       {/* http://localhost:8000/#/outpage/reservation?publickey=05dfe136-1f1e-beed-b96d-ea3d68d8b847 */}
       <Switch>
         <Route
-          path="/outpage/reservation/leisure/:houseKey/:ishost?"
+          path="/outpage/reservation/leisure/:houseKey/:houseId?"
           component={(prop: any) => (
             <Suspense fallback={<Preloader page />}>
               <Reservation2 leisure {...prop} />

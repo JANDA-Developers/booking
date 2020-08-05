@@ -66,7 +66,7 @@ export const resvDatasToExcel = (
             return {
               value: moment(booking["createdAt"])
                 .local()
-                .format("YYYY-MM-DD hh:ss")
+                .format("YYYY-MM-DD HH:ss")
             };
           }
           // @ts-ignore

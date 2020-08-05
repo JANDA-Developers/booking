@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ResvModule from "@janda-com/resv-module";
 import ResvModuleLeisure from "@janda-com/resv-module--leisure";
 import { RouteComponentProps } from "react-router-dom";
@@ -10,11 +10,19 @@ import { useColorPicker, useModal } from "../../../hooks/hook";
 import JDIcon from "../../../atoms/icons/Icons";
 import "./Reservation2.scss";
 import { JDmodal, JDlabel, JDbutton } from "@janda-com/front";
-import $ from "jquery";
+import { useMutation, useQuery } from "@apollo/react-hooks";
+import {
+  getHouseTag,
+  addHouseTags,
+  addHouseTagsVariables
+} from "../../../types/api";
+import { ADD_HOUSE_TAGS, GET_HOUSE_TAGS } from "../../../apollo/queries";
+import { queryDataFormater, onCompletedMessage } from "../../../utils/utils";
+import client from "../../../apollo/apolloClient";
 
 interface ICheckParams {
   houseKey: string;
-  ishost: string;
+  houseId: string;
 }
 
 interface IProp extends RouteComponentProps<ICheckParams> {
@@ -23,16 +31,61 @@ interface IProp extends RouteComponentProps<ICheckParams> {
 
 export const Reservation2: React.FC<IProp> = ({ match, leisure }) => {
   const { params } = match;
-  const { houseKey, ishost } = params;
-  const colorPickerHook = useColorPicker("#999999");
+  const { houseKey, houseId } = params;
+  if (!houseId && sessionStorage.getItem("jwt"))
+    throw Error("permission denial");
+
+  const { data, loading: getHouseTagLoading } = useQuery<getHouseTag>(
+    GET_HOUSE_TAGS,
+    {
+      client
+    }
+  );
+  const tagData = queryDataFormater(
+    data,
+    "GetHouseForPublic",
+    "house",
+    undefined
+  );
+  const defaultPrimaryColor =
+    tagData?.tags.find(t => t.key === "--primary-color")?.value || null;
+
+  const colorPickerHook = useColorPicker(defaultPrimaryColor);
   const customModalHook = useModal();
   localStorage.setItem("hk", houseKey);
 
-  const handleSaveCustom = () => {};
+  // ADD 태그로 변경
+  const [addTagsMu, { loading }] = useMutation<
+    addHouseTags,
+    addHouseTagsVariables
+  >(ADD_HOUSE_TAGS, {
+    client,
+    variables: {
+      houseId,
+      tags: [
+        {
+          key: "--primary-color",
+          value: colorPickerHook.color
+        }
+      ]
+    },
+    onCompleted: ({ AddHouseTags }) => {
+      onCompletedMessage(AddHouseTags, "변경완료", "변경실패");
+    }
+  });
 
+  const handleSaveCustom = () => {
+    if (!loading) addTagsMu();
+  };
+
+  //설정 프로세스는 내부로 옴기자
   const themProvider = document
     .getElementsByClassName("themeProvider")
     .item(0) as HTMLElement;
+
+  useEffect(() => {
+    colorPickerHook.setColor(defaultPrimaryColor || "ffffff");
+  }, [getHouseTagLoading]);
 
   if (themProvider) {
     themProvider.style.setProperty(
@@ -42,7 +95,7 @@ export const Reservation2: React.FC<IProp> = ({ match, leisure }) => {
     themProvider.style.setProperty("--primary-color", colorPickerHook.color);
   }
 
-  if (ishost) {
+  if (houseId) {
     return (
       <div id="RESV2" className="reservation2">
         <PageHeader
@@ -51,7 +104,18 @@ export const Reservation2: React.FC<IProp> = ({ match, leisure }) => {
         />
         <PageBody>
           <div className="reservation2__wrap">
-            <ResvModule publickey={houseKey} />
+            {leisure ? (
+              <ResvModuleLeisure
+                ga_track={[
+                  {
+                    trackingId: "UA-171491715-1"
+                  }
+                ]}
+                publickey={houseKey}
+              />
+            ) : (
+              <ResvModule publickey={houseKey} />
+            )}
           </div>
         </PageBody>
         <JDmodal
