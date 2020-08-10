@@ -118,10 +118,12 @@ const BookingModal: React.FC<IProps> = ({
   const checkInOutHook = useSelect(
     optionFineder(CHECK_IN_OUT_OP, checkInInfo.isIn)
   );
-  const [optional, setOptional] = useState<RoomTypeOptionalItemSubmitInput[]>((optionalItemSubmitted || [])?.map(op => ({
-    items: op.items,
-    roomTypeId: op.roomType._id
-  })))
+  const [optional, setOptional] = useState<RoomTypeOptionalItemSubmitInput[]>(
+    (optionalItemSubmitted || [])?.map(op => ({
+      items: op.items,
+      roomTypeId: op.roomType._id
+    }))
+  );
   const [breakfast, setBreakfast] = useState(breakfastDefault);
   const sendSmsModalHook = useModal<IModalSMSinfo>(false);
   const confirmModalHook = useModal(false);
@@ -301,7 +303,9 @@ const BookingModal: React.FC<IProps> = ({
       }
       head={{
         element: isCreateMode ? (
-          <JDtypho mb="no" size="h6">예약생성하기</JDtypho>
+          <JDtypho mb="no" size="h6">
+            예약생성하기
+          </JDtypho>
         ) : (
           <JDtypho mb="no" size="h6">
             <Align flex={{}}>
@@ -329,7 +333,7 @@ const BookingModal: React.FC<IProps> = ({
             wrap: true,
             oneone: true
           }}
-      >
+        >
           <Fragment>
             <BookerInfo {...sharedProp} smsModalInfoTemp={smsModalInfoTemp} />
             <PaymentInfo {...sharedProp} />

@@ -92,7 +92,6 @@ const ResvListWrap: React.FC<IProps> = ({ context }) => {
     pollingPeriod: { period }
   } = houseConfig;
 
-
   return (
     <GetBookingsQuery
       query={GET_BOOKINGS}
@@ -149,30 +148,38 @@ const ResvListWrap: React.FC<IProps> = ({ context }) => {
                   );
                 }}
               >
-                {(updateBookingMu, { loading: updateBookingLoading }) => (
-                  <Fragment>
-                    <ResvList
-                      key={house._id}
-                      context={context}
-                      checkInOutHook={checkInOutHook}
-                      pageInfo={pageInfo || DEFAULT_PAGE_INFO}
-                      paymentStatusHook={paymentStatusHook}
-                      bookingsData={data || []}
-                      cancelBookingMu={cancelBookingMu}
-                      deleteBookingMu={deleteBookingMu}
-                      updateBookingMu={updateBookingMu}
-                      updateBookingLoading={updateBookingLoading}
-                      deleteBookingLoading={deleteBookingLoading}
-                      setPage={setPage}
-                      filterRoomTypeOps={filterRoomTypeOps}
-                      setFilterRoomTypeOps={setFilterRoomTypeOps}
-                      selectCountHook={selectCountHook}
-                      dayPickerHook={dayPickerHook}
-                      networkStatus={networkStatus}
-                      loading={isNetworkRequestInFlight(networkStatus)}
-                    />
-                  </Fragment>
-                )}
+                {(updateBookingMu, { loading: updateBookingLoading }) => {
+                  const mutationLoading =
+                    updateBookingLoading ||
+                    deleteBookingLoading ||
+                    cancelBookingsLoading;
+
+                  return (
+                    <Fragment>
+                      <ResvList
+                        key={house._id}
+                        context={context}
+                        checkInOutHook={checkInOutHook}
+                        pageInfo={pageInfo || DEFAULT_PAGE_INFO}
+                        paymentStatusHook={paymentStatusHook}
+                        bookingsData={data || []}
+                        cancelBookingMu={cancelBookingMu}
+                        deleteBookingMu={deleteBookingMu}
+                        updateBookingMu={updateBookingMu}
+                        updateBookingLoading={updateBookingLoading}
+                        deleteBookingLoading={deleteBookingLoading}
+                        setPage={setPage}
+                        mutationLoading={mutationLoading}
+                        filterRoomTypeOps={filterRoomTypeOps}
+                        setFilterRoomTypeOps={setFilterRoomTypeOps}
+                        selectCountHook={selectCountHook}
+                        dayPickerHook={dayPickerHook}
+                        networkStatus={networkStatus}
+                        loading={isNetworkRequestInFlight(networkStatus)}
+                      />
+                    </Fragment>
+                  );
+                }}
               </UpdateBookingMu>
             )}
           </DeleteBookingMu>

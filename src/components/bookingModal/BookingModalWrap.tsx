@@ -75,7 +75,6 @@ const BookingModalWrap: React.FC<IBookingModalWrapProps> = ({
   >(REFUND_BOOKING, {
     client,
     refetchQueries,
-    ignoreResults: true,
     onCompleted: ({ RefundBooking }) => {
       onCompletedMessage(
         RefundBooking,
@@ -91,9 +90,7 @@ const BookingModalWrap: React.FC<IBookingModalWrapProps> = ({
   >(CANCLE_BOOKING, {
     client,
     refetchQueries,
-    ignoreResults: true,
-    onCompleted: ({ CancelBooking }) => {
-    }
+    onCompleted: ({ CancelBooking }) => {}
   });
 
   return (
@@ -225,7 +222,10 @@ const BookingModalWrap: React.FC<IBookingModalWrapProps> = ({
                               : mergedBooking;
 
                             const totalLoading =
-                              getBooking_loading || getPrice_loading || refundBookingLoading || cancelBookingLoading;
+                              getBooking_loading ||
+                              getPrice_loading ||
+                              refundBookingLoading ||
+                              cancelBookingLoading;
 
                             return (
                               <Fragment>
@@ -235,7 +235,6 @@ const BookingModalWrap: React.FC<IBookingModalWrapProps> = ({
                                     bookingData={bookingData}
                                     mode={modalHook.info.mode}
                                     context={context}
-                                    loading={totalLoading}
                                     modalHook={modalHook}
                                     refundBookingMu={refundBookingMu}
                                     cancelBookingMu={cancelBookingMu}
@@ -245,6 +244,7 @@ const BookingModalWrap: React.FC<IBookingModalWrapProps> = ({
                                     makeBookingLoading={makeBookingLoading}
                                     placeHolederPrice={placeHolederPrice}
                                     {...props}
+                                    loading={totalLoading}
                                     key={
                                       modalHook.info.createParam
                                         ? s4()

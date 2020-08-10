@@ -78,6 +78,7 @@ interface IProps {
   loading: boolean;
   updateBookingLoading: boolean;
   deleteBookingLoading: boolean;
+  mutationLoading: boolean;
   context: IContext;
   networkStatus: NetworkStatus;
   setPage(page: number): void;
@@ -106,6 +107,7 @@ const ResvList: React.SFC<IProps> = ({
   selectCountHook,
   checkInOutHook,
   networkStatus,
+  mutationLoading,
   paymentStatusHook,
   filterRoomTypeOps,
   setFilterRoomTypeOps,
@@ -442,7 +444,6 @@ const ResvList: React.SFC<IProps> = ({
                   checkedIds.includes(booking._id)
                 );
 
-
                 const getData = async ({
                   mode,
                   count,
@@ -608,6 +609,7 @@ const ResvList: React.SFC<IProps> = ({
         </PageBody>
         <RefundModal
           isMulti
+          loading={mutationLoading}
           modalHook={refundModalHook}
           onRefunds={refundInfos => {
             cancelBookingMu({
