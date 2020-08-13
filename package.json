@@ -1,6 +1,6 @@
 {
   "name": "client_dev",
-  "version": "1.4.24",
+  "version": "1.4.25",
   "description": "Janda Reservation Module for Development(client)",
   "main": "index.jsx",
   "author": "KMJ",
