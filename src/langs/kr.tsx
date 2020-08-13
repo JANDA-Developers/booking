@@ -384,7 +384,7 @@ export const krFn = (Var = DefaultVar) => ({
   paymethod: "결제방법",
   pension: "펜션",
   person_unit: "명",
-  personnel: (onlyRoom?: boolean) => `${onlyRoom || `인원/`}${Var.GS}`,
+  personnel: (onlyRoom?: boolean) => `${onlyRoom ? `인원/` : ""}${Var.GS}`,
   phoneNum_is_not_valid: "올바른 이름이 아닙니다.",
   phoneNumber: "전화번호",
   phone_authenticate: "휴대폰 인증하기",
@@ -1423,7 +1423,7 @@ export const krFn = (Var = DefaultVar) => ({
   refund_modal_header_desc:
     "카드결제를 통해서 들어온 예약일경우 JANDA측에서 해당금액만큼 환불을 진행합니다.",
   max_refund: (amt: string) => `최대 금액 ${amt}원`,
-  resv_showTable_start: "방문일",
+  resv_showTable_start: "체크인",
   refund_modal_title: "환불/취소",
   refund_complete_message: "취소/환불 완료",
   refund_complete_fail: "취소/환불 실패",
