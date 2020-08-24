@@ -33,7 +33,7 @@ const Login: React.FC<Iprops> = ({ context }) => {
 	return (
 		<div id="loginPage" className="container container--centerlize">
 			<div>
-				<h1>Login</h1>
+			<h1>Login</h1>
 				<Card>
 					{/* 로그인 뮤테이션 (로컬 ) */}
 					<Mutation

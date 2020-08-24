@@ -11,6 +11,7 @@ import { InputText } from "@janda-com/front";
 import { TChangeTags } from "../RoomConfigWrap";
 import { ExtraRoomTypeConfig } from "../../../../types/enum";
 import ModalEndSection from "../../../../atoms/modal/components/ModalEndSection";
+import PhotoFrame from "../../../../atoms/photoFrame/PhotoFrame";
 
 export interface IExtraConfigProp {
   describ: string;
@@ -33,15 +34,17 @@ export const ExtraConfigModal: React.FC<IProp> = ({
   // const [value, setValue] = useRadio("");
 
   return (
-    <JDmodal {...tagModalHook}>
+    <JDmodal head={{
+      element: <div>
+        <h6>상품 부가설명</h6>
+        <div>상품에 대한 부가적인 텍스트를 기입할 수 있습니다.</div>
+      </div>
+    }} {...tagModalHook}>
       <JDalign>
         <JDalign flex>
-          <div>
-            <InputText label="부가설명" textarea {...inputTextHook} />
-          </div>
-          <div>
-            <InputText label="상세설명" textarea {...detailTextHook} />
-          </div>
+          <InputText mb="no" label="부가설명" textarea {...inputTextHook} />
+          <InputText mb="no" label="상세설명" textarea {...detailTextHook} />
+          <PhotoFrame src="" />
         </JDalign>
       </JDalign>
       {/* <JDlabel txt="이미지 비율" />

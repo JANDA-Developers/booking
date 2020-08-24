@@ -20,10 +20,10 @@ export enum UserRequestStatusValue {
 }
 
 export enum OptionalItemType {
-  CHECK = "CHECK",
-  GROUP = "GROUP",
+  // CHECK = "CHECK",
+  // GROUP = "GROUP",
   INPUT = "INPUT", //Count
-  RADIO = "RADIO"
+  // RADIO = "RADIO"
 }
 
 export enum UserRole {

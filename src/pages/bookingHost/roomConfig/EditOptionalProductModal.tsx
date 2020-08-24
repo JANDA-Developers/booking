@@ -40,7 +40,7 @@ const EditProdctModal: React.FC<IProp> = ({ modalHook, handleComplete, handleDel
 	const { _id, label, maxCount, multiplyDate, optionalItems, price, type } = optionProduct;
 
 	const drawerHook = useDrawer(false);
-	const typeHook = useSelect(optionFineder(typeOps, type || OptionalItemType.CHECK), typeOps);
+	const typeHook = useSelect(optionFineder(typeOps, type || OptionalItemType.INPUT), typeOps);
 	const shouldMulitplyDatePrice = useCheckBox(multiplyDate ? true : false);
 	const haslimit = useCheckBox(maxCount ? true : false);
 	const priceHook = useInput(price || 0);
@@ -89,7 +89,7 @@ const EditProdctModal: React.FC<IProp> = ({ modalHook, handleComplete, handleDel
 			{drawerHook.open && (
 				<div>
 					<div>
-						<JDselect menuPlacement="top"  Z="1" label="입력타입" {...typeHook} />
+						<JDselect menuPlacement="top" Z="1" label="입력타입" {...typeHook} />
 					</div>
 					<JDcheckBox {...shouldMulitplyDatePrice} label="가격에 날짜곱하기" />
 					<JDcheckBox {...haslimit} label="수량제한" />
@@ -98,10 +98,10 @@ const EditProdctModal: React.FC<IProp> = ({ modalHook, handleComplete, handleDel
 			)}
 
 			<ModalEndSection>
-				<JDbutton mode="flat" thema="primary" onClick={()=>{
+				<JDbutton mode="flat" thema="primary" onClick={() => {
 					handleCompleteBtn();
 					modalHook.closeModal();
-					}} label="완료" />
+				}} label="완료" />
 				{_id && (
 					<JDbutton
 						mode="flat"
@@ -111,8 +111,8 @@ const EditProdctModal: React.FC<IProp> = ({ modalHook, handleComplete, handleDel
 							modalHook.closeModal();
 						}}
 						label="삭제"
-						/>
-						)}
+					/>
+				)}
 				<JDbutton
 					mode="flat"
 					onClick={() => {

@@ -221,20 +221,6 @@ const RoomTypeModal: React.FC<IProps> = ({ modalHook, loading, onSubmit }) => {
                 * {LANG("appliedby_default_in_periods_with_no_price_set")}
               </p>
             </div>
-            <div className="flex-grid__col col--full-6 col--lg-6 col--md-6">
-              <InputText
-                mr="no"
-                onChange={(val: any) => {
-                  set("defaultPrice", toNumber(val));
-                }}
-                comma
-                value={defaultPrice}
-                label={LANG("basic_room_price")}
-              />
-              <p className="JDsmall-text">
-                * {LANG("appliedby_default_in_periods_with_no_price_set")}
-              </p>
-            </div>
           </div>
           <JDlabel txt={LANG("insert_tag")} />
           <TagInput mb="large" tags={tags} setTags={setTags} />

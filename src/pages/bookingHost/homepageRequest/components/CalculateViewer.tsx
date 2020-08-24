@@ -43,8 +43,8 @@ const CalculateViewer: React.FC<IProps> = ({ products }) => {
                 <span>{p.title}</span> <span>{autoComma(p.price)}</span>
               </Align>
             </JDtypho>
-            {p.sub.map(subp => (
-              <Align mb="small" flex={{ between: true }}>
+            {p.sub.map((subp, i) => (
+              <Align key={subp.title + i} mb="small" flex={{ between: true }}>
                 <div>└{subp.title}</div>
                 <div>
                   {subp.price ? (
@@ -53,8 +53,8 @@ const CalculateViewer: React.FC<IProps> = ({ products }) => {
                       {autoComma(subp.price)}
                     </Align>
                   ) : (
-                    LANG("free")
-                  )}
+                      LANG("free")
+                    )}
                 </div>
               </Align>
             ))}

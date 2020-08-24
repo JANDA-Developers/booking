@@ -879,11 +879,10 @@ export interface getHouse_GetHouse_house_roomTypes_optionalItems {
   type: OptionalItemType;
   price: number | null;
   maxCount: number | null;
-  /**
-   * 날짜에 비례해서 곱해지는지... true, false
-   */
-  multiplyDate: boolean;
   description: string | null;
+  multiplyMaxCountToProductCount: boolean | null;
+  multiplyMaxCountToDate: boolean | null;
+  multiplyPriceToDate: boolean | null;
 }
 
 export interface getHouse_GetHouse_house_roomTypes_rooms {
@@ -1009,11 +1008,10 @@ export interface dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_roo
   type: OptionalItemType;
   price: number | null;
   maxCount: number | null;
-  /**
-   * 날짜에 비례해서 곱해지는지... true, false
-   */
-  multiplyDate: boolean;
   description: string | null;
+  multiplyMaxCountToProductCount: boolean | null;
+  multiplyMaxCountToDate: boolean | null;
+  multiplyPriceToDate: boolean | null;
 }
 
 export interface dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_roomType {
@@ -1139,11 +1137,10 @@ export interface getAllRoomTypeForBooker_GetAllRoomTypeForBooker_roomTypes_optio
   type: OptionalItemType;
   price: number | null;
   maxCount: number | null;
-  /**
-   * 날짜에 비례해서 곱해지는지... true, false
-   */
-  multiplyDate: boolean;
   description: string | null;
+  multiplyMaxCountToProductCount: boolean | null;
+  multiplyMaxCountToDate: boolean | null;
+  multiplyPriceToDate: boolean | null;
 }
 
 export interface getAllRoomTypeForBooker_GetAllRoomTypeForBooker_roomTypes_rooms {
@@ -1221,11 +1218,10 @@ export interface getAllRoomType_GetAllRoomType_roomTypes_optionalItems {
   type: OptionalItemType;
   price: number | null;
   maxCount: number | null;
-  /**
-   * 날짜에 비례해서 곱해지는지... true, false
-   */
-  multiplyDate: boolean;
   description: string | null;
+  multiplyMaxCountToProductCount: boolean | null;
+  multiplyMaxCountToDate: boolean | null;
+  multiplyPriceToDate: boolean | null;
 }
 
 export interface getAllRoomType_GetAllRoomType_roomTypes_rooms {
@@ -1307,11 +1303,10 @@ export interface findBooking_FindBooking_bookings_roomTypes_optionalItems {
   type: OptionalItemType;
   price: number | null;
   maxCount: number | null;
-  /**
-   * 날짜에 비례해서 곱해지는지... true, false
-   */
-  multiplyDate: boolean;
   description: string | null;
+  multiplyMaxCountToProductCount: boolean | null;
+  multiplyMaxCountToDate: boolean | null;
+  multiplyPriceToDate: boolean | null;
 }
 
 export interface findBooking_FindBooking_bookings_roomTypes {
@@ -1495,11 +1490,10 @@ export interface findBookings_FindBookings_data_roomTypes_optionalItems {
   type: OptionalItemType;
   price: number | null;
   maxCount: number | null;
-  /**
-   * 날짜에 비례해서 곱해지는지... true, false
-   */
-  multiplyDate: boolean;
   description: string | null;
+  multiplyMaxCountToProductCount: boolean | null;
+  multiplyMaxCountToDate: boolean | null;
+  multiplyPriceToDate: boolean | null;
 }
 
 export interface findBookings_FindBookings_data_roomTypes {
@@ -1680,11 +1674,10 @@ export interface findBookingForBooker_FindBookingForBooker_bookings_roomTypes_op
   type: OptionalItemType;
   price: number | null;
   maxCount: number | null;
-  /**
-   * 날짜에 비례해서 곱해지는지... true, false
-   */
-  multiplyDate: boolean;
   description: string | null;
+  multiplyMaxCountToProductCount: boolean | null;
+  multiplyMaxCountToDate: boolean | null;
+  multiplyPriceToDate: boolean | null;
 }
 
 export interface findBookingForBooker_FindBookingForBooker_bookings_roomTypes {
@@ -1867,11 +1860,10 @@ export interface getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_
   type: OptionalItemType;
   price: number | null;
   maxCount: number | null;
-  /**
-   * 날짜에 비례해서 곱해지는지... true, false
-   */
-  multiplyDate: boolean;
   description: string | null;
+  multiplyMaxCountToProductCount: boolean | null;
+  multiplyMaxCountToDate: boolean | null;
+  multiplyPriceToDate: boolean | null;
 }
 
 export interface getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_roomType {
@@ -2010,11 +2002,10 @@ export interface getGuests_GetGuests_guests_GuestDomitory_booking_roomTypes_opti
   type: OptionalItemType;
   price: number | null;
   maxCount: number | null;
-  /**
-   * 날짜에 비례해서 곱해지는지... true, false
-   */
-  multiplyDate: boolean;
   description: string | null;
+  multiplyMaxCountToProductCount: boolean | null;
+  multiplyMaxCountToDate: boolean | null;
+  multiplyPriceToDate: boolean | null;
 }
 
 export interface getGuests_GetGuests_guests_GuestDomitory_booking_roomTypes {
@@ -2190,11 +2181,10 @@ export interface getGuests_GetGuests_guests_GuestRoom_booking_roomTypes_optional
   type: OptionalItemType;
   price: number | null;
   maxCount: number | null;
-  /**
-   * 날짜에 비례해서 곱해지는지... true, false
-   */
-  multiplyDate: boolean;
   description: string | null;
+  multiplyMaxCountToProductCount: boolean | null;
+  multiplyMaxCountToDate: boolean | null;
+  multiplyPriceToDate: boolean | null;
 }
 
 export interface getGuests_GetGuests_guests_GuestRoom_booking_roomTypes {
@@ -2953,11 +2943,10 @@ export interface getBookingForPublic_GetBookingForPublic_booking_roomTypes_optio
   type: OptionalItemType;
   price: number | null;
   maxCount: number | null;
-  /**
-   * 날짜에 비례해서 곱해지는지... true, false
-   */
-  multiplyDate: boolean;
   description: string | null;
+  multiplyMaxCountToProductCount: boolean | null;
+  multiplyMaxCountToDate: boolean | null;
+  multiplyPriceToDate: boolean | null;
 }
 
 export interface getBookingForPublic_GetBookingForPublic_booking_roomTypes {
@@ -3291,11 +3280,10 @@ export interface getBookings_GetBookings_result_bookings_roomTypes_optionalItems
   type: OptionalItemType;
   price: number | null;
   maxCount: number | null;
-  /**
-   * 날짜에 비례해서 곱해지는지... true, false
-   */
-  multiplyDate: boolean;
   description: string | null;
+  multiplyMaxCountToProductCount: boolean | null;
+  multiplyMaxCountToDate: boolean | null;
+  multiplyPriceToDate: boolean | null;
 }
 
 export interface getBookings_GetBookings_result_bookings_roomTypes {
@@ -3518,11 +3506,10 @@ export interface getBooking_GetBooking_booking_roomTypes_optionalItems {
   type: OptionalItemType;
   price: number | null;
   maxCount: number | null;
-  /**
-   * 날짜에 비례해서 곱해지는지... true, false
-   */
-  multiplyDate: boolean;
   description: string | null;
+  multiplyMaxCountToProductCount: boolean | null;
+  multiplyMaxCountToDate: boolean | null;
+  multiplyPriceToDate: boolean | null;
 }
 
 export interface getBooking_GetBooking_booking_roomTypes {
@@ -3761,6 +3748,9 @@ export interface getSalesStatistic_GetSalesStatistic {
 }
 
 export interface getSalesStatistic {
+  /**
+   * deprecated
+   */
   GetSalesStatistic: getSalesStatistic_GetSalesStatistic;
 }
 
@@ -5482,11 +5472,10 @@ export interface getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices_roomTy
   type: OptionalItemType;
   price: number | null;
   maxCount: number | null;
-  /**
-   * 날짜에 비례해서 곱해지는지... true, false
-   */
-  multiplyDate: boolean;
   description: string | null;
+  multiplyMaxCountToProductCount: boolean | null;
+  multiplyMaxCountToDate: boolean | null;
+  multiplyPriceToDate: boolean | null;
 }
 
 export interface getRoomTypeInfo_GetRoomTypeDatePrices_roomTypeDatePrices_roomType {
@@ -6761,11 +6750,10 @@ export interface searchBooking_SearchBooking_data_roomTypes_optionalItems {
   type: OptionalItemType;
   price: number | null;
   maxCount: number | null;
-  /**
-   * 날짜에 비례해서 곱해지는지... true, false
-   */
-  multiplyDate: boolean;
   description: string | null;
+  multiplyMaxCountToProductCount: boolean | null;
+  multiplyMaxCountToDate: boolean | null;
+  multiplyPriceToDate: boolean | null;
 }
 
 export interface searchBooking_SearchBooking_data_roomTypes {
@@ -7569,11 +7557,10 @@ export interface Foptional {
   type: OptionalItemType;
   price: number | null;
   maxCount: number | null;
-  /**
-   * 날짜에 비례해서 곱해지는지... true, false
-   */
-  multiplyDate: boolean;
   description: string | null;
+  multiplyMaxCountToProductCount: boolean | null;
+  multiplyMaxCountToDate: boolean | null;
+  multiplyPriceToDate: boolean | null;
 }
 
 /* tslint:disable */
@@ -7626,11 +7613,10 @@ export interface FroomType_optionalItems {
   type: OptionalItemType;
   price: number | null;
   maxCount: number | null;
-  /**
-   * 날짜에 비례해서 곱해지는지... true, false
-   */
-  multiplyDate: boolean;
   description: string | null;
+  multiplyMaxCountToProductCount: boolean | null;
+  multiplyMaxCountToDate: boolean | null;
+  multiplyPriceToDate: boolean | null;
 }
 
 export interface FroomType {
@@ -7940,11 +7926,10 @@ export interface FsharedGetAllRoomType_roomTypes_optionalItems {
   type: OptionalItemType;
   price: number | null;
   maxCount: number | null;
-  /**
-   * 날짜에 비례해서 곱해지는지... true, false
-   */
-  multiplyDate: boolean;
   description: string | null;
+  multiplyMaxCountToProductCount: boolean | null;
+  multiplyMaxCountToDate: boolean | null;
+  multiplyPriceToDate: boolean | null;
 }
 
 export interface FsharedGetAllRoomType_roomTypes_rooms {
@@ -8015,11 +8000,10 @@ export interface Fbooking_roomTypes_optionalItems {
   type: OptionalItemType;
   price: number | null;
   maxCount: number | null;
-  /**
-   * 날짜에 비례해서 곱해지는지... true, false
-   */
-  multiplyDate: boolean;
   description: string | null;
+  multiplyMaxCountToProductCount: boolean | null;
+  multiplyMaxCountToDate: boolean | null;
+  multiplyPriceToDate: boolean | null;
 }
 
 export interface Fbooking_roomTypes {
@@ -8467,11 +8451,10 @@ export interface FroomTypePriceResult_roomTypeDatePrices_roomType_optionalItems 
   type: OptionalItemType;
   price: number | null;
   maxCount: number | null;
-  /**
-   * 날짜에 비례해서 곱해지는지... true, false
-   */
-  multiplyDate: boolean;
   description: string | null;
+  multiplyMaxCountToProductCount: boolean | null;
+  multiplyMaxCountToDate: boolean | null;
+  multiplyPriceToDate: boolean | null;
 }
 
 export interface FroomTypePriceResult_roomTypeDatePrices_roomType {

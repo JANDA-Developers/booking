@@ -98,7 +98,7 @@ function App() {
           id="JDversion"
           className="JDtextColor--placeHolder"
         >
-          <JDtypho size="superTiny">{version}</JDtypho>
+          <JDtypho size="superTiny">{version} - </JDtypho>
         </div>
         <div
           style={{

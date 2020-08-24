@@ -49,7 +49,7 @@ export const L_PROGRAM: TVar = {
   B: "프로그램",
   SB: "방문",
   SS: "업소",
-  DM: "남녀예약",
+  DM: "프로그램",
   GS: "자리",
   R: "상품",
   G: "예약자",

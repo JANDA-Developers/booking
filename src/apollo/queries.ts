@@ -23,6 +23,8 @@ export const F_HOEMPAGE = gql`
   }
 `;
 
+
+
 const F_HOMEPAGE_REQUEST = gql`
   fragment FhomepageRequest on RequestHomepageType {
     siteName
@@ -312,8 +314,10 @@ export const F_OPTIONAL_ITEM = gql`
     type
     price
     maxCount
-    multiplyDate
     description
+    multiplyMaxCountToProductCount
+    multiplyMaxCountToDate
+    multiplyPriceToDate
   }
 `;
 

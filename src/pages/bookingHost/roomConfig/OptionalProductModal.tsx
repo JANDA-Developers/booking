@@ -8,6 +8,7 @@ import { THandleChangeOptionalProduct } from './RoomConfigWrap';
 import ModalEndSection from '../../../atoms/modal/components/ModalEndSection';
 import { DEFAULT_OPTION_ITEM } from '../../../types/defaults';
 import "./OptionalProductModal.scss";
+import { inOr } from '../../../utils/C';
 
 
 export interface IOptionModalInfo {
@@ -16,18 +17,17 @@ export interface IOptionModalInfo {
 	roomTypeId: string;
 }
 
-interface IProp extends JDmodalConfigProps{
+interface IProp extends JDmodalConfigProps {
 	modalHook: IUseModal<IOptionModalInfo>;
 }
 
-export const OptionalProductModal: React.FC<IProp> = ({ modalHook,...props }) => {
+export const OptionalProductModal: React.FC<IProp> = ({ modalHook, ...props }) => {
 	const { info } = modalHook;
 	if (!info) return <span />;
-	if(!modalHook.info?.defaultData) return <div/> 
+	if (!modalHook.info?.defaultData) return <div />
 	const { handleSave, defaultData, roomTypeId } = info;
-
-	const [ data, setData ] = useState<OptionalItemUpsertInput[]>(defaultData);
-	const [ deleteIds, setDeletes ] = useState<string[]>([]);
+	const [data, setData] = useState<OptionalItemUpsertInput[]>(defaultData);
+	const [deleteIds, setDeletes] = useState<string[]>([]);
 	const eidtModalHook = useModal<IEditProductInfo>(false);
 
 	return (
@@ -36,20 +36,21 @@ export const OptionalProductModal: React.FC<IProp> = ({ modalHook,...props }) =>
 			className="optionalProductModal"
 			head={{
 				element: <div>
-						<JDtypho mb="small" size="h6">
-							추가상품 설정하기
+					<JDtypho mb="small" size="h6">
+						추가상품 설정하기
 						</JDtypho>
-						<JDtypho size="small">
-							해당 모달을 통해서 부가적인 상품을 판매할 수 있습니다. <br/> 
+					<JDtypho size="small">
+						해당 모달을 통해서 부가적인 상품을 판매할 수 있습니다. <br />
 							조식, 추가인원, 파티인원 등을 별도 판매합니다.
 						</JDtypho>
-					</div>
+				</div>
 			}}
 			{...modalHook}
+			key={info.roomTypeId + "optionalProductModal"}
 		>
 			<JDbutton
 				iconProp={{
-					icon:"addCircle"
+					icon: "addCircle"
 				}}
 				onClick={() => {
 					eidtModalHook.openModal({
@@ -63,65 +64,81 @@ export const OptionalProductModal: React.FC<IProp> = ({ modalHook,...props }) =>
 			{/* list */}
 			{isEmpty(data) && <JDtypho mb="normal" size="h6" color="grey2">추가된 상품이 없습니다.</JDtypho>}
 			{isEmpty(data) || <div className="optionalProductModal__options">
-			{data.map((d) => (
-				<JDalign 
-					className="optionalProductModal__option"
-					flex={{
-						between:true,
-						vCenter:true
-					}} key={d._id + 'optionList'}>
-					<JDtypho mb="no" mr="largest" weight={600}>{d.label}</JDtypho>
-					<JDtypho mr="largest">{autoComma(d.price || 0)}</JDtypho>
-					<JDbutton
-						mr="no"
-						mb="no"
-						size="small"
-						onClick={() => {
-							eidtModalHook.openModal({
-								optionProduct: d
-							});
-						}}
-						mode="border"
-						label="수정하기"
-					/>
-				</JDalign>
-			))}
+				{data.map((d) => (
+					<JDalign
+						className="optionalProductModal__option"
+						flex={{
+							between: true,
+							vCenter: true
+						}} key={d._id + 'optionList'}>
+						<JDtypho mb="no" mr="largest" weight={600}>{d.label}</JDtypho>
+						<JDtypho mr="largest">{autoComma(d.price || 0)}</JDtypho>
+						<JDbutton
+							mr="no"
+							mb="no"
+							size="small"
+							onClick={() => {
+								eidtModalHook.openModal({
+									optionProduct: d
+								});
+							}}
+							mode="border"
+							label="수정하기"
+						/>
+					</JDalign>
+				))}
 			</div>
 			}
 			{/* Add Modal */}
 			<EditProdctModal
 				handleDelete={({ _id }) => {
 					setData(data.filter((d) => d._id !== _id));
-					setDeletes([ ...deleteIds, _id || '' ]);
+					setDeletes([...deleteIds, _id || '']);
 				}}
 				handleComplete={(prop) => {
 					let targetData = data.find((d) => d._id && d._id === prop._id);
 
-					if (targetData) targetData = prop 
+					if (targetData) targetData = prop
 					else data.push(prop);
 
-					setData([ ...data ]);
+					setData([...data]);
 				}}
 				modalHook={eidtModalHook}
 			/>
 			<ModalEndSection>
-					<JDbutton
-						onClick={() => {
-							handleSave(roomTypeId, data, deleteIds);
-						}}
-						thema="primary"
-						mode="flat"
-						label="확인"
-					/>
-					<JDbutton
-						onClick={() => {
-							modalHook.closeModal();
-						}}
-						thema="grey1"
-						mode="flat"
-						label="닫기"
-					/>
-				</ModalEndSection>
+				<JDbutton
+					onClick={() => {
+						const formatedData = data.map((d): OptionalItemUpsertInput => ({
+							_id: d._id,
+							label: d.label,
+							maxCount: d.maxCount,
+							multiplyDate: d.multiplyDate,
+							optionalItems: d.optionalItems?.map(i => ({
+								_id: i._id,
+								label: i.label,
+								maxCount: i.maxCount,
+								multiplyDate: i.multiplyDate,
+								price: i.price,
+								type: i.type
+							})),
+							price: d.price,
+							type: d.type
+						}))
+						handleSave(roomTypeId, formatedData, deleteIds);
+					}}
+					thema="primary"
+					mode="flat"
+					label="확인"
+				/>
+				<JDbutton
+					onClick={() => {
+						modalHook.closeModal();
+					}}
+					thema="grey1"
+					mode="flat"
+					label="닫기"
+				/>
+			</ModalEndSection>
 		</JDmodal>
 	);
 };

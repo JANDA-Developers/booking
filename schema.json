@@ -1979,7 +1979,7 @@
           },
           {
             "name": "GetSalesStatistic",
-            "description": null,
+            "description": "deprecated",
             "args": [
               {
                 "name": "houseId",
@@ -1997,7 +1997,7 @@
               },
               {
                 "name": "checkIn",
-                "description": null,
+                "description": "checkIn X => createdAt or checkIn",
                 "type": {
                   "kind": "NON_NULL",
                   "name": null,
@@ -2011,7 +2011,7 @@
               },
               {
                 "name": "checkOut",
-                "description": null,
+                "description": "checkOut X => createdAt or checkOut",
                 "type": {
                   "kind": "NON_NULL",
                   "name": null,
@@ -8643,6 +8643,42 @@
             "type": {
               "kind": "SCALAR",
               "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "multiplyMaxCountToProductCount",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "multiplyMaxCountToDate",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "multiplyPriceToDate",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
               "ofType": null
             },
             "isDeprecated": false,

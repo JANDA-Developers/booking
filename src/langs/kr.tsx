@@ -41,7 +41,7 @@ export const krFn = (Var = DefaultVar) => ({
   NOT_YET: "예약진행중",
   Pricing: "가격설정",
   Rooms: `${Var.GS}`,
-  DOMITORY: "도미토리",
+  DOMITORY: `${Var.DM}`,
   ROOM: `${Var.R}`,
   SmsReplaceKey: {
     STAYDATE: `[${Var.SB}일자(년/일)]`,
@@ -225,7 +225,7 @@ export const krFn = (Var = DefaultVar) => ({
   do_modify: "수정하기",
   do_question: "문의하기",
   do_you_want_request_making_homepage: "홈페이지 제작을 신청하시겠습니까?",
-  domitory: "도미토리",
+  domitory: `${Var.DM}`,
   dont_send: "발송안함",
   download: "다운로드",
   eamil: "이메일",
@@ -1450,7 +1450,7 @@ export const krFn = (Var = DefaultVar) => ({
   OptionalItemType: {
     CHECK: "CHECK",
     GROUP: "GROUP",
-    INPUT: "INPUT",
+    INPUT: "카운트",
     RADIO: "RADIO"
   },
   option: "옵션",

@@ -15,7 +15,7 @@ import JDtypho from "../typho/Typho";
 
 export interface IButtonProps
   extends React.HTMLAttributes<HTMLButtonElement>,
-    JDatomExtentionSet {
+  JDatomExtentionSet {
   disabled?: boolean;
   label?: string;
   icon?: IIcons;
@@ -115,7 +115,7 @@ const Button: React.FC<IButtonProps> = ({
     onClick && onClick(event);
   };
 
-  const handleKeyPress = () => {};
+  const handleKeyPress = () => { };
 
   const newId = s4();
 
@@ -180,7 +180,7 @@ const Button: React.FC<IButtonProps> = ({
 Button.defaultProps = {
   disabled: false,
   label: "",
-  onClick: () => {},
+  onClick: () => { },
   iconClasses: [""],
   dataTip: false,
   dataFor: "",
