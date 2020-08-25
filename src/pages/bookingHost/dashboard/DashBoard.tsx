@@ -18,7 +18,14 @@ import PageHeader from "../../../components/pageHeader/PageHeader";
 import PageBody from "../../../components/pageBody/PageBody";
 import { DO_TUTO_KEY } from "../../../types/const";
 import { IModalSMSinfo } from "../../../components/smsModal/SendSmsModal";
+<<<<<<< Updated upstream
 import { JDdayPickerModal } from "@janda-com/front";
+=======
+import { JDcard, JDalign, JDtypho } from "@janda-com/front";
+
+import DashBoardInformation from './components/DashBoardInformation';
+
+>>>>>>> Stashed changes
 
 interface Iprops {
   context: IContext;
@@ -126,7 +133,7 @@ const DashBoard: React.SFC<Iprops> = ({ context }) => {
                   <ReservationModal
                     context={context}
                     modalHook={reservationModal}
-                    callBackCreateBookingMu={(foo: any) => {}}
+                    callBackCreateBookingMu={(foo: any) => { }}
                     publicKey={house.publicKey || undefined}
                   />
                 </Fragment>
@@ -152,6 +159,29 @@ const DashBoard: React.SFC<Iprops> = ({ context }) => {
             </div>
           )} */}
         </div>
+
+        {/*
+          DashBoardInformation Start.
+        */}
+        <div>
+            {/* <DashBoardInformation
+                title={`title`}
+                header_image={`header_image`}
+                author={`author`}
+                body={`body`}
+                video={`video`}
+                pub_date={`pub_data`}
+                timestamp={`timestamp`}
+                likes={`likes`}
+                related_name={`related_name`}
+                isNotice={true}
+            /> */}
+        </div>
+         {/*
+          DashBoardInformation End.
+          */}
+
+
       </PageBody>
       {/* 데일리 어시그 컨트롤 툴팁 */}
       <TooltipList id="DailyAssigTooltip">

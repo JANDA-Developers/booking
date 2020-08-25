@@ -3724,6 +3724,9 @@ export interface getSalesStatistic_GetSalesStatistic {
 }
 
 export interface getSalesStatistic {
+  /**
+   * deprecated
+   */
   GetSalesStatistic: getSalesStatistic_GetSalesStatistic;
 }
 
@@ -6852,6 +6855,40 @@ export interface searchBooking {
 
 export interface searchBookingVariables {
   bookingNum: string;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
+// GraphQL query operation: getBookingsCount
+// ====================================================
+
+export interface getBookingsCount_GetBookings_result_bookings {
+  __typename: "Booking";
+  _id: string;
+}
+
+export interface getBookingsCount_GetBookings_result {
+  __typename: "GetBookingsResultData";
+  bookings: getBookingsCount_GetBookings_result_bookings[] | null;
+}
+
+export interface getBookingsCount_GetBookings {
+  __typename: "GetBookingsResponse";
+  ok: boolean;
+  error: string | null;
+  result: getBookingsCount_GetBookings_result | null;
+}
+
+export interface getBookingsCount {
+  GetBookings: getBookingsCount_GetBookings;
+}
+
+export interface getBookingsCountVariables {
+  param: GetBookingsInput;
 }
 
 /* tslint:disable */

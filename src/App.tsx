@@ -24,6 +24,8 @@ import "./lib/wave/wave.scss";
 import "./App.scss";
 import { BookingLang } from "./langs/JDlang";
 
+import DashBoardInformation from './pages/bookingHost/dashboard/components/DashBoardInformation';
+
 const { version } = require("../package.json");
 
 sessionStorage.setItem("app-version", version || "");
