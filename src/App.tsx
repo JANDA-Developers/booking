@@ -23,6 +23,7 @@ import "./lib/wave/wave"; // [TODO 점검] 웨이브 이펙트
 import "./lib/wave/wave.scss";
 import "./App.scss";
 import { BookingLang } from "./langs/JDlang";
+import PriceTable from "./components/priceTable/PriceTable";
 
 const { version } = require("../package.json");
 
@@ -54,70 +55,71 @@ function App() {
   });
 
   return (
-    <div id="JDoutWrapper">
-      <ApolloProvider client={client}>
-        <Favicon url={FAVI_URL} />
-        <Router>
-          <Fragment>
-            <Route render={prop => <Tracker foo={prop} />} />
-            <Switch>
-              {/* 상위 컴포넌트 영향에벋어날수 없다. */}
-              <Route
-                path="/LMeD6p5J3kn4D4Gu"
-                render={prop => <LoadBalancer />}
-              />
-              <Route
-                path="/documents"
-                render={prop => <DocumentRouter {...prop} />}
-              />
-              <Route
-                path="/outpage/:token"
-                render={prop => <OutPageRouter {...prop} />}
-              />
-              {["/"].map(path => (
-                <Route
-                  key={`router${path}`}
-                  path={path}
-                  // @ts-ignore
-                  render={() => <BookingHostRouter />}
-                />
-              ))}
-              <Route component={NoMatch} />
-            </Switch>
-          </Fragment>
-        </Router>
-        <JDtoast />
-        <div
-          style={{
-            display: "block",
-            position: "fixed",
-            left: "0%",
-            bottom: "0%",
-            zIndex: 999999
-          }}
-          id="JDversion"
-          className="JDtextColor--placeHolder"
-        >
-          <JDtypho size="superTiny">{version} - </JDtypho>
-        </div>
-        <div
-          style={{
-            position: "relative",
-            zIndex: 999999
-          }}
-          id="JDpreloaderPortal"
-        />
-        <div
-          style={{
-            position: "fixed",
-            zIndex: 999999 + 1
-          }}
-          id="JDpriorityPortal"
-        />
-        {/* for old borwser */}
-        <div id="outdated" />
-      </ApolloProvider>
-    </div>
+    <PriceTable />
+    // <div id="JDoutWrapper">
+    //   <ApolloProvider client={client}>
+    //     <Favicon url={FAVI_URL} />
+    //     <Router>
+    //       <Fragment>
+    //         <Route render={prop => <Tracker foo={prop} />} />
+    //         <Switch>
+    //           {/* 상위 컴포넌트 영향에벋어날수 없다. */}
+    //           <Route
+    //             path="/LMeD6p5J3kn4D4Gu"
+    //             render={prop => <LoadBalancer />}
+    //           />
+    //           <Route
+    //             path="/documents"
+    //             render={prop => <DocumentRouter {...prop} />}
+    //           />
+    //           <Route
+    //             path="/outpage/:token"
+    //             render={prop => <OutPageRouter {...prop} />}
+    //           />
+    //           {["/"].map(path => (
+    //             <Route
+    //               key={`router${path}`}
+    //               path={path}
+    //               // @ts-ignore
+    //               render={() => <BookingHostRouter />}
+    //             />
+    //           ))}
+    //           <Route component={NoMatch} />
+    //         </Switch>
+    //       </Fragment>
+    //     </Router>
+    //     <JDtoast />
+    //     <div
+    //       style={{
+    //         display: "block",
+    //         position: "fixed",
+    //         left: "0%",
+    //         bottom: "0%",
+    //         zIndex: 999999
+    //       }}
+    //       id="JDversion"
+    //       className="JDtextColor--placeHolder"
+    //     >
+    //       <JDtypho size="superTiny">{version} - </JDtypho>
+    //     </div>
+    //     <div
+    //       style={{
+    //         position: "relative",
+    //         zIndex: 999999
+    //       }}
+    //       id="JDpreloaderPortal"
+    //     />
+    //     <div
+    //       style={{
+    //         position: "fixed",
+    //         zIndex: 999999 + 1
+    //       }}
+    //       id="JDpriorityPortal"
+    //     />
+    //     {/* for old borwser */}
+    //     <div id="outdated" />
+    //   </ApolloProvider>
+    // </div>
   );
 }
 
