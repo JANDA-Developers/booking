@@ -2882,7 +2882,10 @@ export const GET_BOOKING_COUNT = gql`
       result {
         bookings {
           _id
-          
+          name
+          checkInInfo {
+            isIn
+          }
         }
       }
     }

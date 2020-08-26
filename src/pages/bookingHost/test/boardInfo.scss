@@ -11,6 +11,12 @@ $color_notice_content:#7E7E7E;
 $color_notice_sTitleBorder :#A9A9A9;
 
 
+/* ::::::::::::::::::::
+
+Responsive - MB
+
+:::::::::::::::::::: */
+
 .cls-1{fill:none;stroke:#000;stroke-miterlimit:10;}
 
 
@@ -83,7 +89,7 @@ $color_notice_sTitleBorder :#A9A9A9;
 .notice {
     position:relative;
     margin-bottom:2.5rem;
-    padding:0;
+    padding:0 1rem;
     &__sTitle {
         padding: bottom 0.625rem;
         border-bottom:3px solid $color_notice_sTitleBorder;
@@ -91,11 +97,11 @@ $color_notice_sTitleBorder :#A9A9A9;
             position:relative;
             display:block;
             padding:1.25rem 0 0 0;
-            font-size:1.5625rem;
+            font-size:2rem;
             font-weight:bold;
             text-align:center;
             .quote {
-                position:absolute;  z-index:-1;
+                position:absolute; 
                 transform:scale(0.6);
                 path {
                     fill:$color_quote;
@@ -108,7 +114,6 @@ $color_notice_sTitleBorder :#A9A9A9;
                 }
             }
         }
-
     }
 
     &__align {
@@ -140,7 +145,6 @@ $color_notice_sTitleBorder :#A9A9A9;
     &__content {
         font-size:0.9375rem;
         color:$color_notice_content;
-        
     }
 }
 
@@ -195,11 +199,11 @@ $color_notice_sTitleBorder :#A9A9A9;
             position:relative;
             display:block;
             padding:1.25rem 0;
-            font-size:1.5625rem;
+            font-size:2rem;
             font-weight:bold;
             text-align:center;
             .quote {
-                position:absolute;  z-index:-1;
+                position:absolute;
                 transform:scale(0.5);
                 path {
                     fill:$color_quote;
@@ -249,6 +253,14 @@ $color_notice_sTitleBorder :#A9A9A9;
 
 
 
+/* ::::::::::::::::::::
+
+Responsive - TABLET
+
+:::::::::::::::::::: */
+
+
+
 @media screen and (min-width:600px) {
 
     
@@ -257,6 +269,13 @@ $color_notice_sTitleBorder :#A9A9A9;
 }
 
 
+
+
+/* ::::::::::::::::::::
+
+Responsive - PC
+
+:::::::::::::::::::: */
 
 
 @media screen and (min-width:1024px) {
@@ -328,7 +347,7 @@ $color_notice_sTitleBorder :#A9A9A9;
         padding:0 3.125rem 3.125rem 3.125rem;
         border:1px solid blue;
         &__sTitle {
-            padding: bottom 0.625rem;
+            padding-bottom : 0.625rem;
             border-bottom:3px solid $color_notice_sTitleBorder;
             h3 {
                 position:relative;
@@ -430,7 +449,7 @@ $color_notice_sTitleBorder :#A9A9A9;
         
         &__sTitle {
             position:relative;
-            margin-bottom:0.625rem;
+            margin-bottom:1rem;
             border-bottom:3px solid $color_notice_sTitleBorder;
             h3 {
                 position:relative;
@@ -465,16 +484,20 @@ $color_notice_sTitleBorder :#A9A9A9;
          
         }
     
-    
-    
         &__link {
             flex:1;
+            ul {
+                display:flex;
+                flex-direction: column;
+                justify-content: space-between;
+                height:100%;
+            }
             .linkList {
                 display:flex;
                 justify-content: space-between;
                 align-items: center;
                 position: relative;
-                margin:1rem 0;
+                margin:0;
                 padding: 1rem 0.9375rem;
                 text-align: left;
                 border-radius: 3px;
@@ -487,9 +510,14 @@ $color_notice_sTitleBorder :#A9A9A9;
         }
     }
 
-
-
 }
+
+
+/* ::::::::::::::::::::
+
+Responsive - PC Big screen
+
+:::::::::::::::::::: */
 
 @media screen and (min-width:1600px) {
     

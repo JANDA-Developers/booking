@@ -18,14 +18,11 @@ import PageHeader from "../../../components/pageHeader/PageHeader";
 import PageBody from "../../../components/pageBody/PageBody";
 import { DO_TUTO_KEY } from "../../../types/const";
 import { IModalSMSinfo } from "../../../components/smsModal/SendSmsModal";
-<<<<<<< Updated upstream
 import { JDdayPickerModal } from "@janda-com/front";
-=======
 import { JDcard, JDalign, JDtypho } from "@janda-com/front";
 
 import DashBoardInformation from './components/DashBoardInformation';
 
->>>>>>> Stashed changes
 
 interface Iprops {
   context: IContext;

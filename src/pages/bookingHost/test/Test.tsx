@@ -4,6 +4,7 @@ import './boardInfo.scss';
 import DashBoardInformation from "../dashboard/components/DashBoardInformation";
 
 export const Test = () => {
+    
     return <DashBoardInformation
       briefInfo = {
         {

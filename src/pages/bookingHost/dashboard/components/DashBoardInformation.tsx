@@ -2,27 +2,27 @@ import React from 'react'
 import { JDcard, JDalign, JDtypho, JDslider } from "@janda-com/front";
 import { IDiv } from '@janda-com/front/build/types/interface';
 import JDIcon from '../../../../atoms/icons/Icons';
-import { useQuery } from '@apollo/react-hooks';
+import InfoBrief from './InfoBrief';
 
 type TBriefInfo = {
-  userNum:number,
-  newReserNum:number,
-  agencyNum:number,
+  userNum:number
+  newReserNum:number
+  agencyNum:number
   smsNum:number
 }
 
 type TNoticeInfo = {
-    id:number
-    notice_title: string
-    header_image:string
-    author:string
-    notice_body:string
-    video?:string
-    notice_date:string
-    timestamp:string
-    likes?: string
-    related_name:string
-    isNotice: boolean
+  id:number
+  notice_title: string
+  header_image:string
+  author:string
+  notice_body:string
+  video?:string
+  notice_date:string
+  timestamp:string
+  likes?: string
+  related_name:string
+  isNotice: boolean
 }
 
 type TNewsInfo = {
@@ -42,29 +42,28 @@ interface IProps extends IDiv {
 const DashBoardInformation:React.FC<IProps> = (
   {briefInfo, noticeInfo, newsInfo}
 ) => {
-
   let window_width = window.innerWidth;
 
   /* ::: JS Section - 접속자수, 신규예약, 에이전시등 정보 ::: */
     
-  const brief_data = [
-    { 
-      title: '체크인 한 사람 수 ',
-      number:briefInfo.userNum
-    },
-    { 
-      title: '오늘 방문하는 사람들',
-      number:briefInfo.newReserNum
-    },
-    { 
-      title: '취소된 카운팅 수',
-      number:briefInfo.agencyNum
-    },
-    { 
-      title: '총합 매출',
-      number:briefInfo.smsNum
-    },
-  ];
+const brief_data = [
+  { 
+    title: '체크인 한 사람 수 ',
+    number:briefInfo.userNum
+  },
+  { 
+    title: '오늘 방문하는 사람들',
+    number:briefInfo.newReserNum
+  },
+  { 
+    title: '취소된 카운팅 수',
+    number:briefInfo.agencyNum
+  },
+  { 
+    title: '총합 매출',
+    number:briefInfo.smsNum
+  },
+];
 
 
   /* ::: JS Section - 공지사항 ::: */ 
@@ -80,7 +79,7 @@ const DashBoardInformation:React.FC<IProps> = (
 
   /* ::: JS Section - 알림 ::: */ 
 
-  let newsBodyLen = 30; // Body 글자 수
+  let newsBodyLen = 40; // Body 글자 수
   if(window_width < 500 ) { newsBodyLen = 20 }
 
   const newsBody = (content:string, length:number) => {
@@ -88,10 +87,11 @@ const DashBoardInformation:React.FC<IProps> = (
         return content.substr(0, length) + '...';
       }
   }
-  
+
 
     return (
         <div className="information">
+          <InfoBrief />
           <section className="notice">
             <div className="notice__sTitle">
               <h3>
