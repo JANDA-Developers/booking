@@ -1,0 +1,169 @@
+@import "../../App.scss";
+@import "~@janda-com/front/src/scss/all.scss";
+
+$HeadBorderTop : black;
+$HeadSatBG:#C5E3FD;
+$HeadSunBG:#FEC1C0;
+$columHeadBG : #F5F5F5;
+$DayInputBG:#F5F5F5;
+$DaySaturdayBG:#E4F0FC;
+$DaySundayBG:#FCE2E3;
+
+.selected {
+   &:before {
+       content:"";
+       position:absolute;
+       top:0;left:0;
+       width:100%; height:100%;
+       background:rgba(0,0,0,0.2);
+   }
+}
+
+.JDpriceTable {
+    position:relative;
+    margin:3.125rem;
+
+    > div {
+        outline:none;
+    }
+
+    &__head {
+        border-top:3px solid $HeadBorderTop;
+        border-bottom:1px solid $grey-level3;
+        .JDpriceTable__headWrap {
+            display:flex;
+        }
+        .JDpriceTable__headList {
+            flex:1; 
+            padding:10px 0;
+            text-align:center;
+            background:$columHeadBG;
+            border-right:1px solid $grey-level3;
+            &:nth-child(1){
+                border-left:1px solid $grey-level3;
+            }
+            &:nth-child(6){
+                background:$HeadSatBG;
+            }
+            &:nth-child(7){
+                background:$HeadSunBG;
+            }
+            abbr {
+                text-decoration:none;
+            }
+        }
+    }
+
+    &__body {
+        
+    }
+
+
+    &__week {
+        display:flex;
+        border-left:1px solid $grey-level3;
+    }
+
+
+    &__day {
+        position:relative;
+        flex:1;
+        border-right:1px solid $grey-level3;
+        border-bottom:1px solid $grey-level3; 
+        &.saturday {
+            background:$DaySaturdayBG;
+        }
+        &.sunday {
+            background:$DaySundayBG;
+        }
+        > div {
+            display: flex;
+            padding: 0.9375rem;
+            align-items: center;
+            user-select: none;
+        }
+        .JDinput-wrap {
+            margin:0 0 0 0.625rem;
+            .JDinput__inside-wrap {
+                height:2rem;
+            }
+            input {
+                height:2rem;
+                background:$DayInputBG;
+            }
+        }
+    }
+
+
+    &__nav {
+        position: absolute;
+        z-index:50;
+        right: 0;
+        top: 0;
+        button {
+            background:white;
+            padding:0.3125rem;
+            cursor:pointer;
+            border:1px solid $grey-level3; 
+        }
+    }
+
+
+
+    .DayPicker-Caption {
+        position:relative;
+        margin-bottom: 0.625rem;
+        padding-right: 6.25rem;
+        font-size:1.5625rem;
+      
+        &__time {
+            text-align: right;
+        }
+
+        &__btnList {
+            display:flex; 
+            position:absolute;
+            top:0; left:0; 
+        }
+
+        &__room {
+            margin-right:0.3125rem;
+            min-width:12.5rem;
+            .JDselect:last-child {
+                margin-bottom:0;
+            }
+        }
+
+        &__save {
+            display:flex;
+            align-items: center;
+            padding:0px 0.9375rem;
+            font-size: 0.9375rem;
+            min-height:2.2rem;
+            cursor: pointer;
+        }
+
+        &__cancel {
+            display:flex;
+            align-items: center;
+            padding:0px 0.9375rem;
+            font-size: 0.9375rem;
+            min-height:2.2rem;
+            cursor: pointer;
+        }
+     
+    }
+
+}
+
+@media screen and (min-width:600px) {
+
+}
+
+@media screen and (min-width:1024px) {
+    
+}
+
+@media screen and (min-width:1600px) {
+    
+}

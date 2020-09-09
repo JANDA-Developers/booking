@@ -1,0 +1,15 @@
+1. DayPicker를 디자인대로 스타일링 하세요.
+2. Caption과 Nav를 구현하세요.
+3. 셀을 드래그해서 선택 상태로 만든후 입력이 한꺼번에 처리되도록 만드세요.
+4. 사용자가 저장 버튼을 누르지 않았는데, [달]을 변경하려 한다면 경고를 뛰우세요.
+5. 언어를 '한글'로 변경 해보세요. 
+
+2-1
+보통 Drag를 구현할떄는 이벤트객체 event.offest 정보를 사용합니다.
+하지만 지금같은 경우에는 DayPicker의 아래 프로퍼티들을 활용해서 충분히 처리 가능합니다.
+
+onDayMouseUp  => state에 드래그가 시작 되었음을 알린다.
+onDayMouseDown  => state에 드래그 종료 종료되었음을 알린다.
+onDayMouseEnter => 드래그 시작 상태라면 selectedDay에 Enter 된 Day를 삽입한다. 그렇지않다면 무시한다.
+onKeyPrss => selecteds 된 Day안에 있는 Input들의 값을 입력된 값으로 변경한다.
+

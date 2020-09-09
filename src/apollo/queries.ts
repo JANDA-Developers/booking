@@ -2873,3 +2873,21 @@ export const SEARCH_BOOKING = gql`
   ${F_GUEST}
   ${F_BOOKING}
 `;
+
+export const GET_BOOKING_COUNT = gql`
+  query getBookingsCount($param: GetBookingsInput!) {
+    GetBookings(param:$param) {
+      ok
+      error
+      result {
+        bookings {
+          _id
+          name
+          checkInInfo {
+            isIn
+          }
+        }
+      }
+    }
+  }
+`
