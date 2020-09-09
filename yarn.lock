@@ -1815,7 +1815,7 @@
 
 "@janda-com/resv-module--leisure@^1.0.4--leisure":
   version "1.0.4--leisure"
-  resolved "https://registry.npmjs.org/@janda-com/resv-module--leisure/-/resv-module--leisure-1.0.4--leisure.tgz#7c3c6d32c19578988cb7d7ed71a834f8cda67177"
+  resolved "https://registry.yarnpkg.com/@janda-com/resv-module--leisure/-/resv-module--leisure-1.0.4--leisure.tgz#7c3c6d32c19578988cb7d7ed71a834f8cda67177"
   integrity sha512-/RelGMM4Ko9dHg5m7YlSuMNX+BPtY2uei6u/vG6PfnvNrQbIh+PeJHB2PZNjmpMW0df1bRfzo7qoMxgH3RkLiQ==
   dependencies:
     "@babel/core" "7.8.4"

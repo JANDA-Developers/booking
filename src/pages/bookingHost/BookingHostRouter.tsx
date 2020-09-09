@@ -49,6 +49,7 @@ import { greet, houseConfigSetting } from "./helper";
 import SmsInfo from "./smsInfo/SmsInfo";
 import CreateHouseWrap from "./createHouse/CreateHouseWrap";
 import { langVarChange } from "../../utils/langVarChange";
+import { Test } from "./test/Test";
 
 interface JDRoute {
   Component: React.FC<any>;
@@ -124,7 +125,28 @@ const JDbookingHost: React.FC<IProps> = ({
     "bookingHost--houseExists": houseExists
   });
 
+//   <Route
+//   path="/test"
+//   render={prop => <DashBoardInformation
+//     title={`title`}
+//     header_image={`header_image`}
+//     author={`author`}
+//     body={`body`}
+//     video={`video`}
+//     pub_date={`pub_data`}
+//     timestamp={`timestamp`}
+//     likes={`likes`}
+//     related_name={`related_name`}
+//     isNotice={true}
+//    />}
+// />
+
   const routers: JDRoute[] = [
+    {
+      path: "/test",
+      Component: Test,
+      condition: true
+    },
     {
       path: "/",
       Component: DashBoard,

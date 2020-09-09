@@ -25,6 +25,8 @@ import "./App.scss";
 import { BookingLang } from "./langs/JDlang";
 import PriceTable from "./components/priceTable/PriceTable";
 
+import DashBoardInformation from './pages/bookingHost/dashboard/components/DashBoardInformation';
+
 const { version } = require("../package.json");
 
 sessionStorage.setItem("app-version", version || "");

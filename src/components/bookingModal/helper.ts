@@ -97,6 +97,7 @@ export const makeSmsInfoParam = (
     bookingIds: [bookingId],
     receivers: [bookingPhoneHook.value],
     // 페이먼트 에따라서 각 상황에맞는 SMS 를 찾아줌
+    // @ts-ignore
     findSendCase: (() => {
       const { selectedOption } = paymentStatusHook;
       if (selectedOption) {

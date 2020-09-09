@@ -6912,6 +6912,47 @@ export interface searchBookingVariables {
 // This file was automatically generated and should not be edited.
 
 // ====================================================
+// GraphQL query operation: getBookingsCount
+// ====================================================
+
+export interface getBookingsCount_GetBookings_result_bookings_checkInInfo {
+  __typename: "CheckInInfo";
+  isIn: boolean;
+}
+
+export interface getBookingsCount_GetBookings_result_bookings {
+  __typename: "Booking";
+  _id: string;
+  name: any;
+  checkInInfo: getBookingsCount_GetBookings_result_bookings_checkInInfo;
+}
+
+export interface getBookingsCount_GetBookings_result {
+  __typename: "GetBookingsResultData";
+  bookings: getBookingsCount_GetBookings_result_bookings[] | null;
+}
+
+export interface getBookingsCount_GetBookings {
+  __typename: "GetBookingsResponse";
+  ok: boolean;
+  error: string | null;
+  result: getBookingsCount_GetBookings_result | null;
+}
+
+export interface getBookingsCount {
+  GetBookings: getBookingsCount_GetBookings;
+}
+
+export interface getBookingsCountVariables {
+  param: GetBookingsInput;
+}
+
+/* tslint:disable */
+/* eslint-disable */
+// @generated
+// This file was automatically generated and should not be edited.
+
+// ====================================================
 // GraphQL fragment: Flocation
 // ====================================================
 
@@ -9217,6 +9258,9 @@ export interface OptionalItemUpsertInput {
   price?: number | null;
   maxCount?: number | null;
   multiplyDate?: boolean | null;
+  multiplyMaxCountToProductCount?: boolean | null;
+  multiplyMaxCountToDate?: boolean | null;
+  multiplyPriceToDate?: boolean | null;
   optionalItems?: OptionalItemUpsertInput[] | null;
 }
 

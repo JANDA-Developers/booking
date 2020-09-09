@@ -23,7 +23,8 @@
     overflow-y: auto;
     @extend %JDscrollbar;
   }
-}
+  
+  }
 
 .dashboardHeader {
   padding-bottom: $standard-margin-bottom;
