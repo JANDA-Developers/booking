@@ -13,7 +13,10 @@ import {
   deleteDailyPriceVariables,
   dailyPriceGetPriceVariables,
   dailyPriceGetPrice,
-  dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices
+  dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices,
+  getAllRoomTypePrice,
+  getAllRoomTypePriceVariables,
+  getRoomTypeDatePrices
 } from "../../../types/api";
 import DailyPrice from "./DailyPrice";
 import { DailyPriceDefaultProps } from "./timelineConfig";
@@ -33,7 +36,8 @@ import {
 import { TimePerMs } from "../../../types/enum";
 import { useDayPicker, LANG } from "../../../hooks/hook";
 import { IContext } from "../../bookingHost/BookingHostRouter";
-
+import { useQuery, useMutation } from "@apollo/react-hooks";
+import client from "../../../apollo/apolloClient";
 moment.tz.setDefault("Asia/Seoul");
 
 class GetAllRoomTypePriceQuery extends Query<
@@ -111,14 +115,7 @@ const DailyPriceWrap: React.FC<IProps> = ({ context }) => {
   const { house } = context;
   //  Default 값
   const dayPickerHook = useDayPicker(null, null);
-  const defaultTime = {
-    start: setMidNight(moment(dayPickerHook.from || new Date()).valueOf()),
-    end: setMidNight(
-      moment(dayPickerHook.to || new Date())
-        .add(7, "days")
-        .valueOf()
-    )
-  };
+
   const [dataTime, setDataTime] = useState({
     start: setMidNight(
       moment()
@@ -132,92 +129,47 @@ const DailyPriceWrap: React.FC<IProps> = ({ context }) => {
     )
   });
 
-  // 방타입과 날자 조합의 키를 가지고 value로 pirce를 가지는 Map 생성
-  const priceMapCreater = (priceData: dailyPrices[]): Map<string, number> => {
-    const priceMap = new Map();
-    priceData.map(price => {
-      priceMap.set(
-        price.roomType._id + setMidNight(moment(price.date).valueOf()),
-        price.price
-      );
-    });
-    return priceMap;
-  };
-
-  // 방타입과 날자 조합의 키를 가지고 value로 pirce를 가지는 Map 생성
-  const placeHolderMapCreater = (
-    priceData: dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices[]
-  ): Map<string, number> => {
-    const placeHolderMap = new Map();
-    priceData.map(price => {
-      if (!price.datePrices) return;
-      price.datePrices.map(datePrice => {
-        placeHolderMap.set(
-          price.roomType._id + setMidNight(moment(datePrice.date).valueOf()),
-          datePrice.price
-        );
-      });
-    });
-    return placeHolderMap;
-  };
-
-  const queryVarialbes = {
+  const queryVariable = {
     houseId: house._id,
-    checkIn: moment(dataTime.start)
-      .toISOString()
-      .split("T")[0],
-    checkOut: moment(dataTime.end)
-      .toISOString()
-      .split("T")[0]
+    checkIn: moment(dataTime.start).format("YYYYMMDD"),
+    checkOut: moment(dataTime.end).format("YYYYMMDD")
   };
+
+  const { data, loading } = useQuery<
+    dailyPriceGetPrice,
+    dailyPriceGetPriceVariables
+  >(PRICE_TIMELINE_GET_PRICE, {
+    client,
+    variables: {
+      ...queryVariable,
+      param: queryVariable
+    }
+  });
+
+  const {} = useMutation<createDialyPrice>()
+
+  const roomTypesData = queryDataFormater(
+    data,
+    "GetAllRoomType",
+    "roomTypes",
+    undefined
+  );
+  // 원본데이터
+  const dailyPriceData = queryDataFormater(
+    data,
+    "GetAllDailyPrice",
+    "dailyPrices",
+    []
+  );
+
+  const turePriceData = queryDataFormater(
+    data,
+    "GetRoomTypeDatePrices",
+    "roomTypeDatePrices",
+    []
+  );
 
   return (
-    <GetAllRoomTypePriceQuery
-      fetchPolicy="network-only"
-      query={PRICE_TIMELINE_GET_PRICE}
-      variables={{
-        houseId: house._id,
-        checkIn: queryVarialbes.checkIn,
-        checkOut: queryVarialbes.checkOut,
-        param: queryVarialbes
-      }}
-    >
-      {({ data, loading, error, networkStatus }) => {
-        const roomTypesData = queryDataFormater(
-          data,
-          "GetAllRoomType",
-          "roomTypes",
-          undefined
-        );
-        // 원본데이터
-        const dailyPriceData = queryDataFormater(
-          data,
-          "GetAllDailyPrice",
-          "dailyPrices",
-          []
-        );
-
-        const turePriceData = queryDataFormater(
-          data,
-          "GetRoomTypeDatePrices",
-          "roomTypeDatePrices",
-          []
-        );
-
-        const priceMap = priceMapCreater(dailyPriceData || []);
-
-        const placeHolderMap = placeHolderMapCreater(turePriceData || []);
-
-        const items =
-          roomTypesData &&
-          itemCreater({
-            startDate: dataTime.start,
-            endDate: dataTime.end,
-            priceMap,
-            roomTypes: roomTypesData
-          });
-        return (
-          // 방생성 뮤테이션
           <CreateDailyPriceMu
             onCompleted={({ CreateDailyPrice }) => {
               onCompletedMessage(
@@ -268,9 +220,6 @@ const DailyPriceWrap: React.FC<IProps> = ({ context }) => {
               </DeleteDailyPriceMu>
             )}
           </CreateDailyPriceMu>
-        );
-      }}
-    </GetAllRoomTypePriceQuery>
   );
 };
 
