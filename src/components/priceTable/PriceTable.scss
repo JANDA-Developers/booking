@@ -60,7 +60,7 @@ $DaySundayBG:#FCE2E3;
 
 
     &__day {
-        cursor: pointer!;
+        cursor: pointer !important;
         position: relative;
         flex: 1;
         border-right: 1px solid $grey-level3;

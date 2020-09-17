@@ -85,14 +85,11 @@ const RoomConfig: React.FC<IProps> = ({
   handleOptionalProduct,
   upsertRoomTypeOptionLoading
 }) => {
-  console.log("upsertRoomTypeOptionLoading");
-  console.log(upsertRoomTypeOptionLoading);
   const optionalProductModalHook = useModal<IOptionModalInfo>();
   const tagModalHook = useModal<IExtraConfigProp>(false);
   const { defaultAddTemp, roomTypesData } = defaultData;
   const roomTypeModalHook = useModal<IRoomTypeModalInfo>(false, {});
   const roomModalHook = useModal<IRoomModalInfo>(false, {});
-  const extraDescribtHook = useInput("");
 
   const defulatData = {
     original: roomTypesData,
