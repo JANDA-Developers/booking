@@ -1,8 +1,13 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState, useMemo } from "react";
 import { ReactTableDefault, JDcolumn } from "../../../atoms/table/Table";
 import Button from "../../../atoms/button/Button";
 import JDIcon from "../../../atoms/icons/Icons";
-import { useModal, LANG, useCheckBoxTable } from "../../../hooks/hook";
+import {
+  useModal,
+  LANG,
+  useCheckBoxTable,
+  useSelect
+} from "../../../hooks/hook";
 import BookingModalWrap from "../../../components/bookingModal/BookingModalWrap";
 import { IPageInfo, IBooking, IRoomType } from "../../../types/interface";
 import JDbox from "../../../atoms/box/JDbox";
@@ -55,7 +60,17 @@ import { JDSelectableJDtable } from "../../../atoms/table/SelectTable";
 import { IModalSMSinfo } from "../../../components/smsModal/SendSmsModal";
 import JDtypho from "../../../atoms/typho/Typho";
 import RefundModal from "../../../components/refundModal/RefundModal";
-import { IMu } from "@janda-com/front/build/types/interface";
+import { IMu, IselectedOption } from "@janda-com/front/build/types/interface";
+import { isEmpty } from "lodash";
+import {
+  JDselect,
+  IUseSelect,
+  JDalign,
+  IUseDayPicker,
+  JDdayPickerModal,
+  JDbutton
+} from "@janda-com/front";
+import DoubleInputRange from "../../../atoms/dayPicker/component/inputComponent/DoubleInputRange";
 
 interface IProps {
   pageInfo: IPageInfo;
@@ -63,12 +78,21 @@ interface IProps {
   loading: boolean;
   updateBookingLoading: boolean;
   deleteBookingLoading: boolean;
+  mutationLoading: boolean;
   context: IContext;
   networkStatus: NetworkStatus;
   setPage(page: number): void;
+  dayPickerHook: IUseDayPicker;
   deleteBookingMu: MutationFn<deleteBooking, deleteBookingVariables>;
   updateBookingMu: MutationFn<updateBooking, updateBookingVariables>;
   cancelBookingMu: IMu<cancelBookings, cancelBookingsVariables>;
+  selectCountHook: IUseSelect<any>;
+  checkInOutHook: IUseSelect<any>;
+  paymentStatusHook: IUseSelect<any>;
+  filterRoomTypeOps: IselectedOption<any>[];
+  setFilterRoomTypeOps: React.Dispatch<
+    React.SetStateAction<IselectedOption<any>[]>
+  >;
 }
 
 const ResvList: React.SFC<IProps> = ({
@@ -79,11 +103,18 @@ const ResvList: React.SFC<IProps> = ({
   updateBookingMu,
   deleteBookingMu,
   setPage,
+  dayPickerHook,
+  selectCountHook,
+  checkInOutHook,
   networkStatus,
+  mutationLoading,
+  paymentStatusHook,
+  filterRoomTypeOps,
+  setFilterRoomTypeOps,
   context
 }) => {
   const {
-    house: { _id: houseId },
+    house: { _id: houseId, roomTypes },
     houseConfig: {
       bookingConfig: {
         newBookingMark: { enable: newBookingMarkEnable }
@@ -95,12 +126,21 @@ const ResvList: React.SFC<IProps> = ({
     [],
     bookingsData.map(data => data._id)
   );
+  const dayPickerModalHook = useModal();
   const { checkedIds, setCheckedIds } = checkBoxTableHook;
   const bookingModalHook = useModal(false);
   const alertModalHook = useModal(false);
   const refundModalHook = useModal(false);
   const sendSmsModalHook = useModal<IModalSMSinfo>(false);
   const excelModal = useModal<IExcelModalInfo>(false);
+  const roomTypeOptions = useMemo((): IselectedOption[] => {
+    return (
+      roomTypes?.map(rt => ({
+        value: rt._id,
+        label: rt.name
+      })) || []
+    );
+  }, []);
 
   const handleDeleteBookingBtnClick = () => {
     alertModalHook.openModal({
@@ -108,8 +148,7 @@ const ResvList: React.SFC<IProps> = ({
     });
   };
 
-  const handleCancelBookingBtnClick = () => {
-  };
+  const handleCancelBookingBtnClick = () => {};
 
   const handleCancleBookingBtnClick = () => {
     checkedIds.forEach(id => {
@@ -123,7 +162,6 @@ const ResvList: React.SFC<IProps> = ({
       });
     });
   };
-
 
   const handleSendSmsBtnClick = () => {
     const receivers = checkedIds.map(id => {
@@ -244,8 +282,8 @@ const ResvList: React.SFC<IProps> = ({
                         )}
                       </Fragment>
                     ) : (
-                        <span>{roomCount}</span>
-                      )}
+                      <span>{roomCount}</span>
+                    )}
                   </span>
                 );
               })()}
@@ -275,24 +313,29 @@ const ResvList: React.SFC<IProps> = ({
       ),
       accessor: "payment",
       Cell: ({ original }) => {
-        const { totalPrice, refundedPrice, status } = original.payment
+        const { totalPrice, refundedPrice, status } = original.payment;
         const isUnPaid = status === PaymentStatus.NOT_YET;
         return (
           <div>
             <span>
               {autoComma(totalPrice)}
               {LANG("money_unit")}
-              {refundedPrice ? <JDtypho mb="no" size="small" color="error" >
-                {"(-" + autoComma(refundedPrice) + ")"}
-              </JDtypho> : undefined}
+              {refundedPrice ? (
+                <JDtypho mb="no" size="small" color="error">
+                  {"(-" + autoComma(refundedPrice) + ")"}
+                </JDtypho>
+              ) : (
+                undefined
+              )}
             </span>
             <div
-              className={`resvList__paymentStatus ${isUnPaid && "resvList__paymentStatus--notYet"}`}
+              className={`resvList__paymentStatus ${isUnPaid &&
+                "resvList__paymentStatus--notYet"}`}
             >
               {LANG("PaymentStatus", status)}
             </div>
           </div>
-        )
+        );
       }
     },
     {
@@ -386,7 +429,11 @@ const ResvList: React.SFC<IProps> = ({
           title={LANG("bookingList")}
         />
         <PageBody>
-          <div>
+          <JDalign
+            flex={{
+              wrap: true
+            }}
+          >
             <Button
               mode={IS_MOBILE ? "iconButton" : undefined}
               icon={IS_MOBILE ? "download" : undefined}
@@ -404,15 +451,15 @@ const ResvList: React.SFC<IProps> = ({
                 }: TExcelGetDataProp) => {
                   const filter: GetBookingsFilterInput | undefined = date
                     ? {
-                      houseId,
-                      stayDate: {
-                        checkIn: to4YMMDD(date.from),
-                        checkOut: to4YMMDD(date.to)
+                        houseId,
+                        stayDate: {
+                          checkIn: to4YMMDD(date.from),
+                          checkOut: to4YMMDD(date.to)
+                        }
                       }
-                    }
                     : {
-                      houseId
-                    };
+                        houseId
+                      };
 
                   const { data, loading } = await client.query<
                     getBookings,
@@ -478,33 +525,71 @@ const ResvList: React.SFC<IProps> = ({
               thema="error"
               label={LANG("delete_booking")}
             />
-            {/* <Button
-              mode={IS_MOBILE ? "iconButton" : undefined}
-              icon={IS_MOBILE ? "icon" : undefined}
-              onClick={handleCancelBookingBtnClick}
-              size="small"
-              thema="black"
-              label={LANG("refund_cancel")}
-            /> */}
-          </div>
+            <JDselect autoSize z={3} {...paymentStatusHook} />
+            <JDselect autoSize z={3} {...selectCountHook} />
+            <JDselect
+              autoSize
+              z={3}
+              isMulti
+              onChanges={ops => {
+                setFilterRoomTypeOps(ops);
+              }}
+              selectedOptions={filterRoomTypeOps}
+              options={roomTypeOptions}
+            />
+            <div
+              style={{
+                width: "10rem"
+              }}
+            >
+              <JDselect mr="normal" z={3} {...checkInOutHook} />
+            </div>
+            <JDalign
+              mb="normal"
+              onClick={() => {
+                dayPickerModalHook.openModal();
+              }}
+              flex={{
+                vCenter: true
+              }}
+            >
+              <JDbutton mode="border">
+                {dayPickerHook.from ? to4YMMDD(dayPickerHook.from) : "날짜선택"}
+              </JDbutton>
+              <JDtypho mb="normal" mr="normal">
+                ~
+              </JDtypho>
+              <JDbutton mode="border">
+                {" "}
+                {dayPickerHook.to ? to4YMMDD(dayPickerHook.to) : "날짜선택"}
+              </JDbutton>
+            </JDalign>
+          </JDalign>
+
           {networkStatus === 1 && loading ? (
             <div className="resvList__table--skeleton" />
           ) : (
-              <JDSelectableJDtable
-                {...ReactTableDefault}
-                {...checkBoxTableHook}
-                // 아래 숫자는 요청하는 쿼리와 같아야합니다.
-                defaultPageSize={pageInfo.rowCount}
-                pageSize={pageInfo.rowCount}
-                isCheckable
-                align="center"
-                data={bookingsData}
-                columns={TableColumns}
-                keyField="_id"
-              />
-            )}
+            <JDSelectableJDtable
+              {...ReactTableDefault}
+              {...checkBoxTableHook}
+              // 아래 숫자는 요청하는 쿼리와 같아야합니다.
+              defaultPageSize={pageInfo.rowCount}
+              pageSize={pageInfo.rowCount}
+              isCheckable
+              align="center"
+              data={bookingsData}
+              columns={TableColumns}
+              keyField="_id"
+            />
+          )}
           <JDPagination
-            setPage={setPage}
+            setPage={prop => {
+              if (!isEmpty(checkedIds))
+                if (!confirm("페이지를 바꾸시면 선택 정보가 사라집니다."))
+                  return;
+              setCheckedIds([]);
+              setPage(prop);
+            }}
             pageInfo={pageInfo}
             pageRangeDisplayed={1}
             marginPagesDisplayed={4}
@@ -522,8 +607,11 @@ const ResvList: React.SFC<IProps> = ({
           />
           <SendSMSmodalWrap modalHook={sendSmsModalHook} context={context} />
         </PageBody>
-        <RefundModal isMulti modalHook={refundModalHook}
-          onRefunds={(refundInfos) => {
+        <RefundModal
+          isMulti
+          loading={mutationLoading}
+          modalHook={refundModalHook}
+          onRefunds={refundInfos => {
             cancelBookingMu({
               variables: {
                 cancelParams: refundInfos.map(infop => ({
@@ -532,22 +620,31 @@ const ResvList: React.SFC<IProps> = ({
                   refundAmount: infop.amt
                 }))
               }
-            })
-
-          }} refundTargets={
-            checkedIds.map(id => {
-              const targetBooking = bookingsData.find(b => b._id === id);
-              if (!targetBooking) throw Error("Refund ID Invalid");
-              const { _id, payment: { totalPrice }, name, bookingNum } = targetBooking;
-              return ({
-                id: bookingNum,
-                max: totalPrice,
-                name,
-              })
-            })
-          } />
+            });
+          }}
+          refundTargets={checkedIds.map(id => {
+            const targetBooking = bookingsData.find(b => b._id === id);
+            if (!targetBooking) throw Error("Refund ID Invalid");
+            const {
+              _id,
+              payment: { totalPrice },
+              name,
+              bookingNum
+            } = targetBooking;
+            return {
+              id: bookingNum,
+              max: totalPrice,
+              name
+            };
+          })}
+        />
         <ExcelModal modalHook={excelModal} />
       </div>
+      <JDdayPickerModal
+        canSelectBeforeDay
+        {...dayPickerHook}
+        modalHook={dayPickerModalHook}
+      />
     </Fragment>
   );
 };

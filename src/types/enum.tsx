@@ -19,12 +19,24 @@ export enum UserRequestStatusValue {
   REFUSED = "REFUSED"
 }
 
+export enum OptionalItemType {
+  // CHECK = "CHECK",
+  // GROUP = "GROUP",
+  INPUT = "INPUT", //Count
+  // RADIO = "RADIO"
+}
+
 export enum UserRole {
   ADMIN = "ADMIN",
   GHOST = "GHOST",
   GUEST = "GUEST",
   DEVELOPER = "DEVELOPER",
   HOST = "HOST"
+}
+
+export enum SalesStatisticsCalculationType {
+  BOOKING_AT = "BOOKING_AT",
+  CREATED_AT = "CREATED_AT"
 }
 
 export enum HomepageOptionKey {
@@ -321,8 +333,9 @@ export type JDColor =
 export enum AutoSendWhen {
   WEHN_BOOKING_CANCEL = "WEHN_BOOKING_CANCEL",
   WHEN_BOOKING_CREATED = "WHEN_BOOKING_CREATED",
-  WHEN_BOOKING_CREATED_PAYMENT_NOT_YET = "WHEN_BOOKING_CREATED_PAYMENT_NOT_YET",
-  WHEN_BOOKING_UPDATE = "WHEN_BOOKING_UPDATE"
+  WHEN_BOOKING_UPDATE = "WHEN_BOOKING_UPDATE",
+  WHRN_BOOKING_CREATED_BANK_TRANSFER = "WHRN_BOOKING_CREATED_BANK_TRANSFER",
+  WHEN_BOOKING_CREATED_CARD = "WHEN_BOOKING_CREATED_CARD"
 }
 
 export enum Funnels {

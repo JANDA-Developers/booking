@@ -4,7 +4,73 @@
 @import "~@janda-com/front/src/scss/components/SearchInput.scss";
 @import "~@janda-com/front/src/scss/components/Slider.scss";
 @import "~@janda-com/front/src/scss/components/FilesManager.scss";
+@import "~@janda-com/front/src/scss/components/DayPickerModal.scss";
+
 
 #ch-plugin-core {
   display: none;
+}
+
+
+// 아래부분은 라이브러리 버전 올라가면 삭제할것 
+.calculateViewer {
+  &__history {
+    border-bottom: 1px solid $outborder-color;
+  }
+
+  &__historyInner {}
+
+  &__mainLine {
+    padding: space(2) 0;
+    font-weight: 600;
+  }
+
+  &__mainLiTitle {
+    margin-right: space(2);
+  }
+
+  &__mainLiDesc {
+    margin-right: space(2);
+  }
+
+  &__mainLiTitle {
+    margin-right: space(1) 0;
+  }
+
+  &__mainLiDesc {
+    margin-right: space(1) 0;
+  }
+
+
+  &__subTitle {
+    margin-right: space(1);
+  }
+
+  &__subLine {
+    font-size: $typho-small;
+    border-top: 1px solid $grey-level0;
+    padding-top: space(1.5);
+    padding-bottom: space(1.5);
+  }
+
+  &__describe {
+    margin-right: space(1);
+  }
+
+  &__result {
+    padding-top: space(2);
+  }
+
+  &__result-title {
+    width: 100%;
+    text-align: end;
+    min-width: 12.5rem;
+  }
+
+  &__calculaterTotal {
+    border-top: 1px solid $outborder-color;
+    padding: space(1);
+  }
+
+
 }

@@ -20,7 +20,6 @@ import { ISearchViewData } from "@janda-com/front/build/components/searchInput/D
 import moment from "moment";
 import "./GuestSearchInput.scss";
 import { ApolloQueryResult } from "apollo-client";
-import { searchFilterCreater } from "./helper";
 import { autoHypen } from "../../utils/utils";
 import JDIcon from "../../atoms/icons/Icons";
 import JDtypho from "../../atoms/typho/Typho";
@@ -43,9 +42,6 @@ const GuestSearchInput: React.FC<IProps> = ({
   loading
 }) => {
   const [data, setData] = useState<ISearchViewData[]>([]);
-
-  console.log("data");
-  console.log(data);
 
   const { house } = context;
   let houseId = "";

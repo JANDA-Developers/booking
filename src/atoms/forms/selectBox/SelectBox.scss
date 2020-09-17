@@ -2,12 +2,18 @@
 
 $select-font-color: $grey-level4;
 
-.JDselect {
+html .JDselect {
   background-color: white;
   text-align: left;
   font-size: $typho-normal;
 
+  .react-select__control {
+    min-height: $standard-line-height;
+  }
+
+
   &--textOverflowVisible {
+
     .react-select__placeholder,
     .react-select__single-value {
       overflow: visible !important;
@@ -25,13 +31,15 @@ $select-font-color: $grey-level4;
     * {
       text-overflow: unset !important;
     }
+
     .react-select__value-container {
       .react-select__single-value {
         max-width: none !important;
         position: relative !important;
         top: 0 !important;
         transform: none !important;
-        & + div {
+
+        &+div {
           position: absolute;
         }
       }
@@ -108,9 +116,11 @@ $select-font-color: $grey-level4;
       // disabled style 2
       &__control--is-disabled.react-select__control {
         border-color: $select-disabled-color;
+
         .react-select__placeholder {
           color: $select-disabled-color;
         }
+
         // 화살표
         .react-select__indicator {
           color: $select-font-color;
@@ -175,6 +185,7 @@ $select-font-color: $grey-level4;
         border: $select-border;
         background-color: $select-background;
         border-radius: $select-radius;
+
         &--is-focused {
           border-color: $select-focus-border-color;
           color: $html-color !important;
@@ -183,6 +194,7 @@ $select-font-color: $grey-level4;
           .react-select__indicator {
             color: $html-color !important;
           }
+
           .react-select__single-value {
             color: $html-color;
           }
@@ -216,6 +228,7 @@ $select-font-color: $grey-level4;
         line-height: $select-option-height;
         width: auto;
         white-space: pre;
+
         &--is-focused {
           background-color: $select-option-hover-bgcolor;
         }
@@ -245,17 +258,21 @@ $select-font-color: $grey-level4;
 
     .react-select-container {
       width: 100%;
+
       .react-select__control {
         height: auto;
         padding: 0rem $standard-tiny-space;
       }
+
       .react-select__value-container {
         padding: 0;
       }
+
       .react-select {
         .css-bgvzuu-indicatorSeparator {
           width: 0px;
         }
+
         &__placeholder {
           width: 100%;
           overflow: hidden;

@@ -7,7 +7,7 @@
   position: absolute;
   padding: $modal-content-padding;
   background-color: white;
-  border-radius: $standard-border-radius;
+  border-radius: $br1;
   max-height: 80vh;
   @extend %JDscrollbar;
   cursor: all-scroll;

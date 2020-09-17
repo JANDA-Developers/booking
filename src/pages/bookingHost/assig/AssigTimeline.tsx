@@ -63,7 +63,6 @@ import DailyAssigWrap from "../../../components/dailyAssjg/DailyAssigWrapWrap";
 import ReservationModal from "../../../components/reservationModala/ReservationModal";
 import ReadyItemTooltip from "./components/tooltips/ReadyItemTooltip";
 import HeaderCellRender from "./helper/HeaderCellRender";
-import DayPickerModal from "../../../components/dayPickerModal/DayPickerModal";
 import { IContext } from "../BookingHostRouter";
 import { SharedSideBarHeader } from "../../../atoms/timeline/components/SharedHeader";
 import PageHeader from "../../../components/pageHeader/PageHeader";
@@ -72,7 +71,7 @@ import AssigTimelineConfigModal from "./components/AssigTimelineConfigModal/Assi
 import getConfigStorage from "./helper/getStorage";
 import Preloader from "../../../atoms/preloader/Preloader";
 import { SIDE_IS_OPEN } from "../../../components/sideNav/SideNav";
-import { useWindowSize } from "@janda-com/front";
+import { useWindowSize, JDdayPickerModal } from "@janda-com/front";
 
 interface IProps {
   context: IContext;
@@ -636,7 +635,7 @@ const AssigTimeline: React.FC<IProps> = ({
           </JDmodal>
         </PageBody>
       </div>
-      <DayPickerModal
+      <JDdayPickerModal
         modalHook={dayPickerModalHook}
         isRange={false}
         canSelectBeforeDay={true}

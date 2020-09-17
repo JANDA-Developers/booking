@@ -1,7 +1,7 @@
 export const SERVER_URI =
   process.env.NODE_ENV === "development"
-    ? "https://temp-booking.stayjanda.cloud/graphql"
-    : `${window.location.protocol + "//" + window.location.host}/graphql`;
+    ? process.env.REACT_APP_API_SERVER_URI_DEV
+    : process.env.REACT_APP_API_SERVER_URI;
 
 export default (() => {
   return SERVER_URI;

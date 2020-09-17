@@ -66,7 +66,7 @@
 
         &:hover {
           background-color: $grey-level1;
-          border-radius: $standard-border-radius !important;
+          border-radius: $br1 !important;
           overflow: hidden;
         }
       }
@@ -172,7 +172,7 @@
 
         .DayPicker-Body {
           overflow: hidden;
-          border-radius: 0px 0px $standard-border-radius $standard-border-radius;
+          border-radius: 0px 0px $br1 $br1;
 
           .DayPicker-Week {
             display: flex;

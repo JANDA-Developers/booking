@@ -19,7 +19,7 @@ const request = async (operation: any) => {
       "H-KEY": localStorage.getItem("hk") || "",
       "X-JWT": localStorage.getItem("jwt") || "",
       "HP-Key": sessionStorage.getItem("hpk") || "",
-      "HM-Key": sessionStorage.getItem("hmk") || ""
+      "HM-Key": sessionStorage.getItem("hmk") || "" 
     }
   });
 };

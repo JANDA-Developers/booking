@@ -25,7 +25,7 @@ import { DEFAULT_SMS_TEMPLATE } from "../../../../types/defaults";
 import InputText from "../../../../atoms/forms/inputText/InputText";
 import { MutationFn } from "react-apollo";
 import JDLabel from "../../../../atoms/label/JDLabel";
-import JDselect, {
+import {
   SelectBoxSize
 } from "../../../../atoms/forms/selectBox/SelectBox";
 
@@ -37,6 +37,7 @@ import {
   SmsReplaceKeyEnumKeys
 } from "../../../../types/const";
 import ModalEndSection from "../../../../atoms/modal/components/ModalEndSection";
+import { JDselect } from "@janda-com/front";
 
 export interface ISmsTemplateModalProps {
   templateId: string;
@@ -148,7 +149,9 @@ const SmsTemplateModal: React.FC<Iprops> = ({
   };
 
   return (
-    <JDmodal className="smsTemplateModal" {...modalHook}>
+    <JDmodal head={{
+      title: "SMS 템플릿 설정"
+    }} className="smsTemplateModal" {...modalHook}>
       <Fragment>
         <div className="smsTemplateModal__contentWrap">
           <div>
@@ -190,18 +193,18 @@ const SmsTemplateModal: React.FC<Iprops> = ({
           <div className="JDz-index-1 flex-grid flex-grid--start">
             {/* props 로부터 받아서 쓸거임. onChange시에는 뮤테이션을 날리겠지. */}
             <JDselect
+              autoSize
+              menuPlacement="top"
               id="AutoSendSelect"
-              size={SelectBoxSize.FIVE}
               options={AUTO_SEND_OP}
               {...autoSendHook}
               menuPosition="up"
               label={LANG("auto_send")}
             />
             <JDselect
-              autoWidth
-              menuPosition="up"
+              autoSize
+              menuPlacement="top"
               id="SendTagetSelect"
-              size={SelectBoxSize.FOUR}
               options={SMS_TARGET_OP}
               {...sendTargetHook}
               label={LANG("send_target")}

@@ -23,6 +23,8 @@ export const F_HOEMPAGE = gql`
   }
 `;
 
+
+
 const F_HOMEPAGE_REQUEST = gql`
   fragment FhomepageRequest on RequestHomepageType {
     siteName
@@ -202,6 +204,23 @@ export const F_PRODUCT_TYPE = gql`
 `;
 
 // 상품 관련 프레임
+export const F_OPTIONAL_SUBMITTED = gql`
+  fragment FoptionalItemSubmitted on RoomTypeOptionalItemSubmitted {
+    roomType {
+      _id
+      name
+    }
+    items {
+      itemId
+      itemLabel
+      parentLabel
+      price
+      count
+    }
+  }
+`;
+
+// 상품 관련 프레임
 export const F_PRODUCT = gql`
   fragment Fproduct on Product {
     _id
@@ -288,6 +307,20 @@ export const F_SMS_SENDER = gql`
   }
 `;
 
+export const F_OPTIONAL_ITEM = gql`
+  fragment Foptional on OptionalItem {
+    _id
+    label
+    type
+    price
+    maxCount
+    description
+    multiplyMaxCountToProductCount
+    multiplyMaxCountToDate
+    multiplyPriceToDate
+  }
+`;
+
 // sms History
 export const F_SMS_HISTORY = gql`
   fragment FsmsHistory on SmsHistory {
@@ -320,11 +353,16 @@ export const F_ROOMTYPE = gql`
     updatedAt
     roomGender
     hashTags
+    code
     tags {
       key
       value
     }
+    optionalItems {
+      ...Foptional
+    }
   }
+  ${F_OPTIONAL_ITEM}
 `;
 
 //  방에대한 정보 프레임
@@ -518,11 +556,14 @@ export const F_BOOKING = gql`
     updatedAt
     isNew
     isConfirm
+    optionalItemSubmitted {
+      ...FoptionalItemSubmitted
+    }
   }
-  ${F_CARD_INFO}
   ${F_ROOMTYPE}
   ${F_PAYMENT}
   ${F_CARD_INFO}
+  ${F_OPTIONAL_SUBMITTED}
 `;
 
 // 기본정보를 모두 출력
@@ -547,6 +588,7 @@ export const F_CONTEXT = gql`
       }
       roomTypes {
         _id
+        name
         roomCount
       }
       product {
@@ -610,6 +652,22 @@ export const GET_HOUSE_SPECIFICATION = gql`
   ${F_USER}
   ${F_CARD_INFO}
   ${F_PRODUCT}
+`;
+
+// 하우스 설정 가져오기
+export const GET_HOUSE_TAGS = gql`
+  query getHouseTag {
+    GetHouseForPublic {
+      ok
+      error
+      house {
+        tags {
+          key
+          value
+        }
+      }
+    }
+  }
 `;
 
 // SMS :: 히스토리 가져오기
@@ -1409,6 +1467,7 @@ export const GET_BOOKING = gql`
   ${F_BOOKING}
 `;
 
+// Deprecated
 export const GET_SALES_STATISTIC = gql`
   query getSalesStatistic(
     $houseId: ID!
@@ -1416,6 +1475,8 @@ export const GET_SALES_STATISTIC = gql`
     $checkOut: DateTime!
     $unit: SalesStatisticsUnit!
     $groupByPayMethod: Boolean
+    $filterByPaymethod: [PayMethod!]
+    $type: SalesStatisticsCalculationType
   ) {
     GetSalesStatistic(
       houseId: $houseId
@@ -1423,6 +1484,8 @@ export const GET_SALES_STATISTIC = gql`
       checkOut: $checkOut
       unit: $unit
       groupByPayMethod: $groupByPayMethod
+      filterByPaymethod: $filterByPaymethod
+      type: $type
     ) {
       ok
       error
@@ -1437,23 +1500,6 @@ export const GET_SALES_STATISTIC = gql`
         price
         payMethod
       }
-    }
-  }
-`;
-
-export const CHANGE_INDEX_FOR_ROOMTYPE = gql`
-  mutation changeIndexForRoomType(
-    $roomTypeId: ID!
-    $houseId: ID!
-    $index: Int!
-  ) {
-    ChangeIndexForRoomType(
-      roomTypeId: $roomTypeId
-      houseId: $houseId
-      index: $index
-    ) {
-      ok
-      error
     }
   }
 `;
@@ -1543,6 +1589,34 @@ export const DELETE_GUEST = gql`
   }
 `;
 
+// 방타입 추가 옵션
+export const USERT_ROOM_TYPE_OPTIONAL_ITEM = gql`
+  mutation upsertRoomTypeOptionalItem(
+    $roomTypeId: ID!
+    $upserts: [OptionalItemUpsertInput!]
+    $deletes: [ID!]
+  ) {
+    UpsertRoomTypeOptionalItem(
+      roomTypeId: $roomTypeId
+      upserts: $upserts
+      deletes: $deletes
+    ) {
+      ok
+      error
+    }
+  }
+`;
+
+// 방타입 추가 옵션 삭제
+export const DELETE_OPTIONAL_ITEM = gql`
+  mutation deleteOptionalItem($optionalItemId: ID!) {
+    DeleteOptionalItem(optionalItemId: $optionalItemId) {
+      ok
+      error
+    }
+  }
+`;
+
 // 예약 ::예약생성 (게스트용)
 export const MAKE_BOOKING_FOR_PUBLIC = gql`
   mutation makeBookingForPublic(
@@ -1579,8 +1653,10 @@ export const MAKE_BOOKING = gql`
     $paymentParams: MakeBookingPaymentInput!
     $allocationParams: [AllocationInput!]
     $forceToAllocate: Boolean
+    $optionalItemSubmit: [RoomTypeOptionalItemSubmitInput!]
   ) {
     MakeBooking(
+      optionalItemSubmit: $optionalItemSubmit
       houseId: $houseId
       bookerParams: $bookerParams
       checkInOut: $checkInOut
@@ -2002,6 +2078,7 @@ export const DELETE_SEASON = gql`
     }
   }
 `;
+
 // 시즌 :: 시즌 업데이트
 export const UPDATE_SEASON = gql`
   mutation updateSeason(
@@ -2472,6 +2549,15 @@ export const UPDATE_HM = gql`
     }
   }
 `;
+
+export const ADD_HOUSE_TAGS = gql`
+  mutation addHouseTags($tags: [TagInput!]!, $houseId: ID!) {
+    AddHouseTags(houseId: $houseId, tags:$tags) {
+      ok
+      error
+    }
+  }
+`;
 // MEMO 가져오기
 export const GET_MEMO = gql`
   query getMemos($houseId: ID!, $memoType: MemoType) {
@@ -2709,12 +2795,19 @@ export const DO_BILL_PAY_PRODUCT = gql`
     }
   }
 `;
-
 // Defrecated
 // CancelBooking을 사용하세요.
 export const REFUND_BOOKING = gql`
-  mutation refundBooking($param: CancelBookingInput!) {
-    CancelBooking(param: $param) {
+  mutation refundBooking(
+    $bookingNum: String!
+    $amount: Float!
+    $cancelMessage: String!
+  ) {
+    RefundBooking(
+      bookingNum: $bookingNum
+      amount: $amount
+      cancelMessage: $cancelMessage
+    ) {
       ok
       error
     }

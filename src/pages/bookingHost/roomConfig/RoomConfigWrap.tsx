@@ -8,12 +8,16 @@ import {
   saveRoomTypesVariables,
   changeRoomTypeTags,
   changeRoomTypeTagsVariables,
-  TagInput
+  TagInput,
+  upsertRoomTypeOptionalItem,
+  upsertRoomTypeOptionalItemVariables,
+  OptionalItemUpsertInput
 } from "../../../types/api";
 import {
   GET_ALL_ROOMTYPES,
   SAVE_ROOMTYPES,
-  CHANGE_ROOM_TYPE_TAGS
+  CHANGE_ROOM_TYPE_TAGS,
+  USERT_ROOM_TYPE_OPTIONAL_ITEM
 } from "../../../apollo/queries";
 import {
   ErrProtecter,
@@ -40,6 +44,11 @@ export type TChangeTags = (
   roomTypeId: string,
   upsertTags: TagInput[],
   removeKeys: string[]
+) => void;
+export type THandleChangeOptionalProduct = (
+  roomTypeId: string,
+  params: OptionalItemUpsertInput[],
+  deletes?: string[] | undefined
 ) => void;
 
 const RoomConfigWrap: React.FC<IProps> = ({ context }) => {
@@ -69,14 +78,22 @@ const RoomConfigWrap: React.FC<IProps> = ({ context }) => {
     }
   );
 
-  const [changeRoomTypeMu, { loading: addRoomTypeLoading }] = useMutation<
-    changeRoomTypeTags,
-    changeRoomTypeTagsVariables
-  >(SAVE_ROOMTYPES, {
+  const [
+    upsertRoomTypeOptionsMu,
+    { loading: upsertRoomTypeOptionLoading }
+  ] = useMutation<
+    upsertRoomTypeOptionalItem,
+    upsertRoomTypeOptionalItemVariables
+  >(USERT_ROOM_TYPE_OPTIONAL_ITEM, {
     client,
-    notifyOnNetworkStatusChange: true,
     refetchQueries,
-    awaitRefetchQueries: true
+    onCompleted: ({ UpsertRoomTypeOptionalItem }) => {
+      onCompletedMessage(
+        UpsertRoomTypeOptionalItem,
+        LANG("change_complited"),
+        LANG("change_failed")
+      );
+    }
   });
 
   const [saveRoomsMu, { loading: saveRoomsLoading }] = useMutation<
@@ -108,8 +125,6 @@ const RoomConfigWrap: React.FC<IProps> = ({ context }) => {
     upsertTags: TagInput[],
     removeKeys: string[]
   ) => {
-    console.log("upsertTags");
-    console.log(upsertTags);
     changeRoomTypeTagsMu({
       variables: {
         upsertTags,
@@ -148,6 +163,20 @@ const RoomConfigWrap: React.FC<IProps> = ({ context }) => {
     return key;
   }, [loading]);
 
+  const handleOptionalProduct = (
+    roomTypeId: string,
+    params: OptionalItemUpsertInput[],
+    deletes?: string[]
+  ) => {
+    upsertRoomTypeOptionsMu({
+      variables: {
+        upserts: params,
+        deletes: deletes,
+        roomTypeId
+      }
+    });
+  };
+
   return (
     <Fragment>
       <RoomConfig
@@ -160,6 +189,8 @@ const RoomConfigWrap: React.FC<IProps> = ({ context }) => {
           defaultAddTemp: undefined,
           roomTypesData
         }}
+        upsertRoomTypeOptionLoading={upsertRoomTypeOptionLoading}
+        handleOptionalProduct={handleOptionalProduct}
         key={innerKey}
       />
       <Preloader floating loading={saveRoomsLoading} />

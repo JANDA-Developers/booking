@@ -27,7 +27,10 @@ import {
   Funnels,
   refundBookingVariables,
   cancelBooking,
-  cancelBookingVariables
+  cancelBookingVariables,
+  refundBooking,
+  OptionalItemSubmittedUpsertInput,
+  RoomTypeOptionalItemSubmitInput
 } from "../../types/api";
 import SendSMSmodalWrap from "../smsModal/SendSmsModalWrap";
 import { IContext } from "../../pages/bookingHost/BookingHostRouter";
@@ -61,6 +64,7 @@ interface IProps {
   updateBookingMu: MutationFn<updateBooking, updateBookingVariables>;
   deleteBookingMu: MutationFn<deleteBooking, deleteBookingVariables>;
   makeBookingLoading: boolean;
+  refundBookingMu: IMu<refundBooking, refundBookingVariables>;
   cancelBookingMu: IMu<cancelBooking, cancelBookingVariables>;
   context: IContext;
   loading: boolean;
@@ -80,6 +84,7 @@ const BookingModal: React.FC<IProps> = ({
   updateBookingMu,
   makeBookingMu,
   deleteBookingMu,
+  refundBookingMu,
   makeBookingLoading,
   placeHolederPrice,
   loading,
@@ -103,6 +108,7 @@ const BookingModal: React.FC<IProps> = ({
     name,
     funnels,
     guests,
+    optionalItemSubmitted,
     breakfast: breakfastDefault
   } = bookingData;
   const refundModalHook = useModal(false);
@@ -111,6 +117,12 @@ const BookingModal: React.FC<IProps> = ({
   const { _id: houseId } = house;
   const checkInOutHook = useSelect(
     optionFineder(CHECK_IN_OUT_OP, checkInInfo.isIn)
+  );
+  const [optional, setOptional] = useState<RoomTypeOptionalItemSubmitInput[]>(
+    (optionalItemSubmitted || [])?.map(op => ({
+      items: op.items,
+      roomTypeId: op.roomType._id
+    }))
   );
   const [breakfast, setBreakfast] = useState(breakfastDefault);
   const sendSmsModalHook = useModal<IModalSMSinfo>(false);
@@ -191,6 +203,7 @@ const BookingModal: React.FC<IProps> = ({
     confirmModalHook,
     makeBookingMu,
     updateBookingMu,
+    refundBookingMu,
     cancelBookingMu,
     bookingNameHook,
     bookingPhoneHook,
@@ -214,6 +227,8 @@ const BookingModal: React.FC<IProps> = ({
     assigInfo,
     sendSmsModalHook,
     houseId,
+    optional,
+    setOptional,
     mode
   };
 
@@ -275,7 +290,7 @@ const BookingModal: React.FC<IProps> = ({
             thema="error"
             onClick={handleDeletBtnClick}
           />
-          {/* <Button
+          <Button
             id="BookingModalRefundBtn"
             mode="flat"
             size="small"
@@ -283,14 +298,16 @@ const BookingModal: React.FC<IProps> = ({
             disabled={isCreateMode}
             thema="black"
             onClick={handleCancelBtnClick}
-          /> */}
+          />
         </div>
       }
       head={{
         element: isCreateMode ? (
-          <JDtypho size="h6">예약생성하기</JDtypho>
+          <JDtypho mb="no" size="h6">
+            예약생성하기
+          </JDtypho>
         ) : (
-          <JDtypho size="h6">
+          <JDtypho mb="no" size="h6">
             <Align flex={{}}>
               <JDtypho weight={600} color="primary" mr="small">
                 {LANG("sir")(name)}
@@ -316,7 +333,7 @@ const BookingModal: React.FC<IProps> = ({
             wrap: true,
             oneone: true
           }}
-      >
+        >
           <Fragment>
             <BookerInfo {...sharedProp} smsModalInfoTemp={smsModalInfoTemp} />
             <PaymentInfo {...sharedProp} />
@@ -360,6 +377,7 @@ const BookingModal: React.FC<IProps> = ({
         </JDtabs>
       )}
       <RefundModal
+        loading={loading}
         refundTargets={[
           {
             id: bookingId,

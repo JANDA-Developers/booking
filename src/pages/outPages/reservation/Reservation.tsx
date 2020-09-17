@@ -8,7 +8,6 @@ import {
   useModal,
   IUseModal,
   useCheckBox,
-  useSelect,
   useInput,
   LANG
 } from "../../../hooks/hook";
@@ -42,7 +41,10 @@ import {
   Funnels,
   PayMethod
 } from "../../../types/enum";
-import { PAYMETHOD_FOR_BOOKER_OP } from "../../../types/const";
+import {
+  PAYMETHOD_FOR_BOOKER_OP,
+  PAYMENT_STATUS_OP2
+} from "../../../types/const";
 import { GET_ALL_ROOM_TYPE_FOR_BOOKER } from "../../../apollo/queries";
 import Preloader from "../../../atoms/preloader/Preloader";
 import { Helmet } from "react-helmet";
@@ -63,7 +65,7 @@ import { IBookerInfo, IReservationHooks } from "./declation";
 import { Redirect } from "react-router-dom";
 import { TCardRegistInfo } from "../../../components/cardModal/declare";
 import moment from "moment";
-import { toast, JDtypho } from "@janda-com/front";
+import { toast, JDtypho, useSelect } from "@janda-com/front";
 
 class GetAllAvailRoomQu extends Query<getAllRoomTypeForBooker> {}
 export interface ISetBookingInfo
@@ -132,6 +134,10 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
   const bookingModalHook = useModal<IBookingModalProp>();
   const sendSmsHook = useCheckBox(!isHost);
   const priceHook = useInput(0);
+  const payMethodHook = useSelect(
+    PAYMETHOD_FOR_BOOKER_OP[0],
+    PAYMETHOD_FOR_BOOKER_OP
+  );
   const cardInfoHook = useState<TCardRegistInfo>(DEFAULT_CARD_INFO);
   const filteredPayMethodOp = PAYMETHOD_FOR_BOOKER_OP.filter(op =>
     payMethods.includes(op.value)
@@ -141,7 +147,6 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
     window.scrollTo(screen.width / 2, screen.height / 2);
   }, [bookingInfoModal.isOpen, rsevModalHook.isOpen]);
 
-  const payMethodHook = useSelect(filteredPayMethodOp[0]);
   const reservationHooks: IReservationHooks = {
     priceHook,
     cardInfoHook,

@@ -13,7 +13,9 @@ import {
   makeBooking,
   makeBookingVariables,
   getRoomTypeDatePrices,
-  getRoomTypeDatePricesVariables
+  getRoomTypeDatePricesVariables,
+  refundBooking,
+  refundBookingVariables
 } from "../../types/api";
 import {
   queryDataFormater,
@@ -67,20 +69,28 @@ const BookingModalWrap: React.FC<IBookingModalWrapProps> = ({
     getOperationName(GET_ALL_GUEST_AND_BLOCK) || ""
   ];
 
+  const [refundBookingMu, { loading: refundBookingLoading }] = useMutation<
+    refundBooking,
+    refundBookingVariables
+  >(REFUND_BOOKING, {
+    client,
+    refetchQueries,
+    onCompleted: ({ RefundBooking }) => {
+      onCompletedMessage(
+        RefundBooking,
+        LANG("refund_complete_message"),
+        LANG("refund_complete_fail")
+      );
+    }
+  });
+
   const [cancelBookingMu, { loading: cancelBookingLoading }] = useMutation<
     cancelBooking,
     cancelBookingVariables
   >(CANCLE_BOOKING, {
     client,
     refetchQueries,
-    ignoreResults: true,
-    onCompleted: ({ CancelBooking }) => {
-      onCompletedMessage(
-        CancelBooking,
-        LANG("refund_complete_message"),
-        LANG("refund_complete_fail")
-      );
-    }
+    onCompleted: ({ CancelBooking }) => {}
   });
 
   return (
@@ -212,7 +222,10 @@ const BookingModalWrap: React.FC<IBookingModalWrapProps> = ({
                               : mergedBooking;
 
                             const totalLoading =
-                              getBooking_loading || getPrice_loading;
+                              getBooking_loading ||
+                              getPrice_loading ||
+                              refundBookingLoading ||
+                              cancelBookingLoading;
 
                             return (
                               <Fragment>
@@ -222,8 +235,8 @@ const BookingModalWrap: React.FC<IBookingModalWrapProps> = ({
                                     bookingData={bookingData}
                                     mode={modalHook.info.mode}
                                     context={context}
-                                    loading={totalLoading}
                                     modalHook={modalHook}
+                                    refundBookingMu={refundBookingMu}
                                     cancelBookingMu={cancelBookingMu}
                                     makeBookingMu={makeBookingMu}
                                     updateBookingMu={updateBookingMu}
@@ -231,6 +244,7 @@ const BookingModalWrap: React.FC<IBookingModalWrapProps> = ({
                                     makeBookingLoading={makeBookingLoading}
                                     placeHolederPrice={placeHolederPrice}
                                     {...props}
+                                    loading={totalLoading}
                                     key={
                                       modalHook.info.createParam
                                         ? s4()

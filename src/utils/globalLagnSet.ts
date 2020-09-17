@@ -18,7 +18,8 @@ import {
   AUTO_SEND_OP,
   STATISTICS_OP,
   HOUSE_TYPE_OP,
-  FUNNELS_OP
+  FUNNELS_OP,
+  PAYMENT_STATUS_OP2
 } from "../types/const";
 
 import { LANG } from "../hooks/hook";
@@ -39,6 +40,7 @@ export const globalLanguageSetting = () => {
 
   const settings = [
     { value: PAYMENT_STATUS_OP, enumKey: "PaymentStatus" },
+    { value: PAYMENT_STATUS_OP2, enumKey: "PaymentStatus" },
     STATISTICS_TYPE_OP,
     STATISTICS_OP,
     { value: HOUSE_STATUS_OP, enumKey: "HouseStatus" },

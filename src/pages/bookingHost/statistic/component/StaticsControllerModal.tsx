@@ -3,27 +3,30 @@ import { IContext } from "../../../bookingHost/BookingHostRouter";
 import StaticController from "./StaticController";
 import JDmodal from "../../../../atoms/modal/Modal";
 import { IUseModal, LANG } from "../../../../hooks/hook";
-import { IStaticsProps } from "../Statistic";
+import { IStaticsProps, IGraphViewMode } from "../Statistic";
 import StaticIcons from "./StaticIcons";
 import { MODAL_MIN_WIDTH } from "../../../../types/const";
 
 interface Iprops {
   context: IContext;
-  staticsProps: IStaticsProps;
+  viewModeHook: {
+    viewMode: IGraphViewMode;
+    setViewMode: React.Dispatch<React.SetStateAction<IGraphViewMode>>;
+  };
   modalHook: IUseModal;
 }
 
 const StaticsControllerModal: React.FC<Iprops> = ({
-  staticsProps,
+  viewModeHook,
   context,
   modalHook
 }) => {
-  const { viewMode, setViewMode } = staticsProps;
+  const { viewMode, setViewMode } = viewModeHook;
   return (
     <JDmodal visibleOverflow minWidth={MODAL_MIN_WIDTH} {...modalHook}>
       <div>
         <div className="modal__section">
-          <StaticController staticsProps={staticsProps} context={context} />
+          <StaticController context={context} />
         </div>
         <h6>{LANG("graph_shape")}</h6>
         <div>

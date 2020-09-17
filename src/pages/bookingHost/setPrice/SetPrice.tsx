@@ -291,6 +291,7 @@ const SetPrice: React.SFC<IProps & WindowSizeProps> = ({
           <JDtable
             marginAtuo={false}
             {...ReactTableDefault}
+            defaultPageSize={90}
             inClassNames="setPrice__table"
             data={roomTypes}
             columns={tableColumns}

@@ -30,7 +30,7 @@ export const krFn = (Var = DefaultVar) => ({
   HM_set: "AI 무인 솔루션 설정",
   HM_title: "AI 무인 솔루션 타이틀",
   HOST: `${Var.H}`,
-  Headcount: "인원수",
+  Headcount: "인원",
   JANDA_provide_free_homepage_for_guest:
     "잔다 고객분 들에게 무료 홈페이지를 제공합니다.",
   JAPANESE: "일본어",
@@ -41,7 +41,7 @@ export const krFn = (Var = DefaultVar) => ({
   NOT_YET: "예약진행중",
   Pricing: "가격설정",
   Rooms: `${Var.GS}`,
-  DOMITORY: "도미토리",
+  DOMITORY: `${Var.DM}`,
   ROOM: `${Var.R}`,
   SmsReplaceKey: {
     STAYDATE: `[${Var.SB}일자(년/일)]`,
@@ -51,7 +51,10 @@ export const krFn = (Var = DefaultVar) => ({
     TOTALPRICE: `[가격]`,
     PAYMETHOD: `[결제방법]`,
     PAYMENTSTATUS: `[결제상태]`,
-    HM: `[AI 무인 솔루션URL]`
+    HM: `[AI 무인 솔루션URL]`,
+    CHECK_IN: `[체크인]`,
+    CHECK_OUT: `[체크아웃]`,
+    BOOKING_NUM: `[예약번호]`
   },
   Use_room_specific_tabs: `${Var.BT}별 탭을 사용합니다.`,
   VBANK: "무통장입금",
@@ -61,6 +64,8 @@ export const krFn = (Var = DefaultVar) => ({
   WHEN_BOOKING_CREATED: "예약 생성시",
   WHEN_BOOKING_CREATED_PAYMENT_NOT_YET: "예약생성시(미결제)",
   WHEN_BOOKING_UPDATE: "예약업데이트시",
+  WHRN_BOOKING_CREATED_BANK_TRANSFER: "무통장 입금 예약시",
+  WHEN_BOOKING_CREATED_CARD: "카드 예약시",
   YEARLY: "년별",
   accommodation_info: `${Var.SB}정보`,
   add_room: `${Var.B}추가`,
@@ -220,7 +225,7 @@ export const krFn = (Var = DefaultVar) => ({
   do_modify: "수정하기",
   do_question: "문의하기",
   do_you_want_request_making_homepage: "홈페이지 제작을 신청하시겠습니까?",
-  domitory: "도미토리",
+  domitory: `${Var.DM}`,
   dont_send: "발송안함",
   download: "다운로드",
   eamil: "이메일",
@@ -1064,7 +1069,7 @@ export const krFn = (Var = DefaultVar) => ({
   please_select_room_gender: `${Var.B}성별을 선택 해주세요.`,
   please_select_room_type: `${Var.BT}을 선택 해주세요.`,
   please_input_max_people_count: "최대인원수를 입력 해주세요.",
-  room_assig_info: `${Var.B}/배정 정보`,
+  room_assig_info: `상품/배정 정보`,
   else: "기타",
   check_init: "생성확인",
   timeline_config: "타임라인설정",
@@ -1441,5 +1446,17 @@ export const krFn = (Var = DefaultVar) => ({
   can_not_refund_that_much: "환불 한도가 초과입니다.",
   max_range_book_day_is: (N: string) => `최대 연박 일수는 ${N}일 입니다.`,
   reservation_page_new: "새 예약페이지",
-  your_resv_code_is: (code: string) => `당신의 예약번호는 ${code} 입니다.`
+  your_resv_code_is: (code: string) => `당신의 예약번호는 ${code} 입니다.`,
+  OptionalItemType: {
+    CHECK: "CHECK",
+    GROUP: "GROUP",
+    INPUT: "카운트",
+    RADIO: "RADIO"
+  },
+  option: "옵션",
+  check_in_or_out: "체크인 여부",
+  SalesStatisticsCalculationType: {
+    BOOKING_AT: "방문일자",
+    CREATED_AT: "생성일자"
+  }
 });

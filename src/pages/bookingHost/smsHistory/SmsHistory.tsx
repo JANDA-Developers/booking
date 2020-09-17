@@ -115,6 +115,7 @@ const SmsHistory: React.FC<Iprops> = ({
             columns={TableColumns}
             data={smsData}
             showPagination={false}
+            pageSize={20}
             loading={false}
             align="center"
             minRows={3}

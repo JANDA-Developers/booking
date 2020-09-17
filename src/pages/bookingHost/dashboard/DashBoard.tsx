@@ -7,20 +7,18 @@ import "./DashBoard.scss";
 import { useModal, useDayPicker, LANG } from "../../../hooks/hook";
 import Button from "../../../atoms/button/Button";
 import { IContext } from "../../bookingHost/BookingHostRouter";
-import DaySalesWrap from "../../../components/shortStatisces/DaySalesWrap";
-import DayCheckInWrap from "../../../components/shortStatisces/DayCheckInWrap";
 import ReservationModal from "../../../components/reservationModala/ReservationModal";
 import JDIcon from "../../../atoms/icons/Icons";
 import TooltipList, {
   TooltipButtons
 } from "../../../atoms/tooltipList/TooltipList";
-import DayPickerModal from "../../../components/dayPickerModal/DayPickerModal";
 import SendSMSmodalWrap from "../../../components/smsModal/SendSmsModalWrap";
 import moment from "moment";
 import PageHeader from "../../../components/pageHeader/PageHeader";
 import PageBody from "../../../components/pageBody/PageBody";
 import { DO_TUTO_KEY } from "../../../types/const";
 import { IModalSMSinfo } from "../../../components/smsModal/SendSmsModal";
+import { JDdayPickerModal } from "@janda-com/front";
 
 interface Iprops {
   context: IContext;
@@ -45,19 +43,24 @@ const DashBoard: React.SFC<Iprops> = ({ context }) => {
   //   []
   // );
 
-  const MemoDailyAssigWrap = useMemo(() => {
-    return (
-      <DailyAssigWrap
-        onRederCallBack={() => {
-          setLoading(false);
-        }}
-        calendarPosition="inside"
-        context={context}
-        date={dailyAssigDateHook.from || new Date()}
-        key={"" + dailyAssigDateHook.from}
-      />
+  const MemoDailyAssigWrap =
+    house.name !== "광안리" ? (
+      useMemo(() => {
+        return (
+          <DailyAssigWrap
+            onRederCallBack={() => {
+              setLoading(false);
+            }}
+            calendarPosition="inside"
+            context={context}
+            date={dailyAssigDateHook.from || new Date()}
+            key={"" + dailyAssigDateHook.from}
+          />
+        );
+      }, [dailyAssigDateHook.from])
+    ) : (
+      <div />
     );
-  }, [dailyAssigDateHook.from]);
 
   const onToogleCardClick = () => {
     localStorage.removeItem(DO_TUTO_KEY);
@@ -169,7 +172,7 @@ const DashBoard: React.SFC<Iprops> = ({ context }) => {
           ]}
         />
       </TooltipList>
-      <DayPickerModal
+      <JDdayPickerModal
         modalHook={dayPickerModalHook}
         isRange={false}
         {...dailyAssigDateHook}

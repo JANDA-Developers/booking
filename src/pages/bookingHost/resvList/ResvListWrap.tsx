@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import { Query, Mutation } from "react-apollo";
 import ResvList from "./ResvList";
 import {
@@ -25,25 +25,50 @@ import {
   CANCLE_BOOKING,
   CANCLE_BOOKINGS
 } from "../../../apollo/queries";
-import { DEFAULT_PAGE_INFO } from "../../../types/defaults";
+import { DEFAULT_PAGE_INFO, PAGE_COUNT_SELECT } from "../../../types/defaults";
 import { getOperationName } from "apollo-link";
-import { usePageNation, LANG } from "../../../hooks/hook";
+import { usePageNation, LANG, useDayPicker } from "../../../hooks/hook";
 import { isNetworkRequestInFlight } from "apollo-client/core/networkStatus";
 import { IContext } from "../../bookingHost/BookingHostRouter";
 import { useMutation } from "@apollo/react-hooks";
 import client from "../../../apollo/apolloClient";
+import { useSelect } from "@janda-com/front";
+import {
+  CHECK_IN_OUT_OP2,
+  PAYMENT_STATUS_OP,
+  PAYMENT_STATUS_OP2
+} from "../../../types/const";
+import { IselectedOption } from "@janda-com/front/build/types/interface";
 
 interface IProps {
   context: IContext;
 }
 
-class UpdateBookingMu extends Mutation<updateBooking, updateBookingVariables> { }
-class DeleteBookingMu extends Mutation<deleteBooking, deleteBookingVariables> { }
-class GetBookingsQuery extends Query<getBookings, getBookingsVariables> { }
+class UpdateBookingMu extends Mutation<updateBooking, updateBookingVariables> {}
+class DeleteBookingMu extends Mutation<deleteBooking, deleteBookingVariables> {}
+class GetBookingsQuery extends Query<getBookings, getBookingsVariables> {}
 
 const ResvListWrap: React.FC<IProps> = ({ context }) => {
   const { house, houseConfig } = context;
   const { page, setPage } = usePageNation(1);
+  const selectCountHook = useSelect(PAGE_COUNT_SELECT[0], PAGE_COUNT_SELECT);
+  const checkInOutHook = useSelect(CHECK_IN_OUT_OP2[0], CHECK_IN_OUT_OP2);
+  const dayPickerHook = useDayPicker(null, null);
+  const paymentStatusHook = useSelect(
+    PAYMENT_STATUS_OP2[0],
+    PAYMENT_STATUS_OP2
+  );
+  const [filterRoomTypeOps, setFilterRoomTypeOps] = useState<IselectedOption[]>(
+    []
+  );
+
+  const checkInOutRange =
+    dayPickerHook.from && dayPickerHook.to
+      ? {
+          checkIn: dayPickerHook.from,
+          checkOut: dayPickerHook.to
+        }
+      : undefined;
 
   const refetchQueries = [getOperationName(GET_BOOKINGS) || ""];
 
@@ -75,17 +100,23 @@ const ResvListWrap: React.FC<IProps> = ({ context }) => {
       variables={{
         param: {
           filter: {
-            houseId: house._id
+            roomTypeIds: (filterRoomTypeOps || []).map(op => op.value),
+            stayDate: checkInOutRange,
+            houseId: house._id,
+            isCheckIn: checkInOutHook.selectedOption?.value,
+            paymentStatuses: paymentStatusHook.selectedOption?.value
+              ? [paymentStatusHook.selectedOption?.value]
+              : undefined
           },
           paging: {
             selectedPage: page,
-            count: 20
+            count: selectCountHook.selectedOption?.value
           }
         }
       }}
     >
       {({ data: boookerData, loading, error, networkStatus }) => {
-      const result = queryDataFormater(
+        const result = queryDataFormater(
           boookerData,
           "GetBookings",
           "result",
@@ -117,23 +148,38 @@ const ResvListWrap: React.FC<IProps> = ({ context }) => {
                   );
                 }}
               >
-                {(updateBookingMu, { loading: updateBookingLoading }) => (
-                  <Fragment>
-                    <ResvList
-                      context={context}
-                      pageInfo={pageInfo || DEFAULT_PAGE_INFO}
-                      bookingsData={data || []}
-                      cancelBookingMu={cancelBookingMu}
-                      deleteBookingMu={deleteBookingMu}
-                      updateBookingMu={updateBookingMu}
-                      updateBookingLoading={updateBookingLoading}
-                      deleteBookingLoading={deleteBookingLoading}
-                      setPage={setPage}
-                      networkStatus={networkStatus}
-                      loading={isNetworkRequestInFlight(networkStatus)}
-                    />
-                  </Fragment>
-                )}
+                {(updateBookingMu, { loading: updateBookingLoading }) => {
+                  const mutationLoading =
+                    updateBookingLoading ||
+                    deleteBookingLoading ||
+                    cancelBookingsLoading;
+
+                  return (
+                    <Fragment>
+                      <ResvList
+                        key={house._id}
+                        context={context}
+                        checkInOutHook={checkInOutHook}
+                        pageInfo={pageInfo || DEFAULT_PAGE_INFO}
+                        paymentStatusHook={paymentStatusHook}
+                        bookingsData={data || []}
+                        cancelBookingMu={cancelBookingMu}
+                        deleteBookingMu={deleteBookingMu}
+                        updateBookingMu={updateBookingMu}
+                        updateBookingLoading={updateBookingLoading}
+                        deleteBookingLoading={deleteBookingLoading}
+                        setPage={setPage}
+                        mutationLoading={mutationLoading}
+                        filterRoomTypeOps={filterRoomTypeOps}
+                        setFilterRoomTypeOps={setFilterRoomTypeOps}
+                        selectCountHook={selectCountHook}
+                        dayPickerHook={dayPickerHook}
+                        networkStatus={networkStatus}
+                        loading={isNetworkRequestInFlight(networkStatus)}
+                      />
+                    </Fragment>
+                  );
+                }}
               </UpdateBookingMu>
             )}
           </DeleteBookingMu>

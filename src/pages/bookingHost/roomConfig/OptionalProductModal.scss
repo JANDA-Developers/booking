@@ -1,0 +1,21 @@
+@import "~Styles";
+
+
+.optionalProductModal {
+    &__option {
+        border-bottom: 1px solid $grey-level1;
+        padding: space(1);
+
+        &:last-child {
+            border-bottom: none;
+        }
+    }
+
+    &__options {
+        border: 1px solid $grey-level1;
+        border-radius: $br1;
+        padding: space(1);
+        margin-bottom: space(4);
+
+    }
+}

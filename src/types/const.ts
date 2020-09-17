@@ -56,21 +56,16 @@ export const SmsReplaceKeyEnumKeys = [
   "ROOMTYPE_N_COUNT",
   "BOOKERNAME",
   "TOTALPRICE",
-  // "PAYMETHOD",
+  "CHECK_IN",
+  "CHECK_OUT",
+  "BOOKING_NUM",
   // "PAYMENTSTATUS",
   "HM"
 ];
 // 위아래 인덱스가 맞아야함
-export const SmsReplaceKeyEnumValues = [
-  "%STAYDATE%",
-  "%STAYDATE_YMD%",
-  "%ROOMTYPE_N_COUNT%",
-  "%BOOKERNAME%",
-  "%TOTALPRICE%",
-  // "%PAYMETHOD%",
-  // "%PAYMENTSTATUS%",
-  "%HM%"
-];
+export const SmsReplaceKeyEnumValues = SmsReplaceKeyEnumKeys.map(
+  key => `%${key}%`
+);
 
 export const SELECT_DUMMY_OP = [
   { value: "chocolate", label: "Chocolate" },
@@ -112,6 +107,13 @@ export let BOOKING_STATUS_OP = [
 
 // [0]가 진행중이 되도록 고정
 export let PAYMENT_STATUS_OP = [
+  { value: PaymentStatus.COMPLETED, label: "" },
+  { value: PaymentStatus.NOT_YET, label: "" }
+  // { value: PaymentStatus.CANCELED, label: "" }
+];
+
+export let PAYMENT_STATUS_OP2 = [
+  { value: undefined, label: "전체보기" },
   { value: PaymentStatus.COMPLETED, label: "" },
   { value: PaymentStatus.NOT_YET, label: "" }
   // { value: PaymentStatus.CANCELED, label: "" }
@@ -221,6 +223,11 @@ export let CHECK_IN_OUT_OP = [
   { value: true, label: "체크인" },
   { value: false, label: "체크아웃" }
 ];
+export let CHECK_IN_OUT_OP2 = [
+  { value: undefined, label: "전체보기" },
+  { value: true, label: "체크인" },
+  { value: false, label: "체크아웃" }
+];
 
 export let GENDER_OP = [
   { value: Gender.FEMALE, label: "" },
@@ -267,7 +274,11 @@ export let AUTO_SEND_OP = [
     label: ""
   },
   {
-    value: AutoSendWhen.WHEN_BOOKING_CREATED_PAYMENT_NOT_YET,
+    value: AutoSendWhen.WHEN_BOOKING_CREATED_CARD,
+    label: ""
+  },
+  {
+    value: AutoSendWhen.WHRN_BOOKING_CREATED_BANK_TRANSFER,
     label: ""
   },
   {

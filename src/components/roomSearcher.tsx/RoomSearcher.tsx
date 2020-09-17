@@ -6,7 +6,7 @@ import DoubleInputRange from "../../atoms/dayPicker/component/inputComponent/Dou
 import { toast } from "react-toastify";
 import "./RoomSearcher.scss";
 import Card from "../../atoms/cards/Card";
-import DayPickerModal from "../dayPickerModal/DayPickerModal";
+import { JDdayPickerModal } from "@janda-com/front";
 export interface IRetrunRoomSearcher {
   checkIn: Date;
   checkOut: Date;
@@ -64,8 +64,8 @@ const RoomSearcher: React.FC<Iprops> = ({ callBackOnSearch }) => {
           label={LANG("search")}
         />
       </Card>
-      <DayPickerModal
-        displayInfo
+      <JDdayPickerModal
+        displayCaption
         autoClose
         modalHook={dayPickerModal}
         {...dayPickerHook}

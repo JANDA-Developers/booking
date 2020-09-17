@@ -18,9 +18,9 @@ import { NOTI_LEVEL_OP } from "../../../../../types/const";
 import { IContext } from "../../../BookingHostRouter";
 import JDmodal from "../../../../../atoms/modal/Modal";
 import JDdayPicker from "../../../../../atoms/dayPicker/DayPicker";
-import DayPickerModal from "../../../../../components/dayPickerModal/DayPickerModal";
 import { ICreateNotiModalParam } from "./createNotiModalWrap";
 import ModalEndSection from "../../../../../atoms/modal/components/ModalEndSection";
+import { JDdayPickerModal } from "@janda-com/front";
 
 interface Iprops {
   context: IContext;
@@ -107,7 +107,7 @@ const CreateNotiModal: React.FC<Iprops> = ({
           thema="primary"
           label={LANG("send")}
         />
-        <DayPickerModal
+        <JDdayPickerModal
           canSelectBeforeDay={false}
           isRange={false}
           {...validPeriodHook}
