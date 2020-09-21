@@ -49,11 +49,7 @@ export const L_PROGRAM: TVar = {
   B: "프로그램",
   SB: "방문",
   SS: "업소",
-<<<<<<< HEAD
-  DM: "남녀예약",
-=======
   DM: "프로그램",
->>>>>>> 89d6d2c8377a4e6881ea950de009256c333565a0
   GS: "자리",
   R: "상품",
   G: "예약자",
@@ -69,12 +65,9 @@ export type TLangVarSet = {
   program: TVar;
 };
 
-
 export const LANG_VAR_SETS: TLangVarSet = {
   default: L_DEFAULT,
   store: L_STROE,
   gang: L_GANG,
   program: L_PROGRAM
 };
-
-
