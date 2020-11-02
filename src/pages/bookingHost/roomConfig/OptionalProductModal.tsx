@@ -96,10 +96,15 @@ export const OptionalProductModal: React.FC<IProp> = ({ modalHook, ...props }) =
 					setDeletes([...deleteIds, _id || '']);
 				}}
 				handleComplete={(prop) => {
-					let targetData = data.find((d) => d._id && d._id === prop._id);
+					let targetIndex = data.findIndex((d) => d._id && d._id === prop._id);
 
-					if (targetData) targetData = prop
+					console.log("DEBUGG::");
+					console.log(targetIndex);
+					console.log(prop);
+
+					if (targetIndex !== -1) data[targetIndex] = prop
 					else data.push(prop);
+
 
 					setData([...data]);
 				}}
@@ -108,22 +113,26 @@ export const OptionalProductModal: React.FC<IProp> = ({ modalHook, ...props }) =
 			<ModalEndSection>
 				<JDbutton
 					onClick={() => {
-						const formatedData = data.map((d): OptionalItemUpsertInput => ({
-							_id: d._id,
-							label: d.label,
-							maxCount: d.maxCount,
-							multiplyDate: d.multiplyDate,
-							optionalItems: d.optionalItems?.map(i => ({
-								_id: i._id,
-								label: i.label,
-								maxCount: i.maxCount,
-								multiplyDate: i.multiplyDate,
-								price: i.price,
-								type: i.type
-							})),
-							price: d.price,
-							type: d.type
-						}))
+						const formatedData = data.map((data): OptionalItemUpsertInput => {
+							const { _id, label, maxCount, multiplyDate, optionalItems, price, type } = data;
+
+							return ({
+								_id: _id,
+								label: label,
+								maxCount: maxCount || undefined,
+								multiplyDate: multiplyDate,
+								optionalItems: optionalItems?.map(item => ({
+									_id: item._id,
+									label: item.label,
+									maxCount: item.maxCount,
+									multiplyDate: item.multiplyDate,
+									price: item.price,
+									type: item.type
+								})),
+								price: price,
+								type: type
+							})
+						})
 						handleSave(roomTypeId, formatedData, deleteIds);
 					}}
 					thema="primary"
