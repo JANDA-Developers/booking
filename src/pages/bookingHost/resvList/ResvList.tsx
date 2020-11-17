@@ -68,9 +68,7 @@ import {
   JDalign,
   IUseDayPicker,
   JDdayPickerModal,
-  JDbutton
 } from "@janda-com/front";
-import DoubleInputRange from "../../../atoms/dayPicker/component/inputComponent/DoubleInputRange";
 
 interface IProps {
   pageInfo: IPageInfo;
@@ -252,6 +250,12 @@ const ResvList: React.SFC<IProps> = ({
       Cell: ({ value, original }) => {
         const roomTypes: IRoomType[] = value;
         const selectInfoes = getRoomSelectInfo(original.guests, roomTypes);
+        const Items = original.optionalItemSubmitted?.map(op => <div key={op.roomType._id + "option"}>
+          {op.items.map(item => <div key={item.itemId}>
+            {item.itemLabel}<br />
+            {item.count}
+          </div>)}
+        </div>)
 
         return selectInfoes.map(selectInfo => (
           <JDbox
@@ -266,43 +270,21 @@ const ResvList: React.SFC<IProps> = ({
                 const { female, male, roomCount } = selectInfo.count;
                 return (
                   <span>
-                    {selectInfo.pricingType === PricingType.DOMITORY ? (
-                      <Fragment>
-                        {female !== 0 && (
-                          <span>
-                            {female}
-                            {LANG("female")}{" "}
+                    <Fragment>
+                      <span>
+                        {male}
+                            개
                           </span>
-                        )}
-                        {male !== 0 && (
-                          <span>
-                            {male}
-                            {LANG("male")}
-                          </span>
-                        )}
-                      </Fragment>
-                    ) : (
-                        <span>{roomCount}</span>
-                      )}
+                    </Fragment>
                   </span>
                 );
               })()}
             </span>
+            {Items}
           </JDbox>
         ));
       }
     },
-    {
-      Header: LANG("checkIn"),
-      accessor: "_id",
-      Cell: ({ original }) => <div>{to4YMMDD(original.checkIn)}</div>
-    },
-    {
-      Header: LANG("checkOut"),
-      accessor: "_id",
-      Cell: ({ original }) => <div>{to4YMMDD(original.checkOut)}</div>
-    },
-
     {
       Header: () => (
         <div>
@@ -430,6 +412,7 @@ const ResvList: React.SFC<IProps> = ({
         />
         <PageBody>
           <JDalign
+            className="resvList__filterZone"
             flex={{
               wrap: true
             }}
@@ -525,9 +508,10 @@ const ResvList: React.SFC<IProps> = ({
               thema="error"
               label={LANG("delete_booking")}
             />
-            <JDselect autoSize z={3} {...paymentStatusHook} />
-            <JDselect autoSize z={3} {...selectCountHook} />
+            <JDselect label="결제상태" autoSize z={3} {...paymentStatusHook} deafultPlaceHolder="결제상태" />
+            <JDselect label="페이지" autoSize z={3} {...selectCountHook} deafultPlaceHolder="왓더" />
             <JDselect
+              label="상품군"
               autoSize
               z={3}
               isMulti
@@ -537,33 +521,7 @@ const ResvList: React.SFC<IProps> = ({
               selectedOptions={filterRoomTypeOps}
               options={roomTypeOptions}
             />
-            <div
-              style={{
-                width: "10rem"
-              }}
-            >
-              <JDselect mr="normal" z={3} {...checkInOutHook} />
-            </div>
-            <JDalign
-              mb="normal"
-              onClick={() => {
-                dayPickerModalHook.openModal();
-              }}
-              flex={{
-                vCenter: true
-              }}
-            >
-              <JDbutton mode="border">
-                {dayPickerHook.from ? to4YMMDD(dayPickerHook.from) : "날짜선택"}
-              </JDbutton>
-              <JDtypho mb="normal" mr="normal">
-                ~
-              </JDtypho>
-              <JDbutton mode="border">
-                {" "}
-                {dayPickerHook.to ? to4YMMDD(dayPickerHook.to) : "날짜선택"}
-              </JDbutton>
-            </JDalign>
+
           </JDalign>
 
           {networkStatus === 1 && loading ? (

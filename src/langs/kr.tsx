@@ -7,9 +7,9 @@ import { autoComma } from "../utils/utils";
 import JDtypho from "../atoms/typho/Typho";
 import Align from "../atoms/align/Align";
 import { JDalign } from "@janda-com/front";
-import { L_DEFAULT as DefaultVar } from "./langVar";
+import { L_DEFAULT as DefaultVar, L_PROGRAM } from "./langVar";
 
-export const krFn = (Var = DefaultVar) => ({
+export const krFn = (Var = L_PROGRAM) => ({
   Apply: "적용",
   BOTH: `${Var.G},${Var.H}`,
   BY_DATE: "날짜별",

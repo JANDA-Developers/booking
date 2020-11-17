@@ -47,7 +47,7 @@ export const L_GANG: TVar = {
 export const L_PROGRAM: TVar = {
   BT: "프로그램타입",
   B: "프로그램",
-  SB: "방문",
+  SB: "상품",
   SS: "업소",
   DM: "프로그램",
   GS: "자리",

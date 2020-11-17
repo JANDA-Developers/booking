@@ -11,7 +11,8 @@ import {
   cancelBooking,
   cancelBookingVariables,
   cancelBookings,
-  cancelBookingsVariables
+  cancelBookingsVariables,
+  PaymentStatus
 } from "../../../types/api";
 import {
   queryDataFormater,
@@ -44,9 +45,9 @@ interface IProps {
   context: IContext;
 }
 
-class UpdateBookingMu extends Mutation<updateBooking, updateBookingVariables> {}
-class DeleteBookingMu extends Mutation<deleteBooking, deleteBookingVariables> {}
-class GetBookingsQuery extends Query<getBookings, getBookingsVariables> {}
+class UpdateBookingMu extends Mutation<updateBooking, updateBookingVariables> { }
+class DeleteBookingMu extends Mutation<deleteBooking, deleteBookingVariables> { }
+class GetBookingsQuery extends Query<getBookings, getBookingsVariables> { }
 
 const ResvListWrap: React.FC<IProps> = ({ context }) => {
   const { house, houseConfig } = context;
@@ -58,6 +59,8 @@ const ResvListWrap: React.FC<IProps> = ({ context }) => {
     PAYMENT_STATUS_OP2[0],
     PAYMENT_STATUS_OP2
   );
+  console.log("paymentStatusHook");
+  console.log(paymentStatusHook);
   const [filterRoomTypeOps, setFilterRoomTypeOps] = useState<IselectedOption[]>(
     []
   );
@@ -65,9 +68,9 @@ const ResvListWrap: React.FC<IProps> = ({ context }) => {
   const checkInOutRange =
     dayPickerHook.from && dayPickerHook.to
       ? {
-          checkIn: dayPickerHook.from,
-          checkOut: dayPickerHook.to
-        }
+        checkIn: dayPickerHook.from,
+        checkOut: dayPickerHook.to
+      }
       : undefined;
 
   const refetchQueries = [getOperationName(GET_BOOKINGS) || ""];
@@ -103,9 +106,9 @@ const ResvListWrap: React.FC<IProps> = ({ context }) => {
             roomTypeIds: (filterRoomTypeOps || []).map(op => op.value),
             stayDate: checkInOutRange,
             houseId: house._id,
-            isCheckIn: checkInOutHook.selectedOption?.value,
-            paymentStatuses: paymentStatusHook.selectedOption?.value
-              ? [paymentStatusHook.selectedOption?.value]
+            isCheckIn: checkInOutHook.selectedOption?.value as any,
+            paymentStatuses: paymentStatusHook.selectedOption?.value !== "all"
+              ? [paymentStatusHook.selectedOption?.value as PaymentStatus]
               : undefined
           },
           paging: {

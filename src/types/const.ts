@@ -113,7 +113,7 @@ export let PAYMENT_STATUS_OP = [
 ];
 
 export let PAYMENT_STATUS_OP2 = [
-  { value: undefined, label: "전체보기" },
+  { value: "all", label: "전체보기" },
   { value: PaymentStatus.COMPLETED, label: "" },
   { value: PaymentStatus.NOT_YET, label: "" }
   // { value: PaymentStatus.CANCELED, label: "" }

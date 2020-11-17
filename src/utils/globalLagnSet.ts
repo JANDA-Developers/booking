@@ -29,14 +29,14 @@ export const globalLanguageSetting = () => {
   const setArrayWithLang = (set: Array<any>, enumKey?: string) => {
     if (!enumKey) {
       set.forEach((setIn: any) => {
-        setIn.label = LANG(setIn.value);
+        setIn.label = LANG(setIn.value) || setIn.label;
       });
     } else {
       set.forEach((setIn: any) => {
-        setIn.label = LANG(enumKey)[setIn.value];
+        setIn.label = LANG(enumKey)[setIn.value] || setIn.label;
       });
     }
-  };
+  };ㄴ
 
   const settings = [
     { value: PAYMENT_STATUS_OP, enumKey: "PaymentStatus" },
