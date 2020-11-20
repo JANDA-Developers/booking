@@ -166,9 +166,9 @@ function upload() {
 
   if [ "$2" == "clear" ]
   then
-      aws s3 rm s3://booking-app.stayjanda.cloud/$1
+      aws s3 rm s3://jd-commerce/$1
   fi
-  aws s3 sync ./build s3://booking-app.stayjanda.cloud/$1 --acl public-read
+  aws s3 sync ./build s3://jd-commerce/$1 --acl public-read
 }
 
 

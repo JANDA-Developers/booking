@@ -40,6 +40,7 @@ import {
   PAYMENT_STATUS_OP2
 } from "../../../types/const";
 import { IselectedOption } from "@janda-com/front/build/types/interface";
+import { getFromUrl } from "@janda-com/front";
 
 interface IProps {
   context: IContext;
@@ -59,6 +60,14 @@ const ResvListWrap: React.FC<IProps> = ({ context }) => {
     PAYMENT_STATUS_OP2[0],
     PAYMENT_STATUS_OP2
   );
+
+  const masterLtoPlan = "39d219ae-9706-0563-cc9c-4b170c40d942";
+  const pbk = getFromUrl("hpk")?.replace("/", "");
+  const isMaster = masterLtoPlan === pbk;
+  console.log(masterLtoPlan);
+  console.log(pbk);
+  console.log(isMaster);
+
   console.log("paymentStatusHook");
   console.log(paymentStatusHook);
   const [filterRoomTypeOps, setFilterRoomTypeOps] = useState<IselectedOption[]>(
@@ -105,7 +114,7 @@ const ResvListWrap: React.FC<IProps> = ({ context }) => {
           filter: {
             roomTypeIds: (filterRoomTypeOps || []).map(op => op.value),
             stayDate: checkInOutRange,
-            houseId: house._id,
+            houseId: isMaster ? undefined : house._id,
             isCheckIn: checkInOutHook.selectedOption?.value as any,
             paymentStatuses: paymentStatusHook.selectedOption?.value !== "all"
               ? [paymentStatusHook.selectedOption?.value as PaymentStatus]

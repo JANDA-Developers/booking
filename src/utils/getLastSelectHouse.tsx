@@ -1,20 +1,20 @@
 import isEmpty from "./isEmptyData";
 import { IHouse } from "../types/interface";
+import { getFromUrl } from "@janda-com/front";
 
 const getCurrentHouse = (houses: IHouse[]): IHouse | undefined => {
   const tempLastSelectedHouseId = localStorage.getItem("selectHouseId");
 
-  const lastSelectedHouse = houses.find(
-    house => house._id === tempLastSelectedHouseId
-  );
+  const targetHpk = getFromUrl("hpk")?.replace("/", "");
+  console.log("targetHpk")
+  console.log(targetHpk)
 
-  // 마지막으로 선택한 하우스 또는 첫번째 하우스
-  let selectedHouse = lastSelectedHouse || houses[0];
+  const targetHouse = houses.find((house) =>
+    house.publicKey === targetHpk
+  )
+  console.log(targetHouse)
 
-  // 최근에 선택된 숙소가 없다면 선택된 숙소는 첫번째 숙소입니다.
-  if (!selectedHouse && !isEmpty(houses)) [selectedHouse] = houses;
-
-  return selectedHouse;
+  return targetHouse;
 };
 
 export default getCurrentHouse;

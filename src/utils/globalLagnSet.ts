@@ -36,7 +36,7 @@ export const globalLanguageSetting = () => {
         setIn.label = LANG(enumKey)[setIn.value] || setIn.label;
       });
     }
-  };ㄴ
+  };
 
   const settings = [
     { value: PAYMENT_STATUS_OP, enumKey: "PaymentStatus" },

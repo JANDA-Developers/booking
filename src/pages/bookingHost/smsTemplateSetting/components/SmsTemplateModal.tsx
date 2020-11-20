@@ -172,7 +172,7 @@ const SmsTemplateModal: React.FC<Iprops> = ({
             />
           </div>
           <div>
-            <div>
+            {/* <div>
               <JDLabel txt={LANG("template_msg")} />
             </div>
             {SmsReplaceKeyEnumKeys.map((value: any) => (
@@ -188,7 +188,7 @@ const SmsTemplateModal: React.FC<Iprops> = ({
                 [value].replace("[", "")
                   .replace("]", "")}
               />
-            ))}
+            ))} */}
           </div>
           <div className="JDz-index-1 flex-grid flex-grid--start">
             {/* props 로부터 받아서 쓸거임. onChange시에는 뮤테이션을 날리겠지. */}

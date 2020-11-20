@@ -307,15 +307,15 @@ const BookingModal: React.FC<IProps> = ({
             예약생성하기
           </JDtypho>
         ) : (
-          <JDtypho mb="no" size="h6">
-            <Align flex={{}}>
-              <JDtypho weight={600} color="primary" mr="small">
-                {LANG("sir")(name)}
-              </JDtypho>
+            <JDtypho mb="no" size="h6">
+              <Align flex={{}}>
+                <JDtypho weight={600} color="primary" mr="small">
+                  {LANG("sir")(name)}
+                </JDtypho>
               예약정보
             </Align>
-          </JDtypho>
-        )
+            </JDtypho>
+          )
       }}
       onAfterClose={() => {
         modalHook.info.onCloseModal?.();
@@ -338,44 +338,40 @@ const BookingModal: React.FC<IProps> = ({
             <BookerInfo {...sharedProp} smsModalInfoTemp={smsModalInfoTemp} />
             <PaymentInfo {...sharedProp} />
             <ResvInfo {...sharedProp} />
-            <AssigInfo {...sharedProp} />
             <ElseInfo {...sharedProp} />
           </Fragment>
         </Align>
       ) : (
-        <JDtabs breakTabs={isDesktopUp} tabsAlign="spaceBetween">
-          <TabList
-            style={{
-              marginTop: "-1.2rem"
-            }}
-          >
-            <Tab>커스텀</Tab>
-            <Tab>예약자</Tab>
-            <Tab>결제</Tab>
-            <Tab>예약</Tab>
-            <Tab>배정</Tab>
-            <Tab>기타</Tab>
-          </TabList>
-          <TabPanel>
-            <SummaryInfo {...sharedProp} />
-          </TabPanel>
-          <TabPanel>
-            <BookerInfo {...sharedProp} smsModalInfoTemp={smsModalInfoTemp} />
-          </TabPanel>
-          <TabPanel>
-            <PaymentInfo {...sharedProp} />
-          </TabPanel>
-          <TabPanel>
-            <ResvInfo {...sharedProp} />
-          </TabPanel>
-          <TabPanel>
-            <AssigInfo {...sharedProp} />
-          </TabPanel>
-          <TabPanel>
-            <ElseInfo {...sharedProp} />
-          </TabPanel>
-        </JDtabs>
-      )}
+          <JDtabs breakTabs={isDesktopUp} tabsAlign="spaceBetween">
+            <TabList
+              style={{
+                marginTop: "-1.2rem"
+              }}
+            >
+              <Tab>커스텀</Tab>
+              <Tab>예약자</Tab>
+              <Tab>결제</Tab>
+              <Tab>예약</Tab>
+              <Tab>배정</Tab>
+              <Tab>기타</Tab>
+            </TabList>
+            <TabPanel>
+              <SummaryInfo {...sharedProp} />
+            </TabPanel>
+            <TabPanel>
+              <BookerInfo {...sharedProp} smsModalInfoTemp={smsModalInfoTemp} />
+            </TabPanel>
+            <TabPanel>
+              <PaymentInfo {...sharedProp} />
+            </TabPanel>
+            <TabPanel>
+              <ResvInfo {...sharedProp} />
+            </TabPanel>
+            <TabPanel>
+              <ElseInfo {...sharedProp} />
+            </TabPanel>
+          </JDtabs>
+        )}
       <RefundModal
         loading={loading}
         refundTargets={[

@@ -270,12 +270,14 @@ const ResvList: React.SFC<IProps> = ({
                 const { female, male, roomCount } = selectInfo.count;
                 return (
                   <span>
-                    <Fragment>
-                      <span>
-                        {male}
+                    {roomTypes.find(rt => rt._id === selectInfo.roomTypeId)?.defaultPrice !== 0 ?
+                      <Fragment>
+                        <span>
+                          {male}
                             개
                           </span>
-                    </Fragment>
+                      </Fragment> : ""
+                    }
                   </span>
                 );
               })()}
@@ -295,11 +297,14 @@ const ResvList: React.SFC<IProps> = ({
       ),
       accessor: "payment",
       Cell: ({ original }) => {
-        const { totalPrice, refundedPrice, status } = original.payment;
+        const { totalPrice, refundedPrice, status, payMethod } = original.payment;
         const isUnPaid = status === PaymentStatus.NOT_YET;
         return (
           <div>
             <span>
+              <div>
+                {LANG(payMethod)}
+              </div>
               {autoComma(totalPrice)}
               {LANG("money_unit")}
               {refundedPrice ? (

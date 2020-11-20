@@ -48,7 +48,7 @@ echo $target
 function upload() {
     try
     (
-        aws s3 sync s3://booking-app.stayjanda.cloud/$1 s3://booking-app.stayjanda.cloud/$2 --acl public-read
+        aws s3 sync s3://jd-commerce/$1 s3://jd-commerce/$2 --acl public-read
         echo -e "version ${GREEN}$from${NC} move to ${GREEN}$target${NC}"
     )
     catch || {

@@ -127,12 +127,12 @@ const JDbookingHost: React.FC<IProps> = ({
   const routers: JDRoute[] = [
     {
       path: "/",
-      Component: DashBoard,
+      Component: ResvList,
       condition: houseExists
     },
     {
       path: "/dashboard",
-      Component: DashBoard,
+      Component: ResvList,
       condition: houseExists
     },
     {
