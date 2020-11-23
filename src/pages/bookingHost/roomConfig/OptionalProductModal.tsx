@@ -108,6 +108,7 @@ export const OptionalProductModal: React.FC<IProp> = ({ modalHook, ...props }) =
 
 					setData([...data]);
 				}}
+				key={eidtModalHook.info?.optionProduct._id + "optionalModal"}
 				modalHook={eidtModalHook}
 			/>
 			<ModalEndSection>
