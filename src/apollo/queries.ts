@@ -23,8 +23,6 @@ export const F_HOEMPAGE = gql`
   }
 `;
 
-
-
 const F_HOMEPAGE_REQUEST = gql`
   fragment FhomepageRequest on RequestHomepageType {
     siteName
@@ -1381,6 +1379,9 @@ export const GET_BOOKINGS = gql`
       error
       result {
         bookings {
+          house {
+            name
+          }
           ...Fbooking
           guests {
             ... on GuestDomitory {
@@ -2552,7 +2553,7 @@ export const UPDATE_HM = gql`
 
 export const ADD_HOUSE_TAGS = gql`
   mutation addHouseTags($tags: [TagInput!]!, $houseId: ID!) {
-    AddHouseTags(houseId: $houseId, tags:$tags) {
+    AddHouseTags(houseId: $houseId, tags: $tags) {
       ok
       error
     }
