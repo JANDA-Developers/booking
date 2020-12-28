@@ -32,8 +32,8 @@ const BookingInfoBox: React.FC<IBookingInfoBoxProps> = ({
   totalPrice,
   houseConfig
 }) => {
-  const {bookingConfig} = houseConfig;
-  const {bookOnlySingleDay} = bookingConfig;
+  const { bookingConfig } = houseConfig;
+  const { bookOnlySingleDay } = bookingConfig;
   const classes = classNames("JDselectInfo", className, {});
 
   let TableColumns: JDcolumn<IRoomSelectInfo>[] = [
@@ -61,7 +61,11 @@ const BookingInfoBox: React.FC<IBookingInfoBoxProps> = ({
       }
     },
     {
-      Header: LANG("personnel")(!Boolean(roomTypeInfo.find(ri => ri.pricingType === PricingType.DOMITORY))),
+      Header: LANG("personnel")(
+        !Boolean(
+          roomTypeInfo.find(ri => ri.pricingType === PricingType.DOMITORY)
+        )
+      ),
       accessor: "roomTypeId",
       Cell: ({ original }) =>
         original.pricingType === PricingType.DOMITORY ? (
@@ -70,15 +74,15 @@ const BookingInfoBox: React.FC<IBookingInfoBoxProps> = ({
             <span>{`${original.count.female}${LANG("female")} `}</span>
           </div>
         ) : (
-            <div>
-              <span>{`${LANG("room_count")}:${original.count.roomCount}`}</span>
-            </div>
-          )
+          <div>
+            <span>{`${LANG("room_count")}:${original.count.roomCount}`}</span>
+          </div>
+        )
     }
   ];
 
-  if(bookOnlySingleDay) {
-    TableColumns = TableColumns.filter((tc,i) => i !== 1);
+  if (bookOnlySingleDay) {
+    TableColumns = TableColumns.filter((tc, i) => i !== 1);
   }
 
   return (

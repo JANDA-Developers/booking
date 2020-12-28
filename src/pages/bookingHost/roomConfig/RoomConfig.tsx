@@ -553,6 +553,7 @@ const RoomConfig: React.FC<IProps> = ({
         </Fragment>
       </PageBody>
       <OptionalProductModal
+        key={optionalProductModalHook.info.roomTypeId + "OptionalProductModal"}
         loading={upsertRoomTypeOptionLoading}
         modalHook={optionalProductModalHook}
       />

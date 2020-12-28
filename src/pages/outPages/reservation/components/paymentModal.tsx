@@ -41,9 +41,11 @@ const PayMentModal: React.FC<IProps> = ({
   const { bankAccountInfo, payMethods } = publicHouseInfo.bookingPayInfo;
   if (!payMethods) return <div />;
 
+
   const filteredPayMethodOp = PAYMETHOD_FOR_BOOKER_OP.filter(op =>
     payMethods.includes(op.value)
   );
+  console.log(filteredPayMethodOp);
 
   const [step, setStep] = useState<"bookerInput" | "cardInput">("bookerInput");
   const cardSumbmitRef = useRef<HTMLButtonElement>(null);
@@ -170,6 +172,7 @@ const PayMentModal: React.FC<IProps> = ({
               <div>
                 <JDselect
                   {...payMethodHook}
+                  option={filteredPayMethodOp}
                   options={filteredPayMethodOp}
                   label={LANG("method_of_payment")}
                 />

@@ -7,13 +7,17 @@ import { DEFAULT_BLOCK_OP } from "../../../../types/defaults";
 
 //  TODO: 메모를 사용해서 데이터를 아끼자
 // 게스트 데이터를 달력에서 쓸수있는 Item 데이터로 변경 절차
-export const guestsDataManufacturer = (allGuestsData: IGuest[]) => {
+export const guestsDataManufacturer = (allGuestsData: IGuest[] = []) => {
+  let guestsData: any[] = [];
   const alloCateItems: IAssigItem[] = [];
   if (!allGuestsData) return alloCateItems;
 
-  const guestsData = allGuestsData.filter(
-    guest => guest.booking.status !== BookingStatus.CANCELED
-  );
+  try {
+    guestsData = allGuestsData?.filter(
+      guest => guest.booking.status !== BookingStatus.CANCELED
+    ) || [];
+  } catch {
+  }
 
   guestsData.forEach((guestData, index) => {
     if (

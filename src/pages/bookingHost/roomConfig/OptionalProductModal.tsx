@@ -98,42 +98,42 @@ export const OptionalProductModal: React.FC<IProp> = ({ modalHook, ...props }) =
 				handleComplete={(prop) => {
 					let targetIndex = data.findIndex((d) => d._id && d._id === prop._id);
 
+					console.log("DEBUGG::");
 					console.log(targetIndex);
+					console.log(prop);
 
 					if (targetIndex !== -1) data[targetIndex] = prop
 					else data.push(prop);
 
+
 					setData([...data]);
 				}}
+				key={eidtModalHook.info?.optionProduct._id + "optionalModal"}
 				modalHook={eidtModalHook}
 			/>
 			<ModalEndSection>
 				<JDbutton
 					onClick={() => {
 						const formatedData = data.map((data): OptionalItemUpsertInput => {
-							const { _id, label, maxCount, multiplyDate, multiplyMaxCountToDate, multiplyMaxCountToProductCount, multiplyPriceToDate, optionalItems, price, type } = data;
+							const { _id, label, maxCount, multiplyDate, optionalItems, price, type } = data;
 
 							return ({
-								_id,
-								label,
-								maxCount,
-								multiplyDate,
-								multiplyMaxCountToDate,
-								multiplyMaxCountToProductCount,
-								multiplyPriceToDate,
-								optionalItems: d.optionalItems?.map(i => ({
-									_id: i._id,
-									label: i.label,
-									maxCount: i.maxCount,
-									multiplyDate: i.multiplyDate,
-									price: i.price,
-									type: i.type
+								_id: _id,
+								label: label,
+								maxCount: maxCount || undefined,
+								multiplyDate: multiplyDate,
+								optionalItems: optionalItems?.map(item => ({
+									_id: item._id,
+									label: item.label,
+									maxCount: item.maxCount,
+									multiplyDate: item.multiplyDate,
+									price: item.price,
+									type: item.type
 								})),
-								price,
-								type
+								price: price,
+								type: type
 							})
-						}
-						)
+						})
 						handleSave(roomTypeId, formatedData, deleteIds);
 					}}
 					thema="primary"

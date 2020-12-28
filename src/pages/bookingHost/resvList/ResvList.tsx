@@ -148,7 +148,7 @@ const ResvList: React.SFC<IProps> = ({
     });
   };
 
-  const handleCancelBookingBtnClick = () => {};
+  const handleCancelBookingBtnClick = () => { };
 
   const handleCancleBookingBtnClick = () => {
     checkedIds.forEach(id => {
@@ -282,8 +282,8 @@ const ResvList: React.SFC<IProps> = ({
                         )}
                       </Fragment>
                     ) : (
-                      <span>{roomCount}</span>
-                    )}
+                        <span>{roomCount}</span>
+                      )}
                   </span>
                 );
               })()}
@@ -325,8 +325,8 @@ const ResvList: React.SFC<IProps> = ({
                   {"(-" + autoComma(refundedPrice) + ")"}
                 </JDtypho>
               ) : (
-                undefined
-              )}
+                  undefined
+                )}
             </span>
             <div
               className={`resvList__paymentStatus ${isUnPaid &&
@@ -348,7 +348,7 @@ const ResvList: React.SFC<IProps> = ({
             value.length > 20 &&
             "resvList__memo--full"}`}
         >
-          {textReader(value)}
+          {`${value}`}
         </div>
       )
     },
@@ -451,15 +451,15 @@ const ResvList: React.SFC<IProps> = ({
                 }: TExcelGetDataProp) => {
                   const filter: GetBookingsFilterInput | undefined = date
                     ? {
-                        houseId,
-                        stayDate: {
-                          checkIn: to4YMMDD(date.from),
-                          checkOut: to4YMMDD(date.to)
-                        }
+                      houseId,
+                      stayDate: {
+                        checkIn: to4YMMDD(date.from),
+                        checkOut: to4YMMDD(date.to)
                       }
+                    }
                     : {
-                        houseId
-                      };
+                      houseId
+                    };
 
                   const { data, loading } = await client.query<
                     getBookings,
@@ -569,19 +569,19 @@ const ResvList: React.SFC<IProps> = ({
           {networkStatus === 1 && loading ? (
             <div className="resvList__table--skeleton" />
           ) : (
-            <JDSelectableJDtable
-              {...ReactTableDefault}
-              {...checkBoxTableHook}
-              // 아래 숫자는 요청하는 쿼리와 같아야합니다.
-              defaultPageSize={pageInfo.rowCount}
-              pageSize={pageInfo.rowCount}
-              isCheckable
-              align="center"
-              data={bookingsData}
-              columns={TableColumns}
-              keyField="_id"
-            />
-          )}
+              <JDSelectableJDtable
+                {...ReactTableDefault}
+                {...checkBoxTableHook}
+                // 아래 숫자는 요청하는 쿼리와 같아야합니다.
+                defaultPageSize={pageInfo.rowCount}
+                pageSize={pageInfo.rowCount}
+                isCheckable
+                align="center"
+                data={bookingsData}
+                columns={TableColumns}
+                keyField="_id"
+              />
+            )}
           <JDPagination
             setPage={prop => {
               if (!isEmpty(checkedIds))

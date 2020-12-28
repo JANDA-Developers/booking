@@ -136,6 +136,13 @@
 # echo "Hello World" >> "hello/world.txt"
 # echo "Created hello/world.txt"
 
+function show_current_version() {
+  PKG_VERSION=`node -p "require('./package.json').version"`  
+  echo "now: "$PKG_VERSION;
+}
+
+show_current_version
+
 CLEAR=FALSE
 VERSION=""
 read -p "version: " VERSION
@@ -155,11 +162,6 @@ case "$ANSWER" in
     ;;
 esac
 
-echo "select the operation ************"
-echo "  1)Next 1"
-echo "  2)Stable 2"
-echo "  3)Version 3"
-
 function upload() {
 
   if [ "$2" == "clear" ]
@@ -169,6 +171,14 @@ function upload() {
   aws s3 sync ./build s3://booking-app.stayjanda.cloud/$1 --acl public-read
 }
 
+
+
+while true;do
+echo "select the operation ************"
+echo "  1)Next 1"
+echo "  2)Stable 2"
+echo "  3)Latest 3"
+
 read n
 case $n in
   1) echo "upload next..." && upload "next" $1;;
@@ -176,8 +186,7 @@ case $n in
   3) echo "upload ${VERSION}..." && upload "$VERSION" $1;;
   *) "invalid option" $1;;
 esac
-
-
+done
 
 GREEN='\033[0;32m'
 NC='\033[0m' # No Color
