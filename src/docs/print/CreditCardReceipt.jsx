@@ -20,6 +20,7 @@ const CardRecipt = ({resvInfo, payInfo,hostInfo}) => {
     price,
     TAX,
     VAT,
+    tid,
   } = payInfo;
   const {
     address,
@@ -156,8 +157,10 @@ const CardRecipt = ({resvInfo, payInfo,hostInfo}) => {
                             </tr>
                             <tr>
                               <th style={{ textAlign: 'left', padding: '1% 2%', fontWeight: 'bold', border: '1px solid #cfcfcf', background: '#e8e8e8' }}>
+                                결제번호
                               </th>
-                              <td style={{ textAlign: 'right', padding: '1% 2%', border: '1px solid #cfcfcf', background: '#ffffff', fontFamily: '돋움, AppleGothic, sans-serif' }}>
+                              <td style={{ textAlign: 'right', padding: '1% 2%', border: '1px solid #cfcfcf', background: '#ffffff', fontFamily: '돋움, AppleGothic, sans-serif',fontSize:"10px" }}>
+                                {tid}
                               </td>
                               <th style={{ textAlign: 'left', padding: '1% 2%', fontWeight: 'bold', border: '1px solid #cfcfcf', background: '#e8e8e8' }}>
                                 <strong>부가세</strong></th>

@@ -9,7 +9,6 @@ import {
   useModal,
   LANG
 } from "../../hooks/hook";
-import windowSize, { WindowSizeProps } from "react-window-size";
 import Button from "../../atoms/button/Button";
 import { PaymentStatus, WindowSize } from "../../types/enum";
 import { BOOKING_STATUS_OP, CHECK_IN_OUT_OP } from "../../types/const";
@@ -29,7 +28,6 @@ import {
   cancelBooking,
   cancelBookingVariables,
   refundBooking,
-  OptionalItemSubmittedUpsertInput,
   RoomTypeOptionalItemSubmitInput
 } from "../../types/api";
 import SendSMSmodalWrap from "../smsModal/SendSmsModalWrap";
@@ -54,7 +52,8 @@ import ResvInfo from "./components/ResvInfo";
 import { getHandler } from "./getHandler";
 import SummaryInfo from "./components/SummaryInfo";
 import JDtypho from "../../atoms/typho/Typho";
-import { JDmodal, useWindowSize } from "@janda-com/front";
+import { JDbutton, JDmodal, useWindowSize } from "@janda-com/front";
+import { printRecipt } from "../../utils/printRecipt";
 
 interface IProps {
   modalHook: IUseModal<IBookingModalProp>;
@@ -193,6 +192,25 @@ const BookingModal: React.FC<IProps> = ({
     [bookingData.roomTypes?.length, assigInfo]
   );
 
+  const handleViewCard = () => {
+    printRecipt({
+      ...bookingData
+    }, {
+      __typename: "House",
+      bookingPayInfo: house.bookingPayInfo,
+      houseConfig: {
+        __typename: "HouseConfig",
+        // @ts-ignore
+        bookingConfig: house.houseConfig.bookingConfig,
+        options: []
+      },
+      location: house.location,
+      name: house.name,
+      tags: house.tags,
+      phoneNumber: "",
+    })
+  }
+
   const bookingModalContext: IBookingModalContext = {
     bookingStatusHook,
     resvDateHook,
@@ -299,6 +317,12 @@ const BookingModal: React.FC<IProps> = ({
             thema="black"
             onClick={handleCancelBtnClick}
           />
+          <JDbutton
+            thema="primary"
+            onClick={handleViewCard} mode="flat">
+            카드전표
+          </JDbutton>
+
         </div>
       }
       head={{
@@ -307,15 +331,15 @@ const BookingModal: React.FC<IProps> = ({
             예약생성하기
           </JDtypho>
         ) : (
-          <JDtypho mb="no" size="h6">
-            <Align flex={{}}>
-              <JDtypho weight={600} color="primary" mr="small">
-                {LANG("sir")(name)}
-              </JDtypho>
+            <JDtypho mb="no" size="h6">
+              <Align flex={{}}>
+                <JDtypho weight={600} color="primary" mr="small">
+                  {LANG("sir")(name)}
+                </JDtypho>
               예약정보
             </Align>
-          </JDtypho>
-        )
+            </JDtypho>
+          )
       }}
       onAfterClose={() => {
         modalHook.info.onCloseModal?.();
@@ -336,46 +360,46 @@ const BookingModal: React.FC<IProps> = ({
         >
           <Fragment>
             <BookerInfo {...sharedProp} smsModalInfoTemp={smsModalInfoTemp} />
-            <PaymentInfo {...sharedProp} />
+            <PaymentInfo context={context} {...sharedProp} />
             <ResvInfo {...sharedProp} />
             <AssigInfo {...sharedProp} />
             <ElseInfo {...sharedProp} />
           </Fragment>
         </Align>
       ) : (
-        <JDtabs breakTabs={isDesktopUp} tabsAlign="spaceBetween">
-          <TabList
-            style={{
-              marginTop: "-1.2rem"
-            }}
-          >
-            <Tab>커스텀</Tab>
-            <Tab>예약자</Tab>
-            <Tab>결제</Tab>
-            <Tab>예약</Tab>
-            <Tab>배정</Tab>
-            <Tab>기타</Tab>
-          </TabList>
-          <TabPanel>
-            <SummaryInfo {...sharedProp} />
-          </TabPanel>
-          <TabPanel>
-            <BookerInfo {...sharedProp} smsModalInfoTemp={smsModalInfoTemp} />
-          </TabPanel>
-          <TabPanel>
-            <PaymentInfo {...sharedProp} />
-          </TabPanel>
-          <TabPanel>
-            <ResvInfo {...sharedProp} />
-          </TabPanel>
-          <TabPanel>
-            <AssigInfo {...sharedProp} />
-          </TabPanel>
-          <TabPanel>
-            <ElseInfo {...sharedProp} />
-          </TabPanel>
-        </JDtabs>
-      )}
+          <JDtabs breakTabs={isDesktopUp} tabsAlign="spaceBetween">
+            <TabList
+              style={{
+                marginTop: "-1.2rem"
+              }}
+            >
+              <Tab>커스텀</Tab>
+              <Tab>예약자</Tab>
+              <Tab>결제</Tab>
+              <Tab>예약</Tab>
+              <Tab>배정</Tab>
+              <Tab>기타</Tab>
+            </TabList>
+            <TabPanel>
+              <SummaryInfo {...sharedProp} />
+            </TabPanel>
+            <TabPanel>
+              <BookerInfo {...sharedProp} smsModalInfoTemp={smsModalInfoTemp} />
+            </TabPanel>
+            <TabPanel>
+              <PaymentInfo context={context} {...sharedProp} />
+            </TabPanel>
+            <TabPanel>
+              <ResvInfo {...sharedProp} />
+            </TabPanel>
+            <TabPanel>
+              <AssigInfo {...sharedProp} />
+            </TabPanel>
+            <TabPanel>
+              <ElseInfo {...sharedProp} />
+            </TabPanel>
+          </JDtabs>
+        )}
       <RefundModal
         loading={loading}
         refundTargets={[

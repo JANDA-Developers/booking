@@ -23,8 +23,6 @@ export const F_HOEMPAGE = gql`
   }
 `;
 
-
-
 const F_HOMEPAGE_REQUEST = gql`
   fragment FhomepageRequest on RequestHomepageType {
     siteName
@@ -105,6 +103,7 @@ export const F_HOUSE = gql`
     houseType
     status
     houseNum
+    phoneNumber
     publicKey
     createdAt
     updatedAt
@@ -574,6 +573,7 @@ export const F_CONTEXT = gql`
     ...Fuser
     houses {
       ...Fhouse
+      phoneNumber
       bookingPayInfo {
         bankAccountInfo {
           ...FbankAccountInfo
@@ -2552,7 +2552,7 @@ export const UPDATE_HM = gql`
 
 export const ADD_HOUSE_TAGS = gql`
   mutation addHouseTags($tags: [TagInput!]!, $houseId: ID!) {
-    AddHouseTags(houseId: $houseId, tags:$tags) {
+    AddHouseTags(houseId: $houseId, tags: $tags) {
       ok
       error
     }
@@ -2872,4 +2872,22 @@ export const SEARCH_BOOKING = gql`
   }
   ${F_GUEST}
   ${F_BOOKING}
+`;
+
+export const GET_BOOKING_COUNT = gql`
+  query getBookingsCount($param: GetBookingsInput!) {
+    GetBookings(param: $param) {
+      ok
+      error
+      result {
+        bookings {
+          _id
+          name
+          checkInInfo {
+            isIn
+          }
+        }
+      }
+    }
+  }
 `;

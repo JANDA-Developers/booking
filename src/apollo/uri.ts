@@ -5,3 +5,5 @@ export const SERVER_URI = false
 export default (() => {
   return SERVER_URI;
 })();
+
+//local http://localhost:4002/graphql
