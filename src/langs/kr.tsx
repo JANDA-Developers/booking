@@ -1162,9 +1162,9 @@ export const krFn = (Var = DefaultVar) => ({
   homepage_request_desc:
     "홈페이지 무료 개설이 가능합니다. 직접 커스터마이징 가능한 홈페이지를 제공합니다.",
   breakfast: "조식",
-  paidByNice: "잔다페이",
+  paidByNice: "카드결제",
   PayMethod: {
-    BILL: "잔다페이",
+    BILL: "카드결제",
     VBANK: "가상계좌",
     CASH: "현금결제",
     CARD: "카드결제",
@@ -1178,7 +1178,7 @@ export const krFn = (Var = DefaultVar) => ({
   pay_regist_pay_notice2:
     "[마이페이지 > 정기결제관리] 페이지에서 현재상태를 변경하시면 정기결제가 되지 않습니다.",
   pay_regist_pay_notice3:
-    "정기결제를 취소하는 시점부터 잔다부킹시스템 이용이 힘드니 이점 유념하시길 바랍니다.",
+    "카드등록을 하기전에 무료체험을 사용하실 분들은 카드번호를 입력하지 않고 다음단계를 진행해 주세요.",
   check_new_password: "새로운 패스워드 확인 입력",
   detail_info: "상세정보",
   roomType_count: `${Var.BT} 수`,

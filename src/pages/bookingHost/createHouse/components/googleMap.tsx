@@ -1,13 +1,21 @@
 import React from 'react';
 import './googleMap.scss';
+import { IDiv } from '../../../../types/interface';
+import GoogleMapReact from 'google-map-react';
 
-const GoogleMap = React.forwardRef<HTMLDivElement, any>((foo, ref) => (
-	<div className="JDgoogleMaps-wrapper">
-		<div ref={ref} className="JDgoogleMaps" />
-		<span role="img" aria-label="center" className="JDgoogleMaps__Center">
-			{'📍'}
-		</span>
-	</div>
+interface Iprops extends IDiv {
+}
+
+const GoogleMap: React.FC<Iprops> = (() => (
+	<GoogleMapReact
+		bootstrapURLKeys={{ key: process.env.REACT_APP_API_MAP_KEY! }}
+		defaultCenter={{ lat: 37, lng: 38 }}
+		defaultZoom={14}
+	>
+	</GoogleMapReact>
 ));
+
+
+
 
 export default GoogleMap;

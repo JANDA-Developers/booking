@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import ResvModule from "@janda-com/resv-module";
-import ResvModuleLeisure from "@janda-com/resv-module--leisure";
 import { RouteComponentProps } from "react-router-dom";
 import "../../../../node_modules/@janda-com/resv-module/dist/RC.css";
 import PageHeader from "../../../components/pageHeader/PageHeader";
@@ -103,20 +102,6 @@ export const Reservation2: React.FC<IProp> = ({ match, leisure }) => {
           desc={"해당 예약페이지를 홈페이지에 부착 할수 있습니다."}
         />
         <PageBody>
-          <div className="reservation2__wrap">
-            {leisure ? (
-              <ResvModuleLeisure
-                ga_track={[
-                  {
-                    trackingId: "UA-171491715-1"
-                  }
-                ]}
-                publickey={houseKey}
-              />
-            ) : (
-              <ResvModule publickey={houseKey} />
-            )}
-          </div>
         </PageBody>
         <JDmodal
           foot={
@@ -158,19 +143,6 @@ export const Reservation2: React.FC<IProp> = ({ match, leisure }) => {
       </div>
     );
   }
-
-  if (leisure)
-    return (
-      <ResvModuleLeisure
-        ga_track={[
-          {
-            trackingId: "UA-171491715-1"
-          }
-        ]}
-        publickey={houseKey}
-      />
-    );
-
   return <ResvModule publickey={houseKey} />;
 };
 

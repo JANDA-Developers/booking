@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import "./HouseConfig.scss";
 import { LANG, useInput, useSelect } from "../../../hooks/hook";
 import PageBody from "../../../components/pageBody/PageBody";
@@ -15,28 +15,17 @@ import omitDeep from "omit-deep";
 import { HOUSE_TYPE_OP, OPTIONAL_APPLY_PAYMETHOD } from "../../../types/const";
 import AddressSearcher from "./components/AddressSearcher";
 import GoogleMap from "../createHouse/components/googleMap";
-import { IProvidedProps, Map } from "google-maps-react";
 import { IContext } from "../BookingHostRouter";
 import { UpdateHouseInput } from "../../../types/api";
 import optionFineder from "../../../utils/optionFinder";
-import {
-  JDgoogleMapWraper,
-  changeMapBySearch,
-  getLocationFromMap,
-  loadMap
-} from "../createHouse/components/googleMapHelper";
 import { DEFAULT_BANK_INFO } from "../../../types/defaults";
-import { JDalign } from "@janda-com/front";
-
-let map: Map | null = null;
 
 interface IProps {
   updateHouseFn: (updateHouseInput: UpdateHouseInput) => void;
   context: IContext;
 }
 
-const HouseConfig: React.FC<IProps & IProvidedProps> = ({
-  google,
+const HouseConfig: React.FC<IProps> = ({
   updateHouseFn,
   context
 }) => {
@@ -68,20 +57,14 @@ const HouseConfig: React.FC<IProps & IProvidedProps> = ({
     lat,
     lng
   });
-  const mapRef = useRef<HTMLDivElement>(null);
+
 
   const handleOnFind = (value: string | null) => {
-    changeMapBySearch(value, map, location, setLocation);
+    // changeMapBySearch(value, map, location, setLocation);
     location.address = value || "";
     setLocation({ ...location });
   };
 
-  // 지도 드래그가 끝날때 좌표값을 받아서 저장함
-  const handleDragEnd = async () => {
-    if (!map) return;
-    const { lat, lng, reversedAddress } = await getLocationFromMap(map);
-    setLocation({ ...location, address: reversedAddress, lat, lng });
-  };
 
   const handleUpdateBtn = (updateFlag: "bankAccountInfo" | "basicInfo") => {
     if (updateFlag === "basicInfo") {
@@ -104,11 +87,6 @@ const HouseConfig: React.FC<IProps & IProvidedProps> = ({
     }
   };
 
-  useEffect(() => {
-    map = loadMap(lat, lng, mapRef, google);
-    // @ts-ignore
-    map?.addListener("dragend", handleDragEnd);
-  }, []);
 
   return (
     <div className="houseConfigWrap">
@@ -177,7 +155,7 @@ const HouseConfig: React.FC<IProps & IProvidedProps> = ({
                 />
               </div>
             </div>
-            <GoogleMap ref={mapRef} />
+            <GoogleMap />
           </CardSection>
           <CardHeader
             desc={LANG("deposit_info_desc")}
@@ -247,4 +225,4 @@ const HouseConfig: React.FC<IProps & IProvidedProps> = ({
   );
 };
 
-export default JDgoogleMapWraper(HouseConfig);
+export default HouseConfig;

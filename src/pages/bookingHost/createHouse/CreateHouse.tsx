@@ -8,7 +8,7 @@ import {
   useDebounce,
   LANG
 } from "../../../hooks/hook";
-import utils, { s4 } from "../../../utils/utils";
+import utils from "../../../utils/utils";
 import GoogleMap from "./components/googleMap";
 import InputText from "../../../atoms/forms/inputText/InputText";
 import SelectBox from "../../../atoms/forms/selectBox/SelectBox";
@@ -17,16 +17,15 @@ import "./CreateHouse.scss";
 import { HOUSE_TYPE_OP } from "../../../types/const";
 import { IContext } from "../../bookingHost/BookingHostRouter";
 import PreloaderModal from "../../../atoms/preloaderModal/PreloaderModal";
-import { initHouseVariables, HouseType } from "../../../types/api";
+import { initHouseVariables, HouseType, CreateHouseInput } from "../../../types/api";
 import { TRef } from "../../../types/interface";
 import optionFineder from "../../../utils/optionFinder";
 import {
-  JDgoogleMapWraper,
   changeMapBySearch,
   TLocation
 } from "./components/googleMapHelper";
 import AddressSearcher from "../houseConfig/components/AddressSearcher";
-import { IProvidedProps, Map } from "google-maps-react";
+import { Maps } from "google-map-react";
 
 const defaultData = {
   name: "",
@@ -39,7 +38,7 @@ const defaultData = {
   }
 };
 
-let map: Map | null = null;
+let map: Maps | null = null;
 
 type houseData = {
   name: string;
@@ -47,9 +46,9 @@ type houseData = {
   location: TLocation;
 };
 
-interface IProps extends IProvidedProps {
+interface IProps {
   context: IContext;
-  houseData?: houseData;
+  houseData?: CreateHouseInput;
   muLoading?: boolean;
   onSubmit: (variables: initHouseVariables) => void;
   submitRef?: TRef;
@@ -58,12 +57,13 @@ interface IProps extends IProvidedProps {
 // eslint-disable-next-line react/prop-types
 const CreateHouse: React.FC<IProps> = ({
   context,
-  google,
   houseData,
   onSubmit,
   submitRef,
   muLoading
 }) => {
+
+
   const { name, houseType, location: defaultLocation } =
     houseData || defaultData;
   const houseNameHoook = useInput(name);
@@ -74,7 +74,6 @@ const CreateHouse: React.FC<IProps> = ({
   const [addressData, addressLoading, getAddressError, addressGet] = useFetch(
     addressGeturl
   );
-  const mapRef = useRef(null);
 
   if (getAddressError) console.error(getAddressError);
 
@@ -109,7 +108,6 @@ const CreateHouse: React.FC<IProps> = ({
 
   // 서치인풋에 값이 제출될때마다.
   const handleOnFind = (adress: string) => {
-    changeMapBySearch(adress, map, location, setLocation);
     onTypeChange(adress || "");
   };
 
@@ -161,7 +159,7 @@ const CreateHouse: React.FC<IProps> = ({
           />
         </div>
         {/* 숙소 타입 선택 */}
-        <div className="flex-grid__col JDz-index-1 col--full-12 col--md-12">
+        <div className="flex-grid__col JDz-index-9 col--full-12 col--md-12">
           <SelectBox
             id="HouseType"
             {...typeSelectHook}
@@ -194,7 +192,7 @@ const CreateHouse: React.FC<IProps> = ({
           />
         </div>
         <div className="test__googleMapWrap createHomePage__map flex-grid__col col--full-12 col--md-12">
-          <GoogleMap ref={mapRef} />
+          <GoogleMap />
         </div>
         <Button
           refContainer={submitRef}
@@ -209,4 +207,4 @@ const CreateHouse: React.FC<IProps> = ({
   );
 };
 
-export default JDgoogleMapWraper(CreateHouse);
+export default CreateHouse;

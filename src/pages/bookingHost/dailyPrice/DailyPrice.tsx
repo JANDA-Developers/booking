@@ -16,7 +16,7 @@ import {
   deleteDailyPriceVariables
 } from "../../../types/api";
 import Preloader from "../../../atoms/preloader/Preloader";
-import { IItem } from "./DailyPriceWrap";
+// import { IItem } from "./DailyPriceWrap[temp]";
 import InputText from "../../../atoms/forms/inputText/InputText";
 import {
   IUseDayPicker,
@@ -33,6 +33,7 @@ import HeaderCellRender from "../assig/helper/HeaderCellRender";
 import moment from "moment";
 import { SharedSideBarHeader } from "../../../atoms/timeline/components/SharedHeader";
 import { JDdayPickerModal } from "@janda-com/front";
+import { IItem } from "./DailyPriceWrap";
 
 interface IProps {
   items: IItem[] | undefined;

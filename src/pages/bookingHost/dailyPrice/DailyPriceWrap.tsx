@@ -35,7 +35,7 @@ import {
 } from "../../../utils/utils";
 import { TimePerMs } from "../../../types/enum";
 import { useDayPicker, LANG } from "../../../hooks/hook";
-import { IContext } from "../../bookingHost/BookingHostRouter";
+import { IContext } from "../BookingHostRouter";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import client from "../../../apollo/apolloClient";
 moment.tz.setDefault("Asia/Seoul");
@@ -43,15 +43,15 @@ moment.tz.setDefault("Asia/Seoul");
 class GetAllRoomTypePriceQuery extends Query<
   dailyPriceGetPrice,
   dailyPriceGetPriceVariables
-> {}
+  > { }
 class CreateDailyPriceMu extends Mutation<
   createDailyPrice,
   createDailyPriceVariables
-> {}
+  > { }
 class DeleteDailyPriceMu extends Mutation<
   deleteDailyPrice,
   deleteDailyPriceVariables
-> {}
+  > { }
 
 export interface IItem {
   id: string;
@@ -146,7 +146,6 @@ const DailyPriceWrap: React.FC<IProps> = ({ context }) => {
     }
   });
 
-  const {} = useMutation<createDialyPrice>()
 
   const roomTypesData = queryDataFormater(
     data,
@@ -169,58 +168,60 @@ const DailyPriceWrap: React.FC<IProps> = ({ context }) => {
     []
   );
 
-  return (
-          <CreateDailyPriceMu
-            onCompleted={({ CreateDailyPrice }) => {
-              onCompletedMessage(
-                CreateDailyPrice,
-                LANG("price_setting_complited"),
-                LANG("price_setting_failed")
-              );
-            }}
-            refetchQueries={[
-              { query: GET_ALL_ROOMTYPES_PRICE, variables: queryVarialbes }
-            ]}
-            mutation={CREATE_DAILY_PRICE}
-          >
-            {createDailyPriceMu => (
-              // 방생성 뮤테이션
-              <DeleteDailyPriceMu
-                onCompleted={({ DeleteDailyPrice }) => {
-                  onCompletedMessage(
-                    DeleteDailyPrice,
-                    LANG("price_setting_delete"),
-                    LANG("price_setting_delete_fail")
-                  );
-                }}
-                refetchQueries={[
-                  { query: GET_ALL_ROOMTYPES_PRICE, variables: queryVarialbes }
-                ]}
-                mutation={DELETE_DAILY_PRICE}
-              >
-                {deleteDailyPriceMu => (
-                  <DailyPrice
-                    context={context}
-                    items={items || undefined}
-                    loading={loading}
-                    defaultProps={DailyPriceDefaultProps}
-                    priceMap={priceMap}
-                    roomTypesData={roomTypesData || undefined}
-                    placeHolderMap={placeHolderMap}
-                    createDailyPriceMu={createDailyPriceMu}
-                    dataTime={dataTime}
-                    setDataTime={setDataTime}
-                    defaultTime={defaultTime}
-                    key={`defaultTime${defaultTime.start}${defaultTime.end}`}
-                    delteDailyPriceMu={deleteDailyPriceMu}
-                    dayPickerHook={dayPickerHook}
-                    networkStatus={networkStatus}
-                  />
-                )}
-              </DeleteDailyPriceMu>
-            )}
-          </CreateDailyPriceMu>
-  );
+
+  return <div />
+  // return (
+  //   <CreateDailyPriceMu
+  //     onCompleted={({ CreateDailyPrice }) => {
+  //       onCompletedMessage(
+  //         CreateDailyPrice,
+  //         LANG("price_setting_complited"),
+  //         LANG("price_setting_failed")
+  //       );
+  //     }}
+  //     refetchQueries={[
+  //       { query: GET_ALL_ROOMTYPES_PRICE, variables: queryVariable }
+  //     ]}
+  //     mutation={CREATE_DAILY_PRICE}
+  //   >
+  //     {createDailyPriceMu => (
+  //       // 방생성 뮤테이션
+  //       <DeleteDailyPriceMu
+  //         onCompleted={({ DeleteDailyPrice }) => {
+  //           onCompletedMessage(
+  //             DeleteDailyPrice,
+  //             LANG("price_setting_delete"),
+  //             LANG("price_setting_delete_fail")
+  //           );
+  //         }}
+  //         refetchQueries={[
+  //           { query: GET_ALL_ROOMTYPES_PRICE, variables: queryVariable }
+  //         ]}
+  //         mutation={DELETE_DAILY_PRICE}
+  //       >
+  //         {deleteDailyPriceMu => (
+  //           <DailyPrice
+  //             context={context}
+  //             items={items || undefined}
+  //             loading={loading}
+  //             defaultProps={DailyPriceDefaultProps}
+  //             priceMap={priceMap}
+  //             roomTypesData={roomTypesData || undefined}
+  //             placeHolderMap={placeHolderMap}
+  //             createDailyPriceMu={createDailyPriceMu}
+  //             dataTime={dataTime}
+  //             setDataTime={setDataTime}
+  //             defaultTime={defaultTime}
+  //             key={`defaultTime${defaultTime.start}${defaultTime.end}`}
+  //             delteDailyPriceMu={deleteDailyPriceMu}
+  //             dayPickerHook={dayPickerHook}
+  //             networkStatus={networkStatus}
+  //           />
+  //         )}
+  //       </DeleteDailyPriceMu>
+  //     )}
+  //   </CreateDailyPriceMu>
+  // );
 };
 
 export default ErrProtecter(DailyPriceWrap);

@@ -98,9 +98,9 @@ const JDbookingHost: React.FC<IProps> = ({
   const superPermission =
     userRole === UserRole.ADMIN || userRole === UserRole.DEVELOPER;
 
-  // 테스트를 위한 퍼블릭키
-  if (currentHouse)
-    localStorage.setItem("pbk-T", currentHouse?.publicKey || "");
+  if (currentHouse) {
+    sessionStorage.setItem("hpk", currentHouse?.publicKey || "");
+  }
   // 지원하지 않는 브라우저로 부터 접속했는지 확인합니다.
 
   useEffect(() => {
@@ -125,21 +125,21 @@ const JDbookingHost: React.FC<IProps> = ({
     "bookingHost--houseExists": houseExists
   });
 
-//   <Route
-//   path="/test"
-//   render={prop => <DashBoardInformation
-//     title={`title`}
-//     header_image={`header_image`}
-//     author={`author`}
-//     body={`body`}
-//     video={`video`}
-//     pub_date={`pub_data`}
-//     timestamp={`timestamp`}
-//     likes={`likes`}
-//     related_name={`related_name`}
-//     isNotice={true}
-//    />}
-// />
+  //   <Route
+  //   path="/test"
+  //   render={prop => <DashBoardInformation
+  //     title={`title`}
+  //     header_image={`header_image`}
+  //     author={`author`}
+  //     body={`body`}
+  //     video={`video`}
+  //     pub_date={`pub_data`}
+  //     timestamp={`timestamp`}
+  //     likes={`likes`}
+  //     related_name={`related_name`}
+  //     isNotice={true}
+  //    />}
+  // />
 
   const routers: JDRoute[] = [
     {

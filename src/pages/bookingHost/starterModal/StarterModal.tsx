@@ -33,7 +33,6 @@ import PreloaderModal from "../../../atoms/preloaderModal/PreloaderModal";
 import PhotoFrame from "../../../atoms/photoFrame/PhotoFrame";
 import ModalEndSection from "../../../atoms/modal/components/ModalEndSection";
 import JDlist from "../../../atoms/list/List";
-import { currentWinSize } from "../../../utils/currentWinSize";
 import { useQuery } from "@apollo/react-hooks";
 import { GET_PRODUCTS_TYPES } from "../../../apollo/queries";
 import client from "../../../apollo/apolloClient";
@@ -221,7 +220,7 @@ const StarterModal: React.FC<IProps> = ({ context, onSubmit, muLoading }) => {
         <Wrap>
           <div className="JDsectionDistroy steps__createHouseWrap">
             <CreateHouse
-              houseData={InitHouseData}
+              houseData={InitHouseData || undefined}
               onSubmit={handleCreateHouseSubmit}
               submitRef={houseSubmitRef}
               context={context}
@@ -298,6 +297,7 @@ const StarterModal: React.FC<IProps> = ({ context, onSubmit, muLoading }) => {
             contents={[
               LANG("pay_regist_pay_notice1"),
               LANG("pay_regist_pay_notice2"),
+              LANG("pay_regist_pay_notice3"),
             ]}
           />
           <CardInfoForm
@@ -320,9 +320,13 @@ const StarterModal: React.FC<IProps> = ({ context, onSubmit, muLoading }) => {
             thema="primary"
             mode="flat"
             onClick={() => {
-              const { msg, result } = cardValidate(cardInfo);
-              if (result) setStep("check");
-              else toast.warn(msg);
+              if (cardInfo.cardNo) {
+                const { msg, result } = cardValidate(cardInfo);
+                if (result) setStep("check");
+                else toast.warn(msg);
+              } else {
+                setStep("check");
+              }
             }}
             mb="no"
             label={LANG("next_step")}

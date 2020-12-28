@@ -1,7 +1,4 @@
-import React from "react";
 import axios from "axios";
-import { GoogleApiWrapper, IProvidedProps } from "google-maps-react";
-import Preloader from "../../../../atoms/preloader/Preloader";
 export const geoCode = async (address: string) => {
   const URL = `https://maps.googleapis.com/maps/api/geocode/json?address=${address}&key=${process.env.REACT_APP_API_MAP_KEY}&language=ko&region=KO`;
   const { data } = await axios(URL);
@@ -94,16 +91,17 @@ export const changeMapBySearch = async (
   map.panTo({ lat, lng });
 };
 
-function JDgoogleMapWraper<T>(
-  Component: React.FC<T & IProvidedProps>
-): React.ComponentType<any> {
-  return GoogleApiWrapper({
-    apiKey: process.env.REACT_APP_API_MAP_KEY || "",
-    LoadingContainer: () => (
-      <div style={{ height: "85vh" }}>
-        <Preloader floating loading={true} />
-      </div>
-    )
-  })(Component);
-}
-export { JDgoogleMapWraper };
+// function JDgoogleMapWraper<T>(
+//   Component: React.FC<T & IProvidedProps>
+// ): React.ComponentType<any> {
+
+//   return GoogleApiWrapper({
+//     apiKey: process.env.REACT_APP_API_MAP_KEY || "",
+//     LoadingContainer: () => (
+//       <div style={{ height: "85vh" }}>
+//         <Preloader floating loading={true} />
+//       </div>
+//     )
+//   })(Component);
+// }
+// export { JDgoogleMapWraper };
