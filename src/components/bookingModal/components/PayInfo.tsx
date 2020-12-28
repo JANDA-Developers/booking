@@ -7,25 +7,33 @@ import { LANG } from "../../../hooks/hook";
 import JDselect from "../../../atoms/forms/selectBox/SelectBox";
 import { PAYMETHOD_FOR_HOST_OP, PAYMENT_STATUS_OP } from "../../../types/const";
 import { autoComma, toNumber } from "../../../utils/utils";
-import { enumToOption } from "@janda-com/front";
+import { enumToOption, JDbutton } from "@janda-com/front";
 import { PayMethod } from "../../../types/enum";
+import { printRecipt } from "../../../utils/printRecipt";
+import { IContext } from "../../../pages/bookingHost/BookingHostRouter";
 
 interface IProps {
   responseStyle: any;
   bookingModalContext: IBookingModalContext;
+  context: IContext
 }
 
 const PaymentInfo: React.FC<IProps> = ({
   bookingModalContext,
-  responseStyle
+  responseStyle,
+  context
 }) => {
   const {
     priceHook,
     payMethodHook,
     paymentStatusHook,
     placeHolederPrice,
-    isDesktopUp
+    isDesktopUp,
+    bookingData,
   } = bookingModalContext;
+
+  const { house, user } = context;
+
   return (
     <Align {...responseStyle}>
       {isDesktopUp && <JDtypho mb="normal">{LANG("payment_info")}</JDtypho>}
@@ -62,6 +70,11 @@ const PaymentInfo: React.FC<IProps> = ({
           options={PAYMENT_STATUS_OP}
           label={LANG("payment_status")}
         />
+      </div>
+      <div>
+        {bookingData.payment.cardInfo &&
+          <JDbutton onClick={handleViewCard} mode="flat">카드전표보기</JDbutton>
+        }
       </div>
     </Align>
   );

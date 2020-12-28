@@ -143,6 +143,7 @@ export const Reservation2: React.FC<IProp> = ({ match, leisure }) => {
       </div>
     );
   }
+  
   return <ResvModule publickey={houseKey} />;
 };
 

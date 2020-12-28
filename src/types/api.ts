@@ -652,6 +652,7 @@ export interface getMyProfile_GetMyProfile_user_houses {
   houseType: HouseType;
   status: HouseStatus | null;
   houseNum: string;
+  phoneNumber: any | null;
   publicKey: string | null;
   createdAt: any;
   updatedAt: any | null;
@@ -954,6 +955,7 @@ export interface getHouse_GetHouse_house {
   houseType: HouseType;
   status: HouseStatus | null;
   houseNum: string;
+  phoneNumber: any | null;
   publicKey: string | null;
   createdAt: any;
   updatedAt: any | null;
@@ -2687,6 +2689,7 @@ export interface getUserForSU_GetUserForSU_user_houses {
   houseType: HouseType;
   status: HouseStatus | null;
   houseNum: string;
+  phoneNumber: any | null;
   publicKey: string | null;
   createdAt: any;
   updatedAt: any | null;
@@ -7143,6 +7146,7 @@ export interface Fhouse {
   houseType: HouseType;
   status: HouseStatus | null;
   houseNum: string;
+  phoneNumber: any | null;
   publicKey: string | null;
   createdAt: any;
   updatedAt: any | null;
@@ -8418,6 +8422,7 @@ export interface Fcontext_houses {
   houseType: HouseType;
   status: HouseStatus | null;
   houseNum: string;
+  phoneNumber: any | null;
   publicKey: string | null;
   createdAt: any;
   updatedAt: any | null;
