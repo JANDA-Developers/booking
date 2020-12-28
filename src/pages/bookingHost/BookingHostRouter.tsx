@@ -98,6 +98,7 @@ const JDbookingHost: React.FC<IProps> = ({
   const superPermission =
     userRole === UserRole.ADMIN || userRole === UserRole.DEVELOPER;
 
+  // 퍼블릭키 추가
   if (currentHouse) {
     sessionStorage.setItem("hpk", currentHouse?.publicKey || "");
   }
@@ -105,6 +106,7 @@ const JDbookingHost: React.FC<IProps> = ({
 
   useEffect(() => {
     openChannelTok();
+
     browserDetect();
   }, []);
 
