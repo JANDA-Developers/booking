@@ -2876,11 +2876,7 @@ export const SEARCH_BOOKING = gql`
 
 export const GET_BOOKING_COUNT = gql`
   query getBookingsCount($param: GetBookingsInput!) {
-<<<<<<< HEAD
-    GetBookings(param:$param) {
-=======
     GetBookings(param: $param) {
->>>>>>> hotfix/카드페이_내역_출력
       ok
       error
       result {
@@ -2894,8 +2890,4 @@ export const GET_BOOKING_COUNT = gql`
       }
     }
   }
-<<<<<<< HEAD
-`
-=======
 `;
->>>>>>> hotfix/카드페이_내역_출력
