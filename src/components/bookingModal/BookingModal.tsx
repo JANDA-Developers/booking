@@ -46,7 +46,7 @@ import Align from "../../atoms/align/Align";
 import { JDtabs, TabList, Tab, TabPanel } from "../../atoms/tabs/Tabs_";
 import ElseInfo from "./components/ElseInfo";
 import AssigInfo from "./components/AssigInfo";
-import PaymentInfo from "./components/PayInfo";
+import PaymentInfo, { TNiceinfo } from "./components/PayInfo";
 import BookerInfo from "./components/BookerInfo";
 import ResvInfo from "./components/ResvInfo";
 import { getHandler } from "./getHandler";
@@ -54,6 +54,7 @@ import SummaryInfo from "./components/SummaryInfo";
 import JDtypho from "../../atoms/typho/Typho";
 import { JDbutton, JDmodal, useWindowSize } from "@janda-com/front";
 import { printRecipt } from "../../utils/printRecipt";
+import { queryTid } from "../../apollo/thirApi";
 
 interface IProps {
   modalHook: IUseModal<IBookingModalProp>;
@@ -192,7 +193,13 @@ const BookingModal: React.FC<IProps> = ({
     [bookingData.roomTypes?.length, assigInfo]
   );
 
-  const handleViewCard = () => {
+  const handleViewCard = async () => {
+    let niceInfo: TNiceinfo[] = []
+    if (bookingData.payment.tid) {
+      const reuslt = await queryTid(bookingData.payment.tid);
+      niceInfo = reuslt.data;
+    }
+
     printRecipt({
       ...bookingData
     }, {
@@ -208,7 +215,7 @@ const BookingModal: React.FC<IProps> = ({
       name: house.name,
       tags: house.tags,
       phoneNumber: "",
-    })
+    }, niceInfo)
   }
 
   const bookingModalContext: IBookingModalContext = {

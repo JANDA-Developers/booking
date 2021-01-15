@@ -5,10 +5,12 @@ import {
 import { getRoomSelectInfo, getRoomSelectString } from "./typeChanger";
 import CardRecipt from "../docs/print/CreditCardReceipt";
 import { openForPrint } from "./openForPrint";
-
+import { TNiceinfo } from "../components/bookingModal/components/PayInfo";
+import moment from "moment";
 export const printRecipt = (
   data: getBookingForPublic_GetBookingForPublic_booking,
-  houseData: getHouseForPublic_GetHouseForPublic_house
+  houseData: getHouseForPublic_GetHouseForPublic_house,
+  niceInfo: TNiceinfo[]
 ) => {
   if (!houseData) return;
   const {
@@ -25,7 +27,8 @@ export const printRecipt = (
     goodsVat,
     supplyAmt,
     cardInfo,
-    tid
+    tid,
+    refundedPrice
   } = payment;
 
   if (!cardInfo) return;
@@ -34,6 +37,11 @@ export const printRecipt = (
   const selectInfoes = getRoomSelectInfo(guests, roomTypes);
   const stringBookInfo = getRoomSelectString(selectInfoes);
 
+  const approvalNo = niceInfo[0]?.approvalNo;
+  const refundPrice = niceInfo[0]?.refundedPrice.toString();
+  const cancelMessage = niceInfo[0]?.cancelMessage || "";
+  const cancelStatus = niceInfo[0]?.refundStatus;
+  const cancelDate = niceInfo[0]?.cancelDate;
   const markUp = CardRecipt({
     resvInfo: {
       bookingNum: bookingNum,
@@ -49,7 +57,14 @@ export const printRecipt = (
       price: totalPrice,
       TAX: supplyAmt,
       VAT: goodsVat,
-      tid
+      tid,
+      cancelMessage,
+      cancelStatus,
+      refundPrice,
+      approvalNumber: approvalNo,
+      cancelDate: cancelDate
+        ? moment(cancelDate).format("YYYY.MM.DD")
+        : undefined
     },
     hostInfo: {
       address: address + addressDetail,

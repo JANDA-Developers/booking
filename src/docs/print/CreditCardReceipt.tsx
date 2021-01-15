@@ -2,26 +2,68 @@ import React from "react"
 import { autoHypen } from "../../utils/utils";
 
 
+interface IResvInfo {
+  bookerName: string,
+  bookingNum: string,
+  bookInfo: string,
+}
 
-const CardRecipt = ({resvInfo, payInfo,hostInfo}) => {
+interface IpayInfo {
+  payMethod: string,
+  payStatus: string,
+  payDate: string,
+  cardName: string,
+  cardNumber: string,
+  refundPrice: string,
+  cancelMessage: string,
+  cancelStatus: string,
+  approvalNumber: string,
+  cancelDate: string,
+  price: string | number,
+  TAX: string | number | null,
+  VAT: string | number | null,
+  tid: string | null,
+}
+
+interface IhostInfo {
+  address: string
+  houseName: string
+  bNumber: string
+  hostName: string
+  houseContact: string
+  hompage: string
+}
+
+interface ICardRecipt {
+  resvInfo: Partial<IResvInfo>,
+  payInfo: Partial<IpayInfo>,
+  hostInfo: Partial<IhostInfo>
+}
+
+const CardRecipt = ({ resvInfo, payInfo, hostInfo }: ICardRecipt) => {
   const {
     bookerName,
     bookingNum,
     bookInfo,
   } = resvInfo
-  const { 
+  const {
     payMethod,
     payStatus,
     payDate,
     cardName,
     cardNumber,
-  // Installment,
+    // Installment,
     approvalNumber,
     price,
     TAX,
     VAT,
+    cancelDate,
     tid,
+    cancelMessage,
+    cancelStatus,
+    refundPrice
   } = payInfo;
+
   const {
     address,
     houseName,
@@ -33,6 +75,7 @@ const CardRecipt = ({resvInfo, payInfo,hostInfo}) => {
 
   return (
     <div>
+      {/* @ts-ignore */}
       <table cellPadding={0} cellSpacing={0} width="100%" style={{ fontFamily: 'Verdana, Geneva, sans-serif', textAlign: "center", zoom: -1 }}>
         <tbody>
           <tr>
@@ -51,45 +94,48 @@ const CardRecipt = ({resvInfo, payInfo,hostInfo}) => {
                   </select>
                 </div>
               </div>
+              {/* @ts-ignore */}
               <div width="90%" bgcolor="#ffffff" style={{ maxWidth: '700px', borderTop: '5px solid #4A5A71' }} />
+              {/* @ts-ignore */}
               <table align="center" border={0} cellPadding={0} cellSpacing={0} width="90%" bgcolor="#ffffff" style={{ maxWidth: '700px', paddingBottom: '46px', borderBottom: '1px solid #d8d8d8' }}>
                 <tbody>
-              {resvInfo && 
-                  <tr>
-                    <td style={{ fontSize: '13px', color: '#2c2c2c' }}>
-                      <div style={{ padding: '20px 10px 0 10px' }}>
-                        <div style={{ fontSize: '15px', fontWeight: 'bold', color: '#333333', lineHeight: '1.5em' }}>
-                          예약 정보
+                  {resvInfo &&
+                    <tr>
+                      <td style={{ fontSize: '13px', color: '#2c2c2c' }}>
+                        <div style={{ padding: '20px 10px 0 10px' }}>
+                          <div style={{ fontSize: '15px', fontWeight: 'bold', color: '#333333', lineHeight: '1.5em' }}>
+                            예약 정보
                             </div>
-                        <table style={{ width: '100%', borderTop: '3px solid #333333', borderCollapse: 'collapse' }} border={0} cellPadding={0} cellSpacing={0}>
-                          <colgroup>
-                            <col style={{ width: '20%' }} />
-                            <col style={{ width: '30%' }} />
-                            <col style={{ width: '20%' }} />
-                            <col />
-                          </colgroup>
-                          <tbody>
-                            <tr>
-                              <th style={{ textAlign: 'left', padding: '1% 2%', fontWeight: 'bold', border: '1px solid #cfcfcf', background: '#e8e8e8' }}>
-                                <strong>예약번호</strong></th>
-                              <td style={{ textAlign: 'left', padding: '1% 2%', border: '1px solid #cfcfcf', background: '#ffffff', fontFamily: '돋움, AppleGothic, sans-serif' }}>
-                                {bookingNum}</td>
-                              <th style={{ textAlign: 'left', padding: '1% 2%', fontWeight: 'bold', border: '1px solid #cfcfcf', background: '#e8e8e8' }}>
-                                <strong>예약자명</strong></th>
-                              <td style={{ textAlign: 'left', padding: '1% 2%', border: '1px solid #cfcfcf', background: '#ffffff', fontFamily: '돋움, AppleGothic, sans-serif' }}>
-                                    {bookerName}</td>
-                            </tr>
-                            <tr>
-                              <th style={{ textAlign: 'left', padding: '1% 2%', fontWeight: 'bold', border: '1px solid #cfcfcf', background: '#e8e8e8' }}>
-                                <strong>예약정보</strong></th>
-                              <td colSpan={3} style={{ textAlign: 'left', padding: '1% 2%', border: '1px solid #cfcfcf', background: '#ffffff', fontFamily: '돋움, AppleGothic, sans-serif' }}>
-                                {bookInfo}</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </td>
-                  </tr>
+                          {/* @ts-ignore */}
+                          <table style={{ width: '100%', borderTop: '3px solid #333333', borderCollapse: 'collapse' }} border={0} cellPadding={0} cellSpacing={0}>
+                            <colgroup>
+                              <col style={{ width: '20%' }} />
+                              <col style={{ width: '30%' }} />
+                              <col style={{ width: '20%' }} />
+                              <col />
+                            </colgroup>
+                            <tbody>
+                              <tr>
+                                <th style={{ textAlign: 'left', padding: '1% 2%', fontWeight: 'bold', border: '1px solid #cfcfcf', background: '#e8e8e8' }}>
+                                  <strong>예약번호</strong></th>
+                                <td style={{ textAlign: 'left', padding: '1% 2%', border: '1px solid #cfcfcf', background: '#ffffff', fontFamily: '돋움, AppleGothic, sans-serif' }}>
+                                  {bookingNum}</td>
+                                <th style={{ textAlign: 'left', padding: '1% 2%', fontWeight: 'bold', border: '1px solid #cfcfcf', background: '#e8e8e8' }}>
+                                  <strong>예약자명</strong></th>
+                                <td style={{ textAlign: 'left', padding: '1% 2%', border: '1px solid #cfcfcf', background: '#ffffff', fontFamily: '돋움, AppleGothic, sans-serif' }}>
+                                  {bookerName}</td>
+                              </tr>
+                              <tr>
+                                <th style={{ textAlign: 'left', padding: '1% 2%', fontWeight: 'bold', border: '1px solid #cfcfcf', background: '#e8e8e8' }}>
+                                  <strong>예약정보</strong></th>
+                                <td colSpan={3} style={{ textAlign: 'left', padding: '1% 2%', border: '1px solid #cfcfcf', background: '#ffffff', fontFamily: '돋움, AppleGothic, sans-serif' }}>
+                                  {bookInfo}</td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </td>
+                    </tr>
                   }
                   <tr>
                     <td style={{ fontSize: '13px', color: '#2c2c2c' }}>
@@ -97,6 +143,7 @@ const CardRecipt = ({resvInfo, payInfo,hostInfo}) => {
                         <div style={{ fontSize: '15px', fontWeight: 'bold', color: '#333333', lineHeight: '1.5em' }}>
                           결제 정보
                             </div>
+                        {/* @ts-ignore */}
                         <table style={{ width: '100%', borderTop: '3px solid #333333', borderCollapse: 'collapse' }} border={0} cellPadding={0} cellSpacing={0}>
                           <colgroup>
                             <col style={{ width: '20%' }} />
@@ -119,17 +166,17 @@ const CardRecipt = ({resvInfo, payInfo,hostInfo}) => {
                               <th style={{ textAlign: 'left', padding: '1% 2%', fontWeight: 'bold', border: '1px solid #cfcfcf', background: '#e8e8e8' }}>
                                 <strong>거래일시</strong></th>
                               <td style={{ textAlign: 'left', padding: '1% 2%', border: '1px solid #cfcfcf', background: '#ffffff', fontFamily: '돋움, AppleGothic, sans-serif' }}>
-                              {payDate}</td>
+                                {payDate}</td>
                               <th style={{ textAlign: 'left', padding: '1% 2%', fontWeight: 'bold', border: '1px solid #cfcfcf', background: '#e8e8e8' }}>
                                 <strong>취소일시</strong></th>
                               <td style={{ textAlign: 'left', padding: '1% 2%', border: '1px solid #cfcfcf', background: '#ffffff', fontFamily: '돋움, AppleGothic, sans-serif' }}>
+                                {cancelDate}
                               </td>
                             </tr>
                             <tr>
                               <th style={{ textAlign: 'left', padding: '1% 2%', fontWeight: 'bold', border: '1px solid #cfcfcf', background: '#e8e8e8' }}>
                                 <strong>결제카드</strong></th>
-                              <td style={{ textAlign: 'left', padding: '1% 2%', border: '1px solid #cfcfcf', background: '#ffffff', fontFamily: '돋움, AppleGothic, sans-serif' }}>
-                {cardName}</td>
+                              <td style={{ textAlign: 'left', padding: '1% 2%', border: '1px solid #cfcfcf', background: '#ffffff', fontFamily: '돋움, AppleGothic, sans-serif' }}>{cardName}</td>
                               <th style={{ textAlign: 'left', padding: '1% 2%', fontWeight: 'bold', border: '1px solid #cfcfcf', background: '#e8e8e8' }}>
                                 <strong>카드번호</strong></th>
                               <td style={{ textAlign: 'left', padding: '1% 2%', border: '1px solid #cfcfcf', background: '#ffffff', fontFamily: '돋움, AppleGothic, sans-serif' }}>
@@ -153,19 +200,43 @@ const CardRecipt = ({resvInfo, payInfo,hostInfo}) => {
                               <th style={{ textAlign: 'left', padding: '1% 2%', fontWeight: 'bold', border: '1px solid #cfcfcf', background: '#e8e8e8' }}>
                                 <strong>공급가액</strong></th>
                               <td style={{ textAlign: 'right', padding: '1% 2%', border: '1px solid #cfcfcf', background: '#ffffff', fontFamily: '돋움, AppleGothic, sans-serif' }}>
-                {TAX}</td>
+                                {TAX}</td>
                             </tr>
                             <tr>
                               <th style={{ textAlign: 'left', padding: '1% 2%', fontWeight: 'bold', border: '1px solid #cfcfcf', background: '#e8e8e8' }}>
                                 결제번호
                               </th>
-                              <td style={{ textAlign: 'right', padding: '1% 2%', border: '1px solid #cfcfcf', background: '#ffffff', fontFamily: '돋움, AppleGothic, sans-serif',fontSize:"10px" }}>
+                              <td style={{ textAlign: 'right', padding: '1% 2%', border: '1px solid #cfcfcf', background: '#ffffff', fontFamily: '돋움, AppleGothic, sans-serif', fontSize: "10px" }}>
                                 {tid}
                               </td>
                               <th style={{ textAlign: 'left', padding: '1% 2%', fontWeight: 'bold', border: '1px solid #cfcfcf', background: '#e8e8e8' }}>
                                 <strong>부가세</strong></th>
                               <td style={{ textAlign: 'right', padding: '1% 2%', border: '1px solid #cfcfcf', background: '#ffffff', fontFamily: '돋움, AppleGothic, sans-serif' }}>
-                {VAT}</td>
+                                {VAT}</td>
+                            </tr>
+                            <tr>
+                              <th style={{ textAlign: 'left', padding: '1% 2%', fontWeight: 'bold', border: '1px solid #cfcfcf', background: '#e8e8e8' }}>
+                                취소일자
+                              </th>
+                              <td style={{ textAlign: 'right', padding: '1% 2%', border: '1px solid #cfcfcf', background: '#ffffff', fontFamily: '돋움, AppleGothic, sans-serif', fontSize: "10px" }}>
+                                {cancelDate}
+                              </td>
+                              <th style={{ textAlign: 'left', padding: '1% 2%', fontWeight: 'bold', border: '1px solid #cfcfcf', background: '#e8e8e8' }}>
+                                <strong>취소메세지</strong></th>
+                              <td style={{ textAlign: 'right', padding: '1% 2%', border: '1px solid #cfcfcf', background: '#ffffff', fontFamily: '돋움, AppleGothic, sans-serif' }}>
+                                {cancelMessage}</td>
+                            </tr>
+                            <tr>
+                              <th style={{ textAlign: 'left', padding: '1% 2%', fontWeight: 'bold', border: '1px solid #cfcfcf', background: '#e8e8e8' }}>
+                                취소상태
+                              </th>
+                              <td style={{ textAlign: 'right', padding: '1% 2%', border: '1px solid #cfcfcf', background: '#ffffff', fontFamily: '돋움, AppleGothic, sans-serif', fontSize: "10px" }}>
+                                {cancelStatus}
+                              </td>
+                              <th style={{ textAlign: 'left', padding: '1% 2%', fontWeight: 'bold', border: '1px solid #cfcfcf', background: '#e8e8e8' }}>
+                                <strong>취소금</strong></th>
+                              <td style={{ textAlign: 'right', padding: '1% 2%', border: '1px solid #cfcfcf', background: '#ffffff', fontFamily: '돋움, AppleGothic, sans-serif' }}>
+                                {refundPrice}</td>
                             </tr>
                           </tbody>
                         </table>
@@ -178,6 +249,8 @@ const CardRecipt = ({resvInfo, payInfo,hostInfo}) => {
                         <div style={{ fontSize: '15px', fontWeight: 'bold', color: '#333333', lineHeight: '1.5em' }}>
                           공급자 정보
                             </div>
+
+                        {/* @ts-ignore */}
                         <table style={{ width: '100%', borderTop: '3px solid #333333', borderCollapse: 'collapse' }} border={0} cellPadding={0} cellSpacing={0}>
                           <colgroup>
                             <col style={{ width: '20%' }} />
@@ -229,6 +302,8 @@ const CardRecipt = ({resvInfo, payInfo,hostInfo}) => {
                         <div style={{ fontSize: '15px', fontWeight: 'bold', color: '#333333', lineHeight: '1.5em' }}>
                           결제대행사 정보
                             </div>
+
+                        {/* @ts-ignore */}
                         <table style={{ width: '100%', borderTop: '3px solid #333333', borderCollapse: 'collapse' }} border={0} cellPadding={0} cellSpacing={0}>
                           <colgroup>
                             <col style={{ width: '20%' }} />

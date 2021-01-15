@@ -11,6 +11,21 @@ import { enumToOption, JDbutton } from "@janda-com/front";
 import { PayMethod } from "../../../types/enum";
 import { printRecipt } from "../../../utils/printRecipt";
 import { IContext } from "../../../pages/bookingHost/BookingHostRouter";
+import { queryTid } from "../../../apollo/thirApi";
+
+export type TNiceinfo = {
+  approvalNo: string
+  totalPrice: number
+  goodsVat: number
+  cancelDate: Date
+  supplyAmt: number
+  refundStatus: string
+  paymentResultParam: Object
+  refundedPrice: number
+  tid: string
+  refundAvailableAmount: number
+  cancelMessage: string
+}
 
 interface IProps {
   responseStyle: any;
@@ -31,6 +46,35 @@ const PaymentInfo: React.FC<IProps> = ({
     isDesktopUp,
     bookingData,
   } = bookingModalContext;
+
+  const handleViewCard = async () => {
+    let niceInfo: TNiceinfo[] = []
+    if (bookingData.payment.tid) {
+      const reuslt = await queryTid(bookingData.payment.tid);
+      niceInfo = reuslt.data;
+    }
+
+    printRecipt({
+      ...bookingData,
+    }, {
+      __typename: "House",
+      bookingPayInfo: house.bookingPayInfo,
+      houseConfig: {
+        __typename: "HouseConfig",
+        // @ts-ignore
+        bookingConfig: house.houseConfig.bookingConfig,
+        options: []
+      },
+      location: house.location,
+      name: house.name,
+      tags: house.tags,
+      phoneNumber: user.phoneNumber
+    }, niceInfo)
+  }
+
+  const handleTidQuery = async () => {
+
+  }
 
   const { house, user } = context;
 

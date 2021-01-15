@@ -105,7 +105,6 @@ export const OptionalProductModal: React.FC<IProp> = ({ modalHook, ...props }) =
 					if (targetIndex !== -1) data[targetIndex] = prop
 					else data.push(prop);
 
-
 					setData([...data]);
 				}}
 				key={eidtModalHook.info?.optionProduct._id + "optionalModal"}
@@ -120,7 +119,7 @@ export const OptionalProductModal: React.FC<IProp> = ({ modalHook, ...props }) =
 							return ({
 								_id: _id,
 								label: label,
-								maxCount: maxCount || undefined,
+								maxCount: maxCount || 99,
 								multiplyDate: multiplyDate,
 								optionalItems: optionalItems?.map(item => ({
 									_id: item._id,
