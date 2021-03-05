@@ -1028,20 +1028,7 @@ export const F_ROOM_TYPE_DATE_PRICE_RESULT = gql`
     error
     roomTypeDatePrices {
       roomType {
-        _id
-        name
-        pricingType
-        peopleCount
-        peopleCountMax
-        roomCount
-        roomGender
-        description
-        defaultPrice
-        createdAt
-        updatedAt
-        roomGender
-        hashTags
-        code
+        ...FroomType
       }
       datePrices {
         date
