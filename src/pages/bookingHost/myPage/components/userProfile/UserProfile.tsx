@@ -83,13 +83,12 @@ const UserProfile: React.FC<Iprops> = ({ context, userInfo }) => {
 				name: nameHook.value,
 				password: password,
 				phoneNumber: phoneNumberHook.value,
-				profileImg: profileCircleHook.file,
+				profileImg: omitDeep(profileCircleHook.file, ['__typename']),
 				bankAccountInfo: accountInfo
 			}
 		});
 		return null;
 	};
-	1;
 	const profileStyle = {
 		backgroundImage: `url(${IMG_REPO}default/default_profile.jpg)`
 	};
