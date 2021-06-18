@@ -155,7 +155,7 @@ const DailyAssigWrap: React.FC<IDailyWrapWrapProp & WrapProp> = ({
   const [createBlockMu, { loading: createBlockLoading }] = useMutation<
     createBlock,
     createBlockVariables
-  >(CREATE_BLOCKS, {
+  >(CREATE_BLOCK, {
     client,
     refetchQueries: refetch,
     ignoreResults: true,

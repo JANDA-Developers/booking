@@ -991,31 +991,6 @@ export interface getHouseVariables {
 // GraphQL query operation: dailyPriceGetPrice
 // ====================================================
 
-export interface dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_tags {
-  __typename: "Tag";
-  /**
-   * '::'을 구분자로 사용하여 subKey를 입력할 수 있다. (subKey의 subKey도 가능) - ex) category::atmosphere
-   */
-  key: string;
-  /**
-   * 여기는 무조건 String만 들어감
-   */
-  value: string;
-}
-
-export interface dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_optionalItems {
-  __typename: "OptionalItem";
-  _id: string;
-  label: string;
-  type: OptionalItemType;
-  price: number | null;
-  maxCount: number | null;
-  description: string | null;
-  multiplyMaxCountToProductCount: boolean | null;
-  multiplyMaxCountToDate: boolean | null;
-  multiplyPriceToDate: boolean | null;
-}
-
 export interface dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_roomType {
   __typename: "RoomType";
   _id: string;
@@ -1025,10 +1000,6 @@ export interface dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_roo
   peopleCountMax: number;
   roomCount: number;
   roomGender: RoomGender;
-  /**
-   * 이미지 Urls
-   */
-  images: string[] | null;
   description: string | null;
   /**
    * 일괄적으로 적용되는 기본 방 가격... DailyPrice, SeasonPrice가 없는 경우 이 가격을 적용함.
@@ -1038,8 +1009,6 @@ export interface dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_roo
   updatedAt: any | null;
   hashTags: string[];
   code: string;
-  tags: dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_tags[];
-  optionalItems: dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_roomType_optionalItems[];
 }
 
 export interface dailyPriceGetPrice_GetRoomTypeDatePrices_roomTypeDatePrices_datePrices {
