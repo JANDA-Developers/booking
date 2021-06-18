@@ -5,7 +5,7 @@ import { getBookings, getBookingsVariables } from "../../types/api";
 import { GET_BOOKINGS } from "../../apollo/queries";
 import { IContext } from "../../pages/bookingHost/BookingHostRouter";
 import { queryDataFormater } from "../../utils/utils";
-import moment from "moment";
+import dayjs from "dayjs";
 import { useDayPicker } from "../../hooks/hook";
 import { to4YMMDD } from "../../utils/setMidNight";
 
@@ -21,7 +21,7 @@ const DayCheckInWrap: React.FC<IProps> = ({ context }) => {
   } = context;
   const dayPickerHook = useDayPicker(
     new Date(),
-    moment(new Date())
+    dayjs(new Date())
       .add(1, "d")
       .toDate()
   );
@@ -59,7 +59,7 @@ const DayCheckInWrap: React.FC<IProps> = ({ context }) => {
             const bookings = result?.bookings || [];
 
             const bookingsCheckInToday = bookings.filter(booking =>
-              moment(booking.checkIn).isSame(
+              dayjs(booking.checkIn).isSame(
                 dayPickerHook.from || new Date(),
                 "day"
               )

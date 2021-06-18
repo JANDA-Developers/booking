@@ -59,14 +59,6 @@ export const InfoSetting: React.FC<IAddtionProp> = ({ context, updateFn }) => {
     ResvCompeleteMsg
   } = getOptionsObj(houseConfig.options);
 
-  console.log("*****");
-  console.log({
-    CheckMsg,
-    PayPrecaution,
-    ResvCautionMsg,
-    ResvCompeleteMsg
-  });
-
   const [addHouseConfigMu, { loading: addHouseConfigLoading }] = useMutation<
     addHouseConfigOptions,
     addHouseConfigOptionsVariables

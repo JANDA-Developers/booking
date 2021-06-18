@@ -10,7 +10,7 @@ import { useModal, LANG } from "../../../../../hooks/hook";
 import { Gender, PricingType, RoomGender } from "../../../../../types/enum";
 import { IGuestCount } from "./roomTypeCardsWrap";
 import JDmodal from "../../../../../atoms/modal/Modal";
-import moment from "moment";
+import dayjs from "dayjs";
 import selectOpCreater from "../../../../../utils/selectOptionCreater";
 import JDbadge from "../../../../../atoms/badge/Badge";
 import { IReservationHooks } from "../../declation";
@@ -59,9 +59,6 @@ const RoomTypeCard: React.SFC<IProps> = ({
     male: false,
     count: false
   });
-
-  console.log("roomTypeData");
-  console.log(roomTypeData);
 
   const classes = classNames("roomTypeCard", className, {
     "roomTypeCard--last": lastCard
@@ -167,7 +164,7 @@ const RoomTypeCard: React.SFC<IProps> = ({
     const roomSelectInfoCopy = roomSelectInfo.slice();
 
     const dayDiff =
-      moment(dayPickerHook.to!).diff(dayPickerHook.from!, "days") || 1;
+      dayjs(dayPickerHook.to!).diff(dayPickerHook.from!, "days") || 1;
     const totalRoomTypePrice = totalSelectCount * truePrice * dayDiff;
 
     // 이미 선택된방 제거
@@ -289,11 +286,12 @@ const RoomTypeCard: React.SFC<IProps> = ({
                   guestCountSelect(selectedOp.value, "room")
                 }
                 selectedOption={
-                  roomSeleteOption[guestCountValue.room].value === 0 ? {
-                  label: '선택',
-                  value: roomSeleteOption[guestCountValue.room].value
-                } : 
-                  roomSeleteOption[guestCountValue.room]
+                  roomSeleteOption[guestCountValue.room].value === 0
+                    ? {
+                        label: "선택",
+                        value: roomSeleteOption[guestCountValue.room].value
+                      }
+                    : roomSeleteOption[guestCountValue.room]
                 }
               />
             )}

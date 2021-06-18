@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelect } from "@janda-com/front";
-import moment from "moment";
+import dayjs from "dayjs";
 import { TElements } from "@janda-com/front/build/types/interface";
 
 interface IPriceTableCaption {
@@ -37,10 +37,10 @@ const PriceTableCaption: React.FC<IPriceTableCaption> = ({
     <div className="DayPicker-Caption">
       <div className="DayPicker-Caption__time">
         <span className="DayPicker-Caption__year">
-          {moment(date).format("YYYY")}.
+          {dayjs(date).format("YYYY")}.
         </span>
         <span className="DayPicker-Caption__month">
-          {moment(date).format("MM")}
+          {dayjs(date).format("MM")}
         </span>
       </div>
       <div className="DayPicker-Caption__btnList">{ToolElement()}</div>

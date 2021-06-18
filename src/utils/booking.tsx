@@ -5,7 +5,7 @@ import {
   getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices_datePrices,
   getRoomTypeDatePrices_GetRoomTypeDatePrices_roomTypeDatePrices
 } from "../types/api";
-import moment from "moment";
+import dayjs from "dayjs";
 
 // booking들을 받아서 종합 BookingStatu를 반환합니다.
 type TProp = { bookingStatus: BookingStatus; [foo: string]: any }[] | null;
@@ -70,14 +70,14 @@ export const bookingPriceMerge = (bookings: TProp2): number =>
   );
 
 function getRangeOfDates(
-  start: moment.Moment,
+  start: dayjs.Dayjs,
   end: any,
   key: "days",
   arr = [start.startOf(key)]
-): moment.Moment[] {
+): dayjs.Dayjs[] {
   if (start.isAfter(end)) throw new Error("start must precede end");
 
-  const next = moment(start)
+  const next = dayjs(start)
     .add(1, "days")
     .startOf(key);
 

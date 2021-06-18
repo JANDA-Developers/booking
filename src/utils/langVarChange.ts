@@ -9,10 +9,6 @@ export const langVarChange = (
   houseTags: getMyProfile_GetMyProfile_user_houses_tags[]
 ) => {
   const langTag = houseTags.find(tag => tag.key === HouseTags.LangSet);
-  console.log("houseTags");
-  console.log(houseTags);
-  console.log("langTag");
-  console.log(langTag);
 
   if (langTag) {
     const tagValue = langTag.value as keyof TLangVarSet;

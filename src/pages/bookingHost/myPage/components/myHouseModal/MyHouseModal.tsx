@@ -7,7 +7,7 @@ import {
   LANG,
   useInput
 } from "../../../../../hooks/hook";
-import moment from "moment";
+import dayjs from "dayjs";
 import Preloader from "../../../../../atoms/preloader/Preloader";
 import { getHouse_GetHouse_house } from "../../../../../types/api";
 import { PricingType, DateFormat } from "../../../../../types/enum";
@@ -62,7 +62,7 @@ const MyHouseModal: React.FC<IProps> = ({ modalHook, house, loading }) => {
     {
       label: LANG("date_of_creation"),
       Component: () => (
-        <div>{moment(house!.createdAt).format(DateFormat.WITH_TIME)}</div>
+        <div>{dayjs(house!.createdAt).format(DateFormat.WITH_TIME)}</div>
       )
     },
     {

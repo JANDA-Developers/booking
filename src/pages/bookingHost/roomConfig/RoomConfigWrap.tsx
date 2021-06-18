@@ -142,9 +142,6 @@ const RoomConfigWrap: React.FC<IProps> = ({ context }) => {
       delete ud["uploadImg"];
     });
 
-    console.log("upsertDatas");
-    console.log(upsertDatas);
-
     saveRoomsMu({
       variables: {
         param: {

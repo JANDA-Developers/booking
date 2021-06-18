@@ -23,7 +23,7 @@ import {
 import { TimePerMs } from "../../../../types/enum";
 import { setMidNight, isEmpty } from "../../../../utils/utils";
 import { CLASS_MOVING, CLASS_LINKED } from "../components/items/itemRenderFn";
-import moment from "moment";
+import dayjs from "dayjs";
 import _ from "lodash";
 import $ from "jquery";
 import {
@@ -166,7 +166,7 @@ export function getAssigHandlers(
       // 🦄 예약날자 수정이 안료되면 적용
       return item.start;
 
-      if (time < setMidNight(moment().valueOf())) {
+      if (time < setMidNight(dayjs().valueOf())) {
         return item.start;
       }
 

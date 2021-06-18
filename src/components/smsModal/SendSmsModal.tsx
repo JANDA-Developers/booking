@@ -26,7 +26,7 @@ import {
   templateOpCreater,
   smsMessageFormatter
 } from "../../utils/smsUtils";
-import moment from "moment";
+import dayjs from "dayjs";
 import {
   autoComma,
   autoHypen,
@@ -104,8 +104,8 @@ const SendSmsModal: React.FC<IProps> = ({
         filter: {
           houseId: houseId,
           stayDate: {
-            checkIn: moment(today).format("YYYY-MM-DD"),
-            checkOut: moment(today).format("YYYY-MM-DD")
+            checkIn: dayjs(today).format("YYYY-MM-DD"),
+            checkOut: dayjs(today).format("YYYY-MM-DD")
           }
         }
       }
@@ -161,8 +161,8 @@ const SendSmsModal: React.FC<IProps> = ({
           filter: {
             houseId,
             stayDate: {
-              checkIn: moment(today).toDate(),
-              checkOut: moment(today).toDate()
+              checkIn: dayjs(today).toDate(),
+              checkOut: dayjs(today).toDate()
             }
           }
         }

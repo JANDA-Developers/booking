@@ -8,7 +8,7 @@ import { CellInfo } from "react-table";
 import JDbadge from "../../../atoms/badge/Badge";
 import JDbox from "../../../atoms/box/JDbox";
 import { s4, autoHypen } from "../../../utils/utils";
-import moment from "moment";
+import dayjs from "dayjs";
 import { FLOATING_PRELOADER_SIZE } from "../../../types/const";
 import { DateFormat } from "../../../types/enum";
 import { LANG } from "../../../hooks/hook";
@@ -36,11 +36,7 @@ const SmsHistory: React.FC<Iprops> = ({
       Header: LANG("transmission_time"),
       accessor: "createdAt",
       Cell: ({ value }: CellInfo) => (
-        <span>
-          {moment(value)
-            .local()
-            .format(DateFormat.WITH_TIME)}
-        </span>
+        <span>{dayjs(value).format(DateFormat.WITH_TIME)}</span>
       )
     },
     {

@@ -3,7 +3,7 @@ import { IContext } from "../../../pages/bookingHost/BookingHostRouter";
 import Vtable, { Vheader, ColumnCells } from "../../../atoms/vtable/Vtable";
 import { LANG } from "../../../hooks/hook";
 import { card_space } from "../../../utils/autoFormat";
-import moment from "moment";
+import dayjs from "dayjs";
 import { DateFormat } from "../../../types/enum";
 import { IBillInfo, TPayinfoes } from "../../../types/interface";
 
@@ -31,7 +31,7 @@ const BillCompleteView: React.FC<IProps> = ({ context, billInfo }) => {
     },
     {
       label: LANG("regi_date"),
-      Component: () => moment(authDate).format(DateFormat.YYMMDD)
+      Component: () => dayjs(authDate).format(DateFormat.YYMMDD)
     },
     {
       label: LANG("product_info"),

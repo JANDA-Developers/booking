@@ -4,7 +4,7 @@ import classnames from "classnames";
 import { IHolidaysByApi } from "../../../../types/interface";
 import { searchHoliday } from "../../../../utils/utils";
 import { LANG } from "../../../../hooks/hook";
-import moment from "moment";
+import dayjs from "dayjs";
 
 interface Iprops {
   onClickCell?: ({ intervalContext }: any) => void;

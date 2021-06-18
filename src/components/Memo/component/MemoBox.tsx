@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect } from "react";
 import JDbox from "../../../atoms/box/JDbox";
 import { getMemos_GetMemos_memos } from "../../../types/api";
-import moment from "moment";
+import dayjs from "dayjs";
 import textReader from "../../../utils/textReader";
 import { LANG } from "../../../hooks/hook";
 import { MemoToolTipIcon } from "./MemoTooltipIcon";
@@ -21,9 +21,7 @@ const MemoBox: React.FC<Iprops> = ({ memo, className }) => {
   return (
     <Fragment>
       <JDbox
-        tooltip={moment(memo.createdAt)
-          .local()
-          .format(`${LANG("write")} MM/DD HH:MM`)}
+        tooltip={dayjs(memo.createdAt).format(`${LANG("write")} MM/DD HH:MM`)}
         tooltipDirection="left"
         className={`memoBox JDhoverBox ${className}`}
         mode={"border"}

@@ -14,7 +14,7 @@ import FormBox, {
 } from "../../../atoms/forms/formBox/FormBox";
 import { toNumber, isEmpty } from "../../../utils/utils";
 import { toast } from "react-toastify";
-import moment from "moment";
+import dayjs from "dayjs";
 import { DEFAULT_CARD_INFO } from "../../../types/defaults";
 import { DateFormat } from "../../../types/enum";
 import { card_space, cardExpire } from "../../../utils/autoFormat";
@@ -114,7 +114,7 @@ const CardInfoForm: React.FC<Iprops> = ({
                 maxLength={5}
               />
             ) : (
-              viewInfo && moment(viewInfo.authDate).format(DateFormat.YYMMDD)
+              viewInfo && dayjs(viewInfo.authDate).format(DateFormat.YYMMDD)
             )}
           </FormCell>
         </FormRow>

@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from "react";
-import "moment/locale/ko";
+import "dayjs/locale/ko";
 import Button from "../../../atoms/button/Button";
 import "./RoomConfig.scss";
 import _ from "lodash";
@@ -175,8 +175,6 @@ const RoomConfig: React.FC<IProps> = ({
             dataURLtoFile(localFile.base64, localFile.fileName)
           ) || ([] as any);
 
-        console.log("RT.uploadImg");
-        console.log(RT.uploadImg);
         delete RT.uploadImg;
 
         RT.rooms.forEach(r => {
@@ -406,7 +404,7 @@ const RoomConfig: React.FC<IProps> = ({
                       <h5 className="TRoomTypeName RoomTypeName JDstandard-space">
                         {name}
                       </h5>
-                      {data.original.find(d => d._id === _id) &&
+                      {data.original.find(d => d._id === _id) && (
                         <JDalign
                           style={{
                             height: "min-content"
@@ -459,7 +457,8 @@ const RoomConfig: React.FC<IProps> = ({
                               copytoClipboard(roomType.code);
                             }}
                           />
-                        </JDalign>}
+                        </JDalign>
+                      )}
                     </div>
                     {/* Room Type Update Btn */}
                     <div

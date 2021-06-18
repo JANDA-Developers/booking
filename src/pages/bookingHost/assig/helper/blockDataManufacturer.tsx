@@ -1,6 +1,6 @@
 import { DEFAULT_ASSIG_ITEM } from "../../../../types/defaults";
 import { IAssigItem, GuestTypeAdd } from "../components/assigIntrerface";
-import moment from "moment";
+import dayjs from "dayjs";
 import { IBlock } from "../../../../types/interface";
 
 export const blockDataManufacturer = (blocksData: IBlock[]) => {
@@ -15,8 +15,8 @@ export const blockDataManufacturer = (blocksData: IBlock[]) => {
         bookingId: blockData._id,
         roomId: blockData.room._id,
         group: blockData.room._id + blockData.bedIndex,
-        start: moment(blockData.checkIn).valueOf(),
-        end: moment(blockData.checkOut).valueOf(),
+        start: dayjs(blockData.checkIn).valueOf(),
+        end: dayjs(blockData.checkOut).valueOf(),
         canMove: false,
         type: GuestTypeAdd.BLOCK,
         bedIndex: blockData.bedIndex

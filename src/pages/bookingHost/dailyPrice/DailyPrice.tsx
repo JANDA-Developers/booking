@@ -1,5 +1,5 @@
 import React, { useMemo, Fragment } from "react";
-import "moment/locale/ko";
+import "dayjs/locale/ko";
 import { MutationFn } from "react-apollo";
 import Timeline, {
   TimelineHeaders,
@@ -30,7 +30,7 @@ import reactWindowSize, { WindowSizeProps } from "react-window-size";
 import { IContext } from "../../bookingHost/BookingHostRouter";
 import PriceWarnModal from "../../../components/priceWarnModal.tsx/PriceWarnModal";
 import HeaderCellRender from "../assig/helper/HeaderCellRender";
-import moment from "moment";
+import dayjs from "dayjs";
 import { SharedSideBarHeader } from "../../../atoms/timeline/components/SharedHeader";
 import { JDdayPickerModal } from "@janda-com/front";
 import { IItem } from "./DailyPriceWrap";
@@ -122,9 +122,7 @@ const UpdateTimeline: React.FC<IProps & WindowSizeProps> = ({
     const result = await createDailyPriceMu({
       variables: {
         houseId: house._id,
-        date: moment(item.start)
-          .local()
-          .format("YYYY-MM-DD"),
+        date: dayjs(item.start).format("YYYY-MM-DD"),
         roomTypeId: item.group,
         price: value
       }

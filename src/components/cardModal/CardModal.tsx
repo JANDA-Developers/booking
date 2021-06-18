@@ -34,7 +34,7 @@ import { scrollSlider } from "./helper";
 import { cardExpire, cardExpToObj } from "../../utils/autoFormat";
 import { TCardRegistInfo, ICardModalPropShareWrap } from "./declare";
 import JDmodal from "../../atoms/modal/Modal";
-import moment from "moment";
+import dayjs from "dayjs";
 
 interface Iprops extends ICardModalPropShareWrap {
   context: IContext;
@@ -95,7 +95,9 @@ const CardModal: React.FC<Iprops> = ({
 
   const pChangeFn = (billKey: string) => {
     if (!modalHook.info.productIds) {
-      throw Error("mode 가 periodicalChange 일경우 productIds를 모달 Info에 전달해야합니다.");
+      throw Error(
+        "mode 가 periodicalChange 일경우 productIds를 모달 Info에 전달해야합니다."
+      );
     }
     pChangeMu({
       variables: {
@@ -104,9 +106,8 @@ const CardModal: React.FC<Iprops> = ({
           productIds: modalHook.info.productIds
         }
       }
-    })
-
-  }
+    });
+  };
 
   const handleDeleteBtn = (billKey: string) => {
     deleteFn(billKey);
@@ -170,7 +171,12 @@ const CardModal: React.FC<Iprops> = ({
   const payTargets = getTargetsWithBillKey(context);
 
   return (
-    <JDmodal loading={loading} id="CardModal" className="cardModal" {...modalHook}>
+    <JDmodal
+      loading={loading}
+      id="CardModal"
+      className="cardModal"
+      {...modalHook}
+    >
       <div
         id="CardViewr"
         className={`CardViewer ${unPadding && "CardViewer--unPadding"}`}
@@ -260,19 +266,21 @@ const CardModal: React.FC<Iprops> = ({
                 </FormRow>
               </FormBox>
             ) : (
-                <FormBox>
-                  <FormHeader />
-                  <FormCell label={LANG("card_name")}>
-                    <InputText value={selecteCard?.cardName} />
-                  </FormCell>
-                  <FormCell label={LANG("card_number")}>
-                    <InputText card value={selecteCard?.cardNo} />
-                  </FormCell>
-                  <FormCell label={LANG("regi_date")}>
-                    <InputText value={moment(selecteCard?.authDate).format("YYYY-MM-DD")} />
-                  </FormCell>
-                </FormBox>
-              )}
+              <FormBox>
+                <FormHeader />
+                <FormCell label={LANG("card_name")}>
+                  <InputText value={selecteCard?.cardName} />
+                </FormCell>
+                <FormCell label={LANG("card_number")}>
+                  <InputText card value={selecteCard?.cardNo} />
+                </FormCell>
+                <FormCell label={LANG("regi_date")}>
+                  <InputText
+                    value={dayjs(selecteCard?.authDate).format("YYYY-MM-DD")}
+                  />
+                </FormCell>
+              </FormBox>
+            )}
 
             {isCreatable && (
               <Fragment>
@@ -282,7 +290,7 @@ const CardModal: React.FC<Iprops> = ({
                   </div>
                   <TextButton
                     id="CardModalSubmit"
-                    onClick={() => { }}
+                    onClick={() => {}}
                     color="primary"
                     className="JDstandard-margin0"
                     anchor

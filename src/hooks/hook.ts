@@ -11,7 +11,7 @@ import {
 import Axios from "axios";
 import { IselectedOption } from "../atoms/forms/selectBox/SelectBox";
 import { IHolidaysByApi, JdFile } from "../types/interface";
-import moment from "moment";
+import dayjs from "dayjs";
 import { muResult, onCompletedMessage, instanceOfA } from "../utils/utils";
 import { lang } from "../langs/JDlang";
 // 경로 취합용
@@ -315,8 +315,8 @@ function useDayPicker(
 ): IUseDayPicker {
   let fromTemp: Date | null | string = defaultFrom;
   let toTemp: Date | null | string = defaultTo;
-  if (typeof defaultFrom === "string") fromTemp = moment(defaultFrom).toDate();
-  if (typeof defaultTo === "string") toTemp = moment(defaultTo).toDate();
+  if (typeof defaultFrom === "string") fromTemp = dayjs(defaultFrom).toDate();
+  if (typeof defaultTo === "string") toTemp = dayjs(defaultTo).toDate();
   if (typeof fromTemp === "string") throw Error;
   if (typeof toTemp === "string") throw Error;
   const [from, setFrom] = useState<Date | null>(fromTemp);

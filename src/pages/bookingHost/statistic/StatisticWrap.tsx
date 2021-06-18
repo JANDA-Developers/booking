@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Statistic, { IStaticsWrapProps } from "./Statistic";
-import moment from "moment";
+import dayjs from "dayjs";
 import { useDayPicker, LANG } from "../../../hooks/hook";
 import { Query } from "react-apollo";
 import {
@@ -85,7 +85,7 @@ const StatisticWrap: React.FC<IProps> = ({ context }) => {
 
   const queryDateHook = useDayPicker(
     new Date(),
-    moment(new Date())
+    dayjs(new Date())
       .add(1, "day")
       .toDate()
   );

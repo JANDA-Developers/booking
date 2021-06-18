@@ -87,7 +87,6 @@ export const changeMapBySearch = async (
     lng
   });
 
-  console.log("changeMapBySearch");
   map.panTo({ lat, lng });
 };
 

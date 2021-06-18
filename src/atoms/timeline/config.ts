@@ -1,6 +1,6 @@
 import { defaultHeaderFormats } from "react-calendar-timeline";
 import { LANG } from "../../hooks/hook";
-import moment from "moment";
+import dayjs from "dayjs";
 import { TimePerMs } from "../../types/enum";
 import { IS_MOBILE } from "../../types/const";
 
@@ -19,12 +19,12 @@ const krHeaderLabelFormats = Object.assign({}, defaultHeaderFormats, {
   }
 });
 
-const defaultTimeStart = moment()
+const defaultTimeStart = dayjs()
   .startOf("day")
   .toDate();
 
 // 시작시 끝까지 보일범위
-const defaultTimeEnd = moment()
+const defaultTimeEnd = dayjs()
   .startOf("day")
   .add(7, "day")
   .toDate();

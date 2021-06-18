@@ -6,7 +6,7 @@ import { FLOATING_PRELOADER_SIZE } from "../../../types/const";
 import { IQueryOp, StatisticContext } from "./StatisticWrap";
 import { IUseDayPicker, useModal, LANG } from "../../../hooks/hook";
 import Button from "../../../atoms/button/Button";
-import moment from "moment";
+import dayjs from "dayjs";
 import Preloader from "../../../atoms/preloader/Preloader";
 import {
   getSalesStatistic_GetSalesStatistic_data,
@@ -130,7 +130,7 @@ const Statistic: React.FC<IProps & WindowSizeProps> = ({
     });
     queryDateHook.setFrom(new Date());
     queryDateHook.setTo(
-      moment(new Date())
+      dayjs(new Date())
         .add(1, "day")
         .toDate()
     );
@@ -143,7 +143,7 @@ const Statistic: React.FC<IProps & WindowSizeProps> = ({
       unit: SalesStatisticsUnit.BY_DAY_OF_WEEK
     });
     queryDateHook.setFrom(
-      moment(new Date())
+      dayjs(new Date())
         .startOf("month")
         .toDate()
     );
@@ -156,7 +156,7 @@ const Statistic: React.FC<IProps & WindowSizeProps> = ({
       unit: SalesStatisticsUnit.BY_DATE
     });
     queryDateHook.setFrom(
-      moment(new Date())
+      dayjs(new Date())
         .add(-14, "day")
         .toDate()
     );
@@ -169,7 +169,7 @@ const Statistic: React.FC<IProps & WindowSizeProps> = ({
       selectStatic: ""
     });
     queryDateHook.setFrom(
-      moment(new Date())
+      dayjs(new Date())
         .add(-12, "month")
         .toDate()
     );
@@ -182,7 +182,7 @@ const Statistic: React.FC<IProps & WindowSizeProps> = ({
       selectStatic: ""
     });
     queryDateHook.setFrom(
-      moment(new Date())
+      dayjs(new Date())
         .add(-3, "year")
         .toDate()
     );

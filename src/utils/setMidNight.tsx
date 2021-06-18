@@ -1,4 +1,4 @@
-import moment, { Moment } from "moment";
+import dayjs from "dayjs";
 import { TimePerMs } from "../types/enum";
 
 // 밀리세컨드 타임 스탬프를  00:00:00:00 으로 만들어줍니다.
@@ -8,13 +8,13 @@ const parallax = () => new Date().getTimezoneOffset() * 1000 * 60;
 const setMidNight = (time: number) =>
   Math.floor(time / TimePerMs.DAY) * TimePerMs.DAY - 32400 * 1000;
 
-const to4YMMDD = (date: Date | null | undefined | Moment | string) => {
+const to4YMMDD = (date: Date | null | undefined | dayjs.Dayjs | string) => {
   if (!date) {
-    return moment()
+    return dayjs()
       .toISOString()
       ?.split("T")[0];
   } else {
-    return moment(date)
+    return dayjs(date)
       .toISOString()
       ?.split("T")[0];
   }

@@ -4,7 +4,7 @@ import { IBooking } from "../../../types/interface";
 import { LANG } from "../../../hooks/hook";
 import { getRoomSelectInfo } from "../../../utils/typeChanger";
 import { arraySum } from "../../../utils/elses";
-import moment from "moment";
+import dayjs from "dayjs";
 
 export const resvDatasToExcel = (
   bookingsData?: IBooking[]
@@ -64,9 +64,7 @@ export const resvDatasToExcel = (
             return { value: booking["payment"]["status"] };
           } else if (bookingKey === "createdAt") {
             return {
-              value: moment(booking["createdAt"])
-                .local()
-                .format("YYYY-MM-DD HH:ss")
+              value: dayjs(booking["createdAt"]).format("YYYY-MM-DD HH:ss")
             };
           }
           // @ts-ignore

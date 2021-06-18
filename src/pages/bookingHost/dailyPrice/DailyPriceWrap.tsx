@@ -2,7 +2,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState } from "react";
 import { Mutation, Query } from "react-apollo";
-import moment from "moment-timezone";
+import dayjs from "dayjs";
 import {
   getAllRoomTypePrice_GetAllRoomType_roomTypes as IRoomType,
   getAllRoomType_GetAllRoomType_roomTypes_rooms as IRoom,
@@ -26,7 +26,6 @@ import {
 import {
   ErrProtecter,
   queryDataFormater,
-  showError,
   setMidNight,
   onCompletedMessage
 } from "../../../utils/utils";
@@ -34,20 +33,20 @@ import { TimePerMs } from "../../../types/enum";
 import { useDayPicker, LANG } from "../../../hooks/hook";
 import { IContext } from "../../bookingHost/BookingHostRouter";
 
-moment.tz.setDefault("Asia/Seoul");
+// dayjs.tz.setDefault("Asia/Seoul");
 
 class GetAllRoomTypePriceQuery extends Query<
   dailyPriceGetPrice,
   dailyPriceGetPriceVariables
-  > { }
+> {}
 class CreateDailyPriceMu extends Mutation<
   createDailyPrice,
   createDailyPriceVariables
-  > { }
+> {}
 class DeleteDailyPriceMu extends Mutation<
   deleteDailyPrice,
   deleteDailyPriceVariables
-  > { }
+> {}
 
 export interface IItem {
   id: string;
@@ -96,7 +95,7 @@ const itemCreater = ({
 
   while (now <= endDate) {
     items = items.concat(roomTypes.map(roomTpyesMapFn));
-    now = moment(now)
+    now = dayjs(now)
       .add(1, "days")
       .valueOf();
   }
@@ -112,21 +111,21 @@ const DailyPriceWrap: React.FC<IProps> = ({ context }) => {
   //  Default 값
   const dayPickerHook = useDayPicker(null, null);
   const defaultTime = {
-    start: setMidNight(moment(dayPickerHook.from || new Date()).valueOf()),
+    start: setMidNight(dayjs(dayPickerHook.from || new Date()).valueOf()),
     end: setMidNight(
-      moment(dayPickerHook.to || new Date())
+      dayjs(dayPickerHook.to || new Date())
         .add(7, "days")
         .valueOf()
     )
   };
   const [dataTime, setDataTime] = useState({
     start: setMidNight(
-      moment()
+      dayjs()
         .subtract(30, "days")
         .valueOf()
     ),
     end: setMidNight(
-      moment()
+      dayjs()
         .add(60, "days")
         .valueOf()
     )
@@ -137,7 +136,7 @@ const DailyPriceWrap: React.FC<IProps> = ({ context }) => {
     const priceMap = new Map();
     priceData.map(price => {
       priceMap.set(
-        price.roomType._id + setMidNight(moment(price.date).valueOf()),
+        price.roomType._id + setMidNight(dayjs(price.date).valueOf()),
         price.price
       );
     });
@@ -153,7 +152,7 @@ const DailyPriceWrap: React.FC<IProps> = ({ context }) => {
       if (!price.datePrices) return;
       price.datePrices.map(datePrice => {
         placeHolderMap.set(
-          price.roomType._id + setMidNight(moment(datePrice.date).valueOf()),
+          price.roomType._id + setMidNight(dayjs(datePrice.date).valueOf()),
           datePrice.price
         );
       });
@@ -163,10 +162,10 @@ const DailyPriceWrap: React.FC<IProps> = ({ context }) => {
 
   const queryVarialbes = {
     houseId: house._id,
-    checkIn: moment(dataTime.start)
+    checkIn: dayjs(dataTime.start)
       .toISOString()
       .split("T")[0],
-    checkOut: moment(dataTime.end)
+    checkOut: dayjs(dataTime.end)
       .toISOString()
       .split("T")[0]
   };

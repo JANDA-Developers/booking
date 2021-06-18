@@ -1,7 +1,7 @@
 import React from "react";
 import Button from "../../atoms/button/Button";
 import { useDayPicker, LANG, useModal } from "../../hooks/hook";
-import moment from "moment";
+import dayjs from "dayjs";
 import DoubleInputRange from "../../atoms/dayPicker/component/inputComponent/DoubleInputRange";
 import { toast } from "react-toastify";
 import "./RoomSearcher.scss";
@@ -20,8 +20,8 @@ const RoomSearcher: React.FC<Iprops> = ({ callBackOnSearch }) => {
   const dayPickerModal = useModal(false);
   const dayPickerHook = useDayPicker(
     new Date(),
-    moment(new Date())
-      .add("day", 1)
+    dayjs(new Date())
+      .add(1, "day")
       .toDate()
   );
 

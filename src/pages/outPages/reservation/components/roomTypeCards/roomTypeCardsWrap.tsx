@@ -21,7 +21,7 @@ import { Gender } from "../../../../../types/enum";
 import { useQuery } from "@apollo/react-hooks";
 import { IReservationHooks } from "../../declation";
 import { PortalPreloader } from "../../../../../utils/portalElement";
-import moment from "moment";
+import dayjs from "dayjs";
 
 export interface IGuestCount {
   male: number;
@@ -50,9 +50,9 @@ const RoomTypeCardWrap: React.SFC<IProps> = ({
   isHost,
   houseConfigInfo
 }) => {
-  const {bookingConfig:{
-    bookOnlySingleDay
-  }} = houseConfigInfo;
+  const {
+    bookingConfig: { bookOnlySingleDay }
+  } = houseConfigInfo;
   const { dayPickerHook } = reservationHooks;
   const [guestCountValue, setGuestCount] = useState<IGuestCount>({
     male: 0,
@@ -61,11 +61,11 @@ const RoomTypeCardWrap: React.SFC<IProps> = ({
     initGender: Gender.MALE
   });
   const checkIn = to4YMMDD(dayPickerHook.from);
-  let checkOut:string = "";
-  
-  if(dayPickerHook.to) {
-    if(bookOnlySingleDay){
-      checkOut = to4YMMDD(moment(dayPickerHook.to).add(1,"d"));
+  let checkOut: string = "";
+
+  if (dayPickerHook.to) {
+    if (bookOnlySingleDay) {
+      checkOut = to4YMMDD(dayjs(dayPickerHook.to).add(1, "d"));
     } else {
       checkOut = to4YMMDD(dayPickerHook.to);
     }

@@ -3,7 +3,7 @@
 [npm](https://www.npmjs.com/package/new-react-calendar-timeline)
 [gitHub](https://github.com/namespace-ee/react-calendar-timeline)
 [examples](https://github.com/namespace-ee/react-calendar-timeline/tree/master/examples)
-[monent](https://momentjs.com/)
+[monent](https://dayjsjs.com/)
 
 - monent 를 사용하면 느려질것이다.
   퍼포먼스를 고려해서 사용

@@ -17,7 +17,7 @@ import $ from "jquery";
 import { IContext } from "../../pages/bookingHost/BookingHostRouter";
 import { JDsearchInput } from "@janda-com/front";
 import { ISearchViewData } from "@janda-com/front/build/components/searchInput/DataModal";
-import moment from "moment";
+import dayjs from "dayjs";
 import "./GuestSearchInput.scss";
 import { ApolloQueryResult } from "apollo-client";
 import { autoHypen } from "../../utils/utils";
@@ -101,18 +101,18 @@ const GuestSearchInput: React.FC<IProps> = ({
       id: booking._id,
       title: booking.name,
       describe: autoHypen(booking.phoneNumber),
-      tag: moment(booking.checkIn).format("YYYY-MM-DD")
+      tag: dayjs(booking.checkIn).format("YYYY-MM-DD")
     }));
   };
 
-  const dataRefetcher =  (value: string) => {
+  const dataRefetcher = (value: string) => {
     refetch({
       param: {
         houseId,
         payload: value
       }
     });
-  }
+  };
 
   const handleTypeChange = (value: string = "") => {
     if (!value) unHilightTarget();

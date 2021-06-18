@@ -23,7 +23,7 @@ import { FLOATING_PRELOADER_SIZE, IS_MOBILE } from "../../types/const";
 import Tooltip from "../../atoms/tooltip/Tooltip";
 import { IDailyAssigDataControl } from "../../pages/bookingHost/assig/components/assigIntrerface";
 import PlaceTooltip from "./components/PlaceTooltip";
-import moment from "moment";
+import dayjs from "dayjs";
 import BlockTooltip from "./components/BlockTooltip";
 import { isEmpty } from "../../utils/utils";
 import ReadyItemTooltip from "../../pages/bookingHost/assig/components/tooltips/ReadyItemTooltip";
@@ -135,7 +135,7 @@ const DailyAssig: React.FC<IProps> = ({
       bedIndex: info.place,
       checkIn: to4YMMDD(dayPickerHook.from),
       checkOut: to4YMMDD(
-        moment(dayPickerHook.to!)
+        dayjs(dayPickerHook.to!)
           .add(1, "day")
           .toDate()
       ),

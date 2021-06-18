@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState, useMemo } from "react";
-import moment from "moment-timezone";
+import dayjs from "dayjs";
 import _ from "lodash";
 import assigDefaultProps from "./timelineConfig";
 import {
@@ -60,7 +60,7 @@ import { useQuery, useMutation } from "@apollo/react-hooks";
 import client from "../../../apollo/apolloClient";
 import { IRoomType } from "../../../types/interface";
 import { currentLang } from "../../../langs/JDlang";
-
+import moment from "moment-timezone";
 moment.tz.setDefault("UTC");
 
 interface IProps {
@@ -82,26 +82,21 @@ const AssigTimelineWrap: React.FC<IProps & IWrapProp> = ({
   const { houseConfig, house } = context;
 
   const dayPickerHook = useDayPicker(new Date(), new Date());
-  const defaultStartDate =
-    dayPickerHook.from ||
-    moment()
-      .local()
-      .toDate();
+  const defaultStartDate = dayPickerHook.from || dayjs().toDate();
 
-  const defaultEndDate = moment(dayPickerHook.from || new Date())
-    .local()
+  const defaultEndDate = dayjs(dayPickerHook.from || new Date())
     .add(14, "days")
     .toDate();
 
   const [reloadKey, setReloadKey] = useState(s4());
   const [dataTime, setDataTime] = useState({
     start: setMidNight(
-      moment()
+      dayjs()
         .subtract(5, "days")
         .valueOf()
     ),
     end: setMidNight(
-      moment()
+      dayjs()
         .add(14, "days")
         .valueOf()
     )
@@ -122,8 +117,8 @@ const AssigTimelineWrap: React.FC<IProps & IWrapProp> = ({
     skip: roomTypeLoading,
     variables: {
       houseId: house._id,
-      checkIn: to4YMMDD(moment(dataTime.start)),
-      checkOut: to4YMMDD(moment(dataTime.end)),
+      checkIn: to4YMMDD(dayjs(dataTime.start)),
+      checkOut: to4YMMDD(dayjs(dataTime.end)),
       bookingStatuses: [BookingStatus.COMPLETED, BookingStatus.CANCELED]
     },
     notifyOnNetworkStatusChange: true,
@@ -305,7 +300,7 @@ const AssigTimelineWrap: React.FC<IProps & IWrapProp> = ({
     networkStatus
   };
 
-  const timelineKeyDate = `timeline${moment(
+  const timelineKeyDate = `timeline${dayjs(
     dayPickerHook.from || new Date()
   ).format("YYMMDD")}`;
 
@@ -347,7 +342,7 @@ const HiderAssigTimelineWrap: React.FC<IProps> = ({ context, ...prop }) => {
     queryDataFormater(roomData, "GetAllRoomType", "roomTypes", []) || []; // 원본데이터
   const formatedRoomData = roomDataManufacturer(roomTypesData); // 타임라인을 위해 가공된 데이터
 
-  moment.locale(currentLang);
+  dayjs.locale(currentLang);
 
   return (
     <AssigTimelineWrap

@@ -4,7 +4,7 @@ import {
   makeBookingForPublicVariables,
   getPaymentAuth_GetPaymentAuth
 } from "../../../../types/api";
-import moment from "moment";
+import dayjs from "dayjs";
 import { isMobile } from "is-mobile";
 import { LANG } from "../../../../hooks/hook";
 
@@ -108,7 +108,7 @@ export const openNiceModal = async ({
     },
     {
       name: "VbankExpDate",
-      value: moment(new Date())
+      value: dayjs(new Date())
         .local()
         .add("1", "day")
         .format("YYYYMMDDhhmm")

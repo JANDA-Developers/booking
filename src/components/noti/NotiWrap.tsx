@@ -13,7 +13,7 @@ import {
 import Noti from "./Noti";
 import { IContext } from "../../pages/bookingHost/BookingHostRouter";
 import { getOperationName } from "apollo-link";
-import moment from "moment";
+import dayjs from "dayjs";
 import { NotiType, NotiLevel } from "../../types/enum";
 import { FLOATING_PRELOADER_SIZE } from "../../types/const";
 import Preloader from "../../atoms/preloader/Preloader";
@@ -35,7 +35,7 @@ const addExpiredWarnNoti = (
   if (!product) return;
 
   const { isExpired, expireDate } = product;
-  const leftDate = moment(expireDate).diff(new Date(), "day");
+  const leftDate = dayjs(expireDate).diff(new Date(), "day");
 
   // 몇일 남았는지는 toast로 넣고 만료 직전에 노티를 넣자
 
@@ -43,7 +43,7 @@ const addExpiredWarnNoti = (
     _id: s4(),
     createdAt: new Date(),
     updatedAt: new Date(),
-    validPeriod: moment().add(3, "days")
+    validPeriod: dayjs().add(3, "days")
   };
 
   if (isExpired) {
@@ -68,9 +68,7 @@ const addExpiredWarnNoti = (
       notiLevel: NotiLevel.WARN,
       msg: LANG("F_you_have_x_free_trial_left_y__is_about_to_expire")(
         leftDate,
-        moment(product.expireDate)
-          .local()
-          .format("YYYY/MM/DD")
+        dayjs(product.expireDate).format("YYYY/MM/DD")
       )
     });
   }

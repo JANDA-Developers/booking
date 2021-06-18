@@ -13,7 +13,7 @@ import TooltipList, {
   TooltipButtons
 } from "../../../atoms/tooltipList/TooltipList";
 import SendSMSmodalWrap from "../../../components/smsModal/SendSmsModalWrap";
-import moment from "moment";
+import dayjs from "dayjs";
 import PageHeader from "../../../components/pageHeader/PageHeader";
 import PageBody from "../../../components/pageBody/PageBody";
 import { DO_TUTO_KEY } from "../../../types/const";
@@ -21,8 +21,7 @@ import { IModalSMSinfo } from "../../../components/smsModal/SendSmsModal";
 import { JDdayPickerModal } from "@janda-com/front";
 import { JDcard, JDalign, JDtypho } from "@janda-com/front";
 
-import DashBoardInformation from './components/DashBoardInformation';
-
+import DashBoardInformation from "./components/DashBoardInformation";
 
 interface Iprops {
   context: IContext;
@@ -111,7 +110,7 @@ const DashBoard: React.SFC<Iprops> = ({ context }) => {
                 <Fragment>
                   <div className="JDdisplay-none--wmdUp">
                     <h6>
-                      {moment(dailyAssigDateHook.from || new Date()).format(
+                      {dayjs(dailyAssigDateHook.from || new Date()).format(
                         "YY.MM.DD."
                       )}
                     </h6>
@@ -130,7 +129,7 @@ const DashBoard: React.SFC<Iprops> = ({ context }) => {
                   <ReservationModal
                     context={context}
                     modalHook={reservationModal}
-                    callBackCreateBookingMu={(foo: any) => { }}
+                    callBackCreateBookingMu={(foo: any) => {}}
                     publicKey={house.publicKey || undefined}
                   />
                 </Fragment>
@@ -161,7 +160,7 @@ const DashBoard: React.SFC<Iprops> = ({ context }) => {
           DashBoardInformation Start.
         */}
         <div>
-            {/* <DashBoardInformation
+          {/* <DashBoardInformation
                 title={`title`}
                 header_image={`header_image`}
                 author={`author`}
@@ -174,11 +173,9 @@ const DashBoard: React.SFC<Iprops> = ({ context }) => {
                 isNotice={true}
             /> */}
         </div>
-         {/*
+        {/*
           DashBoardInformation End.
           */}
-
-
       </PageBody>
       {/* 데일리 어시그 컨트롤 툴팁 */}
       <TooltipList id="DailyAssigTooltip">

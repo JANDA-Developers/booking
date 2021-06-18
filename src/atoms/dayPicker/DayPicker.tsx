@@ -16,7 +16,7 @@ import { IUseDayPicker } from "../../hooks/hook";
 import { getDateCharLang } from "./helper";
 import { JDatomExtentionSet } from "../../types/interface";
 import { JDmbClass, JDmrClass } from "../../utils/autoClasses";
-import moment from "moment";
+import dayjs from "dayjs";
 
 export interface IJDdayPickerProps extends IUseDayPicker, JDatomExtentionSet {
   canSelectBeforeDay?: boolean;
@@ -110,7 +110,7 @@ const JDdayPicker: React.FC<IJDdayPickerProps> = React.memo(
 
       // 같은날을 선택할수 없는경우에
 
-      if (from && !canSelectSameDate && moment(from).isSame(day, "d")) return;
+      if (from && !canSelectSameDate && dayjs(from).isSame(day, "d")) return;
 
       if (from && day <= from) {
         handleResetClick();

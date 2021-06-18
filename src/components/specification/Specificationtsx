@@ -5,7 +5,7 @@ import {
   updateUserForSUVariables
 } from "../../types/api";
 import { useState } from "react";
-import moment from "moment";
+import dayjs from "dayjs";
 import React from "react";
 import { autoHypen, isEmpty, autoComma } from "../../utils/utils";
 import {
@@ -159,15 +159,14 @@ export const SpecificAtion: React.FC<IProps> = ({
       ...columns,
       {
         title: LANG("homepage_application_date"),
-        value: moment(productCreateAt)
-        .local()
+        value: dayjs(productCreateAt)
           .format(
             `YY${LANG("year")} MM${LANG("month")} DD${LANG("date")} HH:mm`
           )
       },
       {
         title: LANG("homepage_complete_estimated_date"),
-        value: moment(productCreateAt)
+        value: dayjs(productCreateAt)
           .add(3, "days")
           .format(
             `YY${LANG("year")} MM${LANG("month")} DD${LANG("date")} HH:mm`

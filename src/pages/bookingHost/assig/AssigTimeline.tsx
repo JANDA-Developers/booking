@@ -8,6 +8,7 @@ import React, {
   useLayoutEffect
 } from "react";
 import { Link } from "react-router-dom";
+import "dayjs/locale/ko";
 import "moment/locale/ko";
 import _ from "lodash";
 import Timeline, {
@@ -56,7 +57,7 @@ import { getAssigUtils } from "./helper/assigUtils";
 import BlockItemTooltip from "./components/tooltips/BlockItemTooltip";
 import JDmultiBox from "../../../atoms/multiBox/MultiBox";
 import { getAssigHandlers } from "./helper/assigHandlers";
-import moment from "moment";
+import dayjs from "dayjs";
 import { isEmpty } from "../../../utils/utils";
 import BlockOpModal from "./helper/BlockOpModal";
 import DailyAssigWrap from "../../../components/dailyAssjg/DailyAssigWrapWrap";
@@ -72,6 +73,7 @@ import getConfigStorage from "./helper/getStorage";
 import Preloader from "../../../atoms/preloader/Preloader";
 import { SIDE_IS_OPEN } from "../../../components/sideNav/SideNav";
 import { useWindowSize, JDdayPickerModal } from "@janda-com/front";
+import { SkipUpdate } from "../../../components/skipUpdate/SkipUpdate";
 
 interface IProps {
   context: IContext;
@@ -216,12 +218,12 @@ const AssigTimeline: React.FC<IProps> = ({
     scrollAnimater();
   };
 
-  const handleWindowScrollEvent = () => {
+  const handleWindowScrollEvent = _.debounce(() => {
     allTooltipsHide();
     if (isMobile) return;
     scrollAnimater();
     debounceCut();
-  };
+  }, 500);
 
   const handleKeyDownCavnas = (e: KeyboardEvent) => {
     if (
@@ -322,7 +324,7 @@ const AssigTimeline: React.FC<IProps> = ({
   // 기본으로 사용될 끝시간을 계산합니다.
   const endTime = useMemo(() => {
     let configZoom = zoomValue || 0;
-    return moment(defaultTimeEnd.valueOf() - configZoom * TimePerMs.H * 3).add(
+    return dayjs(defaultTimeEnd.valueOf() - configZoom * TimePerMs.H * 3).add(
       -1 * timeline_size_var,
       "days"
     );
@@ -359,7 +361,7 @@ const AssigTimeline: React.FC<IProps> = ({
     const onClickCell = ({ intervalContext }: any) => {
       if (!intervalContext) return;
       dailyAssigHook.openModal({
-        date: moment(intervalContext.interval.startTime).toDate()
+        date: dayjs(intervalContext.interval.startTime).toDate()
       });
     };
     return (
@@ -474,8 +476,7 @@ const AssigTimeline: React.FC<IProps> = ({
                 {...commonButtonProps}
                 onClick={() => {
                   dayPickerHook.setDate(
-                    moment()
-                      .local()
+                    dayjs()
                       .add(-1, "day")
                       .toDate()
                   );
@@ -541,60 +542,62 @@ const AssigTimeline: React.FC<IProps> = ({
             assigContext={assigContext}
             assigUtils={assigUtils}
           />
-          <div className="assigTimeline__timelineWrap">
-            <Timeline
-              key={timelineKey}
-              handleMouseDownCanvas={handleMouseDownCanvas}
-              onItemMove={handleItemMove}
-              onItemResize={handleItemResize}
-              items={guestValue}
-              groups={filteredGroup}
-              {...defaultProps}
-              canMove={!lock}
-              canChangeGroup={!lock}
-              handleDraggingCell={handleDraggingCell}
-              onItemDoubleClick={handleItemDoubleClick}
-              onItemClick={handleItemClick}
-              onCanvasClick={handleCanvasClick}
-              onTimeChange={handleTimeChange}
-              itemRenderer={callBackitemRenderer}
-              groupRenderer={assigGroupRendererFn}
-              defaultTimeStart={defaultTimeStart}
-              defaultTimeEnd={endTime}
-              handleDraggingEnd={handleDraggingEnd}
-              moveResizeValidator={handleMoveResizeValidator}
-              onItemSelect={handleItemSelect}
-              onCanvasContextMenu={handleCanvasContextMenu}
-              // TODO
-              // 접이식으로 변경 방번호만으로도 충분할수 있다.
-              // 사이드바는 햔재크기의 3분의 1로 하고
-              // 옆으로 펼치는 식으로 진행하는것임
-              sidebarWidth={isMobile ? (sideBarFold ? 30 : 100) : 230}
-            >
-              <TimelineHeaders>
-                {/* 왼쪽 위 달력 부분 */}
-                <SidebarHeader>
-                  {({ getRootProps }: any) => (
-                    <SharedSideBarHeader
-                      dayPickerModalHook={dayPickerModalHook}
-                      getRootProps={getRootProps}
-                    />
-                  )}
-                </SidebarHeader>
-                <DateHeader
-                  labelFormat="MM.DD ddd"
-                  intervalRenderer={renderHeaderCell}
-                  height={GlobalCSS.TIMELINE_HEADER_HEIGHT}
-                  unit="day"
-                />
-                {useCursorMark && <CursorMarker />}
-                <DateHeader />
-              </TimelineHeaders>
-              <TimelineMarkers>
-                {useTodayMark && <CustomMarker date={new Date().valueOf()} />}
-              </TimelineMarkers>
-            </Timeline>
-          </div>
+          <SkipUpdate skip={networkStatus < 7}>
+            <div className="assigTimeline__timelineWrap">
+              <Timeline
+                key={timelineKey}
+                handleMouseDownCanvas={handleMouseDownCanvas}
+                onItemMove={handleItemMove}
+                onItemResize={handleItemResize}
+                items={guestValue}
+                groups={filteredGroup}
+                {...defaultProps}
+                canMove={!lock}
+                canChangeGroup={!lock}
+                handleDraggingCell={handleDraggingCell}
+                onItemDoubleClick={handleItemDoubleClick}
+                onItemClick={handleItemClick}
+                onCanvasClick={handleCanvasClick}
+                onTimeChange={handleTimeChange}
+                itemRenderer={callBackitemRenderer}
+                groupRenderer={assigGroupRendererFn}
+                defaultTimeStart={defaultTimeStart}
+                defaultTimeEnd={endTime}
+                handleDraggingEnd={handleDraggingEnd}
+                moveResizeValidator={handleMoveResizeValidator}
+                onItemSelect={handleItemSelect}
+                onCanvasContextMenu={handleCanvasContextMenu}
+                // TODO
+                // 접이식으로 변경 방번호만으로도 충분할수 있다.
+                // 사이드바는 햔재크기의 3분의 1로 하고
+                // 옆으로 펼치는 식으로 진행하는것임
+                sidebarWidth={isMobile ? (sideBarFold ? 30 : 100) : 230}
+              >
+                <TimelineHeaders>
+                  {/* 왼쪽 위 달력 부분 */}
+                  <SidebarHeader>
+                    {({ getRootProps }: any) => (
+                      <SharedSideBarHeader
+                        dayPickerModalHook={dayPickerModalHook}
+                        getRootProps={getRootProps}
+                      />
+                    )}
+                  </SidebarHeader>
+                  <DateHeader
+                    labelFormat="MM.DD ddd"
+                    intervalRenderer={renderHeaderCell}
+                    height={GlobalCSS.TIMELINE_HEADER_HEIGHT}
+                    unit="day"
+                  />
+                  {useCursorMark && <CursorMarker />}
+                  <DateHeader />
+                </TimelineHeaders>
+                <TimelineMarkers>
+                  {useTodayMark && <CustomMarker date={new Date().valueOf()} />}
+                </TimelineMarkers>
+              </Timeline>
+            </div>
+          </SkipUpdate>
           {/* 생성된 방이 없을때 */}
           {inIsEmpty && (
             <div className="assigTimeline__placeHolderWrap">
@@ -626,7 +629,7 @@ const AssigTimeline: React.FC<IProps> = ({
           <AssigTimelineConfigModal context={context} modalHook={configModal} />
           <JDmodal
             head={{
-              title: moment(dailyAssigHook.info.date).format("YYYY-MM-DD")
+              title: dayjs(dailyAssigHook.info.date).format("YYYY-MM-DD")
             }}
             fullInMobile
             {...dailyAssigHook}

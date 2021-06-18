@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import DayPicker from "react-day-picker";
 import { InputText, JDselect, JDalign, JDbutton } from "@janda-com/front";
 import { ISet } from "@janda-com/front/build/types/interface";
-import moment, { months } from "moment";
+import dayjs from "dayjs";
 import "./PriceTable.scss";
-import "moment/locale/ko";
+import "dayjs/locale/ko";
 import { DEFULAT_CLASSES, weekdaysKor } from "./helper";
 import PriceTableNav from "./PriceTableNav";
 import PriceTableCaption from "./PriceTableCaption";
@@ -12,7 +12,7 @@ import faker from "faker";
 import { TElements } from "../../types/interface";
 import { IInputTextCutsomProp } from "@janda-com/front/build/components/InputText/InputText";
 
-const getDay = (day: Date) => moment(day).get("D");
+const getDay = (day: Date) => dayjs(day).get("day");
 
 interface IProps {
   data: number[];
@@ -40,7 +40,7 @@ const PriceTable: React.FC<IProps> = ({
   const [dragMode, setDragMode] = useState<boolean>(false);
 
   const checkIsSelectedDay = (day: Date) =>
-    selectedDays.includes(moment(day).get("D"));
+    selectedDays.includes(dayjs(day).get("day"));
 
   const cellMouseDown = (day: Date) => {
     if (!checkIsSelectedDay(day)) {
@@ -98,10 +98,10 @@ const PriceTable: React.FC<IProps> = ({
           return <PriceTableNav {...prop} onNavChange={onNavChange} />;
         }}
         renderDay={(date, md) => {
-          const dayIndex = moment(date).get("D");
+          const dayIndex = dayjs(date).get("day");
           return (
             <div>
-              {moment(date).format("DD")}
+              {dayjs(date).format("DD")}
               <div
                 onMouseDown={e => {
                   e.stopPropagation();

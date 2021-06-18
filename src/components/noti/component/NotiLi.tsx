@@ -6,7 +6,7 @@ import classNames from "classnames";
 import JDbadge from "../../../atoms/badge/Badge";
 import CircleIcon from "../../../atoms/circleIcon/CircleIcon";
 import Tooltip from "../../../atoms/tooltip/Tooltip";
-import moment from "moment";
+import dayjs from "dayjs";
 import { LANG } from "../../../hooks/hook";
 
 interface IProps {
@@ -34,7 +34,7 @@ const NotiLi: React.FC<IProps> = ({ noti }) => {
       <span className="notiLi__msg">{noti.msg}</span>
     </span>
   );
-  
+
   const sharedSymbolProp: {
     className: string;
     size: IconSize;
@@ -46,7 +46,7 @@ const NotiLi: React.FC<IProps> = ({ noti }) => {
   return (
     <li
       onClick={() => {}}
-      data-tip={moment(noti.createdAt).format(
+      data-tip={dayjs(noti.createdAt).format(
         `MM${LANG("month")} DD${LANG("date")}`
       )}
       data-for="notiCreateDateToolTip"

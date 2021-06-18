@@ -1,5 +1,5 @@
 import React, { Fragment, useState, useMemo, useEffect } from "react";
-import moment from "moment";
+import dayjs from "dayjs";
 import Modal, { JDtoastModal } from "../../atoms/modal/Modal";
 import {
   useInput,
@@ -129,7 +129,9 @@ const BookingModal: React.FC<IProps> = ({
   const confirmModalHook = useModal(false);
   const bookingNameHook = useInput(name);
   const bookingPhoneHook = useInput(phoneNumber, true);
-  const priceHook = useInput(totalPrice || placeHolederPrice);
+  const priceHook = useInput(
+    typeof totalPrice === "number" ? totalPrice : placeHolederPrice
+  );
   const memoHook = useInput(memo || "");
   const emailHook = useInput(email);
   const isDesktopUp = windowWidth > WindowSize.DESKTOP;
@@ -180,8 +182,8 @@ const BookingModal: React.FC<IProps> = ({
       : optionFineder(BOOKING_STATUS_OP, bookingStatus)
   );
   const resvDateHook = useDayPicker(
-    moment(checkIn).toDate(),
-    moment(checkOut).toDate()
+    dayjs(checkIn || new Date()).toDate(),
+    dayjs(checkOut || new Date()).toDate()
   );
   const updateGuests = useMemo(() => {
     if (guests && mode === "CREATE_ASSIG")
@@ -194,29 +196,33 @@ const BookingModal: React.FC<IProps> = ({
   );
 
   const handleViewCard = async () => {
-    let niceInfo: TNiceinfo[] = []
+    let niceInfo: TNiceinfo[] = [];
     if (bookingData.payment.tid) {
       const reuslt = await queryTid(bookingData.payment.tid);
       niceInfo = reuslt.data;
     }
 
-    printRecipt({
-      ...bookingData
-    }, {
-      __typename: "House",
-      bookingPayInfo: house.bookingPayInfo,
-      houseConfig: {
-        __typename: "HouseConfig",
-        // @ts-ignore
-        bookingConfig: house.houseConfig.bookingConfig,
-        options: []
+    printRecipt(
+      {
+        ...bookingData
       },
-      location: house.location,
-      name: house.name,
-      tags: house.tags,
-      phoneNumber: "",
-    }, niceInfo)
-  }
+      {
+        __typename: "House",
+        bookingPayInfo: house.bookingPayInfo,
+        houseConfig: {
+          __typename: "HouseConfig",
+          // @ts-ignore
+          bookingConfig: house.houseConfig.bookingConfig,
+          options: []
+        },
+        location: house.location,
+        name: house.name,
+        tags: house.tags,
+        phoneNumber: ""
+      },
+      niceInfo
+    );
+  };
 
   const bookingModalContext: IBookingModalContext = {
     bookingStatusHook,
@@ -324,14 +330,9 @@ const BookingModal: React.FC<IProps> = ({
             thema="black"
             onClick={handleCancelBtnClick}
           />
-          <JDbutton
-            thema="primary"
-            onClick={handleViewCard}
-            mode="flat"
-          >
+          <JDbutton thema="primary" onClick={handleViewCard} mode="flat">
             카드전표
           </JDbutton>
-
         </div>
       }
       head={{
@@ -340,15 +341,15 @@ const BookingModal: React.FC<IProps> = ({
             예약생성하기
           </JDtypho>
         ) : (
-            <JDtypho mb="no" size="h6">
-              <Align flex={{}}>
-                <JDtypho weight={600} color="primary" mr="small">
-                  {LANG("sir")(name)}
-                </JDtypho>
+          <JDtypho mb="no" size="h6">
+            <Align flex={{}}>
+              <JDtypho weight={600} color="primary" mr="small">
+                {LANG("sir")(name)}
+              </JDtypho>
               예약정보
             </Align>
-            </JDtypho>
-          )
+          </JDtypho>
+        )
       }}
       onAfterClose={() => {
         modalHook.info.onCloseModal?.();
@@ -376,39 +377,39 @@ const BookingModal: React.FC<IProps> = ({
           </Fragment>
         </Align>
       ) : (
-          <JDtabs breakTabs={isDesktopUp} tabsAlign="spaceBetween">
-            <TabList
-              style={{
-                marginTop: "-1.2rem"
-              }}
-            >
-              <Tab>커스텀</Tab>
-              <Tab>예약자</Tab>
-              <Tab>결제</Tab>
-              <Tab>예약</Tab>
-              <Tab>배정</Tab>
-              <Tab>기타</Tab>
-            </TabList>
-            <TabPanel>
-              <SummaryInfo {...sharedProp} />
-            </TabPanel>
-            <TabPanel>
-              <BookerInfo {...sharedProp} smsModalInfoTemp={smsModalInfoTemp} />
-            </TabPanel>
-            <TabPanel>
-              <PaymentInfo context={context} {...sharedProp} />
-            </TabPanel>
-            <TabPanel>
-              <ResvInfo {...sharedProp} />
-            </TabPanel>
-            <TabPanel>
-              <AssigInfo {...sharedProp} />
-            </TabPanel>
-            <TabPanel>
-              <ElseInfo {...sharedProp} />
-            </TabPanel>
-          </JDtabs>
-        )}
+        <JDtabs breakTabs={isDesktopUp} tabsAlign="spaceBetween">
+          <TabList
+            style={{
+              marginTop: "-1.2rem"
+            }}
+          >
+            <Tab>커스텀</Tab>
+            <Tab>예약자</Tab>
+            <Tab>결제</Tab>
+            <Tab>예약</Tab>
+            <Tab>배정</Tab>
+            <Tab>기타</Tab>
+          </TabList>
+          <TabPanel>
+            <SummaryInfo {...sharedProp} />
+          </TabPanel>
+          <TabPanel>
+            <BookerInfo {...sharedProp} smsModalInfoTemp={smsModalInfoTemp} />
+          </TabPanel>
+          <TabPanel>
+            <PaymentInfo context={context} {...sharedProp} />
+          </TabPanel>
+          <TabPanel>
+            <ResvInfo {...sharedProp} />
+          </TabPanel>
+          <TabPanel>
+            <AssigInfo {...sharedProp} />
+          </TabPanel>
+          <TabPanel>
+            <ElseInfo {...sharedProp} />
+          </TabPanel>
+        </JDtabs>
+      )}
       <RefundModal
         loading={loading}
         refundTargets={[

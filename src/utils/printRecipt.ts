@@ -6,7 +6,7 @@ import { getRoomSelectInfo, getRoomSelectString } from "./typeChanger";
 import CardRecipt from "../docs/print/CreditCardReceipt";
 import { openForPrint } from "./openForPrint";
 import { TNiceinfo } from "../components/bookingModal/components/PayInfo";
-import moment from "moment";
+import dayjs from "dayjs";
 export const printRecipt = (
   data: getBookingForPublic_GetBookingForPublic_booking,
   houseData: getHouseForPublic_GetHouseForPublic_house,
@@ -63,7 +63,7 @@ export const printRecipt = (
       refundPrice,
       approvalNumber: approvalNo,
       cancelDate: cancelDate
-        ? moment(cancelDate).format("YYYY.MM.DD")
+        ? dayjs(cancelDate).format("YYYY.MM.DD")
         : undefined
     },
     hostInfo: {

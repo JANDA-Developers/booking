@@ -64,12 +64,12 @@ import JDbox from "../../../atoms/box/JDbox";
 import { IBookerInfo, IReservationHooks } from "./declation";
 import { Redirect } from "react-router-dom";
 import { TCardRegistInfo } from "../../../components/cardModal/declare";
-import moment from "moment";
+import dayjs from "dayjs";
 import { toast, JDtypho, useSelect } from "@janda-com/front";
 
-class GetAllAvailRoomQu extends Query<getAllRoomTypeForBooker> { }
+class GetAllAvailRoomQu extends Query<getAllRoomTypeForBooker> {}
 export interface ISetBookingInfo
-  extends React.Dispatch<React.SetStateAction<IBookerInfo>> { }
+  extends React.Dispatch<React.SetStateAction<IBookerInfo>> {}
 
 interface IProps {
   makeBookingForPublicMu?: IMu<
@@ -121,7 +121,9 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
   const isMobile = windowWidth < WindowSize.PHABLET;
   const dayPickerHook = useDayPicker(null, null);
 
-  const defaultPay = PAYMETHOD_FOR_BOOKER_OP.find(po => po.value === bookingPayInfo.payMethods?.[0]);
+  const defaultPay = PAYMETHOD_FOR_BOOKER_OP.find(
+    po => po.value === bookingPayInfo.payMethods?.[0]
+  );
 
   // 모바일에서만 사용
   const [redirect, setRedirect] = useState("");
@@ -202,7 +204,7 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
     const { from, to } = dayPickerHook;
     setBookerInfo(defaultBookingInfo);
     if (from && to && maxStayDate)
-      if (moment(to).diff(from, "d") > maxStayDate)
+      if (dayjs(to).diff(from, "d") > maxStayDate)
         toast.warn(LANG("max_range_book_day_is")(maxStayDate));
   }, [dayPickerHook.to, dayPickerHook.from]);
 
@@ -282,12 +284,12 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
         price: toNumber(priceHook.value),
         cardPayInfo: isCardPay
           ? {
-            cardNo: cardNo,
-            cardPw: cardPw,
-            expMonth,
-            expYear,
-            idNo
-          }
+              cardNo: cardNo,
+              cardPw: cardPw,
+              expMonth,
+              expYear,
+              idNo
+            }
           : undefined
       }
     };
@@ -437,16 +439,16 @@ const Reservation: React.SFC<IProps & WindowSizeProps> = ({
                     />
                   ))
                 ) : (
-                    <Fragment>
-                      <h4 className="JDreservation__cardMessage JDtextcolor--placeHolder JDtext-align-center">
-                        <Preloader
-                          className="JDstandard-margin0"
-                          loading={roomAvailCountLoading}
-                        />
-                        {roomAvailCountLoading || roomCardMessage()}
-                      </h4>
-                    </Fragment>
-                  );
+                  <Fragment>
+                    <h4 className="JDreservation__cardMessage JDtextcolor--placeHolder JDtext-align-center">
+                      <Preloader
+                        className="JDstandard-margin0"
+                        loading={roomAvailCountLoading}
+                      />
+                      {roomAvailCountLoading || roomCardMessage()}
+                    </h4>
+                  </Fragment>
+                );
               }}
             </GetAllAvailRoomQu>
           </Card>

@@ -1,14 +1,10 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
-import DayPicker, {
-  CaptionElementProps,
-  NavbarElementProps
-} from "react-day-picker";
-import { InputText, JDdayPicker, JDselect } from "@janda-com/front";
+import DayPicker, { NavbarElementProps } from "react-day-picker";
+import { InputText } from "@janda-com/front";
 import "./PriceTable.scss";
-import moment, { months } from "moment";
+import dayjs from "dayjs";
 import { ISet } from "@janda-com/front/build/types/interface";
-import "moment/locale/ko";
+import "dayjs/locale/ko";
 
 type TPriceCell = {
   data: string;
@@ -178,10 +174,10 @@ const PriceTable: React.FC<IProps> = ({
             <div className="DayPicker-Caption">
               <div className="DayPicker-Caption__time">
                 <span className="DayPicker-Caption__year">
-                  {moment(date).format("YYYY")}.
+                  {dayjs(date).format("YYYY")}.
                 </span>
                 <span className="DayPicker-Caption__month">
-                  {moment(date).format("MM")}
+                  {dayjs(date).format("MM")}
                 </span>
               </div>
 
@@ -209,7 +205,7 @@ const PriceTable: React.FC<IProps> = ({
           return <Navbar {...prop} />;
         }}
         renderDay={(date, md) => {
-          const day = moment(date).format("DD");
+          const day = dayjs(date).format("DD");
           return (
             <div>
               {day}

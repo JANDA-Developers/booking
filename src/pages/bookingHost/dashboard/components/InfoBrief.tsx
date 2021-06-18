@@ -1,9 +1,12 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import { JDcard, JDalign } from "@janda-com/front";
 import { useQuery } from "@apollo/react-hooks";
 import { GET_BOOKING_COUNT } from "../../../../apollo/queries";
-import { getBookingsCount, getBookingsCountVariables } from "../../../../types/api";
-import moment from "moment";
+import {
+  getBookingsCount,
+  getBookingsCountVariables
+} from "../../../../types/api";
+import dayjs from "dayjs";
 import client from "../../../../apollo/apolloClient";
 
 type TBrief = {
@@ -14,31 +17,30 @@ type TBrief = {
 interface IProps {}
 
 const InfoBrief: React.FC<IProps> = () => {
-    
-  const {data, loading} = useQuery<getBookingsCount,getBookingsCountVariables>(GET_BOOKING_COUNT, {
-      client,
-      variables: {
-          param: {
-              paging: {
-                  count: 9999,
-                  selectedPage: 1
-              },
-              filter: {
-                  createdAt: {
-                      checkIn: moment().format("YYYY-MM-DD"),
-                      checkOut: moment().add(1,"day").format("YYYY-MM-DD")
-                  }
-              }
+  const { data, loading } = useQuery<
+    getBookingsCount,
+    getBookingsCountVariables
+  >(GET_BOOKING_COUNT, {
+    client,
+    variables: {
+      param: {
+        paging: {
+          count: 9999,
+          selectedPage: 1
+        },
+        filter: {
+          createdAt: {
+            checkIn: dayjs().format("YYYY-MM-DD"),
+            checkOut: dayjs()
+              .add(1, "day")
+              .format("YYYY-MM-DD")
           }
+        }
       }
-  })
+    }
+  });
 
-  console.log(' data : ');
-  console.log(data);
-  if(data)
-  console.log(data.GetBookings);
-
-  // 체크인 한 사람 수 
+  // 체크인 한 사람 수
   const brief_data: TBrief[] = [];
 
   return (
@@ -63,6 +65,7 @@ const InfoBrief: React.FC<IProps> = () => {
         </JDalign>
       </JDcard>
     </section>
-  )};
+  );
+};
 
-export default React.memo(InfoBrief,()=> true);
+export default React.memo(InfoBrief, () => true);

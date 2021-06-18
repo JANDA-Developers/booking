@@ -472,12 +472,12 @@ module.exports = {
       fileName: "asset-manifest.json",
       publicPath: publicPath
     }),
-    // Moment.js is an extremely popular library that bundles large locale files
+    // dayjs.js is an extremely popular library that bundles large locale files
     // by default due to how Webpack interprets its code. This is a practical
     // solution that requires the user to opt into importing specific locales.
-    // https://github.com/jmblog/how-to-optimize-momentjs-with-webpack
-    // You can remove this if you don't use Moment.js:
-    new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+    // https://github.com/jmblog/how-to-optimize-dayjsjs-with-webpack
+    // You can remove this if you don't use dayjs.js:
+    new webpack.IgnorePlugin(/^\.\/locale$/, /dayjs$/),
     // Generate a service worker script that will precache, and keep up to date,
     // the HTML & assets that are part of the Webpack build.
     new WorkboxWebpackPlugin.GenerateSW({

@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import moment from "moment";
+import dayjs from "dayjs";
 import React from "react";
 import JDtable, {
   ReactTableDefault,
@@ -41,13 +41,13 @@ const BookingInfoBox: React.FC<IBookingInfoBoxProps> = ({
       Header: LANG("resv_showTable_start"),
       accessor: "roomTypeId",
       Cell: () =>
-        from && to ? <div>{moment(from).format("YYYY-MM-DD")}</div> : <div />
+        from && to ? <div>{dayjs(from).format("YYYY-MM-DD")}</div> : <div />
     },
     {
       Header: LANG("checkOut"),
       accessor: "roomTypeId",
       Cell: () =>
-        from && to ? <div>{moment(to).format("YYYY-MM-DD")}</div> : <div />
+        from && to ? <div>{dayjs(to).format("YYYY-MM-DD")}</div> : <div />
     },
     {
       Header: LANG("room_info"),

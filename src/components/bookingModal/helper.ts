@@ -14,7 +14,7 @@ import guestsToInput, {
 import { to4YMMDD } from "../../utils/setMidNight";
 import { isDomitoryGuest } from "../../utils/interfaceMatch";
 import { IContext } from "../../pages/bookingHost/BookingHostRouter";
-import moment from "moment";
+import dayjs from "dayjs";
 import { IModalSMSinfo } from "../smsModal/SendSmsModal";
 import { autoComma } from "../../utils/utils";
 import $ from "jquery";
@@ -104,7 +104,7 @@ export const makeSmsInfoParam = (
         if (selectedOption.value === PaymentStatus.COMPLETED) {
           return AutoSendWhen.WHEN_BOOKING_CREATED;
         } else if (selectedOption.value === PaymentStatus.NOT_YET) {
-          return AutoSendWhen.WHRN_BOOKING_CREATED_BANK_TRANSFER
+          return AutoSendWhen.WHRN_BOOKING_CREATED_BANK_TRANSFER;
         }
       }
     })(),
@@ -117,9 +117,9 @@ export const makeSmsInfoParam = (
       ),
       PAYMETHOD: LANG("PaymentStatus", payMethodHook.selectedOption?.value),
       ROOMTYPE_N_COUNT: roomSelectString,
-      STAYDATE: `${moment(resvDateHook.from || undefined).format(
+      STAYDATE: `${dayjs(resvDateHook.from || undefined).format(
         "MM/DD"
-      )} ~ ${moment(resvDateHook.to || undefined).format("MM/DD")}`,
+      )} ~ ${dayjs(resvDateHook.to || undefined).format("MM/DD")}`,
       STAYDATE_YMD: `${to4YMMDD(resvDateHook.from || undefined)} ~ ${to4YMMDD(
         resvDateHook.to || undefined
       )}`,

@@ -197,7 +197,7 @@ const SideNav: React.FC<IProps> = ({ context }) => {
               </div>
             </Link>
             <span className="JDsideNav__name">{user.name || "비회원"}</span>
-            <VersionChanger versionList={[{
+            {/* <VersionChanger versionList={[{
               label: "Stable Service (안전버전)",
               value: "stable",
               isStable: true
@@ -207,7 +207,7 @@ const SideNav: React.FC<IProps> = ({ context }) => {
             }, {
               label: "Latest Release (최신베타))",
               value: "latest",
-            }]} />
+            }]} /> */}
           </div>
           {/* 리스트 컨테이너 */}
           <div className="JDsideNav__listContainer">
@@ -244,7 +244,7 @@ const SideNav: React.FC<IProps> = ({ context }) => {
                               menu.disabled
                                 ? "JDsideNav__navLink--disabled"
                                 : ""
-                              }`}
+                            }`}
                             menu={menu}
                           />
                         ))}
@@ -252,15 +252,15 @@ const SideNav: React.FC<IProps> = ({ context }) => {
                     </JDmenuItem>
                   </JDsubMenu>
                 ) : (
-                    <JDmenuItem key={menu.key}>
-                      <JDmenuLinker
-                        className={`JDsideNav__menus JDsideNav__menus--sub ${
-                          menu.disabled ? "JDsideNav__navLink--disabled" : ""
-                          }`}
-                        menu={menu}
-                      />
-                    </JDmenuItem>
-                  )
+                  <JDmenuItem key={menu.key}>
+                    <JDmenuLinker
+                      className={`JDsideNav__menus JDsideNav__menus--sub ${
+                        menu.disabled ? "JDsideNav__navLink--disabled" : ""
+                      }`}
+                      menu={menu}
+                    />
+                  </JDmenuItem>
+                )
               )}
             </JDmenu>
           </div>
@@ -282,7 +282,7 @@ const SideNav: React.FC<IProps> = ({ context }) => {
                             applyedProduct.expireDate
                           )}`,
                           `${LANG("price")}: ${applyedProduct.price ||
-                          0} /${LANG("month")}`
+                            0} /${LANG("month")}`
                         ]}
                       />
                     }

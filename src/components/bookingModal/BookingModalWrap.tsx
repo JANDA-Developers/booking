@@ -41,7 +41,7 @@ import { DEFAULT_BOOKING } from "../../types/defaults";
 import { totalPriceGetAveragePrice } from "../../utils/booking";
 import { IBookingModalWrapProps } from "./declaration";
 import { cancelBooking, cancelBookingVariables } from "../../types/api";
-import moment from "moment";
+import dayjs from "dayjs";
 import PreloaderModal from "../../atoms/preloaderModal/PreloaderModal";
 import { useMutation } from "@apollo/react-hooks";
 
@@ -121,8 +121,8 @@ const BookingModalWrap: React.FC<IBookingModalWrapProps> = ({
           const { checkIn, checkOut, roomTypes } = mergedBooking;
           priceQueryVariables = {
             param: {
-              checkIn: moment(checkIn).format("YYYY-MM-DD"),
-              checkOut: moment(checkOut).format("YYYY-MM-DD"),
+              checkIn: dayjs(checkIn).format("YYYY-MM-DD"),
+              checkOut: dayjs(checkOut).format("YYYY-MM-DD"),
               houseId: house._id,
               roomTypeIds: roomTypes?.map(roomType => roomType._id) || [""]
             }

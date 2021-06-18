@@ -1,17 +1,17 @@
 import React from "react";
-import {Query} from "react-apollo";
-import DaySales, {IViewConfigProp} from "./DaySales";
-import {GET_SALES_STATISTIC} from "../../apollo/queries";
-import {useDayPicker} from "../../hooks/hook";
-import {queryDataFormater, isEmpty} from "../../utils/utils";
-import {IContext} from "../../pages/bookingHost/BookingHostRouter";
+import { Query } from "react-apollo";
+import DaySales, { IViewConfigProp } from "./DaySales";
+import { GET_SALES_STATISTIC } from "../../apollo/queries";
+import { useDayPicker } from "../../hooks/hook";
+import { queryDataFormater, isEmpty } from "../../utils/utils";
+import { IContext } from "../../pages/bookingHost/BookingHostRouter";
 import {
   getSalesStatisticVariables,
   getSalesStatistic,
   getSalesStatistic_GetSalesStatistic_data
 } from "../../types/api";
-import {SalesStatisticsUnit} from "../../types/enum";
-import moment from "moment";
+import { SalesStatisticsUnit } from "../../types/enum";
+import dayjs from "dayjs";
 
 interface IProps extends IViewConfigProp {
   context: IContext;
@@ -19,8 +19,8 @@ interface IProps extends IViewConfigProp {
 
 class GetSalesQu extends Query<getSalesStatistic, getSalesStatisticVariables> {}
 
-const DaySalesWrap: React.FC<IProps> = ({context}) => {
-  const {house} = context;
+const DaySalesWrap: React.FC<IProps> = ({ context }) => {
+  const { house } = context;
 
   const dayPickerHook = useDayPicker(new Date(), new Date());
 
@@ -29,14 +29,14 @@ const DaySalesWrap: React.FC<IProps> = ({context}) => {
       <GetSalesQu
         variables={{
           houseId: house._id,
-          checkOut: moment(dayPickerHook.to || new Date()).add(1, "day"),
+          checkOut: dayjs(dayPickerHook.to || new Date()).add(1, "day"),
           checkIn: dayPickerHook.from,
           unit: SalesStatisticsUnit.BY_DATE,
           groupByPayMethod: true
         }}
         query={GET_SALES_STATISTIC}
       >
-        {({data, loading: getSalesLoading}) => {
+        {({ data, loading: getSalesLoading }) => {
           const daySalesData =
             queryDataFormater(data, "GetSalesStatistic", "data", []) || [];
 

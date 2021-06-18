@@ -2,7 +2,7 @@ import { IAssigItem, GuestTypeAdd } from "../components/assigIntrerface";
 import { BookingStatus, Gender, PaymentStatus } from "../../../../types/enum";
 import { instanceOfA } from "../../../../utils/utils";
 import { IGuestD, IGuest } from "../../../../types/interface";
-import moment from "moment";
+import dayjs from "dayjs";
 import { DEFAULT_BLOCK_OP } from "../../../../types/defaults";
 
 //  TODO: 메모를 사용해서 데이터를 아끼자
@@ -13,11 +13,11 @@ export const guestsDataManufacturer = (allGuestsData: IGuest[] = []) => {
   if (!allGuestsData) return alloCateItems;
 
   try {
-    guestsData = allGuestsData?.filter(
-      guest => guest.booking.status !== BookingStatus.CANCELED
-    ) || [];
-  } catch {
-  }
+    guestsData =
+      allGuestsData?.filter(
+        guest => guest.booking.status !== BookingStatus.CANCELED
+      ) || [];
+  } catch {}
 
   guestsData.forEach((guestData, index) => {
     if (
@@ -65,8 +65,8 @@ export const guestsDataManufacturer = (allGuestsData: IGuest[] = []) => {
         roomId: room._id,
         temp: true,
         group: room._id + bedIndex,
-        start: moment(checkIn).valueOf(),
-        end: moment(checkOut).valueOf(),
+        start: dayjs(checkIn).valueOf(),
+        end: dayjs(checkOut).valueOf(),
         canSelect: true,
         canMove: status === BookingStatus.CANCELED ? false : undefined,
         type: GuestTypeAdd.GUEST,

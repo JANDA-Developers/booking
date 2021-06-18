@@ -3,7 +3,7 @@ import { getAllRoomType, getAllRoomTypeVariables } from "../../types/api";
 import { useQuery } from "@apollo/react-hooks";
 import { GET_ALL_ROOMTYPES } from "../../apollo/queries";
 import client from "../../apollo/apolloClient";
-import moment from "moment";
+import dayjs from "dayjs";
 import { queryDataFormater } from "../../utils/utils";
 import { groupDataManufacturer } from "./groupDataManufacter";
 import { IContext } from "../../pages/bookingHost/BookingHostRouter";
@@ -31,7 +31,7 @@ const DailyAssigHigher: React.FC<IDailyWrapWrapProp> = ({
     }
   });
 
-  moment.locale(currentLang);
+  dayjs.locale(currentLang);
 
   const roomTypesData =
     queryDataFormater(roomData, "GetAllRoomType", "roomTypes", []) || []; // 원본데이터

@@ -101,8 +101,7 @@ export const Reservation2: React.FC<IProp> = ({ match, leisure }) => {
           title={"JD 예약페이지 2.0"}
           desc={"해당 예약페이지를 홈페이지에 부착 할수 있습니다."}
         />
-        <PageBody>
-        </PageBody>
+        <PageBody></PageBody>
         <JDmodal
           foot={
             <div>
@@ -143,7 +142,7 @@ export const Reservation2: React.FC<IProp> = ({ match, leisure }) => {
       </div>
     );
   }
-  
+
   return <ResvModule publickey={houseKey} />;
 };
 

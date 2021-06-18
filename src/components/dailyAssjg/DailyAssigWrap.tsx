@@ -39,7 +39,7 @@ import { useDayPicker, IUseDayPicker, LANG } from "../../hooks/hook";
 import DailyAssig from "./DailyAssig";
 import { NetworkStatus } from "apollo-client";
 import { IDailyAssigDataControl } from "../../pages/bookingHost/assig/components/assigIntrerface";
-import moment from "moment";
+import dayjs from "dayjs";
 import { useMutation, useQuery } from "@apollo/react-hooks";
 import { BookingStatus } from "../../types/enum";
 import { getOperationName } from "apollo-link";
@@ -83,7 +83,7 @@ const DailyAssigWrap: React.FC<IDailyWrapWrapProp & WrapProp> = ({
   const queryVariables = {
     houseId: houseId,
     checkIn: dayPickerHook.from || new Date(),
-    checkOut: moment(dayPickerHook.from || new Date())
+    checkOut: dayjs(dayPickerHook.from || new Date())
       .add(1, "day")
       .toDate()
   };
@@ -233,10 +233,6 @@ const DailyAssigWrap: React.FC<IDailyWrapWrapProp & WrapProp> = ({
     rt.rooms.forEach(r => {
       const targets = itemDatas.filter(item => item.room?._id === r._id);
       if (!isEmpty(targets)) {
-        console.log("targets");
-        console.log(targets);
-        console.log("r");
-        console.log(r);
       }
       r.places.forEach((p, i) => {
         // @ts-ignore

@@ -1,5 +1,5 @@
 import React from "react";
-import moment from "moment";
+import dayjs from "dayjs";
 import { IUseModal, useModal, LANG } from "../../../../hooks/hook";
 import Card from "../../../../atoms/cards/Card";
 import ProfileCircle from "../../../../atoms/profileCircle/ProfileCircle";
@@ -33,12 +33,12 @@ const HouseCard: React.SFC<IProps> = ({
 
     const { createdAt, updatedAt } = houseData;
 
-    if (moment(createdAt).isAfter(moment().subtract(1, "days"))) {
+    if (dayjs(createdAt).isAfter(dayjs().subtract(1, "days"))) {
       badgeInfoes.push({ thema: "new", label: "new" });
     }
     if (
-      moment(updatedAt).isAfter(moment().subtract(1, "days")) &&
-      !moment(createdAt).isSame(updatedAt, "day")
+      dayjs(updatedAt).isAfter(dayjs().subtract(1, "days")) &&
+      !dayjs(createdAt).isSame(updatedAt, "day")
     ) {
       badgeInfoes.push({ thema: "primary", label: "update" });
     }

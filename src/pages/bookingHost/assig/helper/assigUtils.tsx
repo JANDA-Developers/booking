@@ -802,7 +802,7 @@ export function getAssigUtils(
   const hilightHeader: THilightHeader = (date?: Date | null) => {
     // if (!date) return;
     // const time =
-    // moment(date)
+    // dayjs(date)
     // .local()
     // .valueOf() -
     // TimePerMs.H * 3;

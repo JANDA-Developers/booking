@@ -10,7 +10,7 @@ DayPikcerInput은 DayPicker 로 부터 State를 Prop로 받습니다.
 
 ## Format
 
-- 포멧방법 [moment](https://momentjs.com/)
+- 포멧방법 [dayjs](https://dayjsjs.com/)
 - DayPikcerInput 안에서 언어 따로 import 해야합니다.
 
 ## Map

@@ -21,7 +21,7 @@ import { MutationFn } from "react-apollo";
 import { isName } from "../../../../utils/inputValidations";
 import PriceWarnModal from "../../../../components/priceWarnModal.tsx/PriceWarnModal";
 import { toast } from "react-toastify";
-import moment from "moment";
+import dayjs from "dayjs";
 import ModalEndSection from "../../../../atoms/modal/components/ModalEndSection";
 
 export interface ICreateSeasonModalInfo {
@@ -87,7 +87,7 @@ const CreateSeasonModal: React.FC<IProps> = ({
     createSeasonMu({
       variables: {
         start: dayPickerHook.from,
-        end: moment(dayPickerHook.to!)
+        end: dayjs(dayPickerHook.to!)
           .add(1, "day")
           .toDate(),
         name,
